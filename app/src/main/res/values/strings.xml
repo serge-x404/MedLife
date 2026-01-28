@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">medcare</string>
+    <string name="cardio">Cardiology Specialist</string>
+    <string name="ortho">Orthopedics Specialist</string>
+    <string name="derma">Dermatology Specialist</string>
+    <string name="gen">General Surgery</string>
+    <string name="pract">General Practitioner</string>
+    <string name="neuro">Neurology Specialist</string>
+    <string name="wed2sat">Wed-Sat</string>
+    <string name="wed2tue">Wed-Tue</string>
+    <string name="strip">Per Strip</string>
+</resources>

@@ -1,0 +1,217 @@
+package com.example.medcare.history
+
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+
+@Preview(
+    showSystemUi = true, showBackground = true
+)
+@Composable
+fun CompletedAppointment() {
+    LazyVerticalGrid(GridCells.Fixed(1)) {
+        items(Appointment.AppointmentList) { item ->
+            CardLayoutCompleted(item)
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CardLayoutCompleted(appointmentCard: AppointmentCard) {
+    val sheetState = rememberModalBottomSheetState()
+    var addReview by remember { mutableStateOf(false) }
+
+    if(addReview) {
+        ModalBottomSheet(
+            onDismissRequest = {addReview = false},
+            sheetState = sheetState
+        ) {
+            CenterAlignedTopAppBar(
+                title = {Text(
+                    text = "Review",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )}
+            )
+            Column(modifier = Modifier.padding(horizontal = 12.dp)) {
+                Text(
+                    text = "Ratings",
+                    fontSize = 18.sp,
+                    color = Color(0xFF4D4D4D)
+                )
+                Spacer(Modifier.height(8.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    repeat(5, action = {
+                        Icon(
+                            imageVector = Icons.Default.Star,
+                            contentDescription = null,
+                            tint = Color(0xFFFFA740)
+                        )
+                    })
+                }
+                Spacer(Modifier.height(10.dp))
+                Text(
+                    text = "Your Review",
+                    fontSize = 18.sp,
+                    color = Color(0xFF4D4D4D)
+                )
+                TextField(
+                    value = "",
+                    onValueChange = {},
+                    placeholder = {Text(text = "Write your review")},
+                    modifier = Modifier.height(100.dp)
+                        .fillMaxWidth()
+                )
+            }
+        }
+    }
+    Card(onClick = {}) {
+        Card(
+            onClick = {},
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 15.dp, vertical = 10.dp),
+            colors = CardDefaults.cardColors(containerColor = Color.White),
+            elevation = CardDefaults.elevatedCardElevation(4.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth()
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = appointmentCard.doctorName,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(Modifier.height(5.dp))
+                        Text(
+                            text = appointmentCard.speciality,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Normal,
+                            color = Color(0xFF4D4D4D),
+                        )
+                    }
+                    Image(
+                        painterResource(appointmentCard.image),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(60.dp)
+                            .clip(CircleShape)
+                    )
+                }
+                Spacer(Modifier.height(20.dp))
+                HorizontalDivider()
+                Spacer(Modifier.height(30.dp))
+                Row {
+                    Column {
+                        Text(
+                            text = "Date & Time", fontSize = 12.sp, color = Color(0xFF4D4D4D)
+                        )
+                        Spacer(Modifier.height(2.dp))
+                        Text(
+                            text = appointmentCard.dateAndTime,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF26408B)
+                        )
+                    }
+                    Spacer(Modifier.width(30.dp))
+                    Column {
+                        Text(
+                            text = "Location", fontSize = 12.sp, color = Color(0xFF4D4D4D)
+                        )
+                        Spacer(Modifier.height(2.dp))
+                        Text(
+                            text = appointmentCard.address,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF26408B)
+                        )
+                    }
+                }
+                Spacer(Modifier.height(60.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceAround
+                ) {
+                    Row {
+                        Button(
+                            onClick = {
+                                addReview = true
+                            },
+                            colors = ButtonDefaults.buttonColors(Color.White),
+                            border = BorderStroke(width = 1.dp, color = Color(0xFFA6CFD5))
+                        ) {
+                            Text(
+                                text = "Add Review",
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 12.sp,
+                                color = Color(0xFF26408b)
+                            )
+                        }
+                    }
+                    Button(
+                        onClick = {},
+                        colors = ButtonDefaults.buttonColors(Color.White),
+                        border = BorderStroke(width = 1.dp, color = Color(0xFFA6CFD5))
+                    ) {
+                        Text(
+                            text = "Next Appointment",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 12.sp,
+                            color = Color(0xFF26408b)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
