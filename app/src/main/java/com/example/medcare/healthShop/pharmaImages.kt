@@ -21,4 +21,13 @@ object pharmaImages {
         HotSales(R.drawable.neurodex,"Strip Neurodex 10 tablets"),
         HotSales(R.drawable.neurodex,"Strip Neurodex 10 tablets"),
     )
+
+    val medicineGrid = listOf(
+        HotSales(R.drawable.promag,"Promag 10 tablets"),
+        HotSales(R.drawable.neurodex,"Strip Neurodex 10 tablets"),
+        HotSales(R.drawable.mylanta,"Mylantra Strip"),
+        HotSales(R.drawable.bufect,"Bufect Strip"),
+        HotSales(R.drawable.bordex,"Boredex Medicine"),
+        HotSales(R.drawable.paratusin,"Paratusin"),
+    )
 }
