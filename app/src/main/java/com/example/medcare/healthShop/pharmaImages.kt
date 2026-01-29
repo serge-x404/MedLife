@@ -30,4 +30,10 @@ object pharmaImages {
         HotSales(R.drawable.bordex,"Boredex Medicine"),
         HotSales(R.drawable.paratusin,"Paratusin"),
     )
+
+    val cartCards = listOf(
+        HotSales(R.drawable.bufect,"Bufect Strip"),
+        HotSales(R.drawable.neurodex,"Strip Neurodex"),
+        HotSales(R.drawable.bufect,"Bufect Strip"),
+    )
 }
