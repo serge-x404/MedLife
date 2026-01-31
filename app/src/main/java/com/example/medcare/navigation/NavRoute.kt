@@ -1,5 +1,4 @@
-package com.example.medcare.splashScreen
-
+package com.example.medcare.navigation
 
 sealed class NavRoute(val path: String) {
     object Splash : NavRoute("splash")
@@ -11,4 +10,3 @@ sealed class NavRoute(val path: String) {
     object Main : NavRoute("main")
     object OnBoard : NavRoute("onBoard")
 }
-

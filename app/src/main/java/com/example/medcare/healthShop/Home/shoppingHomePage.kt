@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.sp
 import com.example.medcare.R
 import com.example.medcare.healthShop.HotSalesGrid
 import com.example.medcare.healthShop.ImageGridPharma
-import com.example.medcare.healthShop.pharmaImages
+import com.example.medcare.clobs.pharmaImages
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true,

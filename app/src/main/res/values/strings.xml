@@ -9,4 +9,7 @@
     <string name="wed2sat">Wed-Sat</string>
     <string name="wed2tue">Wed-Tue</string>
     <string name="strip">Per Strip</string>
+    <string name="t_bed">Total beds:</string>
+    <string name="r_bed">Remaining Availability:</string>
+    <string name="price">Price per night:</string>
 </resources>

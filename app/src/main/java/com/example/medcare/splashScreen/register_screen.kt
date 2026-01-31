@@ -26,7 +26,7 @@ fun Register_page() {
     Box(modifier = Modifier
         .fillMaxSize()
         .padding(18.dp)) {
-        Column() {
+        Column(modifier = Modifier.fillMaxSize()) {
             IconButton(
                 onClick = {
                     //

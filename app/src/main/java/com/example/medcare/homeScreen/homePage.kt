@@ -78,10 +78,18 @@ fun HomeScreen() {
             NavigationBarItem(selected = true, onClick = {}, icon = {
                 Icon(
                     painter = painterResource(R.drawable.home),
-                    contentDescription = "Home",
+                    contentDescription = null,
                     modifier = Modifier.size(28.dp)
                 )
             }, label = { Text(text = "Home") })
+            NavigationBarItem(selected = false, onClick = {}, icon = {
+                Icon(
+                    painter = painterResource(R.drawable.services),
+                    contentDescription = null,
+                    modifier = Modifier.size(28.dp)
+                )
+            }, label = { Text(text = "Services")}
+            )
         }
     }) { innerPadding ->
         Column(

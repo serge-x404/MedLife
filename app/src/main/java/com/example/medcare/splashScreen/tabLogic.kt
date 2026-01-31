@@ -1,6 +1,7 @@
 package com.example.medcare.splashScreen
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -27,15 +28,11 @@ fun TabLogic() {
     Scaffold {
         Column(modifier = Modifier.padding(it)) {
             SecondaryTabRow(
-                selectedTabIndex = storeIndex, modifier = Modifier, tabs = {
+                selectedTabIndex = storeIndex, tabs = {
 
                     Tabs.entries.forEachIndexed { index, tabs ->
                         Tab(selected = storeIndex == index,
-                            onClick = { if (storeIndex == 0) {
-                                storeIndex++
-                            }else {
-                                storeIndex--
-                            }}, text = {
+                            onClick = { storeIndex = index}, text = {
                             Text(
                                 tabs.name
                             )

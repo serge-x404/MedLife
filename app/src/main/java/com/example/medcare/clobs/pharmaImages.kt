@@ -1,4 +1,4 @@
-package com.example.medcare.healthShop
+package com.example.medcare.clobs
 
 import com.example.medcare.R
 
