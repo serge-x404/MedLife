@@ -65,7 +65,7 @@ fun ServicesScreen() {
                 ) {
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(4),
-                        modifier = Modifier.height(202.dp)
+                        modifier = Modifier.height(220.dp)
                     ) {
                         items(serviceGridData.serviceImages) { item ->
                             gridViewLayout(item)

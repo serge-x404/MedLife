@@ -37,9 +37,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medcare.R
-import com.example.medcare.clobs.pharmaImages
+import com.example.medcare.class_objects.pharmaImages
+import com.example.medcare.class_objects.review
 import com.example.medcare.layoutsFile.Reviews
-import com.example.medcare.servicesScreen.chatDoc.review
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(

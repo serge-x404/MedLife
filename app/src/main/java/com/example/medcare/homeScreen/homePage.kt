@@ -57,7 +57,7 @@ import com.example.medcare.layoutsFile.gridViewLayout
 @Composable
 fun HomeScreen() {
     Scaffold(topBar = {
-        TopAppBar(title = { Text("Hi, Username") }, actions = {
+        TopAppBar(title = { Text(text = "Hi") }, actions = {
             IconButton(onClick = {}) {
                 Icon(
                     painter = painterResource(R.drawable.cart),

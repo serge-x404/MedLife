@@ -16,7 +16,7 @@ fun NavGraph(navHostController: NavHostController) {
     }
 }
 
-fun addHomeScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
+fun addHomeScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder)  {
     navGraphBuilder.composable(
         route = NavRoute.Main.path
     ) {

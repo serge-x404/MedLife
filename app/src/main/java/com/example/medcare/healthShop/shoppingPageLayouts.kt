@@ -34,7 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medcare.R
-import com.example.medcare.clobs.HotSales
+import com.example.medcare.class_objects.HotSales
 
 @Composable
 fun ImageGridPharma(item: Int) {

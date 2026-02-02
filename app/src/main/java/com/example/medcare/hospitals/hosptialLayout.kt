@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Call
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -33,9 +32,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medcare.R
-import com.example.medcare.clobs.ListHospital
-import com.example.medcare.clobs.Rooms
-import com.example.medcare.clobs.Specialities
+import com.example.medcare.class_objects.ListHospital
+import com.example.medcare.class_objects.Rooms
+import com.example.medcare.class_objects.Specialities
 
 @Composable
 fun HospitalLayout(hospital: ListHospital) {

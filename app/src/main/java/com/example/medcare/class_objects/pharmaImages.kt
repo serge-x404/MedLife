@@ -1,4 +1,4 @@
-package com.example.medcare.clobs
+package com.example.medcare.class_objects
 
 import com.example.medcare.R
 

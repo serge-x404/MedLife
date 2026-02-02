@@ -47,10 +47,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medcare.R
+import com.example.medcare.class_objects.dates
+import com.example.medcare.class_objects.docWorkHrs
 import com.example.medcare.layoutsFile.doctorWorkingHours
 import com.example.medcare.layoutsFile.selectionDate
-import com.example.medcare.servicesScreen.chatDoc.dates
-import com.example.medcare.servicesScreen.chatDoc.docWorkHrs
 
 @Preview(
     showBackground = true, showSystemUi = true
