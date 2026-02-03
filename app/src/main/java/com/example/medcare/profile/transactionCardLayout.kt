@@ -52,7 +52,7 @@ fun TransactionCardLayout(transactionHelper: TransactionHelper) {
                 )
             }
             Spacer(Modifier.width(6.dp))
-            Column() {
+            Column(modifier = Modifier.weight(1f)) {
                 Text(transactionHelper.tName,
                     color = Color.White,
                     fontWeight = FontWeight.SemiBold
@@ -70,7 +70,7 @@ fun TransactionCardLayout(transactionHelper: TransactionHelper) {
                     Color(0xFFC2E7D9),
                     Color(0xFF26408B)
                 ),
-                modifier = Modifier.align(Alignment.Bottom)
+                modifier = Modifier.align(Alignment.Top)
             )
         }
     }
