@@ -1,5 +1,6 @@
 package com.example.medcare.healthShop
 
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -13,11 +14,13 @@ import com.example.medcare.class_objects.pharmaImages
 @Preview(showBackground = true,
     showSystemUi = true)
 @Composable
-fun MedicineGrid() {
+fun MedicineGrid(
+    navigateToMedDesc: () -> Unit
+) {
     LazyVerticalGrid(GridCells.Fixed(2),
         modifier = Modifier.padding(20.dp)) {
         items(pharmaImages.medicineGrid) {
-            item -> HotSalesGrid(item)
+            item -> HotSalesGrid(item, navigateToMedDesc)
         }
     }
 }

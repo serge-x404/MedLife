@@ -13,4 +13,10 @@ sealed class NavRoute(val path: String) {
     object Walkthrough: NavRoute("walkthrough")
     object History: NavRoute("history")
     object Profile: NavRoute("profile")
+    object ChatDoc: NavRoute("chatDoc")
+    object Notifications: NavRoute("notifications")
+    object Cart: NavRoute("cart")
+    object HealthShop: NavRoute("shop")
+    object medGrid: NavRoute("medGrid")
+    object medDesc: NavRoute("medDesc")
 }

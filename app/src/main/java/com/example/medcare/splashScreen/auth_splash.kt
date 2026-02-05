@@ -31,9 +31,10 @@ import com.example.medcare.R
     showBackground = true, showSystemUi = true
 )
 @Composable
-fun authsplash() {
+fun AuthSplashScreen() {
     Box(modifier = Modifier.fillMaxWidth()
-        .padding(25.dp)) {
+        .padding(vertical = 30.dp)
+        .padding(horizontal = 12.dp)) {
         Button(
             onClick = {},
             colors = ButtonDefaults.buttonColors(Color(0xFFFFFFFF)),

@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Share
@@ -46,7 +48,9 @@ import com.example.medcare.layoutsFile.Reviews
     showBackground = true, showSystemUi = true
 )
 @Composable
-fun MedicineDescription() {
+fun MedicineDescription(
+
+) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(title = {}, navigationIcon = {
@@ -59,13 +63,16 @@ fun MedicineDescription() {
                     imageVector = Icons.Default.Share, contentDescription = null
                 )
             },
-                modifier = Modifier.background(Color.White)
+                modifier = Modifier
+                    .padding(horizontal = 12.dp)
+                    .background(Color.White)
             )
         }) { innerPadding ->
         Column(
             Modifier
                 .padding(innerPadding)
                 .background(Color.White)
+                .verticalScroll(rememberScrollState())
         ) {
             Box(
                 modifier = Modifier
@@ -293,9 +300,10 @@ fun MedicineDescription() {
                     LazyRow(modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                         items(pharmaImages.hotSales) { item ->
-                            HotSalesGrid(item)
+                            HotSalesGrid(item){}
                         }
                     }
+                    Spacer(Modifier.height(60.dp))
                 }
                 Button(
                     onClick = {},

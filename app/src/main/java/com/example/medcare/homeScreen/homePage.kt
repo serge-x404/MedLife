@@ -62,6 +62,7 @@ import androidx.compose.ui.unit.sp
 import com.example.medcare.R
 import com.example.medcare.article.LatestArticle
 import com.example.medcare.class_objects.Hot
+import com.example.medcare.class_objects.Notifications
 import com.example.medcare.class_objects.bestSellingProducts
 import com.example.medcare.class_objects.gridData
 import com.example.medcare.class_objects.hospitals
@@ -73,17 +74,27 @@ import com.example.medcare.layoutsFile.gridViewLayout
     showBackground = true, showSystemUi = true
 )
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    navigateToChatDoc: () -> Unit,
+    navigateToProfile: () -> Unit,
+    navigateToNotifications: () -> Unit,
+    navigateToCart: () -> Unit,
+    navigateToHealthShop: () -> Unit
+) {
     Scaffold(topBar = {
         TopAppBar(title = { Text(text = "Hi, Alex") }, actions = {
-            IconButton(onClick = {}) {
+            IconButton(onClick = {
+                navigateToCart()
+            }) {
                 Icon(
                     painter = painterResource(R.drawable.cart),
                     contentDescription = "Cart",
                     Modifier.size(26.dp)
                 )
             }
-            IconButton(onClick = {}) {
+            IconButton(onClick = {
+                navigateToNotifications()
+            }) {
                 Icon(
                     painter = painterResource(R.drawable.bell),
                     contentDescription = "Bell",
@@ -121,7 +132,9 @@ fun HomeScreen() {
                             modifier = Modifier.padding(top = 30.dp, start = 20.dp)
                         )
                         Button(
-                            onClick = {},
+                            onClick = {
+                                navigateToProfile()
+                            },
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF26408B)),
                             shape = RectangleShape,
                             modifier = Modifier.padding(start = 20.dp, top = 8.dp)
@@ -171,12 +184,14 @@ fun HomeScreen() {
                         .height(210.dp),
                 ) {
                     items(gridData.servicesList) { item ->
-                        gridViewLayout(item)
+                        gridViewLayout(item, navigateToChatDoc)
                     }
                 }
                 Spacer(Modifier.height(30.dp))
                 Button(
-                    onClick = {},
+                    onClick = {
+                        navigateToChatDoc()
+                    },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFFFFF)),
                     border = BorderStroke(width = 2.dp, color = Color(0xFFC2E7D9)),
                     modifier = Modifier
@@ -227,6 +242,12 @@ fun HomeScreen() {
                             contentDescription = null,
                             contentScale = ContentScale.FillBounds,
                             modifier = Modifier.size(150.dp)
+                                .clickable(
+                                    enabled = true,
+                                    onClick = {
+                                        navigateToChatDoc()
+                                    }
+                                )
                         )
                     }
                 }
@@ -245,7 +266,13 @@ fun HomeScreen() {
                     items(bestSellingProducts.data) { it ->
                         Image(
                             painter = painterResource(id = it),
-                            contentDescription = null
+                            contentDescription = null,
+                            modifier = Modifier.clickable(
+                                enabled = true,
+                                onClick = {
+                                    navigateToHealthShop()
+                                }
+                            )
                         )
                     }
                 }

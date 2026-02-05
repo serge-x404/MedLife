@@ -3,6 +3,7 @@ package com.example.medcare.healthShop.Home
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,6 +23,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -42,23 +44,28 @@ import com.example.medcare.class_objects.pharmaImages
 @Preview(showBackground = true,
     showSystemUi = true)
 @Composable
-fun ShoppingHomePage() {
+fun ShoppingHomePage(
+    navigateToMedGrid: () -> Unit,
+    navigateToMedDesc: () -> Unit
+) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { TextField(
-                    value = "",
-                    onValueChange = {},
-                    placeholder = { Text(
-                        text = "Search for product or store"
-                    ) },
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = null
-                        )
-                    },
-                ) },
+                title = {
+                    OutlinedTextField(
+                        value = "",
+                        onValueChange = {},
+                        placeholder = { Text(
+                            text = "Search for product or store"
+                        ) },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = null
+                            )
+                        },
+                    )
+                },
                 navigationIcon = {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
@@ -126,14 +133,20 @@ fun ShoppingHomePage() {
                     )
                     Text(
                         text = "See all",
-                        color = Color(0xFF26408B)
+                        color = Color(0xFF26408B),
+                        modifier = Modifier.clickable(
+                            enabled = true,
+                            onClick = {
+                                navigateToMedGrid()
+                            }
+                        )
                     )
                 }
                 Spacer(Modifier.height(6.dp))
                 LazyRow(modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     items(pharmaImages.hotSales) { item ->
-                        HotSalesGrid(item)
+                        HotSalesGrid(item, navigateToMedDesc)
                     }
                 }
                 Spacer(Modifier.height(15.dp))
@@ -153,7 +166,7 @@ fun ShoppingHomePage() {
                 LazyRow(modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     items(pharmaImages.hotSales) { item ->
-                        HotSalesGrid(item)
+                        HotSalesGrid(item, navigateToMedDesc)
                     }
                 }
             }

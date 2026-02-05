@@ -38,7 +38,9 @@ import com.example.medcare.layoutsFile.gridViewLayout
     showBackground = true, showSystemUi = true
 )
 @Composable
-fun ServicesScreen() {
+fun ServicesScreen(
+    navigateToChatDoc: () -> Unit
+) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(title = {
@@ -68,7 +70,7 @@ fun ServicesScreen() {
                         modifier = Modifier.height(220.dp)
                     ) {
                         items(serviceGridData.serviceImages) { item ->
-                            gridViewLayout(item)
+                            gridViewLayout(item, navigateToChatDoc)
                         }
                     }
                 }

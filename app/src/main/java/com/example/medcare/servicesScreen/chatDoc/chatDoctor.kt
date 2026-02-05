@@ -20,6 +20,7 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -61,14 +62,15 @@ fun ChatDoctorScreen() {
         Column(modifier = Modifier.padding(innerPadding)) {
             Box(modifier = Modifier) {
                 Column() {
-                    TextField(
+                    OutlinedTextField(
                         value = "",
                         onValueChange = {},
                         placeholder = { Text(text = "Find a doctor") },
                         leadingIcon = {
                             Icon(
                                 imageVector = Icons.Default.Search,
-                                contentDescription = null
+                                contentDescription = null,
+                                modifier = Modifier.size(20.dp)
                             )
                         },
                         modifier = Modifier.padding(start = 8.dp),

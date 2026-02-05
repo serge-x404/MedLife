@@ -39,7 +39,9 @@ import com.example.medcare.layoutsFile.Reviews
 @Preview(showBackground = true,
     showSystemUi = true)
 @Composable
-fun Review() {
+fun Review(
+    navigateToMedDesc: () -> Unit
+) {
     Scaffold(
         topBar = { CenterAlignedTopAppBar(
                 title = { Text(
@@ -102,7 +104,7 @@ fun Review() {
                     LazyRow(modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                         items(pharmaImages.hotSales) { item ->
-                            HotSalesGrid(item)
+                            HotSalesGrid(item, navigateToMedDesc )
                         }
                     }
                 }

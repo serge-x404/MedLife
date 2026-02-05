@@ -3,6 +3,7 @@ package com.example.medcare.layoutsFile
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,11 +39,16 @@ import com.example.medcare.class_objects.ReviewContents
 import com.example.medcare.servicesScreen.chatDoc.doctorsSyntax
 
 @Composable
-fun gridViewLayout(categories: Categories) {
-    Card(onClick = {},
+fun gridViewLayout(categories: Categories,
+                   navigateToChatDoc: () -> Unit) {
+    Card(
         modifier = Modifier
             .padding(8.dp)
-            .size(90.dp),
+            .size(90.dp)
+            .clickable(
+                enabled = true,
+                onClick = { navigateToChatDoc() }
+            ),
         colors = CardDefaults.cardColors(Color.White),
         elevation = CardDefaults.elevatedCardElevation(4.dp)) {
         Column(horizontalAlignment = Alignment.CenterHorizontally,

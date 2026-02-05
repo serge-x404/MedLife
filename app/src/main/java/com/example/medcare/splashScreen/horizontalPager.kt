@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 )
 @Composable
 fun hPager(
-    navigateToHome: () -> Unit
+    navigateToAuthSplash: () -> Unit
 ) {
     val pages = OnBoardContent.pages
     val pagerState = rememberPagerState(
@@ -48,7 +48,7 @@ fun hPager(
             onClick = {
                 scope.launch {
                     if(isLast) {
-                        navigateToHome()
+                        navigateToAuthSplash()
                     } else {
                         pagerState.animateScrollToPage(
                             pagerState.currentPage+1,
