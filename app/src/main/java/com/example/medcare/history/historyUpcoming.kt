@@ -19,6 +19,8 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -26,10 +28,12 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -56,10 +60,10 @@ import com.example.medcare.layoutsFile.selectionDate
     showBackground = true, showSystemUi = true
 )
 @Composable
-fun UpcomingAppointment() {
+fun UpcomingAppointment(isCompleted: Boolean) {
     LazyVerticalGrid(GridCells.Fixed(1)) {
         items(Appointment.AppointmentList) { item ->
-            CardLayoutUpcoming(item)
+            CardLayoutUpcoming(item, isCompleted)
         }
     }
 }
@@ -67,24 +71,72 @@ fun UpcomingAppointment() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CardLayoutUpcoming(appointmentCard: AppointmentCard) {
+fun CardLayoutUpcoming(appointmentCard: AppointmentCard,isCompleted: Boolean) {
     val sheetState = rememberModalBottomSheetState()
     var showNotificationState by remember { mutableStateOf(false) }
     var showBottomSheet by remember { mutableStateOf(false) }
+    var addReview by remember { mutableStateOf(false) }
 
-    if(showBottomSheet) {
+    if(addReview) {
         ModalBottomSheet(
-            onDismissRequest = {showBottomSheet = false},
+            onDismissRequest = {addReview = false},
             sheetState = sheetState
         ) {
             CenterAlignedTopAppBar(
                 title = {Text(
-                    text = "Reschedule Appointment",
+                    text = "Review",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )}
             )
-            Column (modifier = Modifier.padding(horizontal = 15.dp)) {
+            Column(modifier = Modifier.padding(horizontal = 12.dp)) {
+                Text(
+                    text = "Ratings",
+                    fontSize = 18.sp,
+                    color = Color(0xFF4D4D4D)
+                )
+                Spacer(Modifier.height(8.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    repeat(5, action = {
+                        Icon(
+                            imageVector = Icons.Default.Star,
+                            contentDescription = null,
+                            tint = Color(0xFFFFA740)
+                        )
+                    })
+                }
+                Spacer(Modifier.height(10.dp))
+                Text(
+                    text = "Your Review",
+                    fontSize = 18.sp,
+                    color = Color(0xFF4D4D4D)
+                )
+                TextField(
+                    value = "",
+                    onValueChange = {},
+                    placeholder = {Text(text = "Write your review")},
+                    modifier = Modifier.height(100.dp)
+                        .fillMaxWidth()
+                )
+            }
+        }
+    }
+
+    if (showBottomSheet) {
+        ModalBottomSheet(
+            onDismissRequest = { showBottomSheet = false },
+            sheetState = sheetState
+        ) {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = "Reschedule Appointment",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            )
+            Column(modifier = Modifier.padding(horizontal = 15.dp)) {
                 Text(
                     "Working Hours",
                     fontWeight = FontWeight.Bold,
@@ -120,25 +172,28 @@ fun CardLayoutUpcoming(appointmentCard: AppointmentCard) {
         }
     }
 
-    if(showNotificationState) {
+    if (showNotificationState) {
         ModalBottomSheet(
-            onDismissRequest = {showNotificationState = false},
+            onDismissRequest = { showNotificationState = false },
             sheetState = sheetState
         ) {
-            Row(modifier = Modifier
-                .padding(40.dp)
-                .fillMaxWidth()
-                .border(
-                    border = BorderStroke(width = 1.dp, Color(0xFFC2E7D9)),
-                    shape = RoundedCornerShape(4.dp)
-                )
-                .padding(horizontal = 12.dp),
-                verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier
+                    .padding(40.dp)
+                    .fillMaxWidth()
+                    .border(
+                        border = BorderStroke(width = 1.dp, Color(0xFFC2E7D9)),
+                        shape = RoundedCornerShape(4.dp)
+                    )
+                    .padding(horizontal = 12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
                     text = "Activate Notifications",
                     modifier = Modifier.weight(1f)
                 )
-                Switch(checked = false,
+                Switch(
+                    checked = false,
                     onCheckedChange = {}
                 )
             }
@@ -211,39 +266,82 @@ fun CardLayoutUpcoming(appointmentCard: AppointmentCard) {
                 }
             }
             Spacer(Modifier.height(60.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(modifier = Modifier.weight(1f),
-                    verticalAlignment = Alignment.CenterVertically) {
-                    Image(
-                        painter = painterResource(R.drawable.bell),
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp)
-                    )
-                    Spacer(Modifier.width(4.dp))
-                    Text(
-                        text = "Notifications"
-                    )
-                    Spacer(Modifier.width(3.dp))
-                    TextButton(onClick = {
-                        showNotificationState = true
-                    }) {
+
+            // row starts here
+            if (!isCompleted) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(
+                        modifier = Modifier.weight(1f),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.bell),
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Spacer(Modifier.width(4.dp))
                         Text(
-                            text = "On",
-                            textDecoration = TextDecoration.Underline,
-                            color = Color(0xFF26408B)
+                            text = "Notifications"
+                        )
+                        Spacer(Modifier.width(3.dp))
+                        TextButton(onClick = {
+                            showNotificationState = true
+                        }) {
+                            Text(
+                                text = "On",
+                                textDecoration = TextDecoration.Underline,
+                                color = Color(0xFF26408B)
+                            )
+                        }
+                    }
+                    Button(
+                        onClick = {
+                            showBottomSheet = true
+                        }, colors = ButtonDefaults.buttonColors(Color(0xFF26408b))
+                    ) {
+                        Text(
+                            text = "Reschedule", fontWeight = FontWeight.Bold, fontSize = 12.sp
                         )
                     }
                 }
-                Button(
-                    onClick = {
-                        showBottomSheet = true
-                    }, colors = ButtonDefaults.buttonColors(Color(0xFF26408b))
+            }
+            else {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceAround
                 ) {
-                    Text(
-                        text = "Reschedule", fontWeight = FontWeight.Bold, fontSize = 12.sp
-                    )
+                    Row {
+                        Button(
+                            onClick = {
+                                addReview = true
+                            },
+                            colors = ButtonDefaults.buttonColors(Color.White),
+                            border = BorderStroke(width = 1.dp, color = Color(0xFFA6CFD5))
+                        ) {
+                            Text(
+                                text = "Add Review",
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 12.sp,
+                                color = Color(0xFF26408b)
+                            )
+                        }
+                    }
+                    Button(
+                        onClick = {},
+                        colors = ButtonDefaults.buttonColors(Color.White),
+                        border = BorderStroke(width = 1.dp, color = Color(0xFFA6CFD5))
+                    ) {
+                        Text(
+                            text = "Next Appointment",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 12.sp,
+                            color = Color(0xFF26408b)
+                        )
+                    }
                 }
             }
         }

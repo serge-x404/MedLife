@@ -20,7 +20,8 @@ import kotlinx.coroutines.delay
     showSystemUi = true)
 @Composable
 fun splashscreen(
-    navigateToHome: () -> Unit
+    navigateToHome: () -> Unit,
+    navigateToOnBoard: () -> Unit
 ) {
 
     LaunchedEffect(Unit) {

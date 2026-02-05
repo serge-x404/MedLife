@@ -32,9 +32,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medcare.R
+import com.example.medcare.class_objects.Categories
 import com.example.medcare.class_objects.DateDay
 import com.example.medcare.class_objects.ReviewContents
-import com.example.medcare.homeScreen.Categories
 import com.example.medcare.servicesScreen.chatDoc.doctorsSyntax
 
 @Composable
@@ -43,25 +43,21 @@ fun gridViewLayout(categories: Categories) {
         modifier = Modifier
             .padding(8.dp)
             .size(90.dp),
-        colors = CardDefaults.cardColors(Color.White)) {
-        Box {
-            Column(horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(8.dp)
-                    .fillMaxSize()) {
-                Image(
-                    painter = painterResource(categories.icon),
-                    contentDescription = "Image",
-                    Modifier.size(36.dp)
-                    )
-                Text(
-                    text = categories.name,
-                    textAlign = TextAlign.Center,
-                    fontSize = 12.sp
+        colors = CardDefaults.cardColors(Color.White),
+        elevation = CardDefaults.elevatedCardElevation(4.dp)) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxSize()) {
+            Image(
+                painter = painterResource(categories.icon),
+                contentDescription = "Image",
+                Modifier.size(36.dp)
                 )
-            }
+            Text(
+                text = categories.name,
+                textAlign = TextAlign.Center,
+                fontSize = 12.sp
+            )
         }
     }
 }

@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Email
@@ -58,7 +60,8 @@ fun ProfileScreen() {
         Column(modifier = Modifier.padding(innerPadding)) {
             Column(modifier = Modifier
                 .padding(horizontal = 12.dp)
-                .fillMaxWidth()) {
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())) {
                 Card(modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(containerColor = Color.White)) {
                     Row(verticalAlignment = Alignment.CenterVertically,
@@ -243,6 +246,7 @@ fun ProfileScreen() {
                         color = Color(0xFF9F3000)
                     )
                 }
+                Spacer(Modifier.height(100.dp))
             }
         }
     }

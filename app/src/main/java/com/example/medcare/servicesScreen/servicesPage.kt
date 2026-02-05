@@ -30,7 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medcare.R
-import com.example.medcare.homeScreen.Categories
+import com.example.medcare.class_objects.serviceGridData
 import com.example.medcare.layoutsFile.gridViewLayout
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -75,15 +75,4 @@ fun ServicesScreen() {
             }
         }
     }
-}
-
-object serviceGridData {
-    val serviceImages = listOf(
-        Categories("Chat Doctor", R.drawable.chat_doctor),
-        Categories("Hospitals", R.drawable.hospital),
-        Categories("Emergency Calls", R.drawable.emergency_calls),
-        Categories("Article", R.drawable.article),
-        Categories("Medication Reminder", R.drawable.reminder),
-        Categories("Specialization", R.drawable.specialization),
-    )
 }
