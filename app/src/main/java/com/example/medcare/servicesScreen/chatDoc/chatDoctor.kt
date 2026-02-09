@@ -14,7 +14,9 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Search
@@ -45,7 +47,9 @@ import com.example.medcare.layoutsFile.gridViewLayout
 @Preview(showBackground = true,
     showSystemUi = true)
 @Composable
-fun ChatDoctorScreen() {
+fun ChatDoctorScreen(
+    navigateToDocDtls: () -> Unit
+) {
     Scaffold(
         topBar = { TopAppBar(
             title = { Text(
@@ -61,7 +65,7 @@ fun ChatDoctorScreen() {
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
             Box(modifier = Modifier) {
-                Column() {
+                Column {
                     OutlinedTextField(
                         value = "",
                         onValueChange = {},
@@ -78,11 +82,11 @@ fun ChatDoctorScreen() {
                     Spacer(Modifier.height(10.dp))
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(1),
-                        verticalArrangement = Arrangement.SpaceEvenly,
-                        modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+                        modifier = Modifier.padding(start = 8.dp, end = 8.dp),
+                        verticalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         items(DoctorsGrid.listOfDoctors) { image ->
-                            doctorsListGrid(image)
+                            doctorsListGrid(image, navigateToDocDtls)
                         }
                     }
                 }

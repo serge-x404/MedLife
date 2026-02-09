@@ -1,5 +1,6 @@
 package com.example.medcare.layoutsFile
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -32,6 +33,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.medcare.R
 import com.example.medcare.class_objects.Categories
 import com.example.medcare.class_objects.DateDay
@@ -39,26 +41,36 @@ import com.example.medcare.class_objects.ReviewContents
 import com.example.medcare.servicesScreen.chatDoc.doctorsSyntax
 
 @Composable
-fun gridViewLayout(categories: Categories,
-                   navigateToChatDoc: () -> Unit) {
+fun gridViewLayout(
+    categories: Categories,
+
+    navHostController: NavHostController? = null
+) {
     Card(
+        onClick = {
+            Log.i("TAGY", "clicked")
+            navHostController?.let {
+                categories.route?.let {route ->
+                    navHostController.navigate(route)
+                }
+            }
+        },
         modifier = Modifier
             .padding(8.dp)
-            .size(90.dp)
-            .clickable(
-                enabled = true,
-                onClick = { navigateToChatDoc() }
-            ),
+            .size(90.dp),
         colors = CardDefaults.cardColors(Color.White),
-        elevation = CardDefaults.elevatedCardElevation(4.dp)) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally,
+        elevation = CardDefaults.elevatedCardElevation(4.dp)
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()) {
+            modifier = Modifier.fillMaxSize()
+        ) {
             Image(
                 painter = painterResource(categories.icon),
                 contentDescription = "Image",
                 Modifier.size(36.dp)
-                )
+            )
             Text(
                 text = categories.name,
                 textAlign = TextAlign.Center,
@@ -69,11 +81,19 @@ fun gridViewLayout(categories: Categories,
 }
 
 @Composable
-fun doctorsListGrid(doctorsSyntax: doctorsSyntax) {
-    Card(onClick = {},
-        colors = CardDefaults.cardColors(Color(0xFFFFFFFF))) {
-        Row(verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()) {
+fun doctorsListGrid(
+    doctorsSyntax: doctorsSyntax,
+    navigateToDocDtls: () -> Unit
+) {
+    Card(
+        onClick = { navigateToDocDtls() },
+        colors = CardDefaults.cardColors(Color(0xFFFFFFFF)),
+        elevation = CardDefaults.elevatedCardElevation(4.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Image(
                 painter = painterResource(doctorsSyntax.image),
                 contentDescription = null,
@@ -110,11 +130,13 @@ fun doctorsListGrid(doctorsSyntax: doctorsSyntax) {
 
 @Composable
 fun doctorWorkingHours(hours: String) {
-    Card(onClick = {},
+    Card(
+        onClick = {},
         colors = CardDefaults.cardColors(containerColor = Color.White),
         border = BorderStroke(width = 2.dp, color = Color(0xFFE3E3E3)),
         shape = CardDefaults.shape,
-        modifier = Modifier.size(height = 30.dp, width = 100.dp)) {
+        modifier = Modifier.size(height = 30.dp, width = 100.dp)
+    ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Text(
                 text = hours,
@@ -126,12 +148,13 @@ fun doctorWorkingHours(hours: String) {
 
 @Composable
 fun selectionDate(dateDay: DateDay) {
-    Card(onClick = {},
+    Card(
+        onClick = {},
         modifier = Modifier
             .size(60.dp),
         colors = CardDefaults.cardColors(Color.White),
         border = BorderStroke(width = 1.dp, color = Color(0xFFE3E3E3))
-        ) {
+    ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
@@ -149,8 +172,10 @@ fun selectionDate(dateDay: DateDay) {
 
 @Composable
 fun Reviews(reviewContents: ReviewContents) {
-    Card(onClick = {},
-        modifier = Modifier.size(height = 150.dp, width = 220.dp)) {
+    Card(
+        onClick = {},
+        modifier = Modifier.size(height = 150.dp, width = 220.dp)
+    ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Image(
@@ -158,8 +183,10 @@ fun Reviews(reviewContents: ReviewContents) {
                     contentDescription = null,
                     Modifier.size(70.dp)
                 )
-                Column(verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.padding(top = 10.dp)) {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier.padding(top = 10.dp)
+                ) {
                     Text(
                         text = reviewContents.name,
                         fontSize = 16.sp,

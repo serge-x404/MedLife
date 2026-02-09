@@ -1,6 +1,7 @@
 package com.example.medcare.article
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,7 +32,9 @@ import androidx.compose.ui.unit.sp
 import com.example.medcare.class_objects.Article
 
 @Composable
-fun ArticleLayout(article: Article) {
+fun ArticleLayout(article: Article,
+                  navigateToArticle: () -> Unit
+) {
     Card() {
         Box {
             Image(
@@ -48,7 +51,9 @@ fun ArticleLayout(article: Article) {
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 14.sp
                 )
-                Button(onClick = {},
+                Button(onClick = {
+                    navigateToArticle()
+                },
                     colors = ButtonDefaults.buttonColors(Color(0xFF26408B)),
                     shape = RectangleShape,
                     modifier = Modifier.align(Alignment.Start)
@@ -85,8 +90,16 @@ fun TopicLayout(article: Article) {
 
 
 @Composable
-fun LatestArticle(article: Article) {
-    Card(colors = CardDefaults.cardColors(containerColor = Color.White)) {
+fun LatestArticle(article: Article,
+                  navigateToArticle: () -> Unit
+) {
+    Card(colors = CardDefaults.cardColors(containerColor = Color.White),
+        modifier = Modifier.clickable(
+            enabled = true,
+            onClick = {
+                navigateToArticle()
+            }
+        )) {
         Row(modifier = Modifier.padding(12.dp),
             verticalAlignment = Alignment.CenterVertically) {
             Image(

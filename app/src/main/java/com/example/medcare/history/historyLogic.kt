@@ -3,6 +3,7 @@ package com.example.medcare.history
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,10 +37,11 @@ fun HistoryLogic() {
     var storeHistoryIndex by remember { mutableIntStateOf(0) }
     var isCompleted by remember { mutableStateOf(false) }
 
-    Scaffold { it ->
+    Scaffold(
+        contentWindowInsets = WindowInsets(0.dp)
+    ) { it ->
         Column(modifier = Modifier.padding(it)) {
             SecondaryTabRow(
-                modifier = Modifier.padding(6.dp),
                 indicator = {
                     TabRowDefaults.SecondaryIndicator(
                         color = Color(0xFF26408B),

@@ -45,12 +45,14 @@ import com.example.medcare.class_objects.ListHospital
 )
 @Composable
 fun hospi() {
-    HospitalDetails(hospital = HospitalData.data.first())
+    HospitalDetails(hospital = HospitalData.data.first()){}
 }
 
 
 @Composable
-fun HospitalDetails(hospital: ListHospital) {
+fun HospitalDetails(hospital: ListHospital,
+                    navigateToMap: () -> Unit
+) {
     Scaffold() {
         Column(
             modifier = Modifier
@@ -130,13 +132,15 @@ fun HospitalDetails(hospital: ListHospital) {
                     RoomGrid(item)
                 }
             }
-
+            Spacer(Modifier.height(40.dp))
         }
         Box(modifier = Modifier.fillMaxSize()) {
             Row(modifier = Modifier.align(Alignment.BottomCenter)
                 .fillMaxWidth()
                 .padding(16.dp)) {
-                Button(onClick = {},
+                Button(onClick = {
+                    navigateToMap()
+                },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                     border = BorderStroke(1.dp, Color(0xFF26408B)),
                     modifier = Modifier.weight(1f)

@@ -2,6 +2,7 @@ package com.example.medcare.hospitals
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,8 +38,13 @@ import com.example.medcare.class_objects.Rooms
 import com.example.medcare.class_objects.Specialities
 
 @Composable
-fun HospitalLayout(hospital: ListHospital) {
-    Card(onClick = {},
+fun HospitalLayout(hospital: ListHospital,
+                   navigateToDetail: () -> Unit,
+                   navigateToMap: () -> Unit
+) {
+    Card(onClick = {
+        navigateToDetail()
+    },
         colors = CardDefaults.cardColors(containerColor = Color.White),
         border = BorderStroke(1.dp, Color(0xFFC2E7D9))
     ) {
@@ -86,7 +92,9 @@ fun HospitalLayout(hospital: ListHospital) {
             Row(verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()) {
                 Button(
-                    onClick = {},
+                    onClick = {
+                        navigateToDetail()
+                    },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                     border = BorderStroke(1.dp, Color(0xFF26408B)),
                     modifier = Modifier.weight(1f)
@@ -97,7 +105,9 @@ fun HospitalLayout(hospital: ListHospital) {
                     )
                 }
                 Spacer(Modifier.width(10.dp))
-                Button(onClick = {},
+                Button(onClick = {
+                    navigateToMap()
+                },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF26408B)),
                     modifier = Modifier.weight(1f)
                 ) {

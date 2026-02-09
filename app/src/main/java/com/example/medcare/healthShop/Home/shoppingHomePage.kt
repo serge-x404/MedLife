@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,12 +23,17 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -46,8 +52,11 @@ import com.example.medcare.class_objects.pharmaImages
 @Composable
 fun ShoppingHomePage(
     navigateToMedGrid: () -> Unit,
-    navigateToMedDesc: () -> Unit
+    navigateToMedDesc: () -> Unit,
+    navigateToCart: () -> Unit
 ) {
+
+    var filterSelect by remember { mutableStateOf<String?>(null) }
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -76,7 +85,10 @@ fun ShoppingHomePage(
                     Image(
                         painter = painterResource(R.drawable.cart),
                         contentDescription = null,
-                        modifier = Modifier.size(25.dp),
+                        modifier = Modifier.size(25.dp)
+                            .clickable(
+                                onClick = {navigateToCart()}
+                            ),
                     )
                 }
             )
@@ -85,9 +97,17 @@ fun ShoppingHomePage(
     {innerPadding -> Column(modifier = Modifier.padding(innerPadding))  {
         Column() {
             LazyRow(modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center) {
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                contentPadding = PaddingValues(16.dp)) {
                 items(shoppingList.ShoppingList) { item ->
-                    Chips(item)
+                    FilterChip(
+                        selected = filterSelect == item,
+                        onClick = {
+                            filterSelect = item
+                            navigateToMedGrid()
+                        },
+                        label = {Text(item)}
+                    )
                 }
             }
             Spacer(Modifier.height(8.dp))

@@ -72,6 +72,7 @@ fun UpcomingAppointment(isCompleted: Boolean) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardLayoutUpcoming(appointmentCard: AppointmentCard,isCompleted: Boolean) {
+    var notifiToggle by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
     var showNotificationState by remember { mutableStateOf(false) }
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -193,8 +194,8 @@ fun CardLayoutUpcoming(appointmentCard: AppointmentCard,isCompleted: Boolean) {
                     modifier = Modifier.weight(1f)
                 )
                 Switch(
-                    checked = false,
-                    onCheckedChange = {}
+                    checked = notifiToggle,
+                    onCheckedChange = {notifiToggle = it}
                 )
             }
         }

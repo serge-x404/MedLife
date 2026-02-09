@@ -45,7 +45,9 @@ import com.example.medcare.class_objects.pharmaImages
 @Preview(showBackground = true,
     showSystemUi = true)
 @Composable
-fun Cart() {
+fun Cart(
+    navigateToFindingPharma: () -> Unit
+) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -122,7 +124,9 @@ fun Cart() {
                         }
                     )
                 }
-                Button(onClick = {},
+                Button(onClick = {
+                    navigateToFindingPharma()
+                },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF26408B)),
                     modifier = Modifier.fillMaxWidth()
                         .align(Alignment.BottomCenter)) {

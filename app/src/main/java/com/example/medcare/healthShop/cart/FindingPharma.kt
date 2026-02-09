@@ -1,6 +1,7 @@
 package com.example.medcare.healthShop.cart
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,7 +25,9 @@ import com.example.medcare.R
 @Preview(showBackground = true,
     showSystemUi = true)
 @Composable
-fun FindingPharmacy() {
+fun FindingPharmacy(
+    navigateToEmptyCart: () -> Unit
+) {
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
@@ -34,6 +37,11 @@ fun FindingPharmacy() {
             painter = painterResource(R.drawable.pharmacy),
             contentDescription = null,
             modifier = Modifier.size(200.dp)
+                .clickable(
+                    onClick = {
+                        navigateToEmptyCart()
+                    }
+                )
         )
         Text(
             text = "Finding Nearest Pharmacy",

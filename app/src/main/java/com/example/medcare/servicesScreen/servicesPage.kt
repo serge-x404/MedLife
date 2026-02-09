@@ -1,5 +1,6 @@
 package com.example.medcare.servicesScreen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.medcare.R
 import com.example.medcare.class_objects.serviceGridData
 import com.example.medcare.layoutsFile.gridViewLayout
@@ -39,7 +41,7 @@ import com.example.medcare.layoutsFile.gridViewLayout
 )
 @Composable
 fun ServicesScreen(
-    navigateToChatDoc: () -> Unit
+    navHostController: NavHostController
 ) {
     Scaffold(
         topBar = {
@@ -70,7 +72,7 @@ fun ServicesScreen(
                         modifier = Modifier.height(220.dp)
                     ) {
                         items(serviceGridData.serviceImages) { item ->
-                            gridViewLayout(item, navigateToChatDoc)
+                            gridViewLayout(item, navHostController)
                         }
                     }
                 }

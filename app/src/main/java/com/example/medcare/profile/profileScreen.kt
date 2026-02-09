@@ -2,6 +2,7 @@ package com.example.medcare.profile
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -44,7 +45,13 @@ import com.example.medcare.R
 @Preview(showBackground = true,
     showSystemUi = true)
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(
+    navigateToPresHist: () -> Unit,
+    navigateToHealthHist: () -> Unit,
+    navigateToTransactions: () -> Unit,
+    navigateToAccSettings: () -> Unit,
+    navigateToNotifications: () -> Unit
+) {
     Scaffold(
         topBar = { TopAppBar(
             title = { Text("My Profile",
@@ -114,7 +121,10 @@ fun ProfileScreen() {
                 Card(modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(containerColor = Color.White)) {
                     Row(verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(12.dp)) {
+                        modifier = Modifier.padding(12.dp)
+                            .clickable(
+                                onClick = {navigateToPresHist()}
+                            )) {
                         Image(
                             painter = painterResource(R.drawable.book),
                             contentDescription = null,
@@ -132,7 +142,10 @@ fun ProfileScreen() {
                         }
                     }
                     Row(verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(12.dp)) {
+                        modifier = Modifier.padding(12.dp)
+                            .clickable(
+                                onClick = {navigateToHealthHist()}
+                            )) {
                         Image(
                             painter = painterResource(R.drawable.heart),
                             contentDescription = null,
@@ -150,7 +163,10 @@ fun ProfileScreen() {
                         }
                     }
                     Row(verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(12.dp)) {
+                        modifier = Modifier.padding(12.dp)
+                            .clickable(
+                                onClick = {navigateToTransactions()}
+                            )) {
                         Image(
                             painter = painterResource(R.drawable.wallet),
                             contentDescription = null,
@@ -177,7 +193,10 @@ fun ProfileScreen() {
                 Card(modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(containerColor = Color.White)) {
                     Row(verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(12.dp)) {
+                        modifier = Modifier.padding(12.dp)
+                            .clickable(
+                                onClick = {navigateToAccSettings()}
+                            )) {
                         Image(
                             painter = painterResource(R.drawable.gear),
                             contentDescription = null,
@@ -190,7 +209,10 @@ fun ProfileScreen() {
                         )
                     }
                     Row(verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(12.dp)) {
+                        modifier = Modifier.padding(12.dp)
+                            .clickable(
+                            onClick = {navigateToNotifications()}
+                        )) {
                         Image(
                             painter = painterResource(R.drawable.bell),
                             contentDescription = null,
@@ -211,7 +233,7 @@ fun ProfileScreen() {
                             modifier = Modifier.size(30.dp)
                         )
                         Spacer(Modifier.width(8.dp))
-                        Text("Transactions",
+                        Text("Reference Settings",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.SemiBold
                         )

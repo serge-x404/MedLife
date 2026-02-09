@@ -38,7 +38,9 @@ import com.example.medcare.R
 @Preview(showSystemUi = true,
     showBackground = true)
 @Composable
-fun MedicationHome() {
+fun MedicationHome(
+    navigateToAddMed: () -> Unit
+) {
     Scaffold(
         topBar = { CenterAlignedTopAppBar(
             title = { Text("Medication Reminder",
@@ -133,13 +135,16 @@ fun MedicationHome() {
                     }
                 }
                 Button(
-                    onClick = {},
+                    onClick = {
+                        navigateToAddMed()
+                    },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF26408B)),
                     modifier = Modifier.fillMaxWidth()
                         .align(Alignment.BottomCenter)
                 ) {
                     Text("Add Medicine",
-                        fontWeight = FontWeight.SemiBold)
+                        fontWeight = FontWeight.SemiBold
+                    )
                 }
             }
         }

@@ -23,7 +23,9 @@ import com.example.medcare.class_objects.Hot
 @Preview(showBackground = true,
     showSystemUi = true)
 @Composable
-fun ArticlePage() {
+fun ArticlePage(
+    navigateToArticle: () -> Unit
+) {
     Scaffold(
         topBar = { CenterAlignedTopAppBar(
             title = { OutlinedTextField(
@@ -44,7 +46,7 @@ fun ArticlePage() {
         Column(modifier = Modifier.padding(innerPadding)) {
             LazyVerticalGrid(GridCells.Fixed(1)) {
                 items(Hot.latestArticle) {
-                        item -> LatestArticle(item)
+                        item -> LatestArticle(item, navigateToArticle)
                 }
             }
         }

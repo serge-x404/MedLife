@@ -1,6 +1,7 @@
 package com.example.medcare.class_objects
 
 import com.example.medcare.R
+import com.example.medcare.navigation.NavRoute
 
 object gridData {
     val servicesList = listOf(
@@ -16,7 +17,7 @@ object gridData {
 }
 
 data class Categories(
-    val name: String, val icon: Int
+    val name: String, val icon: Int, val route: String? = null
 )
 
 object lazyRow {
@@ -34,12 +35,12 @@ object lazyRow {
 
 object serviceGridData {
     val serviceImages = listOf(
-        Categories("Chat Doctor", R.drawable.chat_doctor),
-        Categories("Hospitals", R.drawable.hospital),
-        Categories("Emergency Calls", R.drawable.emergency_calls),
-        Categories("Article", R.drawable.article),
-        Categories("Medication Reminder", R.drawable.reminder),
-        Categories("Specialization", R.drawable.specialization),
+        Categories("Chat Doctor", R.drawable.chat_doctor, NavRoute.ChatDoc.path),
+        Categories("Hospitals", R.drawable.hospital, NavRoute.hospital.path),
+        Categories("Emergency Calls", R.drawable.emergency_calls, null),
+        Categories("Article", R.drawable.article, NavRoute.articleHome.path),
+        Categories("Medication Reminder", R.drawable.reminder, NavRoute.medReminder.path),
+        Categories("Specialization", R.drawable.specialization, NavRoute.specialist.path),
     )
 }
 

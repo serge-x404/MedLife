@@ -33,6 +33,10 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -49,6 +53,7 @@ import com.example.medcare.R
     showSystemUi = true)
 @Composable
 fun MedicationReminder() {
+    var checked by remember { mutableStateOf(false) }
     Scaffold(
         topBar = { CenterAlignedTopAppBar(
             title = { Text("Details About The Drug",
@@ -265,8 +270,10 @@ fun MedicationReminder() {
                         color = Color(0xFF4D4D4D),
                         modifier = Modifier.weight(1f)
                     )
-                    Switch(checked = false,
-                        onCheckedChange = {},
+                    Switch(checked = checked,
+                        onCheckedChange = {
+                            checked = it
+                        },
                         colors = SwitchDefaults.colors(checkedTrackColor = Color(0xFF26408B))
                     )
                 }

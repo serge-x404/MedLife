@@ -79,7 +79,8 @@ fun HomeScreen(
     navigateToProfile: () -> Unit,
     navigateToNotifications: () -> Unit,
     navigateToCart: () -> Unit,
-    navigateToHealthShop: () -> Unit
+    navigateToHealthShop: () -> Unit,
+    navigateToHospital: () -> Unit
 ) {
     Scaffold(topBar = {
         TopAppBar(title = { Text(text = "Hi, Alex") }, actions = {
@@ -184,7 +185,7 @@ fun HomeScreen(
                         .height(210.dp),
                 ) {
                     items(gridData.servicesList) { item ->
-                        gridViewLayout(item, navigateToChatDoc)
+                        gridViewLayout(item)
                     }
                 }
                 Spacer(Modifier.height(30.dp))
@@ -291,7 +292,9 @@ fun HomeScreen(
                     items(hospitals.images) {
                         Box(modifier = Modifier.size(180.dp)
                             .clickable(enabled = true,
-                                onClick = {})
+                                onClick = {
+                                    navigateToHospital()
+                                })
                             .border(1.dp, color = Color(0xFFC2E7D9), shape = RoundedCornerShape(4.dp))
                         ) {
 //                    Surface(shape = CircleShape,
@@ -336,7 +339,7 @@ fun HomeScreen(
                 LazyColumn(modifier = Modifier.padding(horizontal = 26.dp)
                     .height(310.dp)) {
                     items(Hot.latestArticle) {
-                            item -> LatestArticle(item)
+                            item -> LatestArticle(item){}
                     }
                 }
             }

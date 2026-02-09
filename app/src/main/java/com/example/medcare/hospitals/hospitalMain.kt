@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -35,12 +36,15 @@ import com.example.medcare.class_objects.HospitalData
 @Preview(showBackground = true,
     showSystemUi = true)
 @Composable
-fun HospitalMain() {
+fun HospitalMain(
+    navigateToDetail: () -> Unit,
+    navigateToMap: () -> Unit
+) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    TextField(
+                    OutlinedTextField(
                         value = "",
                         onValueChange = {},
                         placeholder = { Text("Search product or store") },
@@ -82,8 +86,8 @@ fun HospitalMain() {
                 Spacer(Modifier.height(20.dp))
                 LazyVerticalGrid(GridCells.Fixed(1),
                     verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    items(HospitalData.data) {
-                        item -> HospitalLayout(item)
+                    items(HospitalData.data) { item ->
+                        HospitalLayout(item, navigateToDetail, navigateToMap)
                     }
                 }
             }
