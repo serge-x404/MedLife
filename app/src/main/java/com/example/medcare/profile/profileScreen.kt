@@ -40,17 +40,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medcare.R
+import kotlin.math.sin
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true,
-    showSystemUi = true)
 @Composable
 fun ProfileScreen(
     navigateToPresHist: () -> Unit,
     navigateToHealthHist: () -> Unit,
     navigateToTransactions: () -> Unit,
     navigateToAccSettings: () -> Unit,
-    navigateToNotifications: () -> Unit
+    navigateToNotifications: () -> Unit,
+    navigateToPharmaAdmin: () -> Unit
 ) {
     Scaffold(
         topBar = { TopAppBar(
@@ -122,6 +122,7 @@ fun ProfileScreen(
                     colors = CardDefaults.cardColors(containerColor = Color.White)) {
                     Row(verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(12.dp)
+                            .fillMaxWidth()
                             .clickable(
                                 onClick = {navigateToPresHist()}
                             )) {
@@ -143,6 +144,7 @@ fun ProfileScreen(
                     }
                     Row(verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(12.dp)
+                            .fillMaxWidth()
                             .clickable(
                                 onClick = {navigateToHealthHist()}
                             )) {
@@ -164,6 +166,7 @@ fun ProfileScreen(
                     }
                     Row(verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(12.dp)
+                            .fillMaxWidth()
                             .clickable(
                                 onClick = {navigateToTransactions()}
                             )) {
@@ -194,6 +197,7 @@ fun ProfileScreen(
                     colors = CardDefaults.cardColors(containerColor = Color.White)) {
                     Row(verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(12.dp)
+                            .fillMaxWidth()
                             .clickable(
                                 onClick = {navigateToAccSettings()}
                             )) {
@@ -210,6 +214,7 @@ fun ProfileScreen(
                     }
                     Row(verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(12.dp)
+                            .fillMaxWidth()
                             .clickable(
                             onClick = {navigateToNotifications()}
                         )) {
@@ -226,7 +231,8 @@ fun ProfileScreen(
                         )
                     }
                     Row(verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(12.dp)) {
+                        modifier = Modifier.padding(12.dp)
+                            .fillMaxWidth()) {
                         Image(
                             painter = painterResource(R.drawable.docs),
                             contentDescription = null,
@@ -239,7 +245,8 @@ fun ProfileScreen(
                         )
                     }
                     Row(verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(12.dp)) {
+                        modifier = Modifier.padding(12.dp)
+                            .fillMaxWidth()) {
                         Image(
                             painter = painterResource(R.drawable.moon),
                             contentDescription = null,
@@ -253,6 +260,37 @@ fun ProfileScreen(
                         )
                         Switch(checked = false,
                             onCheckedChange = {}
+                        )
+                    }
+                }
+                Spacer(Modifier.height(40.dp))
+                Text("Pharmacy Portal",
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 16.sp,
+                    color = Color(0xFF4D4D4D)
+                )
+                Card(modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(Color.White)) {
+                    Row(modifier = Modifier.padding( 12.dp)
+                        .fillMaxWidth()
+                        .clickable(
+                            onClick = {
+                                navigateToPharmaAdmin()
+                            }
+                        ),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.pharma_admin),
+                            contentDescription = null,
+                            modifier = Modifier.size(30.dp),
+                            colorFilter = ColorFilter.tint(Color(0xFF26408B))
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            text = "Admin Login",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.SemiBold
                         )
                     }
                 }
@@ -272,4 +310,12 @@ fun ProfileScreen(
             }
         }
     }
+}
+
+
+@Preview(showBackground = true,
+    showSystemUi = true)
+@Composable
+fun androidPreview() {
+    ProfileScreen({},{},{},{},{},{})
 }

@@ -30,6 +30,8 @@ import com.example.medcare.profile.NotificationScreen
 import com.example.medcare.profile.PrescriptionHistory
 import com.example.medcare.profile.ProfileScreen
 import com.example.medcare.profile.Transactions
+import com.example.medcare.profile.pharma.AdminCred
+import com.example.medcare.profile.pharma.RegisterPharma
 import com.example.medcare.servicesScreen.ServicesScreen
 import com.example.medcare.servicesScreen.chatDoc.ChatDoctorScreen
 import com.example.medcare.servicesScreen.chatDoc.DoctorDetails
@@ -71,6 +73,8 @@ fun NavGraph(navHostController: NavHostController, modifier: Modifier) {
         addHealthHistScreen(navHostController,this)
         addTransactionScreen(navHostController,this)
         addAccSettScreen(navHostController,this)
+        addPharmacyPortalScreen(navHostController,this)
+        addPharmaRegisterScreen(navHostController,this)
     }
 }
 
@@ -149,6 +153,9 @@ fun addProfileScreen(navHostController: NavHostController, navGraphBuilder: NavG
             navigateToNotifications = {
                 navHostController.navigate(NavRoute.Notifications.path)
             },
+            navigateToPharmaAdmin = {
+                navHostController.navigate(NavRoute.pharmaPortal.path)
+            }
         )
     }
 }
@@ -427,5 +434,25 @@ fun addClearNotiScreen(navHostController: NavHostController, navGraphBuilder: Na
         route = NavRoute.clearNoti.path
     ) {
         EmptyNotifications()
+    }
+}
+
+fun addPharmacyPortalScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
+    navGraphBuilder.composable(
+        route = NavRoute.pharmaPortal.path
+    ) {
+        AdminCred(
+            navigateToPharmaRegister = {
+                navHostController.navigate(NavRoute.pharmaRegister.path)
+            }
+        )
+    }
+}
+
+fun addPharmaRegisterScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
+    navGraphBuilder.composable(
+        route = NavRoute.pharmaRegister.path
+    ) {
+        RegisterPharma()
     }
 }
