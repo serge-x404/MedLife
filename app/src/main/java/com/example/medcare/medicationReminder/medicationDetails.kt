@@ -27,7 +27,9 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
@@ -52,7 +54,9 @@ import com.example.medcare.R
 @Preview(showBackground = true,
     showSystemUi = true)
 @Composable
-fun MedicationReminder() {
+fun MedicationReminder(
+    back: () -> Unit
+) {
     var checked by remember { mutableStateOf(false) }
     Scaffold(
         topBar = { CenterAlignedTopAppBar(
@@ -60,13 +64,18 @@ fun MedicationReminder() {
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold)
             },
-            navigationIcon = { Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                contentDescription = null
-            ) }
+            navigationIcon = {
+                IconButton(onClick = back) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                        contentDescription = null
+                    )
+                }
+            }
         ) }
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
+            var expanded by remember { mutableStateOf(false) }
             Column(modifier = Modifier
                 .padding(horizontal = 12.dp)
                 .fillMaxSize()
@@ -123,6 +132,20 @@ fun MedicationReminder() {
                                 imageVector = Icons.Default.KeyboardArrowDown,
                                 contentDescription = null
                             )
+                        }
+                        ExposedDropdownMenuBox(
+                            expanded = expanded,
+                            onExpandedChange = {expanded = it}
+                        ) {
+                            ExposedDropdownMenu(
+                                expanded = expanded,
+                                onDismissRequest = {expanded = !expanded}
+                            ) {
+                                DropdownMenuItem(
+                                    {},
+                                    onClick = {},
+                                )
+                            }
                         }
                         Spacer(Modifier.height(16.dp))
                         Text("Period of taking medicine",

@@ -21,14 +21,22 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,60 +48,104 @@ import androidx.compose.ui.unit.sp
 import com.example.medcare.R
 import com.example.medcare.healthShop.CartCard
 import com.example.medcare.class_objects.pharmaImages
+import kotlin.math.exp
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true,
-    showSystemUi = true)
+@Preview(
+    showBackground = true,
+    showSystemUi = true
+)
 @Composable
 fun Cart(
+    back: () -> Unit,
     navigateToFindingPharma: () -> Unit
 ) {
+    var expanded by remember { mutableStateOf(false) }
+    var selectedPlace by remember { mutableStateOf("") }
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(text = "Cart",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold)
+                title = {
+                    Text(
+                        text = "Cart",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
                 },
-                navigationIcon = { Icon(
-                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                    contentDescription = null
-                ) }
+                navigationIcon = {
+                    IconButton(
+                        onClick = back
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                            contentDescription = null
+                        )
+                    }
+                }
             )
         }
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
-            Box(modifier = Modifier.padding(horizontal = 16.dp)
-                .fillMaxSize()) {
+            Box(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxSize()
+            ) {
                 Column {
                     HorizontalDivider()
                     Spacer(Modifier.height(10.dp))
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Image(
-                            painter = painterResource(R.drawable.amy),
-                            contentDescription = null,
-                            modifier = Modifier.size(40.dp)
-                        )
-                        Spacer(Modifier.width(12.dp))
-                        Text(
-                            text = "Deliver to Amy",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            modifier = Modifier.weight(1f)
-                        )
-                        Text(
-                            text = "Milan, Italy",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = Color(0xFF26408B)
-                        )
-                        Spacer(Modifier.width(6.dp))
-                        Icon(
-                            imageVector = Icons.Default.KeyboardArrowDown,
-                            contentDescription = null,
-                            modifier = Modifier.size(15.dp),
-                            tint = Color(0xFF26408B)
-                        )
+
+                    ExposedDropdownMenuBox(
+                        expanded = expanded,
+                        onExpandedChange = { expanded = !expanded }
+                    ) {
+                        Row( modifier = Modifier,
+                            verticalAlignment = Alignment.CenterVertically) {
+                            Image(
+                                painter = painterResource(R.drawable.amy),
+                                contentDescription = null,
+                                modifier = Modifier.size(40.dp)
+                            )
+                            Spacer(Modifier.width(12.dp))
+                            Text(
+                                text = "Deliver to Amy",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                modifier = Modifier.weight(1f)
+                            )
+                            Spacer(Modifier.width(6.dp))
+                            Text(
+                                text = selectedPlace,
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                modifier = Modifier
+                            )
+                            Icon(
+                                imageVector = Icons.Default.KeyboardArrowDown,
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .menuAnchor()
+                                    .size(15.dp),
+                                tint = Color(0xFF26408B)
+                            )
+                        }
+                        ExposedDropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = !expanded }
+                        ) {
+                            listOf("Dubai", "USA").forEach {
+                                place ->
+                                DropdownMenuItem(
+                                    text = { Text(place) },
+                                    onClick = {
+                                        selectedPlace = place
+                                        expanded = false
+                                    }
+                                )
+                            }
+                        }
                     }
                     Spacer(Modifier.height(10.dp))
                     HorizontalDivider()
@@ -124,12 +176,15 @@ fun Cart(
                         }
                     )
                 }
-                Button(onClick = {
-                    navigateToFindingPharma()
-                },
+                Button(
+                    onClick = {
+                        navigateToFindingPharma()
+                    },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF26408B)),
-                    modifier = Modifier.fillMaxWidth()
-                        .align(Alignment.BottomCenter)) {
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter)
+                ) {
                     Text(text = "Continue")
                 }
             }

@@ -38,6 +38,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -65,7 +66,9 @@ import com.example.medcare.class_objects.review
     showBackground = true, showSystemUi = true
 )
 @Composable
-fun DoctorDetails() {
+fun DoctorDetails(
+    back: () -> Unit
+) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -73,12 +76,12 @@ fun DoctorDetails() {
                 Text(
                     text = "Doctor Details", fontSize = 15.sp, fontWeight = FontWeight.Bold
                 )
-            }, navigationIcon = {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                    contentDescription = null
-                )
-            }, actions = {
+            }, navigationIcon = { IconButton(onClick = back) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                        contentDescription = null
+                    )
+                } }, actions = {
                 Icon(
                     imageVector = Icons.Default.Share, contentDescription = null
                 )

@@ -49,7 +49,7 @@ import com.example.medcare.layoutsFile.Reviews
 )
 @Composable
 fun MedicineDescription(
-
+    back: () -> Unit,
 ) {
     Scaffold(
         topBar = {

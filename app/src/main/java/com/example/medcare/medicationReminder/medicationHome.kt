@@ -20,6 +20,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,17 +40,22 @@ import com.example.medcare.R
     showBackground = true)
 @Composable
 fun MedicationHome(
-    navigateToAddMed: () -> Unit
+    navigateToAddMed: () -> Unit,
+    back: () -> Unit
 ) {
     Scaffold(
         topBar = { CenterAlignedTopAppBar(
             title = { Text("Medication Reminder",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold) },
-            navigationIcon = { Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                contentDescription = null
-            ) }
+            navigationIcon = {
+                IconButton(onClick = back) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                        contentDescription = null
+                    )
+                }
+            }
         ) }
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {

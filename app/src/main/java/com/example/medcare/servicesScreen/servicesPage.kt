@@ -41,6 +41,7 @@ import com.example.medcare.layoutsFile.gridViewLayout
 )
 @Composable
 fun ServicesScreen(
+    back: () -> Unit,
     navHostController: NavHostController
 ) {
     Scaffold(
@@ -50,7 +51,7 @@ fun ServicesScreen(
                     text = "Services", fontSize = 16.sp, fontWeight = FontWeight.SemiBold
                 )
             }, navigationIcon = {
-                IconButton(onClick = {}) {
+                IconButton(onClick = back) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                         contentDescription = null

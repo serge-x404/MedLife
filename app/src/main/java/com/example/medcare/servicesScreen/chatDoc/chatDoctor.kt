@@ -22,6 +22,7 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -48,6 +49,7 @@ import com.example.medcare.layoutsFile.gridViewLayout
     showSystemUi = true)
 @Composable
 fun ChatDoctorScreen(
+    back: () -> Unit,
     navigateToDocDtls: () -> Unit
 ) {
     Scaffold(
@@ -57,10 +59,12 @@ fun ChatDoctorScreen(
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Normal
             ) },
-            navigationIcon = { Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                contentDescription = null
-            ) }
+            navigationIcon = { IconButton(onClick = back) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                    contentDescription = null
+                )
+            } }
         ) }
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {

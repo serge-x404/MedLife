@@ -25,6 +25,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -51,6 +52,7 @@ import com.example.medcare.class_objects.pharmaImages
     showSystemUi = true)
 @Composable
 fun ShoppingHomePage(
+    back: () -> Unit,
     navigateToMedGrid: () -> Unit,
     navigateToMedDesc: () -> Unit,
     navigateToCart: () -> Unit
@@ -76,10 +78,12 @@ fun ShoppingHomePage(
                     )
                 },
                 navigationIcon = {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                        contentDescription = null
-                    )
+                    IconButton(onClick = back) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                            contentDescription = null
+                        )
+                    }
                 },
                 actions = {
                     Image(

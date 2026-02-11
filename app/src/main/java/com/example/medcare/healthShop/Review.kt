@@ -40,6 +40,7 @@ import com.example.medcare.layoutsFile.Reviews
     showSystemUi = true)
 @Composable
 fun Review(
+    back: () -> Unit,
     navigateToMedDesc: () -> Unit
 ) {
     Scaffold(

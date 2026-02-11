@@ -16,13 +16,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -39,14 +48,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import com.example.medcare.R
 import com.example.medcare.class_objects.HotSales
 
 @Composable
 fun ImageGridPharma(item: Int) {
     Card(
-        onClick = {},
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+        onClick = {}, colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Image(
             painter = painterResource(item),
@@ -58,18 +67,21 @@ fun ImageGridPharma(item: Int) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HotSalesGrid(hotSales: HotSales,
-                 navigateToMedDesc: () -> Unit) {
+fun HotSalesGrid(
+    hotSales: HotSales, navigateToMedDesc: () -> Unit
+) {
     val sheetState = rememberModalBottomSheetState()
     var stateChange by remember { mutableStateOf(false) }
     var AddSub by remember { mutableStateOf(1) }
-    if(stateChange) {
-        ModalBottomSheet(onDismissRequest = {stateChange = false},
-            sheetState = sheetState
+    if (stateChange) {
+        ModalBottomSheet(
+            onDismissRequest = { stateChange = false }, sheetState = sheetState
         ) {
-            Column(modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .fillMaxWidth()) {
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth()
+            ) {
                 Row() {
                     Image(
                         painter = painterResource(hotSales.image),
@@ -77,9 +89,7 @@ fun HotSalesGrid(hotSales: HotSales,
                         modifier = Modifier
                             .size(100.dp)
                             .clickable(
-                                enabled = true,
-                                onClick = {}
-                            )
+                                enabled = true, onClick = {})
                     )
                     Column() {
                         Text(
@@ -87,9 +97,7 @@ fun HotSalesGrid(hotSales: HotSales,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.clickable(
-                                enabled = true,
-                                onClick = {}
-                            )
+                                enabled = true, onClick = {})
                         )
                         Text(
                             text = stringResource(R.string.strip)
@@ -107,8 +115,10 @@ fun HotSalesGrid(hotSales: HotSales,
                             )
                         }
                         Spacer(Modifier.height(6.dp))
-                        Row(horizontalArrangement = Arrangement.spacedBy(10.dp),
-                            verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(10.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Box(
                                 contentAlignment = Alignment.Center,
                                 modifier = Modifier
@@ -116,17 +126,13 @@ fun HotSalesGrid(hotSales: HotSales,
                                     .border(2.dp, Color(0xFF26408B), RoundedCornerShape(6.dp))
                                     .size(36.dp)
                                     .clickable(
-                                        enabled = true,
-                                        onClick = {
+                                        enabled = true, onClick = {
                                             if (AddSub == 1) stateChange = false
                                             else AddSub--
-                                        }
-                                    ),
+                                        }),
                             ) {
                                 Text(
-                                    "-",
-                                    fontSize = 24.sp,
-                                    color = Color(0xFF26408B)
+                                    "-", fontSize = 24.sp, color = Color(0xFF26408B)
                                 )
                             }
                             Text("$AddSub")
@@ -137,11 +143,10 @@ fun HotSalesGrid(hotSales: HotSales,
                                     .border(2.dp, Color(0xFF26408B), RoundedCornerShape(6.dp))
                                     .size(36.dp)
                                     .clickable(
-                                        enabled = true,
-                                        onClick = {
+                                        enabled = true, onClick = {
                                             AddSub++
-                                        }
-                                    ) ){
+                                        })
+                            ) {
                                 Text(
                                     "+",
                                     fontSize = 24.sp,
@@ -153,9 +158,11 @@ fun HotSalesGrid(hotSales: HotSales,
                     }
                 }
                 Spacer(Modifier.height(8.dp))
-                Button(onClick = {},
+                Button(
+                    onClick = {},
                     modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(Color(0xFF26408B))) {
+                    colors = ButtonDefaults.buttonColors(Color(0xFF26408B))
+                ) {
                     Text(
                         text = "Add to Cart"
                     )
@@ -164,10 +171,9 @@ fun HotSalesGrid(hotSales: HotSales,
         }
     }
     Card(
-        modifier = Modifier
-            .clickable {
-                navigateToMedDesc()
-            },
+        modifier = Modifier.clickable {
+            navigateToMedDesc()
+        },
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.elevatedCardElevation(6.dp),
     ) {
@@ -179,19 +185,16 @@ fun HotSalesGrid(hotSales: HotSales,
             )
             Spacer(Modifier.height(8.dp))
             Text(
-                text = hotSales.medicineName,
-                fontWeight = FontWeight.Bold
+                text = hotSales.medicineName, fontWeight = FontWeight.Bold
             )
             Text(
-                text = "Per Strip",
-                color = Color(0xFF8F8F8F)
+                text = "Per Strip", color = Color(0xFF8F8F8F)
             )
             Spacer(Modifier.height(20.dp))
             Row {
                 Column {
                     Text(
-                        text = "Starts from",
-                        fontSize = 12.sp
+                        text = "Starts from", fontSize = 12.sp
                     )
                     Text(
                         text = "$2.00",
@@ -201,13 +204,13 @@ fun HotSalesGrid(hotSales: HotSales,
                     )
                 }
                 Spacer(Modifier.width(6.dp))
-                Button(onClick = { stateChange = true },
+                Button(
+                    onClick = { stateChange = true },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-                    border = BorderStroke(1.dp,Color(0xFF26408B))
+                    border = BorderStroke(1.dp, Color(0xFF26408B))
                 ) {
                     Text(
-                        text = "Add",
-                        color = Color(0xFF26408B)
+                        text = "Add", color = Color(0xFF26408B)
                     )
                 }
             }
@@ -219,9 +222,19 @@ fun HotSalesGrid(hotSales: HotSales,
 @Composable
 fun CartCard(hotSales: HotSales) {
     var AddSub by remember { mutableStateOf(1) }
-    Card(onClick = {},
+    var showDialog by remember { mutableStateOf(false) }
+
+    Card(
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        border = BorderStroke(width = 1.dp, Color(0xFFE3E3E3))) {
+        border = BorderStroke(width = 1.dp, Color(0xFFE3E3E3))
+    ) {
+        if (showDialog) {
+            Dialog(
+                onDismissRequest = { showDialog = false },
+            ) {
+                Text("Are you sure you want to remove this from cart?")
+            }
+        }
         Row(modifier = Modifier.padding(16.dp)) {
             Image(
                 painter = painterResource(hotSales.image),
@@ -231,9 +244,7 @@ fun CartCard(hotSales: HotSales) {
             Spacer(Modifier.width(4.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = hotSales.medicineName,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
+                    text = hotSales.medicineName, fontSize = 16.sp, fontWeight = FontWeight.Bold
                 )
                 Spacer(Modifier.height(2.dp))
                 Text(
@@ -253,9 +264,11 @@ fun CartCard(hotSales: HotSales) {
                     )
                 }
             }
-            Row(horizontalArrangement = Arrangement.spacedBy(10.dp),
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.align(Alignment.Bottom)) {
+                modifier = Modifier.align(Alignment.Bottom)
+            ) {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
@@ -263,16 +276,15 @@ fun CartCard(hotSales: HotSales) {
                         .border(2.dp, Color(0xFF26408B), RoundedCornerShape(6.dp))
                         .size(24.dp)
                         .clickable(
-                            enabled = true,
-                            onClick = {
+                            enabled = true, onClick = {
                                 AddSub--
-                            }
-                        ),
+                                if (AddSub == 0) {
+                                    showDialog = true
+                                }
+                            }),
                 ) {
                     Text(
-                        "-",
-                        fontSize = 16.sp,
-                        color = Color(0xFF26408B)
+                        "-", fontSize = 16.sp, color = Color(0xFF26408B)
                     )
                 }
                 Text("$AddSub")
@@ -283,11 +295,10 @@ fun CartCard(hotSales: HotSales) {
                         .border(2.dp, Color(0xFF26408B), RoundedCornerShape(6.dp))
                         .size(24.dp)
                         .clickable(
-                            enabled = true,
-                            onClick = {
+                            enabled = true, onClick = {
                                 AddSub++
-                            }
-                        ) ){
+                            })
+                ) {
                     Text(
                         "+",
                         fontSize = 16.sp,

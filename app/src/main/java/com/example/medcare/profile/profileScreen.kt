@@ -25,6 +25,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -50,7 +51,8 @@ fun ProfileScreen(
     navigateToTransactions: () -> Unit,
     navigateToAccSettings: () -> Unit,
     navigateToNotifications: () -> Unit,
-    navigateToPharmaAdmin: () -> Unit
+    navigateToPharmaAdmin: () -> Unit,
+    back: () -> Unit
 ) {
     Scaffold(
         topBar = { TopAppBar(
@@ -58,10 +60,14 @@ fun ProfileScreen(
                 fontWeight = FontWeight.Normal,
                 fontSize = 16.sp
             ) },
-            navigationIcon = { Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                contentDescription = null
-            ) }
+            navigationIcon = { IconButton(
+                onClick = back
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                    contentDescription = null
+                )
+            } }
         ) }
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
@@ -81,7 +87,7 @@ fun ProfileScreen(
                         Spacer(Modifier.width(8.dp))
                         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                             Text(
-                                "Lorenzo Ricci",
+                                text = "userName",
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.SemiBold
                             )
@@ -310,12 +316,4 @@ fun ProfileScreen(
             }
         }
     }
-}
-
-
-@Preview(showBackground = true,
-    showSystemUi = true)
-@Composable
-fun androidPreview() {
-    ProfileScreen({},{},{},{},{},{})
 }

@@ -2,10 +2,13 @@ package com.example.medcare.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavArgument
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.medcare.article.ArticleList
 import com.example.medcare.article.ArticlePage
 import com.example.medcare.article.DisplayArticle
@@ -135,9 +138,17 @@ fun addWalkthroughScreen(navHostController: NavHostController, navGraphBuilder: 
 
 fun addProfileScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = NavRoute.Profile.path
+        route = NavRoute.Profile.path,
+//        arguments = listOf(
+//            navArgument("userName") {
+//                type = NavType.StringType
+//            }
+//        )
     ) {
+
+//        val userName = it.arguments?.getString("userName").toString()
         ProfileScreen(
+            back = {navHostController.popBackStack()},
             navigateToPresHist = {
                 navHostController.navigate(NavRoute.presHist.path)
             },
@@ -156,6 +167,7 @@ fun addProfileScreen(navHostController: NavHostController, navGraphBuilder: NavG
             navigateToPharmaAdmin = {
                 navHostController.navigate(NavRoute.pharmaPortal.path)
             }
+//            userName
         )
     }
 }
@@ -164,7 +176,8 @@ fun addServicesScreen(navHostController: NavHostController, navGraphBuilder: Nav
     navGraphBuilder.composable(
         route = NavRoute.Services.path
     ) {
-        ServicesScreen(navHostController)
+        ServicesScreen(back = { navHostController.popBackStack() },
+            navHostController)
     }
 }
 
@@ -172,7 +185,7 @@ fun addHistoryScreen(navHostController: NavHostController, navGraphBuilder: NavG
     navGraphBuilder.composable(
         route = NavRoute.History.path
     ) {
-        HistoryScreen()
+        HistoryScreen(back = {navHostController.popBackStack()})
     }
 }
 
@@ -189,6 +202,7 @@ fun addChatDocScreen(navHostController: NavHostController, navGraphBuilder: NavG
         route = NavRoute.ChatDoc.path
     ) {
         ChatDoctorScreen(
+            back = {navHostController.popBackStack()},
             navigateToDocDtls = {
                 navHostController.navigate(NavRoute.DocDtls.path)
             }
@@ -201,6 +215,7 @@ fun addNotificationsScreen(navHostController: NavHostController, navGraphBuilder
         route = NavRoute.Notifications.path
     ) {
         NotificationScreen(
+            back = {navHostController.popBackStack()},
             navigateToClearNotifications = {
                 navHostController.navigate(NavRoute.clearNoti.path)
             }
@@ -213,6 +228,7 @@ fun addCartScreen(navHostController: NavHostController, navGraphBuilder: NavGrap
         route = NavRoute.Cart.path
     ) {
         Cart(
+            back = {navHostController.popBackStack()},
             navigateToFindingPharma = {
                 navHostController.navigate(NavRoute.findingPharma.path)
             }
@@ -225,6 +241,7 @@ fun addHealthShop(navHostController: NavHostController, navGraphBuilder: NavGrap
         route = NavRoute.HealthShop.path
     ) {
         ShoppingHomePage(
+            back = {navHostController.popBackStack()},
             navigateToMedGrid = {
                 navHostController.navigate(NavRoute.medGrid.path)
             },
@@ -243,8 +260,12 @@ fun addMedGrid(navHostController: NavHostController, navGraphBuilder: NavGraphBu
         route = NavRoute.medGrid.path
     ) {
         MedicineGrid(
+            back = {navHostController.popBackStack()},
             navigateToMedDesc = {
                 navHostController.navigate(NavRoute.medDesc.path)
+            },
+            navigateToCart = {
+                navHostController.navigate(NavRoute.Cart.path)
             }
         )
     }
@@ -254,7 +275,9 @@ fun addMedDesc(navHostController: NavHostController, navGraphBuilder: NavGraphBu
     navGraphBuilder.composable(
         route = NavRoute.medDesc.path
     ) {
-        MedicineDescription()
+        MedicineDescription(
+            back = {navHostController.popBackStack()}
+        )
     }
 }
 
@@ -264,6 +287,7 @@ fun addHospitalScreen(navHostController: NavHostController, navGraphBuilder: Nav
     ) {
 
         HospitalMain(
+            back = {navHostController.popBackStack()},
             navigateToDetail = {
                 navHostController.navigate(NavRoute.hospiDtls.path)
             },
@@ -309,7 +333,9 @@ fun addDocDtls(navHostController: NavHostController, navGraphBuilder: NavGraphBu
     navGraphBuilder.composable(
         route = NavRoute.DocDtls.path
     ) {
-        DoctorDetails()
+        DoctorDetails(
+            back = {navHostController.popBackStack()}
+        )
     }
 }
 
@@ -318,6 +344,7 @@ fun addMedReminderScreen(navHostController: NavHostController, navGraphBuilder: 
         route = NavRoute.medReminder.path
     ) {
         MedicationHome(
+            back = {navHostController.popBackStack()},
             navigateToAddMed = {
                 navHostController.navigate(NavRoute.addMed.path
                 )
@@ -330,7 +357,9 @@ fun addMedicineScreen(navHostController: NavHostController, navGraphBuilder: Nav
     navGraphBuilder.composable(
         route = NavRoute.addMed.path
     ) {
-        MedicationReminder()
+        MedicationReminder(
+            back = {navHostController.popBackStack()}
+        )
     }
 }
 
