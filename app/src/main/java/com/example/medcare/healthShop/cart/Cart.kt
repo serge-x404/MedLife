@@ -53,10 +53,6 @@ import kotlin.math.exp
 
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
 @Composable
 fun Cart(
     back: () -> Unit,

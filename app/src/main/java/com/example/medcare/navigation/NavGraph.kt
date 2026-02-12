@@ -26,6 +26,7 @@ import com.example.medcare.hospitals.HospitalMain
 import com.example.medcare.hospitals.Map
 import com.example.medcare.medicationReminder.MedicationHome
 import com.example.medcare.medicationReminder.MedicationReminder
+import com.example.medcare.medicationReminder.ReminderFilled
 import com.example.medcare.profile.AccountSettings
 import com.example.medcare.profile.EmptyNotifications
 import com.example.medcare.profile.HealthHistory
@@ -78,6 +79,7 @@ fun NavGraph(navHostController: NavHostController, modifier: Modifier) {
         addAccSettScreen(navHostController,this)
         addPharmacyPortalScreen(navHostController,this)
         addPharmaRegisterScreen(navHostController,this)
+        addSavedReminder(navHostController,this)
     }
 }
 
@@ -358,8 +360,32 @@ fun addMedicineScreen(navHostController: NavHostController, navGraphBuilder: Nav
         route = NavRoute.addMed.path
     ) {
         MedicationReminder(
-            back = {navHostController.popBackStack()}
+            back = {navHostController.popBackStack()},
+            navigateToSavedReminder = {
+                medName, dosage, timings ->
+                navHostController.navigate(NavRoute.savedReminder.path.plus("/$medName/$dosage/$timings"))
+            }
         )
+    }
+}
+
+fun addSavedReminder(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
+    navGraphBuilder.composable(
+        route = NavRoute.savedReminder.path
+//        route = NavRoute.savedReminder.path.plus("/{medName}/{dosage}/{timings}"),
+//        arguments = listOf(
+//            navArgument(NavRoute.savedReminder.medName) {
+//                type = NavType.StringType
+//            },
+//            navArgument(NavRoute.savedReminder.dosage) {
+//                type = NavType.StringType
+//            },
+//            navArgument(NavRoute.savedReminder.timings) {
+//                type = NavType.StringType
+//            }
+//        )
+    ) {
+        ReminderFilled()
     }
 }
 
@@ -367,7 +393,9 @@ fun addSpecialistScreen(navHostController: NavHostController, navGraphBuilder: N
     navGraphBuilder.composable(
         route = NavRoute.specialist.path
     ) {
-        Specialist()
+        Specialist(
+            back = {navHostController.popBackStack()}
+        )
     }
 }
 
@@ -376,6 +404,7 @@ fun addArticleHome(navHostController: NavHostController, navGraphBuilder: NavGra
         route = NavRoute.articleHome.path
     ) {
         ArticleList(
+            back = {navHostController.popBackStack()},
             navigateToArticle = {
                 navHostController.navigate(NavRoute.articleRead.path)
             },
@@ -390,7 +419,9 @@ fun addReadArticleScreen(navHostController: NavHostController, navGraphBuilder: 
     navGraphBuilder.composable(
         route = NavRoute.articleRead.path
     ) {
-        DisplayArticle()
+        DisplayArticle(
+            back = { navHostController.popBackStack() }
+        )
     }
 }
 
@@ -399,6 +430,7 @@ fun addArticleGridScreen(navHostController: NavHostController, navGraphBuilder: 
         route = NavRoute.articleGrid.path
     ) {
         ArticlePage(
+            back = {navHostController.popBackStack()},
             navigateToArticle = {
                 navHostController.navigate(NavRoute.articleRead.path)
             },

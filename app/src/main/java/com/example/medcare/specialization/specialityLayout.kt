@@ -1,6 +1,7 @@
 package com.example.medcare.specialization
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,13 +18,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.medcare.class_objects.Specialities
 
 @Composable
 fun SpecialityLayout(specialities: Specialities) {
     Card(colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.elevatedCardElevation(4.dp),
-        modifier = Modifier.size(80.dp)) {
+        elevation = CardDefaults.elevatedCardElevation(2.dp),
+        modifier = Modifier.size(110.dp)
+            .clickable(enabled = true, onClick = {})) {
         Column(horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxSize()) {
@@ -34,7 +37,8 @@ fun SpecialityLayout(specialities: Specialities) {
             )
             Spacer(Modifier.height(6.dp))
             Text(specialities.name,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                fontSize = 16.sp
             )
         }
     }

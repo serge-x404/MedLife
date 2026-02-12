@@ -43,7 +43,6 @@ import com.example.medcare.servicesScreen.chatDoc.doctorsSyntax
 @Composable
 fun gridViewLayout(
     categories: Categories,
-
     navHostController: NavHostController? = null
 ) {
     Card(
