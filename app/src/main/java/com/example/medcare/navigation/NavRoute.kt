@@ -28,11 +28,7 @@ sealed class NavRoute(val path: String) {
     object hospiMap: NavRoute("hospiMap")
     object medReminder: NavRoute("medReminder")
     object addMed: NavRoute("addMed")
-    object savedReminder: NavRoute("savedReminder"){
-//        val medName = "Paracetamol"
-//        val dosage = "2"
-//        val timings = "after meal"
-    }
+    object savedReminder: NavRoute("savedReminder/{medName}/{dosage}/{timings}")
     object specialist: NavRoute("specialist")
     object articleHome: NavRoute("articleHome")
     object articleRead: NavRoute("articleRead")

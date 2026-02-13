@@ -2,7 +2,6 @@ package com.example.medcare.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavArgument
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -371,21 +370,24 @@ fun addMedicineScreen(navHostController: NavHostController, navGraphBuilder: Nav
 
 fun addSavedReminder(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = NavRoute.savedReminder.path
-//        route = NavRoute.savedReminder.path.plus("/{medName}/{dosage}/{timings}"),
-//        arguments = listOf(
-//            navArgument(NavRoute.savedReminder.medName) {
-//                type = NavType.StringType
-//            },
-//            navArgument(NavRoute.savedReminder.dosage) {
-//                type = NavType.StringType
-//            },
-//            navArgument(NavRoute.savedReminder.timings) {
-//                type = NavType.StringType
-//            }
-//        )
+        route = NavRoute.savedReminder.path.plus("/{medName}/{dosage}/{timings}"),
+        arguments = listOf(
+            navArgument("medName") {
+                type = NavType.StringType
+            },
+            navArgument("dosage") {
+                type = NavType.StringType
+            },
+            navArgument("timings") {
+                type = NavType.StringType
+            }
+        )
     ) {
-        ReminderFilled()
+        val medName: String = it.arguments?.getString("medName").toString()
+        val dosage: String = it.arguments?.getString("dosage").toString()
+        val timings: String = it.arguments?.getString("timings").toString()
+        ReminderFilled(medName,dosage,timings,
+            back = {navHostController.popBackStack()})
     }
 }
 

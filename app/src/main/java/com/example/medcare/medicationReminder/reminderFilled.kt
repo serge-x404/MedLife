@@ -1,7 +1,10 @@
 package com.example.medcare.medicationReminder
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,12 +23,19 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,55 +46,53 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medcare.R
-import com.example.medcare.class_objects.dates
+import java.time.LocalDate
+import java.time.YearMonth
+import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
+import java.util.Locale
 
+
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true,
-    showSystemUi = true)
 @Composable
-fun ReminderFilled() {
+fun ReminderFilled(
+    medName: String,
+    dosage: String,
+    timings: String,
+    back: () -> Unit
+) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(
-                    "Medication Reminder",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
-                ) },
-                navigationIcon = { Icon(
-                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                    contentDescription = null
-                ) }
+                title = {
+                    Text(
+                        "Medication Reminder",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = back) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                            contentDescription = null
+                        )
+                    }
+                }
             )
         }
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
-            Box(modifier = Modifier
-                .padding(horizontal = 12.dp)
-                .fillMaxSize()) {
+            Box(
+                modifier = Modifier
+                    .padding(horizontal = 12.dp)
+                    .fillMaxSize()
+            ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Spacer(Modifier.height(10.dp))
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                            contentDescription = null,
-                        )
-                        Text(text = "February")
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                            contentDescription = null,
-                        )
-                    }
-                    Spacer(Modifier.height(10.dp))
-                    LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        items(dates.dates) { item ->
-                            MedicationLayout(item)
-                        }
-                    }
+
+                    CalendarScreen()
+
                     Spacer(Modifier.height(20.dp))
                     Text(
                         "Today, 20 February, 2024",
@@ -94,9 +102,11 @@ fun ReminderFilled() {
                     )
                     Spacer(Modifier.height(20.dp))
                     Column(Modifier.padding(horizontal = 12.dp)) {
-                        Row(verticalAlignment = Alignment.CenterVertically,
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.Start,
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier
+                                .fillMaxWidth()
                                 .border(1.dp, color = Color(0xFFE3E3E3))
                                 .padding(10.dp)
                         ) {
@@ -108,29 +118,176 @@ fun ReminderFilled() {
                             Spacer(Modifier.width(10.dp))
                             Column {
                                 Text(
-                                    "Paracetamol 500 mg",
+                                    medName,
                                     fontWeight = FontWeight.SemiBold,
                                     fontSize = 14.sp
                                 )
                                 Spacer(Modifier.height(4.dp))
-                                Text("2.0 capsules after meal",
-                                    fontSize = 13.sp
-                                )
+                                Row {
+                                    Text(
+                                        dosage,
+                                        fontSize = 14.sp
+                                    )
+                                    Spacer(Modifier.width(4.dp))
+                                    Text(
+                                        timings,
+                                        fontSize = 14.sp
+                                    )
+                                }
                             }
                         }
                     }
                 }
-                Button(onClick = {},
+                Button(
+                    onClick = {},
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.BottomCenter),
                     colors = ButtonDefaults.buttonColors(Color(0xFF26408B)),
                 ) {
-                    Text("Add medicine",
+                    Text(
+                        "Add medicine",
                         fontWeight = FontWeight.SemiBold
                     )
                 }
             }
+        }
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun CalendarHeader(
+    month: YearMonth,
+    onPreviousMonth: () -> Unit,
+    onNextMonth: () -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        IconButton(onClick = onPreviousMonth) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                contentDescription = null,
+            )
+        }
+        Text(
+            text = month.format(
+                DateTimeFormatter.ofPattern("MMMM yyyy")
+            ),
+        )
+        IconButton(onClick = onNextMonth) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = null,
+            )
+        }
+    }
+}
+
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun CalendarScreen() {
+    var baseMonth by remember { mutableStateOf(YearMonth.now()) }
+    var currentMonth by remember { mutableStateOf(baseMonth) }
+    val canGoBack = currentMonth.isAfter(baseMonth)
+
+    Column {
+        CalendarHeader(
+            month = currentMonth,
+            onPreviousMonth = {
+                if (canGoBack) {
+                    currentMonth = currentMonth.minusMonths(1)
+                }
+            },
+            onNextMonth = { currentMonth = currentMonth.plusMonths(1) }
+        )
+    }
+    DateGrid(currentMonth)
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun CalendarGrid(month: YearMonth) {
+    val daysInMonth = month.format(
+        DateTimeFormatter.ofPattern("MMMM yyyy")
+    )
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun DateCard(
+    date: LocalDate,
+) {
+    Card(
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        elevation = CardDefaults.elevatedCardElevation(2.dp),
+        modifier = Modifier
+            .size(80.dp)
+            .clickable(
+                onClick = {}
+            )
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Text(
+                text = date.dayOfWeek.getDisplayName(
+                    TextStyle.SHORT,
+                    Locale.getDefault()
+                ).uppercase(),
+                color = Color.Black,
+                textAlign = TextAlign.Center
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                text = date.dayOfMonth.toString(),
+                color = Color.Black,
+                textAlign = TextAlign.Center
+            )
+        }
+    }
+}
+
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun getDatesForMonth(
+    month: YearMonth,
+    today: LocalDate = LocalDate.now()
+): List<LocalDate> {
+    val startDate =
+        if (month == YearMonth.from(today)) {
+            today
+        } else {
+            month.atDay(1)
+        }
+    val endDate = month.atEndOfMonth()
+
+    val displayDate = mutableListOf<LocalDate>()
+    var current = startDate
+    while (!current.isAfter(endDate)) {
+        displayDate.add(current)
+        current = current.plusDays(1)
+    }
+    return displayDate
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun DateGrid(
+    month: YearMonth,
+) {
+    val today = LocalDate.now()
+    val dates = getDatesForMonth(month, today)
+
+    LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        items(dates) { item ->
+            DateCard(item)
         }
     }
 }
