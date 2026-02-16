@@ -1,5 +1,7 @@
 package com.example.medcare.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
@@ -43,6 +45,7 @@ import com.example.medcare.splashScreen.AuthSplashScreen
 import com.example.medcare.splashScreen.hPager
 import com.example.medcare.splashScreen.splashscreen
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NavGraph(navHostController: NavHostController, modifier: Modifier) {
     NavHost(navHostController, startDestination = NavRoute.Splash.path) {
@@ -368,6 +371,7 @@ fun addMedicineScreen(navHostController: NavHostController, navGraphBuilder: Nav
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun addSavedReminder(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
         route = NavRoute.savedReminder.path.plus("/{medName}/{dosage}/{timings}"),
@@ -387,7 +391,8 @@ fun addSavedReminder(navHostController: NavHostController, navGraphBuilder: NavG
         val dosage: String = it.arguments?.getString("dosage").toString()
         val timings: String = it.arguments?.getString("timings").toString()
         ReminderFilled(medName,dosage,timings,
-            back = {navHostController.popBackStack()})
+            back = {navHostController.popBackStack()}
+        )
     }
 }
 
@@ -464,7 +469,9 @@ fun addPrescriptionHistScreen(navHostController: NavHostController, navGraphBuil
     navGraphBuilder.composable(
         route = NavRoute.presHist.path
     ) {
-        PrescriptionHistory()
+        PrescriptionHistory(
+            back = {navHostController.popBackStack()}
+        )
     }
 }
 
@@ -472,7 +479,9 @@ fun addHealthHistScreen(navHostController: NavHostController, navGraphBuilder: N
     navGraphBuilder.composable(
         route = NavRoute.healthHist.path
     ) {
-        HealthHistory()
+        HealthHistory(
+            back = {navHostController.popBackStack()}
+        )
     }
 }
 
@@ -480,7 +489,9 @@ fun addTransactionScreen(navHostController: NavHostController, navGraphBuilder: 
     navGraphBuilder.composable(
         route = NavRoute.transactions.path
     ) {
-        Transactions()
+        Transactions(
+            back = {navHostController.popBackStack()}
+        )
     }
 }
 
@@ -488,7 +499,9 @@ fun addAccSettScreen(navHostController: NavHostController, navGraphBuilder: NavG
     navGraphBuilder.composable(
         route = NavRoute.accSett.path
     ) {
-        AccountSettings()
+        AccountSettings(
+            back = {navHostController.popBackStack()}
+        )
     }
 }
 

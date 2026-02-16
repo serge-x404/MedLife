@@ -1,5 +1,7 @@
 package com.example.medcare.specialization
 
+import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +20,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -49,12 +52,15 @@ fun Specialist(
             )
         }
     ) { innerPadding ->
-        Column(Modifier.padding(innerPadding)
+        Column(Modifier
+            .padding(innerPadding)
             .padding(12.dp)) {
             LazyVerticalGrid(GridCells.Fixed(4),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = Modifier.height(700.dp)) {
+                modifier = Modifier
+                    .height(700.dp)
+            ) {
                 items(speciality.specialityData) {
                     item -> SpecialityLayout(item)
                 }

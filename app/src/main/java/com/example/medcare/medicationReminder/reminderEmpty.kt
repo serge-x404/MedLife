@@ -49,9 +49,7 @@ import com.example.medcare.class_objects.dates
     showSystemUi = true
 )
 @Composable
-fun ReminderEmpty(
-    back: () -> Unit
-) {
+fun ReminderEmpty() {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -63,7 +61,7 @@ fun ReminderEmpty(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = back) {
+                    IconButton(onClick = {}) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                             contentDescription = null

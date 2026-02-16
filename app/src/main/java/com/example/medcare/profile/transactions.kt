@@ -12,6 +12,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,17 +27,23 @@ import com.example.medcare.class_objects.Transaction
 @Preview(showBackground = true,
     showSystemUi = true)
 @Composable
-fun Transactions() {
+fun Transactions(
+    back: () -> Unit
+) {
     Scaffold(
         topBar = { CenterAlignedTopAppBar(
             title = { Text("Transaction",
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 16.sp
             ) },
-            navigationIcon = { Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                contentDescription = null
-            ) }
+            navigationIcon = {
+                IconButton(onClick = back) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                        contentDescription = null
+                    )
+                }
+            }
         ) }
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {

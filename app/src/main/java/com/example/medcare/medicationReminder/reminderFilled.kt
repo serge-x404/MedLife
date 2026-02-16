@@ -42,7 +42,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medcare.R
@@ -92,54 +91,74 @@ fun ReminderFilled(
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
                     CalendarScreen()
-
                     Spacer(Modifier.height(20.dp))
-                    Text(
-                        "Today, 20 February, 2024",
-                        fontSize = 16.sp,
-                        textAlign = TextAlign.Center,
-                        color = Color(0xFF4D4D4D)
-                    )
-                    Spacer(Modifier.height(20.dp))
-                    Column(Modifier.padding(horizontal = 12.dp)) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Start,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .border(1.dp, color = Color(0xFFE3E3E3))
-                                .padding(10.dp)
+                    if(medName == "") {
+                        Column(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(top = 100.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
                         ) {
                             Image(
-                                painter = painterResource(R.drawable.paracetamol),
+                                painter = painterResource(R.drawable.reminder_med),
                                 contentDescription = null,
-                                modifier = Modifier.size(34.dp)
+                                modifier = Modifier.size(160.dp)
                             )
-                            Spacer(Modifier.width(10.dp))
-                            Column {
-                                Text(
-                                    medName,
-                                    fontWeight = FontWeight.SemiBold,
-                                    fontSize = 14.sp
+                            Spacer(Modifier.height(8.dp))
+                            Text(
+                                "No medication scheduled for today",
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 16.sp
+                            )
+                            Spacer(Modifier.height(4.dp))
+                            Text(
+                                "Click add medicine below to add a schedule",
+                                fontWeight = FontWeight.Normal,
+                                color = Color(0xFF4D4D4D)
+                            )
+                        }
+                    }
+                    else {
+                        Column(Modifier.padding(horizontal = 12.dp)) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Start,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .border(1.dp, color = Color(0xFFE3E3E3))
+                                    .padding(10.dp)
+                            ) {
+                                Image(
+                                    painter = painterResource(R.drawable.paracetamol),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(34.dp)
                                 )
-                                Spacer(Modifier.height(4.dp))
-                                Row {
+                                Spacer(Modifier.width(10.dp))
+                                Column {
                                     Text(
-                                        dosage,
+                                        medName,
+                                        fontWeight = FontWeight.SemiBold,
                                         fontSize = 14.sp
                                     )
-                                    Spacer(Modifier.width(4.dp))
-                                    Text(
-                                        timings,
-                                        fontSize = 14.sp
-                                    )
+                                    Spacer(Modifier.height(4.dp))
+                                    Row {
+                                        Text(
+                                            dosage,
+                                            fontSize = 14.sp
+                                        )
+                                        Spacer(Modifier.width(4.dp))
+                                        Text(
+                                            timings,
+                                            fontSize = 14.sp
+                                        )
+                                    }
                                 }
                             }
                         }
                     }
                 }
                 Button(
-                    onClick = {},
+                    onClick = back,
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.BottomCenter),
@@ -194,6 +213,7 @@ fun CalendarScreen() {
     var baseMonth by remember { mutableStateOf(YearMonth.now()) }
     var currentMonth by remember { mutableStateOf(baseMonth) }
     val canGoBack = currentMonth.isAfter(baseMonth)
+    var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
 
     Column {
         CalendarHeader(
@@ -203,10 +223,16 @@ fun CalendarScreen() {
                     currentMonth = currentMonth.minusMonths(1)
                 }
             },
-            onNextMonth = { currentMonth = currentMonth.plusMonths(1) }
+            onNextMonth = { currentMonth = currentMonth.plusMonths(1)
+            }
         )
     }
-    DateGrid(currentMonth)
+    DateGrid(
+        currentMonth,
+        onDateSelected = { selectedDate = it }
+    )
+    Spacer(Modifier.height(20.dp))
+    DateDisplay(selectedDate)
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -221,14 +247,15 @@ fun CalendarGrid(month: YearMonth) {
 @Composable
 fun DateCard(
     date: LocalDate,
+    onClick: () -> Unit
 ) {
     Card(
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.elevatedCardElevation(2.dp),
         modifier = Modifier
-            .size(80.dp)
+            .size(70.dp)
             .clickable(
-                onClick = {}
+                onClick = onClick
             )
     ) {
         Column(
@@ -281,13 +308,46 @@ fun getDatesForMonth(
 @Composable
 fun DateGrid(
     month: YearMonth,
+    onDateSelected: (LocalDate) -> Unit
 ) {
     val today = LocalDate.now()
     val dates = getDatesForMonth(month, today)
 
     LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         items(dates) { item ->
-            DateCard(item)
+            DateCard(
+                item,
+                onClick = { onDateSelected(item) }
+            )
         }
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun DateDisplay(selectedDate: LocalDate?) {
+    val selectedDate = selectedDate?.let { dateFormat(it) }?.format(
+        DateTimeFormatter.ofPattern("dd MMMM yyyy")
+    )
+
+    Text(
+        text = selectedDate?: "No date selected",
+        fontSize = 14.sp,
+        textAlign = TextAlign.Center
+    )
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun dateFormat(date: LocalDate): String {
+    val today = LocalDate.now()
+    val tomorrow = today.plusDays(1)
+
+    val formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
+
+    return when(date) {
+        today -> "Today, ${today.format(formatter)}"
+        tomorrow -> "Tomorrow, ${tomorrow.format(formatter)}"
+        else -> date.format(formatter)
     }
 }

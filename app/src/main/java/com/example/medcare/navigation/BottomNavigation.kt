@@ -21,8 +21,7 @@ fun BottomNavigation(navController: NavController) {
 
     val backStackEntry by navController.currentBackStackEntryAsState()
 
-    var currentRoute = backStackEntry?.destination?.route
-
+    val currentRoute = backStackEntry?.destination?.route
     NavigationBar(
         tonalElevation = 4.dp,
         containerColor = MaterialTheme.colorScheme.surfaceContainer

@@ -154,7 +154,7 @@ fun MedicationReminder(
                                     modifier = Modifier.weight(1f)
                                 )
                                 Icon(
-                                    imageVector = if (expandedDosage) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                                    imageVector = if (expandedMediName) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
                                     contentDescription = null,
                                     modifier = Modifier
                                         .size(20.dp)
