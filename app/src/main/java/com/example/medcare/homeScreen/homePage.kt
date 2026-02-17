@@ -83,7 +83,6 @@ fun HomeScreen(
     navigateToHospital: () -> Unit
 
 ) {
-//    val userName = "serge"
     Scaffold(topBar = {
         TopAppBar(title = { Text(text = "Hi, Alex") }, actions = {
             IconButton(onClick = {

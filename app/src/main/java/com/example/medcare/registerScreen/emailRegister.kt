@@ -2,6 +2,7 @@ package com.example.medcare.registerScreen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,13 +10,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,7 +37,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Popup
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.Date
+import java.util.Locale
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview(
     showBackground = true,
     showSystemUi = true
@@ -37,6 +51,9 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun EmailRegister() {
     var checked by remember { mutableStateOf(false) }
+    var showDatePicker by remember { mutableStateOf(false) }
+    val datePickerState = rememberDatePickerState()
+    val selectedDate = datePickerState.selectedDateMillis?.let {convertMillisToDate(it) }?:""
     Scaffold { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
             Column(Modifier.padding(horizontal = 12.dp)) {
@@ -72,7 +89,7 @@ fun EmailRegister() {
                 )
                 OutlinedTextField(
                     value = "",
-                    label = { Text("Choose your gender") },
+                    placeholder = { Text("Choose your gender") },
                     onValueChange = {}
                 )
                 Spacer(Modifier.height(20.dp))
@@ -83,9 +100,31 @@ fun EmailRegister() {
                     fontSize = 16.sp
                 )
                 OutlinedTextField(
-                    value = "",
-                    label = { Text("Enter your date of birth") },
-                    onValueChange = {}
+                    value = selectedDate,
+                    placeholder = { Text("Enter your date of birth") },
+                    onValueChange = {},
+                    readOnly = true,
+                    trailingIcon = {
+                        IconButton(onClick = {showDatePicker = !showDatePicker}) {
+                            Icon(
+                                imageVector = Icons.Default.DateRange,
+                                contentDescription = null
+                            )
+                            if (showDatePicker) {
+                                Popup(
+                                    onDismissRequest = { showDatePicker = false },
+                                    alignment = Alignment.Center
+                                ) {
+                                    Box {
+                                        DatePicker(
+                                            state = datePickerState,
+                                            showModeToggle = false
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
                 )
                 Spacer(Modifier.height(20.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
@@ -134,4 +173,10 @@ fun EmailRegister() {
             }
         }
     }
+}
+
+@Composable
+fun convertMillisToDate(millis: Long): String {
+    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    return formatter.format(Date(millis))
 }

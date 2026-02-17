@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavGraph
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -39,6 +40,7 @@ import com.example.medcare.profile.pharma.AdminCred
 import com.example.medcare.profile.pharma.RegisterPharma
 import com.example.medcare.servicesScreen.ServicesScreen
 import com.example.medcare.servicesScreen.chatDoc.ChatDoctorScreen
+import com.example.medcare.servicesScreen.chatDoc.Confirmation
 import com.example.medcare.servicesScreen.chatDoc.DoctorDetails
 import com.example.medcare.specialization.Specialist
 import com.example.medcare.splashScreen.AuthSplashScreen
@@ -66,6 +68,7 @@ fun NavGraph(navHostController: NavHostController, modifier: Modifier) {
         addMedGrid(navHostController,this)
         addMedDesc(navHostController,this)
         addDocDtls(navHostController,this)
+        addAppointmentScreen(navHostController,this)
         addHospiDetailsScreen(navHostController,this)
         addHospitalScreen(navHostController,this)
         addHospiLocScreen(navHostController,this)
@@ -338,11 +341,22 @@ fun addDocDtls(navHostController: NavHostController, navGraphBuilder: NavGraphBu
         route = NavRoute.DocDtls.path
     ) {
         DoctorDetails(
-            back = {navHostController.popBackStack()}
+            back = {navHostController.popBackStack()},
+            navigateToAppointment = { navHostController.navigate(NavRoute.Appointment.path) }
         )
     }
 }
 
+
+fun addAppointmentScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
+    navGraphBuilder.composable(
+        route = NavRoute.Appointment.path
+    ) {
+        Confirmation(
+            back = { navHostController.popBackStack() }
+        )
+    }
+}
 fun addMedReminderScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
         route = NavRoute.medReminder.path

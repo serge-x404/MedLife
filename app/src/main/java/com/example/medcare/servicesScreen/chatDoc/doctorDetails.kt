@@ -15,13 +15,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
@@ -67,63 +70,36 @@ import com.example.medcare.class_objects.review
 )
 @Composable
 fun DoctorDetails(
-    back: () -> Unit
+    back: () -> Unit,
+    navigateToAppointment: () -> Unit
 ) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                Text(
-                    text = "Doctor Details", fontSize = 15.sp, fontWeight = FontWeight.Bold
-                )
-            }, navigationIcon = { IconButton(onClick = back) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                        contentDescription = null
+                    Text(
+                        text = "Doctor Details", fontSize = 15.sp, fontWeight = FontWeight.Bold
                     )
-                } }, actions = {
-                Icon(
-                    imageVector = Icons.Default.Share, contentDescription = null
-                )
-            }, colors = TopAppBarDefaults.topAppBarColors(Color(0XFFF6F1FF)),
+                },
+                navigationIcon = {
+                    IconButton(onClick = back) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                            contentDescription = null
+                        )
+                    }
+                },
+                actions = {
+                    Icon(
+                        imageVector = Icons.Default.Share, contentDescription = null
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors(Color(0XFFF6F1FF)),
             )
-        },
-        bottomBar = {
-            BottomAppBar() {
-                Row(horizontalArrangement = Arrangement.spacedBy(5.dp),
-                    modifier = Modifier.padding(horizontal = 16.dp)) {
-                    Button(
-                        onClick = {},
-                        modifier = Modifier.weight(1f),
-                        colors = ButtonDefaults.buttonColors(Color.White),
-                        border = BorderStroke(width = 1.dp, color = Color(0xFF26408B))
-                    ) {
-                        Image(
-                            painter = painterResource(R.drawable.chat),
-                            contentDescription = null,
-                            Modifier.size(28.dp)
-                        )
-                        Text(
-                            text = "Chat",
-                            fontSize = 19.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color(0xFF26408B)
-                        )
-                    }
-                    Button(
-                        onClick = {},
-                        modifier = Modifier.weight(2f),
-                        colors = ButtonDefaults.buttonColors(Color(0xFF26408B))
-                    ) {
-                        Text(
-                            text = "Make an Appointment",
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-            }
-        }) { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding)) {
+        }
+    ) { innerPadding ->
+        Column(modifier = Modifier.padding(innerPadding)
+            .verticalScroll(rememberScrollState())) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
@@ -165,7 +141,7 @@ fun DoctorDetails(
                 }
             }
             Spacer(Modifier.height(20.dp))
-            Column() {
+            Column {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
@@ -208,17 +184,19 @@ fun DoctorDetails(
                     }
                 }
                 Spacer(Modifier.height(14.dp))
-                Column(modifier = Modifier.padding(start = 40.dp, end = 40.dp)) {
+                Column(modifier = Modifier.padding(horizontal = 20.dp)) {
                     Text(
                         text = "Practice Location",
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp
                     )
                     Spacer(Modifier.height(10.dp))
-                    Row(modifier = Modifier
-                        .background(Color(0xFFF9F8FD))
-                        .fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically) {
+                    Row(
+                        modifier = Modifier
+                            .background(Color(0xFFF9F8FD))
+                            .fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         Text(
                             text = "Rossi Cardiology Clinic",
                             fontSize = 14.sp,
@@ -231,16 +209,19 @@ fun DoctorDetails(
                         )
                     }
                     Spacer(Modifier.height(18.dp))
-                    Text("Working Hours",
+                    Text(
+                        "Working Hours",
                         fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp)
+                        fontSize = 16.sp
+                    )
                     Spacer(Modifier.height(10.dp))
-                    LazyVerticalGrid(GridCells.Fixed(4),
+                    LazyVerticalGrid(
+                        GridCells.Fixed(4),
                         modifier = Modifier.height(80.dp),
                         verticalArrangement = Arrangement.spacedBy(10.dp),
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                        items(docWorkHrs.workingHours) {
-                            item ->
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        items(docWorkHrs.workingHours) { item ->
                             doctorWorkingHours(item)
                         }
                     }
@@ -251,10 +232,11 @@ fun DoctorDetails(
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(Modifier.height(5.dp))
-                    LazyRow(modifier = Modifier,
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                        items(dates.dates) {
-                            item ->
+                    LazyRow(
+                        modifier = Modifier,
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        items(dates.dates) { item ->
                             selectionDate(item)
                         }
                     }
@@ -266,11 +248,50 @@ fun DoctorDetails(
                     )
                     Spacer(Modifier.height(4.dp))
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        items(review.reviews) {
-                            item ->
+                        items(review.reviews) { item ->
                             Reviews(item)
                         }
                     }
+                }
+            }
+            Spacer(Modifier.height(50.dp))
+        }
+        Box(modifier = Modifier.fillMaxSize()
+            .padding(vertical = 24.dp),
+            contentAlignment = Alignment.BottomCenter) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(5.dp),
+                modifier = Modifier.padding(horizontal = 16.dp)
+            ) {
+                Button(
+                    onClick = {},
+                    modifier = Modifier.weight(1f),
+                    colors = ButtonDefaults.buttonColors(Color.White),
+                    border = BorderStroke(width = 1.dp, color = Color(0xFF26408B))
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.chat),
+                        contentDescription = null,
+                        Modifier
+                            .size(28.dp)
+                            .weight(1f)
+                    )
+                    Text(
+                        text = "Chat",
+                        fontSize = 19.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF26408B)
+                    )
+                }
+                Button(
+                    onClick = navigateToAppointment,
+                    modifier = Modifier.weight(2f),
+                    colors = ButtonDefaults.buttonColors(Color(0xFF26408B))
+                ) {
+                    Text(
+                        text = "Make an Appointment",
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
         }
