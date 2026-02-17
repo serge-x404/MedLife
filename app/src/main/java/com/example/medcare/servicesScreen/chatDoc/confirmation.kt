@@ -82,7 +82,8 @@ import kotlin.math.roundToInt
 )
 @Composable
 fun Confirmation(
-    back: () -> Unit
+    back: () -> Unit,
+    navigateToAppointmentSuccess: () -> Unit
 ) {
     var checked by remember { mutableStateOf(false) }
     Scaffold(
@@ -269,7 +270,7 @@ fun Confirmation(
                 .padding(vertical = 16.dp),
                 contentAlignment = Alignment.BottomCenter
             ) {
-                SwipeToConfirmButton()
+                SwipeToConfirmButton(navigateToAppointmentSuccess)
             }
         }
     }
@@ -307,9 +308,10 @@ fun Confirmation(
 //}
 
 
-@Preview(showBackground = true)
 @Composable
-fun SwipeToConfirmButton() {
+fun SwipeToConfirmButton(
+    navigateToAppointmentSuccess: () -> Unit
+) {
     Box {
         val width = 320.dp
         val height = 56.dp
@@ -325,8 +327,8 @@ fun SwipeToConfirmButton() {
         val animatedOffset by animateFloatAsState(
             targetValue = offsetX,
             animationSpec = spring(
-                dampingRatio = Spring.DampingRatioMediumBouncy,
-                stiffness = Spring.StiffnessMedium
+                dampingRatio = Spring.DampingRatioNoBouncy,
+                stiffness = Spring.StiffnessLow
             ),
             label = "SwipeOffset"
         )
@@ -378,6 +380,8 @@ fun SwipeToConfirmButton() {
                                         Toast.LENGTH_SHORT
                                     )
                                     .show()
+
+                                navigateToAppointmentSuccess()
                             } else {
                                 offsetX = 0f
                             }

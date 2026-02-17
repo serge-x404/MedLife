@@ -39,6 +39,7 @@ import com.example.medcare.profile.Transactions
 import com.example.medcare.profile.pharma.AdminCred
 import com.example.medcare.profile.pharma.RegisterPharma
 import com.example.medcare.servicesScreen.ServicesScreen
+import com.example.medcare.servicesScreen.chatDoc.AppointmentSuccess
 import com.example.medcare.servicesScreen.chatDoc.ChatDoctorScreen
 import com.example.medcare.servicesScreen.chatDoc.Confirmation
 import com.example.medcare.servicesScreen.chatDoc.DoctorDetails
@@ -69,6 +70,7 @@ fun NavGraph(navHostController: NavHostController, modifier: Modifier) {
         addMedDesc(navHostController,this)
         addDocDtls(navHostController,this)
         addAppointmentScreen(navHostController,this)
+        addAppointmentSuccessScreen(navHostController,this)
         addHospiDetailsScreen(navHostController,this)
         addHospitalScreen(navHostController,this)
         addHospiLocScreen(navHostController,this)
@@ -353,7 +355,26 @@ fun addAppointmentScreen(navHostController: NavHostController, navGraphBuilder: 
         route = NavRoute.Appointment.path
     ) {
         Confirmation(
-            back = { navHostController.popBackStack() }
+            back = { navHostController.popBackStack() },
+            navigateToAppointmentSuccess = {
+                navHostController.navigate(NavRoute.appointmentSuccess.path)
+            }
+        )
+    }
+}
+
+fun addAppointmentSuccessScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
+    navGraphBuilder.composable(
+        route = NavRoute.appointmentSuccess.path
+    ) {
+        AppointmentSuccess(
+            navigateToHistory = {
+                navHostController.navigate(NavRoute.History.path) {
+                    popUpTo(NavRoute.Services.path) {
+                        inclusive = true
+                    }
+                }
+            }
         )
     }
 }

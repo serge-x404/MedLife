@@ -28,7 +28,9 @@ import com.example.medcare.R
 @Preview(showBackground = true,
     showSystemUi = true)
 @Composable
-fun AppointmentSuccess() {
+fun AppointmentSuccess(
+    navigateToHistory: () -> Unit
+) {
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier = Modifier.fillMaxSize()) {
@@ -52,7 +54,7 @@ fun AppointmentSuccess() {
             color = Color(0xFF4D4D4D)
         )
         Spacer(Modifier.height(20.dp))
-        Button(onClick = {},
+        Button(onClick = navigateToHistory,
             colors = ButtonDefaults.buttonColors(containerColor = Color.White),
             border = BorderStroke(width = 1.dp, color = Color(0xFFA6CFD5)),
             modifier = Modifier.fillMaxWidth()
