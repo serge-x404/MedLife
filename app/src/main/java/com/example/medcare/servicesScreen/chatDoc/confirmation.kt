@@ -40,6 +40,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -77,9 +78,6 @@ import kotlin.math.roundToInt
 
 @SuppressLint("InvalidColorHexValue")
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(
-    showBackground = true, showSystemUi = true
-)
 @Composable
 fun Confirmation(
     back: () -> Unit,
@@ -90,13 +88,16 @@ fun Confirmation(
         topBar = {
             CenterAlignedTopAppBar(title = {
                 Text(
-                    text = "Confirmation", fontWeight = FontWeight.Bold, fontSize = 15.sp
+                    text = "Confirmation",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.primary
                 )
             }, navigationIcon = {
                 IconButton(onClick = back) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                        contentDescription = null
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.surfaceTint
                     )
                 }
             })
@@ -104,8 +105,7 @@ fun Confirmation(
         Column(Modifier.padding(innerPadding)) {
             Column(Modifier.padding(horizontal = 20.dp)) {
                 Card(
-                    onClick = {},
-                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
                     modifier = Modifier,
                     elevation = CardDefaults.elevatedCardElevation(6.dp)
                 ) {
@@ -126,11 +126,11 @@ fun Confirmation(
                         Column {
                             Text(
                                 text = "Dr. Luca Rossi",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 22.sp
+                                style = MaterialTheme.typography.titleLarge
                             )
                             Text(
-                                text = "Cardiology Specialist"
+                                text = "Cardiology Specialist",
+                                style = MaterialTheme.typography.labelLarge
                             )
                         }
                     }
@@ -143,73 +143,70 @@ fun Confirmation(
                     ) {
                         Column(
                             modifier = Modifier
-                                .border(BorderStroke(2.dp, Color(0xFFE3E3E3)))
+                                .background(MaterialTheme.colorScheme.secondaryContainer)
+                                .border(BorderStroke(2.dp, MaterialTheme.colorScheme.onSecondaryContainer))
                                 .padding(8.dp)
                         ) {
                             Text(
                                 text = "Education",
-                                fontWeight = FontWeight.Normal,
-                                color = Color.Gray,
-                                fontSize = 12.sp
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.secondary
                             )
                             Text(
                                 text = "University of Milan",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color(0xFF26408B)
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.primary
                             )
                         }
                         Column(
                             modifier = Modifier
-                                .border(BorderStroke(2.dp, Color(0xFFE3E3E3)))
+                                .background(MaterialTheme.colorScheme.secondaryContainer)
+                                .border(BorderStroke(2.dp, MaterialTheme.colorScheme.onSecondaryContainer))
                                 .padding(8.dp)
                         ) {
                             Text(
                                 text = "License",
-                                fontWeight = FontWeight.Normal,
-                                color = Color.Gray,
-                                fontSize = 12.sp
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.secondary
                             )
                             Text(
                                 text = "1276126552881",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color(0xFF26408B)
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.primary
                             )
                         }
                     }
                 }
                 Spacer(Modifier.height(20.dp))
                 Card(
-                    onClick = {},
-                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
                     modifier = Modifier.fillMaxWidth(),
                     elevation = CardDefaults.elevatedCardElevation(6.dp)
                 ) {
                     Column(modifier = Modifier.padding(15.dp)) {
                         Text(
                             text = "Detail Appointment",
-                            color = Color(0xFF26408B),
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.secondary
                         )
                         Spacer(Modifier.height(10.dp))
                         HorizontalDivider()
                         Spacer(Modifier.height(6.dp))
                         Text(
                             text = "Date & Time",
-                            color = Color(0xFF4D4D4D)
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.secondary
                         )
                         Spacer(Modifier.height(2.dp))
                         Text(
                             text = "Wednesday, 22 Feb 1.00PM",
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold
+                            style = MaterialTheme.typography.titleMedium
                         )
                         Spacer(Modifier.height(12.dp))
                         Text(
                             text = "Location",
-                            color = Color(0xFFF4D4D4D)
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.secondary
                         )
                         Spacer(Modifier.height(2.dp))
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -217,27 +214,27 @@ fun Confirmation(
                                 text = "Rossi Cardiology Clinic\n" +
                                         "Via Garibaldi 15, Milan, Italy",
                                 maxLines = 2,
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold,
+                                style = MaterialTheme.typography.titleMedium,
                                 modifier = Modifier.weight(1f)
                             )
                             Text(
                                 text = "See Maps",
-                                color = Color(0xFF26408B)
+                                style = MaterialTheme.typography.labelLarge,
+                                color = MaterialTheme.colorScheme.primary
                             )
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                                 contentDescription = null,
-                                tint = Color(0xFF26408B)
+                                tint = MaterialTheme.colorScheme.surfaceTint
                             )
                         }
                     }
                 }
                 Spacer(Modifier.height(20.dp))
                 Card(
-                    onClick = {},
-                    colors = CardDefaults.cardColors(containerColor = Color.White),
-                    border = BorderStroke(width = 1.dp, color = Color(0xFFC2E7D9)),
+                    onClick = {checked = !checked},
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background),
+                    border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.onSurfaceVariant),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Row(
@@ -248,19 +245,19 @@ fun Confirmation(
                             painter = painterResource(R.drawable.bell),
                             contentDescription = null,
                             Modifier.size(20.dp),
-                            colorFilter = ColorFilter.tint(Color(0xFF26408B))
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.surfaceTint)
                         )
                         Spacer(Modifier.width(10.dp))
                         Text(
                             text = "Activate notifications",
-                            color = Color(0xFFF4D4D4D),
+                            style = MaterialTheme.typography.labelLarge,
                             modifier = Modifier.weight(1f)
                         )
                         Switch(
                             checked = checked,
                             onCheckedChange = { checked = it },
                             colors = SwitchDefaults.colors(
-                                checkedTrackColor = Color(0xFF26408B)
+                                checkedTrackColor = MaterialTheme.colorScheme.surfaceTint
                             )
                         )
                     }
@@ -338,18 +335,18 @@ fun SwipeToConfirmButton(
                 .width(width)
                 .height(height)
                 .clip(RoundedCornerShape(cornerRadius))
-                .background(Color(0xFF26408B))
+                .background(MaterialTheme.colorScheme.surfaceContainer)
                 .border(
                     1.dp,
-                    Color(0xFFE0E0E0),
+                    MaterialTheme.colorScheme.surfaceTint,
                     RoundedCornerShape(cornerRadius)
                 ),
             contentAlignment = Alignment.Center
         ) {
             Text(
                 text = if (confirmed) "Appointment scheduled" else "Swipe to confirm",
-                color = Color.White,
-                fontWeight = FontWeight.SemiBold
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MaterialTheme.typography.labelLarge
             )
 
             val context = LocalContext.current
@@ -361,7 +358,7 @@ fun SwipeToConfirmButton(
                     .size(thumbSize)
                     .align(Alignment.CenterStart)
                     .clip(CircleShape)
-                    .background(Color.White)
+                    .background(MaterialTheme.colorScheme.primaryContainer)
                     .draggable(
                         enabled = !confirmed,
                         orientation = Orientation.Horizontal,
@@ -395,7 +392,7 @@ fun SwipeToConfirmButton(
                     else
                         Icons.AutoMirrored.Filled.ArrowForward,
                     contentDescription = null,
-                    tint = Color.Black
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
         }

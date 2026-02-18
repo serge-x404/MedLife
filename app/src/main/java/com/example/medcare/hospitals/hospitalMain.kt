@@ -21,11 +21,13 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,7 +54,8 @@ fun HospitalMain(
                         placeholder = { Text("Search product or store") },
                         leadingIcon = { Icon(
                             imageVector = Icons.Filled.Search,
-                            contentDescription = null
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.surfaceTint
                         )},
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -61,7 +64,8 @@ fun HospitalMain(
                     IconButton(onClick = back) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                            contentDescription = null
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.surfaceTint
                         )
                     }
                 }
@@ -72,19 +76,21 @@ fun HospitalMain(
             Column(modifier = Modifier.padding(horizontal = 25.dp)) {
                 Spacer(Modifier.height(30.dp))
                 Row(horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .border(BorderStroke(1.dp, Color(0xFFE3E3E3)),
+                        .border(BorderStroke(1.dp, MaterialTheme.colorScheme.surfaceTint),
                             shape = RoundedCornerShape(8.dp))
                         .padding(15.dp)) {
                     Text(
                         text = "Search Provinces",
-                        color = Color(0xFF26408B),
-                        fontSize = 18.sp,
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.labelLarge,
                         modifier = Modifier.weight(1f)
                     )
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowDown,
-                        contentDescription = null
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.surfaceTint
                     )
                 }
                 Spacer(Modifier.height(20.dp))

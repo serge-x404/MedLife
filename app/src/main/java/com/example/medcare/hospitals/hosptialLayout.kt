@@ -21,11 +21,13 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -45,8 +47,8 @@ fun HospitalLayout(hospital: ListHospital,
     Card(onClick = {
         navigateToDetail()
     },
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        border = BorderStroke(1.dp, Color(0xFFC2E7D9))
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.surfaceTint)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -59,29 +61,27 @@ fun HospitalLayout(hospital: ListHospital,
                 Column {
                     Text(
                         text = hospital.hospitalName,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
+                        style = MaterialTheme.typography.titleMedium
                     )
                     Spacer(Modifier.height(4.dp))
                     Text(
                         text = hospital.hospitalLocation,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Normal,
-                        color = Color(0xFF4D4D4D)
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
                     )
-                    Spacer(Modifier.height(4.dp))
+                    Spacer(Modifier.height(10.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             painter = painterResource(R.drawable.phone),
                             contentDescription = null,
-                            modifier = Modifier.size(16.dp)
+                            modifier = Modifier.size(16.dp),
+                            tint = MaterialTheme.colorScheme.surfaceTint
                         )
                         Spacer(Modifier.width(6.dp))
                         Text(
                             text = hospital.hospitalNumber,
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color(0xFF26408B)
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer
                         )
                     }
                 }
@@ -95,28 +95,33 @@ fun HospitalLayout(hospital: ListHospital,
                     onClick = {
                         navigateToDetail()
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-                    border = BorderStroke(1.dp, Color(0xFF26408B)),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurfaceVariant),
                     modifier = Modifier.weight(1f)
                 ) {
                     Text(
                         text = "Bed detail",
-                        color = Color(0xFF26408B)
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
                 Spacer(Modifier.width(10.dp))
                 Button(onClick = {
                     navigateToMap()
                 },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF26408B)),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.onPrimaryContainer),
                     modifier = Modifier.weight(1f)
                 ) {
                     Text(
-                        text = "Location"
+                        text = "Location",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                        contentDescription = null
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.surfaceTint
                     )
                 }
             }
@@ -127,23 +132,25 @@ fun HospitalLayout(hospital: ListHospital,
 
 @Composable
 fun SpecialitiesGrid(specialities: Specialities) {
-    Card(onClick = {},
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+    Card(
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
         elevation = CardDefaults.elevatedCardElevation(2.dp),
         modifier = Modifier
             .size(80.dp)
-            .padding(vertical = 6.dp)) {
+    ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxSize()) {
             Image(
                 painter = painterResource(specialities.image),
                 contentDescription = null,
-                modifier = Modifier.size(40.dp)
+                modifier = Modifier.size(40.dp),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.surfaceTint)
             )
             Text(
                 text = specialities.name,
-                fontSize = 12.sp,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 textAlign = TextAlign.Center
             )
         }
@@ -155,57 +162,62 @@ fun RoomGrid(rooms: Rooms) {
     Card(onClick = {},
         modifier = Modifier.padding(10.dp)
             .fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
         border = BorderStroke(1.dp, Color(0xFFC2E7D9))) {
         Column(modifier = Modifier.padding(15.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = rooms.roomName,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color(0xFF26408B)
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
                 Spacer(Modifier.width(4.dp))
                 Text(
                     text = "(4 persons per room)",
-                    fontWeight = FontWeight.Normal,
-                    color = Color(0xFF4D4D4D)
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
             Spacer(Modifier.height(4.dp))
             Row {
                 Text(
                     text = stringResource(R.string.t_bed),
-                    color = Color(0xFF4D4D4D)
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
                 Spacer(Modifier.width(4.dp))
                 Text(
                     text = rooms.totalBeds,
-                    fontWeight = FontWeight.SemiBold
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
             Spacer(Modifier.height(2.dp))
             Row {
                 Text(
                     text = stringResource(R.string.r_bed),
-                    color = Color(0xFF4D4D4D)
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
                 Spacer(Modifier.width(4.dp))
                 Text(
                     text = rooms.availableBeds,
-                    fontWeight = FontWeight.SemiBold
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
             Spacer(Modifier.height(4.dp))
             Row {
                 Text(
                     text = stringResource(R.string.price),
-                    color = Color(0xFF4D4D4D)
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
                 Spacer(Modifier.width(4.dp))
                 Text(
                     text = rooms.price,
-                    fontWeight = FontWeight.SemiBold
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
         }

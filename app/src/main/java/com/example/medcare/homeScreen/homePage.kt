@@ -134,13 +134,13 @@ fun HomeScreen(
                         .fillMaxWidth()
                         .height(150.dp)
                 ) {
-                    Column {
+                    Column(modifier = Modifier.padding(horizontal = 20.dp)
+                        .padding(top = 20.dp)) {
                         Text(
                             text = "Experience Seamless Healthcare Management with MedLife",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
                             color = Color.White,
-                            modifier = Modifier.padding(top = 30.dp, start = 20.dp)
                         )
                         Button(
                             onClick = {
@@ -148,7 +148,6 @@ fun HomeScreen(
                             },
                             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
                             shape = RectangleShape,
-                            modifier = Modifier.padding(start = 20.dp, top = 8.dp)
                         ) {
                             Row(verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.Center) {

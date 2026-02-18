@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -43,26 +44,26 @@ fun AppointmentSuccess(
         Text(
             text = "Appointments have been made",
             textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold
+            style = MaterialTheme.typography.titleSmall
         )
-        Spacer(Modifier.height(20.dp))
+        Spacer(Modifier.height(6.dp))
         Text(
             text = "Prepare your attendance well, arrive 30\n" +
                     "minutes before the appointed time",
             textAlign = TextAlign.Center,
-            maxLines = 2,
-            color = Color(0xFF4D4D4D)
+            style = MaterialTheme.typography.labelMedium,
+            maxLines = 2
         )
         Spacer(Modifier.height(20.dp))
         Button(onClick = navigateToHistory,
-            colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-            border = BorderStroke(width = 1.dp, color = Color(0xFFA6CFD5)),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+            border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.onSecondary),
             modifier = Modifier.fillMaxWidth()
                 .padding(horizontal = 80.dp)
         ) {
             Text(
                 text = "Go to details",
-                color = Color(0xFF26408B)
+                color = MaterialTheme.colorScheme.onSecondaryContainer
             )
         }
     }

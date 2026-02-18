@@ -1,6 +1,8 @@
 package com.example.medcare.servicesScreen.chatDoc
 
 import android.media.Image
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,6 +31,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.BottomAppBar
@@ -47,10 +51,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -58,19 +67,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medcare.R
+import com.example.medcare.class_objects.CalendarScreen
+import com.example.medcare.class_objects.DateGrid
+import com.example.medcare.class_objects.DateScreen
 import com.example.medcare.layoutsFile.Reviews
 import com.example.medcare.layoutsFile.doctorWorkingHours
 import com.example.medcare.layoutsFile.selectionDate
 import com.example.medcare.class_objects.dates
 import com.example.medcare.class_objects.docWorkHrs
 import com.example.medcare.class_objects.review
+import java.time.LocalDate
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DoctorDetails(
     back: () -> Unit,
     navigateToAppointment: () -> Unit
 ) {
+    var expanded by remember { mutableStateOf(false) }
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -101,7 +116,8 @@ fun DoctorDetails(
             )
         }
     ) { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding)
+        Column(modifier = Modifier
+            .padding(innerPadding)
             .verticalScroll(rememberScrollState())) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -112,7 +128,9 @@ fun DoctorDetails(
                 Card(
                     colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer)
                 ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.padding(bottom = 10.dp)
+                        ) {
                         Spacer(Modifier.height(10.dp))
                         Image(
                             painter = painterResource(R.drawable.dr_luca),
@@ -123,12 +141,12 @@ fun DoctorDetails(
                         )
                         Text(
                             text = "Dr. Luca Rossi",
-                            textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Bold,
+                            style = MaterialTheme.typography.titleMedium,
                             fontSize = 16.sp
                         )
                         Text(
-                            text = "Cardiology Specialist"
+                            text = "Cardiology Specialist",
+                            style = MaterialTheme.typography.labelMedium
                         )
                         Spacer(Modifier.height(5.dp))
                         Row {
@@ -143,7 +161,7 @@ fun DoctorDetails(
                     }
                 }
             }
-            Spacer(Modifier.height(20.dp))
+            Spacer(Modifier.height(14.dp))
             Column {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -151,38 +169,34 @@ fun DoctorDetails(
                 ) {
                     Column(
                         modifier = Modifier
-                            .border(BorderStroke(2.dp, Color(0xFFE3E3E3)))
+                            .border(BorderStroke(2.dp, MaterialTheme.colorScheme.surfaceTint))
                             .padding(8.dp)
                     ) {
                         Text(
                             text = "Education",
-                            fontWeight = FontWeight.Normal,
-                            color = Color.Gray,
-                            fontSize = 12.sp
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.secondary
                         )
                         Text(
                             text = "University of Milan",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color(0xFF26408B)
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.primary
                         )
                     }
                     Column(
                         modifier = Modifier
-                            .border(BorderStroke(2.dp, Color(0xFFE3E3E3)))
+                            .border(BorderStroke(2.dp, MaterialTheme.colorScheme.surfaceTint))
                             .padding(8.dp)
                     ) {
                         Text(
                             text = "License",
-                            fontWeight = FontWeight.Normal,
-                            color = Color.Gray,
-                            fontSize = 12.sp
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.secondary
                         )
                         Text(
                             text = "1276126552881",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color(0xFF26408B)
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.primary
                         )
                     }
                 }
@@ -190,32 +204,28 @@ fun DoctorDetails(
                 Column(modifier = Modifier.padding(horizontal = 20.dp)) {
                     Text(
                         text = "Practice Location",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.primary
                     )
-                    Spacer(Modifier.height(10.dp))
-                    Row(
-                        modifier = Modifier
-                            .background(Color(0xFFF9F8FD))
-                            .fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primaryContainer)
                     ) {
-                        Text(
-                            text = "Rossi Cardiology Clinic",
-                            fontSize = 14.sp,
-                            color = Color(0xFF26408B),
-                            modifier = Modifier.weight(1f)
-                        )
-                        Icon(
-                            imageVector = Icons.Default.ArrowDropDown,
-                            contentDescription = null
-                        )
+                        Row(verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(8.dp)) {
+                            Text(
+                                text = "Rossi Cardiology Clinic",
+                                style = MaterialTheme.typography.labelLarge,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                     Spacer(Modifier.height(18.dp))
                     Text(
                         "Working Hours",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.primary
                     )
                     Spacer(Modifier.height(10.dp))
                     LazyVerticalGrid(
@@ -231,23 +241,16 @@ fun DoctorDetails(
                     Spacer(Modifier.height(10.dp))
                     Text(
                         text = "Schedule",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.primary
                     )
                     Spacer(Modifier.height(5.dp))
-                    LazyRow(
-                        modifier = Modifier,
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        items(dates.dates) { item ->
-                            selectionDate(item)
-                        }
-                    }
+                    DateScreen()
                     Spacer(Modifier.height(10.dp))
                     Text(
                         text = "Review",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.primary
                     )
                     Spacer(Modifier.height(4.dp))
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -259,7 +262,8 @@ fun DoctorDetails(
             }
             Spacer(Modifier.height(50.dp))
         }
-        Box(modifier = Modifier.fillMaxSize()
+        Box(modifier = Modifier
+            .fillMaxSize()
             .padding(vertical = 24.dp),
             contentAlignment = Alignment.BottomCenter) {
             Row(
@@ -269,31 +273,33 @@ fun DoctorDetails(
                 Button(
                     onClick = {},
                     modifier = Modifier.weight(1f),
-                    colors = ButtonDefaults.buttonColors(Color.White),
-                    border = BorderStroke(width = 1.dp, color = Color(0xFF26408B))
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.surfaceContainer),
+                    border = BorderStroke(2.dp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 ) {
                     Image(
                         painter = painterResource(R.drawable.chat),
                         contentDescription = null,
                         Modifier
                             .size(28.dp)
-                            .weight(1f)
+                            .weight(1f),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant)
                     )
                     Text(
                         text = "Chat",
-                        fontSize = 19.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF26408B)
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
                 Button(
                     onClick = navigateToAppointment,
                     modifier = Modifier.weight(2f),
-                    colors = ButtonDefaults.buttonColors(Color(0xFF26408B))
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primaryContainer),
+                    border = BorderStroke(2.dp, color = MaterialTheme.colorScheme.onPrimaryContainer)
                 ) {
                     Text(
                         text = "Make an Appointment",
-                        fontWeight = FontWeight.Bold
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
             }

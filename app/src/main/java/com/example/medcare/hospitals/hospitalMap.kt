@@ -18,6 +18,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -46,9 +47,8 @@ fun HospitalMap(hospital: ListHospital) {
                 )
             }
             Card(
-                onClick = {},
-                colors = CardDefaults.cardColors(containerColor = Color.White),
-                border = BorderStroke(1.dp, Color(0xFFC2E7D9)),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.surfaceTint),
                 modifier = Modifier
                     .padding(22.dp)
                     .align(Alignment.BottomCenter)
@@ -64,29 +64,28 @@ fun HospitalMap(hospital: ListHospital) {
                         Column {
                             Text(
                                 text = hospital.hospitalName,
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onSecondaryContainer
                             )
                             Spacer(Modifier.height(4.dp))
                             Text(
                                 text = hospital.hospitalLocation,
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.Normal,
-                                color = Color(0xFF4D4D4D)
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onSecondaryContainer
                             )
                             Spacer(Modifier.height(4.dp))
                             Row {
                                 Icon(
                                     painter = painterResource(R.drawable.phone),
                                     contentDescription = null,
-                                    modifier = Modifier.size(16.dp)
+                                    modifier = Modifier.size(16.dp),
+                                    tint = MaterialTheme.colorScheme.surfaceTint
                                 )
                                 Spacer(Modifier.width(6.dp))
                                 Text(
                                     text = hospital.hospitalNumber,
-                                    fontSize = 12.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color(0xFF26408B)
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSecondaryContainer
                                 )
                             }
                         }
@@ -100,23 +99,27 @@ fun HospitalMap(hospital: ListHospital) {
                     ) {
                         Button(
                             onClick = {},
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-                            border = BorderStroke(1.dp, Color(0xFF26408B)),
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurfaceVariant),
                             modifier = Modifier.weight(1f)
                         ) {
                             Text(
                                 text = "Bed detail",
-                                color = Color(0xFF26408B)
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
                         Spacer(Modifier.width(10.dp))
                         Button(
                             onClick = {},
-                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF26408B)),
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.onPrimaryContainer),
                             modifier = Modifier.weight(1f)
                         ) {
                             Text(
-                                text = "Contact Now"
+                                text = "Contact Now",
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
                             )
                         }
                     }

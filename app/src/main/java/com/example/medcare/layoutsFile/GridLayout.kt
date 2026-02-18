@@ -28,6 +28,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -147,16 +151,22 @@ fun doctorsListGrid(
 
 @Composable
 fun doctorWorkingHours(hours: String) {
+    var selected by remember { mutableStateOf(false) }
     Card(
-        onClick = {},
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        border = BorderStroke(width = 2.dp, color = Color(0xFFE3E3E3)),
+        onClick = {selected = !selected},
+        colors = if (selected) CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
+        else CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+        border = if (selected){
+            BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.surfaceTint)
+        }
+        else BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.inverseOnSurface),
         shape = CardDefaults.shape,
         modifier = Modifier.size(height = 30.dp, width = 100.dp)
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Text(
                 text = hours,
+                style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier.align(Alignment.Center)
             )
         }
@@ -191,6 +201,7 @@ fun selectionDate(dateDay: DateDay) {
 fun Reviews(reviewContents: ReviewContents) {
     Card(
         onClick = {},
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primaryContainer),
         modifier = Modifier.size(height = 150.dp, width = 220.dp)
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
@@ -206,16 +217,21 @@ fun Reviews(reviewContents: ReviewContents) {
                 ) {
                     Text(
                         text = reviewContents.name,
-                        fontSize = 16.sp,
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                     Text(
                         text = reviewContents.timeperiod,
-                        fontSize = 12.sp
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
             }
+            Spacer(Modifier.height(4.dp))
             Text(
                 text = reviewContents.body,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 overflow = TextOverflow.Ellipsis
             )
         }
