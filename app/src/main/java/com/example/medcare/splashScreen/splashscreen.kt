@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -16,8 +17,6 @@ import androidx.compose.ui.unit.dp
 import com.example.medcare.R
 import kotlinx.coroutines.delay
 
-@Preview(showBackground = true,
-    showSystemUi = true)
 @Composable
 fun splashscreen(
     navigateToOnBoard: () -> Unit,
@@ -29,7 +28,7 @@ fun splashscreen(
         navigateToHome()
     }
 
-    Box(modifier = Modifier.background(Color(0xFF26408B))
+    Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)
         .fillMaxSize()) {
         val image = painterResource(R.drawable.medcare)
         Image(

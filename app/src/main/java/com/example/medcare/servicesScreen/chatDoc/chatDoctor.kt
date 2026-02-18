@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -45,8 +46,6 @@ import com.example.medcare.layoutsFile.doctorsListGrid
 import com.example.medcare.layoutsFile.gridViewLayout
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true,
-    showSystemUi = true)
 @Composable
 fun ChatDoctorScreen(
     back: () -> Unit,
@@ -56,13 +55,14 @@ fun ChatDoctorScreen(
         topBar = { TopAppBar(
             title = { Text(
                 text = "Chat Doctor",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Normal
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary
             ) },
             navigationIcon = { IconButton(onClick = back) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                    contentDescription = null
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.surfaceTint
                 )
             } }
         ) }

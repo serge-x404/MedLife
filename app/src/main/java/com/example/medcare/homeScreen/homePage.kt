@@ -37,6 +37,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.OutlinedTextField
@@ -44,6 +45,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -70,9 +72,6 @@ import com.example.medcare.class_objects.lazyRow
 import com.example.medcare.layoutsFile.gridViewLayout
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(
-    showBackground = true, showSystemUi = true
-)
 @Composable
 fun HomeScreen(
     navigateToChatDoc: () -> Unit,
@@ -84,26 +83,36 @@ fun HomeScreen(
 
 ) {
     Scaffold(topBar = {
-        TopAppBar(title = { Text(text = "Hi, Alex") }, actions = {
-            IconButton(onClick = {
-                navigateToCart()
-            }) {
-                Icon(
-                    painter = painterResource(R.drawable.cart),
-                    contentDescription = "Cart",
-                    Modifier.size(26.dp)
+        TopAppBar(
+            title = {
+                Text(
+                    text = "Hi, serge",
+                    color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.headlineLarge
                 )
-            }
-            IconButton(onClick = {
-                navigateToNotifications()
-            }) {
-                Icon(
-                    painter = painterResource(R.drawable.bell),
-                    contentDescription = "Bell",
-                    Modifier.size(26.dp)
-                )
-            }
-        })
+            },
+            actions = {
+                IconButton(onClick = {
+                    navigateToCart()
+                }) {
+                    Icon(
+                        painter = painterResource(R.drawable.cart),
+                        contentDescription = "Cart",
+                        Modifier.size(26.dp),
+                        tint = MaterialTheme.colorScheme.surfaceTint
+                    )
+                }
+                IconButton(onClick = {
+                    navigateToNotifications()
+                }) {
+                    Icon(
+                        painter = painterResource(R.drawable.bell),
+                        contentDescription = "Bell",
+                        Modifier.size(26.dp),
+                        tint = MaterialTheme.colorScheme.surfaceTint
+                    )
+                }
+            })
     }) { innerPadding ->
         Column(
             modifier = Modifier.padding(innerPadding)
@@ -127,7 +136,7 @@ fun HomeScreen(
                 ) {
                     Column {
                         Text(
-                            text = "Experience Seamless Healthcare Management with MediConnect",
+                            text = "Experience Seamless Healthcare Management with MedLife",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
                             color = Color.White,
@@ -137,17 +146,22 @@ fun HomeScreen(
                             onClick = {
                                 navigateToProfile()
                             },
-                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF26408B)),
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
                             shape = RectangleShape,
                             modifier = Modifier.padding(start = 20.dp, top = 8.dp)
                         ) {
-                            Text(
-                                text = "Fill Your Profile Now!"
-                            )
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                                contentDescription = "Arrow"
-                            )
+                            Row(verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center) {
+                                Text(
+                                    text = "Fill Your Profile Now!",
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                )
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                                    contentDescription = "Arrow",
+                                    tint = MaterialTheme.colorScheme.surfaceTint
+                                )
+                            }
                         }
                     }
                     Image(
@@ -183,7 +197,7 @@ fun HomeScreen(
                     columns = GridCells.Fixed(4),
                     modifier = Modifier
                         .padding(horizontal = 12.dp)
-                        .height(210.dp),
+                        .height(220.dp),
                 ) {
                     items(gridData.servicesList) { item ->
                         gridViewLayout(item)
@@ -194,8 +208,8 @@ fun HomeScreen(
                     onClick = {
                         navigateToChatDoc()
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFFFFF)),
-                    border = BorderStroke(width = 2.dp, color = Color(0xFFC2E7D9)),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                    border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.surfaceTint),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(80.dp)
@@ -209,28 +223,26 @@ fun HomeScreen(
                     ) {
                         Text(
                             text = "Consult with a specialist",
-                            color = Color.Black,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold
+                            color = MaterialTheme.colorScheme.primary,
+                            style = MaterialTheme.typography.titleMedium
                         )
                         Text(
                             text = "Promote health via chat or call",
-                            color = Color.Black,
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.Normal
+                            color = MaterialTheme.colorScheme.primary,
+                            style = MaterialTheme.typography.labelSmall
                         )
                     }
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                         contentDescription = "Arrow Forward",
-                        tint = Color(0xFF000000)
+                        tint = MaterialTheme.colorScheme.surfaceTint
                     )
                 }
                 Spacer(Modifier.height(30.dp))
                 Text(
                     text = "Chat Doctor",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(start = 30.dp)
                 )
                 Spacer(Modifier.height(5.dp))
@@ -243,7 +255,8 @@ fun HomeScreen(
                             painter = painterResource(id = image),
                             contentDescription = null,
                             contentScale = ContentScale.FillBounds,
-                            modifier = Modifier.size(150.dp)
+                            modifier = Modifier
+                                .size(150.dp)
                                 .clickable(
                                     enabled = true,
                                     onClick = {
@@ -256,8 +269,8 @@ fun HomeScreen(
                 Spacer(Modifier.height(30.dp))
                 Text(
                     "Best Selling Products",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(start = 30.dp)
                 )
                 Spacer(Modifier.height(5.dp))
@@ -281,8 +294,8 @@ fun HomeScreen(
                 Spacer(Modifier.height(30.dp))
                 Text(
                     "Nearby Hospitals",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(start = 30.dp)
                 )
                 Spacer(Modifier.height(5.dp))
@@ -291,12 +304,20 @@ fun HomeScreen(
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     items(hospitals.images) {
-                        Box(modifier = Modifier.size(180.dp)
-                            .clickable(enabled = true,
-                                onClick = {
-                                    navigateToHospital()
-                                })
-                            .border(1.dp, color = Color(0xFFC2E7D9), shape = RoundedCornerShape(4.dp))
+                        Box(
+                            modifier = Modifier
+                                .size(180.dp)
+                                .clickable(
+                                    enabled = true,
+                                    onClick = {
+                                        navigateToHospital()
+                                    })
+                                .border(
+                                    1.dp,
+                                    color = MaterialTheme.colorScheme.surfaceTint,
+                                    shape = RoundedCornerShape(4.dp)
+                                )
+                                .background(MaterialTheme.colorScheme.primaryContainer)
                         ) {
 //                    Surface(shape = CircleShape,
 //                        modifier = Modifier
@@ -311,19 +332,20 @@ fun HomeScreen(
                                 )
                                 Text(
                                     it.name,
-                                    color = Color(0xFF26408B),
-                                    fontSize = 16.sp,
-                                    fontWeight = FontWeight.W400
+                                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    style = MaterialTheme.typography.labelLarge
                                 )
                                 Spacer(Modifier.height(8.dp))
                                 Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Text("See maps",
-                                        color = Color(0xFF8F8F8F)
+                                    Text(
+                                        "See maps",
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        color = MaterialTheme.colorScheme.onPrimaryContainer
                                     )
                                     Icon(
                                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                                         contentDescription = null,
-                                        tint = Color(0xFF8F8F8F)
+                                        tint = MaterialTheme.colorScheme.surfaceTint
                                     )
                                 }
                             }
@@ -331,16 +353,20 @@ fun HomeScreen(
                     }
                 }
                 Spacer(Modifier.height(30.dp))
-                Text("Health Article",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
+                Text(
+                    "Health Article",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(start = 30.dp)
                 )
                 Spacer(Modifier.height(10.dp))
-                LazyColumn(modifier = Modifier.padding(horizontal = 26.dp)
-                    .height(310.dp)) {
-                    items(Hot.latestArticle) {
-                            item -> LatestArticle(item){}
+                LazyColumn(
+                    modifier = Modifier
+                        .padding(horizontal = 26.dp)
+                        .height(310.dp)
+                ) {
+                    items(Hot.latestArticle) { item ->
+                        LatestArticle(item) {}
                     }
                 }
             }

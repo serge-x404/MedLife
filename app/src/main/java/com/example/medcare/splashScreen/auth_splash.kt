@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,8 +38,8 @@ fun AuthSplashScreen() {
         .padding(horizontal = 12.dp)) {
         Button(
             onClick = {},
-            colors = ButtonDefaults.buttonColors(Color(0xFFFFFFFF)),
-            border = BorderStroke(width = 1.dp, color = Color(0xFFC2E7D9)),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surface),
+            border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outline),
             modifier = Modifier.align(Alignment.TopEnd)
         ) {
             Text(
@@ -68,7 +69,7 @@ fun AuthSplashScreen() {
                 onClick = {
                     Log.d("NEXT BTN","next button")
                 },
-                colors = ButtonDefaults.buttonColors(Color(0xFF26408B)),
+                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.surface),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(

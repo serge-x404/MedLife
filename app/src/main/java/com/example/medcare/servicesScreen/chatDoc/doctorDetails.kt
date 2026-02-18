@@ -42,6 +42,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -65,9 +66,6 @@ import com.example.medcare.class_objects.docWorkHrs
 import com.example.medcare.class_objects.review
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(
-    showBackground = true, showSystemUi = true
-)
 @Composable
 fun DoctorDetails(
     back: () -> Unit,
@@ -78,23 +76,28 @@ fun DoctorDetails(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = "Doctor Details", fontSize = 15.sp, fontWeight = FontWeight.Bold
+                        text = "Doctor Details",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.primary
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = back) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                            contentDescription = null
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.surfaceTint
                         )
                     }
                 },
                 actions = {
                     Icon(
-                        imageVector = Icons.Default.Share, contentDescription = null
+                        imageVector = Icons.Default.Share,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.surfaceTint
                     )
                 },
-                colors = TopAppBarDefaults.topAppBarColors(Color(0XFFF6F1FF)),
+                colors = TopAppBarDefaults.topAppBarColors(MaterialTheme.colorScheme.surfaceContainer),
             )
         }
     ) { innerPadding ->
@@ -104,10 +107,10 @@ fun DoctorDetails(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xFFF6F1FF))
+                    .background(MaterialTheme.colorScheme.surfaceContainer)
             ) {
                 Card(
-                    onClick = {}, colors = CardDefaults.cardColors(Color(0xFFF6F1FF))
+                    colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer)
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Spacer(Modifier.height(10.dp))

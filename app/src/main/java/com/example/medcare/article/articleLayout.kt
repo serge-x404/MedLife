@@ -17,6 +17,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -93,7 +94,7 @@ fun TopicLayout(article: Article) {
 fun LatestArticle(article: Article,
                   navigateToArticle: () -> Unit
 ) {
-    Card(colors = CardDefaults.cardColors(containerColor = Color.White),
+    Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh),
         modifier = Modifier.clickable(
             enabled = true,
             onClick = {
