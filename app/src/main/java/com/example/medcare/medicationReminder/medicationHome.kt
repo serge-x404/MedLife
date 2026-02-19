@@ -1,5 +1,6 @@
 package com.example.medcare.medicationReminder
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -21,6 +22,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,55 +38,51 @@ import androidx.compose.ui.unit.sp
 import com.example.medcare.R
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showSystemUi = true,
-    showBackground = true)
 @Composable
 fun MedicationHome(
     navigateToAddMed: () -> Unit,
     back: () -> Unit
 ) {
     Scaffold(
-        topBar = { CenterAlignedTopAppBar(
-            title = { Text("Medication Reminder",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold) },
-            navigationIcon = {
-                IconButton(onClick = back) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                        contentDescription = null
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        "Medication Reminder",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.primary
                     )
-                }
-            }
-        ) }
-    ) { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding)) {
-            Box(modifier = Modifier.fillMaxSize()
-                .padding(horizontal = 12.dp)) {
-                Column {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            "Reminder to take medicine",
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = Color(0xFF4D4D4D),
-                            modifier = Modifier.weight(1f)
-                        )
-                        Text(
-                            "Some text",
-                            color = Color(0xFF26408B)
-                        )
+                },
+                navigationIcon = {
+                    IconButton(onClick = back) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                             contentDescription = null,
-                            tint = Color(0xFF26408B)
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
+                }
+            )
+        }
+    ) { innerPadding ->
+        Column(modifier = Modifier.padding(innerPadding)) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 12.dp)
+            ) {
+                Column {
+                    Text(
+                        "Reminder to take medicine",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
                     Spacer(Modifier.height(12.dp))
                     Column(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(horizontal = 8.dp)
-                            .border(width = 1.dp, color = Color(0xFFC2E7D9)),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .border(width = 1.dp, MaterialTheme.colorScheme.surfaceTint)
+                            .padding(horizontal = 8.dp, vertical = 14.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Spacer(Modifier.height(40.dp))
@@ -95,29 +93,29 @@ fun MedicationHome(
                         )
                         Text(
                             "Manage your medication",
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.SemiBold
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                         Spacer(Modifier.height(6.dp))
                         Text(
                             "Add the medicine you are taking and create a reminder to take the medicine",
-                            fontSize = 16.sp,
-                            color = Color(0xFF4D4D4D),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onBackground,
                             textAlign = TextAlign.Center
                         )
                     }
                     Spacer(Modifier.height(20.dp))
                     Text(
                         "History of Taking Medication",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color(0xFF4D4D4D)
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.primary,
                     )
                     Spacer(Modifier.height(12.dp))
                     Column(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(horizontal = 8.dp)
-                            .border(width = 1.dp, color = Color(0xFFC2E7D9)),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .border(width = 1.dp, MaterialTheme.colorScheme.surfaceTint)
+                            .padding(horizontal = 8.dp, vertical = 14.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Spacer(Modifier.height(40.dp))
@@ -128,14 +126,14 @@ fun MedicationHome(
                         )
                         Text(
                             "View your medication history",
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.SemiBold
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                         Spacer(Modifier.height(6.dp))
                         Text(
                             "Add the medicine you are taking and create a reminder to take the medicine",
-                            fontSize = 16.sp,
-                            color = Color(0xFF4D4D4D),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onBackground,
                             textAlign = TextAlign.Center
                         )
                     }
@@ -144,12 +142,16 @@ fun MedicationHome(
                     onClick = {
                         navigateToAddMed()
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF26408B)),
-                    modifier = Modifier.fillMaxWidth()
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondaryContainer),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSecondaryContainer),
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .align(Alignment.BottomCenter)
                 ) {
-                    Text("Add Medicine",
-                        fontWeight = FontWeight.SemiBold
+                    Text(
+                        "Add Medicine",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                 }
             }

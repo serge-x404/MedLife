@@ -18,10 +18,12 @@ object Hot {
     val hotTopic = listOf(
         Article(R.drawable.health,"Mental Health"),
         Article(R.drawable.life,"Lifestyle"),
-        Article(R.drawable.globe,"Lorem Ipsum"),
         Article(R.drawable.health,"Mental Health"),
         Article(R.drawable.life,"Lifestyle"),
-        Article(R.drawable.globe,"Lorem Ipsum"),
+        Article(R.drawable.health,"Mental Health"),
+        Article(R.drawable.life,"Lifestyle"),
+        Article(R.drawable.health,"Mental Health"),
+        Article(R.drawable.life,"Lifestyle"),
     )
 
     val latestArticle = listOf(

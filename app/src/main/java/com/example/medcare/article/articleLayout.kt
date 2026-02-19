@@ -49,8 +49,7 @@ fun ArticleLayout(article: Article,
                 Text("5 tips for boosting your Immune System\n " +
                         "Naturally",
                     color = Color.White,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 14.sp
+                    style = MaterialTheme.typography.titleSmall
                 )
                 Button(onClick = {
                     navigateToArticle()
@@ -59,8 +58,11 @@ fun ArticleLayout(article: Article,
                     shape = RectangleShape,
                     modifier = Modifier.align(Alignment.Start)
                 ) {
-                    Text("Read Article",
-                        fontSize = 12.sp,)
+                    Text(
+                        "Read Article",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.White
+                    )
                 }
             }
         }
@@ -70,7 +72,7 @@ fun ArticleLayout(article: Article,
 
 @Composable
 fun TopicLayout(article: Article) {
-    Card() {
+    Card {
         Box(modifier = Modifier.fillMaxWidth()) {
             Image(
                 painter = painterResource(article.image),
@@ -94,7 +96,8 @@ fun TopicLayout(article: Article) {
 fun LatestArticle(article: Article,
                   navigateToArticle: () -> Unit
 ) {
-    Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh),
+    Card(
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
         modifier = Modifier.clickable(
             enabled = true,
             onClick = {
@@ -102,7 +105,8 @@ fun LatestArticle(article: Article,
             }
         )) {
         Row(modifier = Modifier.padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically) {
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Image(
                 painter = painterResource(article.image),
                 contentDescription = null,
@@ -110,8 +114,8 @@ fun LatestArticle(article: Article,
             )
             Spacer(Modifier.width(6.dp))
             Text(article.text,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.W400
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
     }

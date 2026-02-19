@@ -116,6 +116,9 @@ fun addHomeScreen(navHostController: NavHostController, navGraphBuilder: NavGrap
             },
             navigateToHospital = {
                 navHostController.navigate(NavRoute.hospital.path)
+            },
+            navigateToArticle = {
+                navHostController.navigate(NavRoute.articleRead.path)
             }
         )
     }
@@ -285,7 +288,10 @@ fun addMedDesc(navHostController: NavHostController, navGraphBuilder: NavGraphBu
         route = NavRoute.medDesc.path
     ) {
         MedicineDescription(
-            back = {navHostController.popBackStack()}
+            back = {navHostController.popBackStack()},
+            navigateToCart = {
+                navHostController.navigate(NavRoute.Cart.path)
+            }
         )
     }
 }
@@ -338,6 +344,7 @@ fun addHospiLocScreen(navHostController: NavHostController, navGraphBuilder: Nav
 //}
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun addDocDtls(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
         route = NavRoute.DocDtls.path
@@ -385,8 +392,7 @@ fun addMedReminderScreen(navHostController: NavHostController, navGraphBuilder: 
         MedicationHome(
             back = {navHostController.popBackStack()},
             navigateToAddMed = {
-                navHostController.navigate(NavRoute.addMed.path
-                )
+                navHostController.navigate(NavRoute.addMed.path)
             }
         )
     }
@@ -496,7 +502,16 @@ fun addEmptyCartScreen(navHostController: NavHostController, navGraphBuilder: Na
     navGraphBuilder.composable(
         route = NavRoute.emptyCart.path
     ) {
-        EmptyCart()
+        EmptyCart(
+            back = { navHostController.popBackStack() },
+            navigateToHealthShop = {
+                navHostController.navigate(NavRoute.HealthShop.path){
+                    popUpTo(NavRoute.HealthShop.path) {
+                        inclusive = true
+                    }
+                }
+            }
+        )
     }
 }
 

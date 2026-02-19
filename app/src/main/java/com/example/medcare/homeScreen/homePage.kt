@@ -79,7 +79,8 @@ fun HomeScreen(
     navigateToNotifications: () -> Unit,
     navigateToCart: () -> Unit,
     navigateToHealthShop: () -> Unit,
-    navigateToHospital: () -> Unit
+    navigateToHospital: () -> Unit,
+    navigateToArticle: () -> Unit
 
 ) {
     Scaffold(topBar = {
@@ -207,12 +208,12 @@ fun HomeScreen(
                     onClick = {
                         navigateToChatDoc()
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
-                    border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.surfaceTint),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+                    border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.surfaceTint),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(80.dp)
-                        .padding(start = 30.dp, end = 30.dp),
+                        .padding(horizontal = 30.dp),
                     shape = RoundedCornerShape(10.dp)
                 ) {
                     Column(
@@ -222,12 +223,12 @@ fun HomeScreen(
                     ) {
                         Text(
                             text = "Consult with a specialist",
-                            color = MaterialTheme.colorScheme.primary,
+                            color = MaterialTheme.colorScheme.secondary,
                             style = MaterialTheme.typography.titleMedium
                         )
                         Text(
                             text = "Promote health via chat or call",
-                            color = MaterialTheme.colorScheme.primary,
+                            color = MaterialTheme.colorScheme.secondary,
                             style = MaterialTheme.typography.labelSmall
                         )
                     }
@@ -311,12 +312,10 @@ fun HomeScreen(
                                     onClick = {
                                         navigateToHospital()
                                     })
-                                .border(
-                                    1.dp,
-                                    color = MaterialTheme.colorScheme.surfaceTint,
+                                .border(1.dp, color = MaterialTheme.colorScheme.surfaceTint,
                                     shape = RoundedCornerShape(4.dp)
                                 )
-                                .background(MaterialTheme.colorScheme.primaryContainer)
+                                .background(MaterialTheme.colorScheme.secondaryContainer)
                         ) {
 //                    Surface(shape = CircleShape,
 //                        modifier = Modifier
@@ -362,10 +361,11 @@ fun HomeScreen(
                 LazyColumn(
                     modifier = Modifier
                         .padding(horizontal = 26.dp)
-                        .height(310.dp)
+                        .height(1120.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     items(Hot.latestArticle) { item ->
-                        LatestArticle(item) {}
+                        LatestArticle(item, navigateToArticle)
                     }
                 }
             }

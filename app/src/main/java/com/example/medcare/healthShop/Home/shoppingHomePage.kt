@@ -15,7 +15,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Search
@@ -26,6 +28,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -37,6 +40,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,8 +52,6 @@ import com.example.medcare.healthShop.ImageGridPharma
 import com.example.medcare.class_objects.pharmaImages
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true,
-    showSystemUi = true)
 @Composable
 fun ShoppingHomePage(
     back: () -> Unit,
@@ -72,7 +74,8 @@ fun ShoppingHomePage(
                         leadingIcon = {
                             Icon(
                                 imageVector = Icons.Default.Search,
-                                contentDescription = null
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.surfaceTint
                             )
                         },
                     )
@@ -81,7 +84,8 @@ fun ShoppingHomePage(
                     IconButton(onClick = back) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                            contentDescription = null
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.surfaceTint
                         )
                     }
                 },
@@ -93,13 +97,14 @@ fun ShoppingHomePage(
                             .clickable(
                                 onClick = {navigateToCart()}
                             ),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.surfaceTint)
                     )
                 }
             )
         }
     )
     {innerPadding -> Column(modifier = Modifier.padding(innerPadding))  {
-        Column() {
+        Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
             LazyRow(modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 contentPadding = PaddingValues(16.dp)) {
@@ -117,24 +122,25 @@ fun ShoppingHomePage(
             Spacer(Modifier.height(8.dp))
             Column(modifier = Modifier
                 .fillMaxWidth()
-                .background(Color(0xFFC2E7D9))
+                .background(MaterialTheme.colorScheme.secondaryContainer)
                 .padding(15.dp)) {
                 Row {
                     Text(
                         text = "Official Store",
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 16.sp,
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
                         modifier = Modifier.weight(1f)
                     )
                     Text(
                         text = "See all",
-                        color = Color(0xFF26408B)
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                 }
                 Spacer(Modifier.height(8.dp))
                 Text(
                     text = "Special offers from various renowned brands",
-                    fontWeight = FontWeight.W400
+                    style = MaterialTheme.typography.labelMedium
                 )
                 Spacer(Modifier.height(10.dp))
                 LazyRow(modifier = Modifier.fillMaxWidth(),
@@ -151,13 +157,14 @@ fun ShoppingHomePage(
                 Row {
                     Text(
                         text = "Hot Sales",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.SemiBold,
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.weight(1f)
                     )
                     Text(
                         text = "See all",
-                        color = Color(0xFF26408B),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.clickable(
                             enabled = true,
                             onClick = {
@@ -170,27 +177,29 @@ fun ShoppingHomePage(
                 LazyRow(modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     items(pharmaImages.hotSales) { item ->
-                        HotSalesGrid(item, navigateToMedDesc)
+                        HotSalesGrid(item, navigateToMedDesc, navigateToCart)
                     }
                 }
                 Spacer(Modifier.height(15.dp))
                 Row {
                     Text(
                         text = "Recently Viewed",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.SemiBold,
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.weight(1f)
                     )
                     Text(
                         text = "See all",
-                        color = Color(0xFF26408B)
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.primary
                     )
                 }
                 Spacer(Modifier.height(6.dp))
                 LazyRow(modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
                     items(pharmaImages.hotSales) { item ->
-                        HotSalesGrid(item, navigateToMedDesc)
+                        HotSalesGrid(item, navigateToMedDesc, navigateToCart)
                     }
                 }
             }

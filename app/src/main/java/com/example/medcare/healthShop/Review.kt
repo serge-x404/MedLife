@@ -105,7 +105,7 @@ fun Review(
                     LazyRow(modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                         items(pharmaImages.hotSales) { item ->
-                            HotSalesGrid(item, navigateToMedDesc )
+                            HotSalesGrid(item, navigateToMedDesc, {})
                         }
                     }
                 }

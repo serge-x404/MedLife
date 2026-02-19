@@ -81,7 +81,7 @@ fun MedicineGrid(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(pharmaImages.medicineGrid) { item ->
-                    HotSalesGrid(item, navigateToMedDesc)
+                    HotSalesGrid(item, navigateToMedDesc, navigateToCart)
                 }
             }
         }

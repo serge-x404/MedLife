@@ -1,5 +1,6 @@
 package com.example.medcare.healthShop
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -26,6 +27,8 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,34 +47,35 @@ import com.example.medcare.class_objects.review
 import com.example.medcare.layoutsFile.Reviews
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(
-    showBackground = true, showSystemUi = true
-)
 @Composable
 fun MedicineDescription(
     back: () -> Unit,
+    navigateToCart: () -> Unit
 ) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(title = {}, navigationIcon = {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                    contentDescription = null
-                )
+                IconButton(onClick = back) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.surfaceTint
+                    )
+                }
             }, actions = {
                 Icon(
-                    imageVector = Icons.Default.Share, contentDescription = null
+                    imageVector = Icons.Default.Share, contentDescription = null,
+                    tint = MaterialTheme.colorScheme.surfaceTint
                 )
             },
                 modifier = Modifier
                     .padding(horizontal = 12.dp)
-                    .background(Color.White)
             )
         }) { innerPadding ->
         Column(
             Modifier
                 .padding(innerPadding)
-                .background(Color.White)
+                .background(MaterialTheme.colorScheme.background)
                 .verticalScroll(rememberScrollState())
         ) {
             Box(
@@ -91,29 +95,38 @@ fun MedicineDescription(
                     }
                     Text(
                         text = "Bufect Strip of 4 Tablets -Heat and Pain Relief Medicine",
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.ExtraBold
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(Modifier.height(10.dp))
                     Text(
-                        text = stringResource(R.string.strip)
+                        text = stringResource(R.string.strip),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(Modifier.height(10.dp))
-                    Text(
-                        text = "Start from", fontSize = 12.sp, color = Color(0xFF8F8F8F)
-                    )
-                    Spacer(Modifier.height(5.dp))
-                    Text(
-                        text = "$2.00",
-                        fontSize = 25.sp,
-                        color = Color(0xFF26408B),
-                        fontWeight = FontWeight.ExtraBold
-                    )
+                    Row(verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(2.dp)
+                    ) {
+                        Text(
+                            text = "Start from:",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                        Spacer(Modifier.height(5.dp))
+                        Text(
+                            text = "$2.00",
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
                     Spacer(Modifier.height(15.dp))
                     HorizontalDivider()
                     Spacer(Modifier.height(15.dp))
                     Text(
-                        text = "Product Description", fontWeight = FontWeight.Bold, fontSize = 16.sp
+                        text = "Product Description",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.primary
                     )
                     Spacer(Modifier.height(5.dp))
                     Text(
@@ -122,12 +135,14 @@ fun MedicineDescription(
                                 "With its user-friendly packaging and easy-to-carry design, " +
                                 "Bufect ensures quick access to relief whenever and wherever needed. " +
                                 "Trust Bufect for fast-acting and dependable relief from discomfort.",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Light
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(Modifier.height(15.dp))
                     Text(
-                        text = "Benefits", fontSize = 16.sp, fontWeight = FontWeight.Bold
+                        text = "Benefits",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.primary
                     )
                     Spacer(Modifier.height(5.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -137,8 +152,8 @@ fun MedicineDescription(
                         Spacer(Modifier.width(8.dp))
                         Text(
                             text = "Provides fast and effective relief from pain and discomfort",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -148,8 +163,8 @@ fun MedicineDescription(
                         Spacer(Modifier.width(8.dp))
                         Text(
                             text = "Provides fast and effective relief from pain and discomfort",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -159,13 +174,15 @@ fun MedicineDescription(
                         Spacer(Modifier.width(8.dp))
                         Text(
                             text = "Provides fast and effective relief from pain and discomfort",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     Spacer(Modifier.height(15.dp))
                     Text(
-                        text = "Composition", fontSize = 16.sp, fontWeight = FontWeight.Bold
+                        text = "Composition",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.primary
                     )
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
@@ -174,8 +191,8 @@ fun MedicineDescription(
                         Spacer(Modifier.width(8.dp))
                         Text(
                             text = "Acetaminophen (500 mg)",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -185,8 +202,8 @@ fun MedicineDescription(
                         Spacer(Modifier.width(8.dp))
                         Text(
                             text = "Ibuprofen (200 mg)",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -196,13 +213,15 @@ fun MedicineDescription(
                         Spacer(Modifier.width(8.dp))
                         Text(
                             text = "Caffeine (50 mg)",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     Spacer(Modifier.height(15.dp))
                     Text(
-                        text = "Dosage", fontSize = 16.sp, fontWeight = FontWeight.Bold
+                        text = "Dosage",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.primary
                     )
                     Spacer(Modifier.height(5.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -213,8 +232,8 @@ fun MedicineDescription(
                         Text(
                             text = "Adults: Take 1 tablet every 4 to 6 hours as needed. " +
                                     "Do not exceed 4 tablets in 24 hours.",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -225,8 +244,8 @@ fun MedicineDescription(
                         Text(
                             text = "Children (ages 6-12): Take half a tablet every 4 to 6 hours as needed. " +
                                     "Do not exceed 2 tablets in 24 hours.",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -236,8 +255,8 @@ fun MedicineDescription(
                         Spacer(Modifier.width(8.dp))
                         Text(
                             text = "Children under 6 years: Consult a healthcare professional before use.",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     Spacer(Modifier.height(15.dp))
@@ -247,11 +266,14 @@ fun MedicineDescription(
                         text = "For optimal potency and safety, it is recommended to store this medication in a cool, " +
                                 "dry place, away from direct sunlight. Exposure to excessive heat or moisture may compromise the quality of the product. " +
                                 "Additionally, it is important to keep this medication out of reach of children and pets to prevent accidental ingestion and ensure their safety",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Light
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(Modifier.height(15.dp))
-                    Text(text = "Special Precautions", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    Text(text = "Special Precautions",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.primary
+                    )
                     Spacer(Modifier.height(5.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
@@ -260,8 +282,8 @@ fun MedicineDescription(
                         Spacer(Modifier.width(8.dp))
                         Text(
                             text = "Do not exceed the recommended dosage.",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -271,8 +293,8 @@ fun MedicineDescription(
                         Spacer(Modifier.width(8.dp))
                         Text(
                             text = "Consult a healthcare professional before use if pregnant, breastfeeding, or taking other medications.",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -282,12 +304,15 @@ fun MedicineDescription(
                         Spacer(Modifier.width(8.dp))
                         Text(
                             text = "Discontinue use and seek medical advice if adverse reactions occur.",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Light
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     Spacer(Modifier.height(15.dp))
-                    Text(text = "Review", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    Text(text = "Reviews",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.primary
+                    )
                     Spacer(Modifier.height(5.dp))
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         items(review.reviews) { item ->
@@ -300,19 +325,25 @@ fun MedicineDescription(
                     LazyRow(modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                         items(pharmaImages.hotSales) { item ->
-                            HotSalesGrid(item){}
+                            HotSalesGrid(item,{}, navigateToCart)
                         }
                     }
                     Spacer(Modifier.height(60.dp))
                 }
                 Button(
-                    onClick = {},
-                    colors = ButtonDefaults.buttonColors(Color(0xFF26408B)),
+                    onClick = {
+                        navigateToCart()
+                    },
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondaryContainer),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSecondaryContainer),
                     modifier = Modifier
                         .align(alignment = Alignment.BottomCenter)
                         .fillMaxWidth()
                 ) {
-                    Text(text = "Add to Cart")
+                    Text(
+                        text = "Add to Cart",
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
                 }
             }
         }

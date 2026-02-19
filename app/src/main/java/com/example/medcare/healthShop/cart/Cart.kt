@@ -1,5 +1,6 @@
 package com.example.medcare.healthShop.cart
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,6 +29,7 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -66,8 +68,8 @@ fun Cart(
                 title = {
                     Text(
                         text = "Cart",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.SemiBold
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.titleMedium
                     )
                 },
                 navigationIcon = {
@@ -76,7 +78,8 @@ fun Cart(
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                            contentDescription = null
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
                 }
@@ -107,25 +110,28 @@ fun Cart(
                             Spacer(Modifier.width(12.dp))
                             Text(
                                 text = "Deliver to Amy",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.SemiBold,
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onBackground,
                                 modifier = Modifier.weight(1f)
                             )
                             Spacer(Modifier.width(6.dp))
-                            Text(
-                                text = selectedPlace,
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                modifier = Modifier
-                            )
-                            Icon(
-                                imageVector = Icons.Default.KeyboardArrowDown,
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .menuAnchor()
-                                    .size(15.dp),
-                                tint = Color(0xFF26408B)
-                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.menuAnchor()
+                            ) {
+                                Text(
+                                    text = selectedPlace,
+                                    style = MaterialTheme.typography.titleSmall,
+                                    color = MaterialTheme.colorScheme.primary,
+                                )
+                                Icon(
+                                    imageVector = Icons.Default.KeyboardArrowDown,
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .size(15.dp),
+                                    tint = MaterialTheme.colorScheme.primary
+                                )
+                            }
                         }
                         ExposedDropdownMenu(
                             expanded = expanded,
@@ -134,7 +140,12 @@ fun Cart(
                             listOf("Dubai", "USA").forEach {
                                 place ->
                                 DropdownMenuItem(
-                                    text = { Text(place) },
+                                    text = {
+                                        Text(
+                                            place,
+                                            style = MaterialTheme.typography.labelLarge,
+                                            color = MaterialTheme.colorScheme.primary
+                                    ) },
                                     onClick = {
                                         selectedPlace = place
                                         expanded = false
@@ -157,8 +168,8 @@ fun Cart(
                     Spacer(Modifier.height(15.dp))
                     Text(
                         text = "Have a coupon code? Enter here",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Normal
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.primary
                     )
                     Spacer(Modifier.height(5.dp))
                     OutlinedTextField(
@@ -168,7 +179,11 @@ fun Cart(
                             .padding(8.dp)
                             .fillMaxWidth(),
                         placeholder = {
-                            Text("2024CODE")
+                            Text(
+                                "2024CODE",
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onBackground
+                            )
                         }
                     )
                 }
@@ -176,12 +191,17 @@ fun Cart(
                     onClick = {
                         navigateToFindingPharma()
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF26408B)),
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondaryContainer),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSecondaryContainer),
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.BottomCenter)
                 ) {
-                    Text(text = "Continue")
+                    Text(
+                        text = "Continue",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
                 }
             }
         }

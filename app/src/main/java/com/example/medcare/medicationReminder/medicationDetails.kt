@@ -1,7 +1,10 @@
 package com.example.medcare.medicationReminder
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,6 +34,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
@@ -44,6 +48,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,10 +57,6 @@ import androidx.compose.ui.unit.sp
 import com.example.medcare.R
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
 @Composable
 fun MedicationReminder(
     back: () -> Unit,
@@ -81,15 +82,16 @@ fun MedicationReminder(
                 title = {
                     Text(
                         "Details About The Drug",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.SemiBold
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.primary
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = back) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                            contentDescription = null
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
                 }
@@ -104,33 +106,35 @@ fun MedicationReminder(
                     .verticalScroll(rememberScrollState())
             ) {
                 Card(
-                    onClick = {},
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFFC2E7D9))
+                    colors = CardDefaults.cardColors(MaterialTheme.colorScheme.tertiaryContainer),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.surfaceTint)
                 ) {
                     Column(modifier = Modifier.padding(12.dp)) {
                         Text(
                             "Paracetamol 500 mg",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onTertiaryContainer
                         )
                         Spacer(Modifier.height(10.dp))
                         Text(
                             "Take 1 tablet every 6 hours as needed to reduce fever or pain.",
-                            color = Color(0xFF4D4D4D),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onTertiaryContainer,
                         )
                     }
                 }
                 Spacer(Modifier.height(20.dp))
                 Card(
                     modifier = Modifier.fillMaxSize(),
-                    colors = CardDefaults.cardColors(Color.White),
+                    colors = CardDefaults.cardColors(MaterialTheme.colorScheme.secondaryContainer),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.surfaceTint),
                     elevation = CardDefaults.elevatedCardElevation(4.dp)
                 ) {
                     Column(modifier = Modifier.padding(10.dp)) {
                         Text(
                             "Medicine Details",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.SemiBold
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onTertiaryContainer
                         )
                         Spacer(Modifier.height(8.dp))
                         ExposedDropdownMenuBox(
@@ -141,7 +145,7 @@ fun MedicationReminder(
                                 modifier = Modifier
                                     .border(
                                         1.dp,
-                                        color = Color(0xFFA6CFD5),
+                                        color = MaterialTheme.colorScheme.surfaceTint,
                                         shape = RoundedCornerShape(4.dp)
                                     )
                                     .padding(10.dp)
@@ -150,24 +154,31 @@ fun MedicationReminder(
                             ) {
                                 Text(
                                     text = mediName,
-                                    color = Color(0xFF4D4D4D),
+                                    style = MaterialTheme.typography.titleSmall,
+                                    color = MaterialTheme.colorScheme.onBackground,
                                     modifier = Modifier.weight(1f)
                                 )
                                 Icon(
                                     imageVector = if (expandedMediName) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
                                     contentDescription = null,
                                     modifier = Modifier
-                                        .size(20.dp)
+                                        .size(20.dp),
+                                    tint = MaterialTheme.colorScheme.surfaceTint
                                 )
                             }
                             ExposedDropdownMenu(
                                 expanded = expandedMediName,
-                                onDismissRequest = {expandedMediName = !expandedMediName}
+                                onDismissRequest = {expandedMediName = !expandedMediName},
+                                modifier = Modifier.background(MaterialTheme.colorScheme.background)
                             ) {
                                 listOf("Paracetamol","Crocin","LevoCetM","Pressure Less").forEach {
                                     it ->
                                     DropdownMenuItem(
-                                        text = { Text(it) },
+                                        text = { Text(
+                                            it,
+                                            style = MaterialTheme.typography.titleSmall,
+                                            color = MaterialTheme.colorScheme.onBackground
+                                        ) },
                                         onClick = {
                                             mediName = it
                                             expandedMediName = false
@@ -179,8 +190,8 @@ fun MedicationReminder(
                         Spacer(Modifier.height(10.dp))
                         Text(
                             "Dosage",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.SemiBold
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onTertiaryContainer
                         )
                         Spacer(Modifier.height(6.dp))
                         ExposedDropdownMenuBox(
@@ -191,7 +202,7 @@ fun MedicationReminder(
                                 modifier = Modifier
                                     .border(
                                         1.dp,
-                                        color = Color(0xFFA6CFD5),
+                                        color = MaterialTheme.colorScheme.surfaceTint,
                                         shape = RoundedCornerShape(4.dp)
                                     )
                                     .padding(10.dp)
@@ -200,23 +211,30 @@ fun MedicationReminder(
                             ) {
                                 Text(
                                     text = selectedDosage,
-                                    color = Color(0xFF4D4D4D),
+                                    style = MaterialTheme.typography.titleSmall,
+                                    color = MaterialTheme.colorScheme.onBackground,
                                     modifier = Modifier.weight(1f)
                                 )
                                 Icon(
                                     imageVector = if (expandedDosage) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
                                     contentDescription = null,
                                     modifier = Modifier
-                                        .size(20.dp)
+                                        .size(20.dp),
+                                    tint = MaterialTheme.colorScheme.surfaceTint
                                 )
                             }
                             ExposedDropdownMenu(
                                 expanded = expandedDosage,
-                                onDismissRequest = { expandedDosage = !expandedDosage }
+                                onDismissRequest = { expandedDosage = !expandedDosage },
+                                modifier = Modifier.background(MaterialTheme.colorScheme.background)
                             ) {
                                 listOf("1", "2", "3", "4").forEach { items ->
                                     DropdownMenuItem(
-                                        { Text(items) },
+                                        { Text(
+                                            items,
+                                            style = MaterialTheme.typography.titleSmall,
+                                            color = MaterialTheme.colorScheme.onSecondaryContainer
+                                        ) },
                                         onClick = {
                                             selectedDosage = items
                                             expandedDosage = false
@@ -228,8 +246,8 @@ fun MedicationReminder(
                         Spacer(Modifier.height(16.dp))
                         Text(
                             "Period of taking medicine",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.SemiBold
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onTertiaryContainer
                         )
                         Spacer(Modifier.height(6.dp))
                         ExposedDropdownMenuBox(
@@ -241,7 +259,7 @@ fun MedicationReminder(
                                     .menuAnchor()
                                     .border(
                                         1.dp,
-                                        color = Color(0xFFA6CFD5),
+                                        color = MaterialTheme.colorScheme.surfaceTint,
                                         shape = RoundedCornerShape(4.dp)
                                     )
                                     .padding(10.dp),
@@ -249,17 +267,20 @@ fun MedicationReminder(
                             ) {
                                 Text(
                                     text = timePeriod,
-                                    color = Color(0xFF4D4D4D),
+                                    style = MaterialTheme.typography.titleSmall,
+                                    color = MaterialTheme.colorScheme.onBackground,
                                     modifier = Modifier.weight(1f)
                                 )
                                 Icon(
                                     imageVector = if (expandedPeriod) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                                    contentDescription = null
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.surfaceTint
                                 )
                             }
                             ExposedDropdownMenu(
                                 expanded = expandedPeriod,
-                                onDismissRequest = { expandedPeriod = !expandedPeriod }
+                                onDismissRequest = { expandedPeriod = !expandedPeriod },
+                                modifier = Modifier.background(MaterialTheme.colorScheme.background)
                             ) {
                                 listOf(
                                     "Every Day",
@@ -270,7 +291,11 @@ fun MedicationReminder(
                                     "Once a week"
                                 ).forEach { period ->
                                     DropdownMenuItem(
-                                        text = { Text(period) },
+                                        text = { Text(
+                                            period,
+                                            style = MaterialTheme.typography.titleSmall,
+                                            color = MaterialTheme.colorScheme.onBackground,
+                                        ) },
                                         onClick = {
                                             timePeriod = period
                                             expandedPeriod = false
@@ -282,8 +307,8 @@ fun MedicationReminder(
                         Spacer(Modifier.height(16.dp))
                         Text(
                             "How many times a day",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.SemiBold
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onTertiaryContainer
                         )
                         Spacer(Modifier.height(6.dp))
                         ExposedDropdownMenuBox(
@@ -295,7 +320,7 @@ fun MedicationReminder(
                                     .menuAnchor()
                                     .border(
                                         1.dp,
-                                        color = Color(0xFFA6CFD5),
+                                        color = MaterialTheme.colorScheme.surfaceTint,
                                         shape = RoundedCornerShape(4.dp)
                                     )
                                     .padding(10.dp),
@@ -303,21 +328,28 @@ fun MedicationReminder(
                             ) {
                                 Text(
                                     text = timePerDay,
-                                    color = Color(0xFF4D4D4D),
+                                    style = MaterialTheme.typography.titleSmall,
+                                    color = MaterialTheme.colorScheme.onBackground,
                                     modifier = Modifier.weight(1f)
                                 )
                                 Icon(
                                     imageVector = if (expandedTimePerDay) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                                    contentDescription = null
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.surfaceTint
                                 )
                             }
                             ExposedDropdownMenu(
                                 expanded = expandedTimePerDay,
-                                onDismissRequest = { expandedTimePerDay = !expandedTimePerDay }
+                                onDismissRequest = { expandedTimePerDay = !expandedTimePerDay },
+                                modifier = Modifier.background(MaterialTheme.colorScheme.background)
                             ) {
                                 listOf("1 Time", "2 Times", "3 Times").forEach { it ->
                                     DropdownMenuItem(
-                                        text = { Text(it) },
+                                        text = { Text(
+                                            it,
+                                            style = MaterialTheme.typography.titleSmall,
+                                            color = MaterialTheme.colorScheme.onBackground,
+                                        ) },
                                         onClick = {
                                             timePerDay = it
                                             expandedTimePerDay = false
@@ -329,15 +361,15 @@ fun MedicationReminder(
                         Spacer(Modifier.height(16.dp))
                         Text(
                             "Time to take medicine",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.SemiBold
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onTertiaryContainer
                         )
                         Spacer(Modifier.height(6.dp))
                         Row(
                             modifier = Modifier
                                 .border(
                                     1.dp,
-                                    color = Color(0xFFA6CFD5),
+                                    color = MaterialTheme.colorScheme.surfaceTint,
                                     shape = RoundedCornerShape(4.dp)
                                 )
                                 .padding(10.dp),
@@ -345,19 +377,21 @@ fun MedicationReminder(
                         ) {
                             Text(
                                 "Choose",
-                                color = Color(0xFF4D4D4D),
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.onBackground,
                                 modifier = Modifier.weight(1f)
                             )
                             Icon(
                                 imageVector = Icons.Default.KeyboardArrowDown,
-                                contentDescription = null
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.surfaceTint
                             )
                         }
                         Spacer(Modifier.height(16.dp))
                         Text(
                             "Drinking Rules",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.SemiBold
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onTertiaryContainer
                         )
                         Spacer(Modifier.height(6.dp))
                         ExposedDropdownMenuBox(
@@ -369,7 +403,7 @@ fun MedicationReminder(
                                     .menuAnchor()
                                     .border(
                                         1.dp,
-                                        color = Color(0xFFA6CFD5),
+                                        color = MaterialTheme.colorScheme.surfaceTint,
                                         shape = RoundedCornerShape(4.dp)
                                     )
                                     .padding(10.dp),
@@ -377,7 +411,8 @@ fun MedicationReminder(
                             ) {
                                 Text(
                                     text = drinkRules,
-                                    color = Color(0xFF4D4D4D),
+                                    style = MaterialTheme.typography.titleSmall,
+                                    color = MaterialTheme.colorScheme.onBackground,
                                     modifier = Modifier.weight(1f)
                                 )
                                 Icon(
@@ -387,11 +422,17 @@ fun MedicationReminder(
                             }
                             ExposedDropdownMenu(
                                 expanded = expandedDrinkRules,
-                                onDismissRequest = { expandedDrinkRules = !expandedDrinkRules }
+                                onDismissRequest = { expandedDrinkRules = !expandedDrinkRules },
+                                modifier = Modifier.background(MaterialTheme.colorScheme.background)
+                                    .border(1.dp, MaterialTheme.colorScheme.background)
                             ) {
                                 listOf("Before Meals", "After Meals").forEach { it ->
                                     DropdownMenuItem(
-                                        text = { Text(it) },
+                                        text = { Text(
+                                            it,
+                                            style = MaterialTheme.typography.titleSmall,
+                                            color = MaterialTheme.colorScheme.onSecondaryContainer
+                                        ) },
                                         onClick = {
                                             drinkRules = it
                                             expandedDrinkRules = false
@@ -403,15 +444,15 @@ fun MedicationReminder(
                         Spacer(Modifier.height(16.dp))
                         Text(
                             "Drinking Start Date",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.SemiBold
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onTertiaryContainer
                         )
                         Spacer(Modifier.height(6.dp))
                         Row(
                             modifier = Modifier
                                 .border(
                                     1.dp,
-                                    color = Color(0xFFA6CFD5),
+                                    color = MaterialTheme.colorScheme.surfaceTint,
                                     shape = RoundedCornerShape(4.dp)
                                 )
                                 .padding(10.dp),
@@ -419,19 +460,21 @@ fun MedicationReminder(
                         ) {
                             Text(
                                 "Choose",
-                                color = Color(0xFF4D4D4D),
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.onBackground,
                                 modifier = Modifier.weight(1f)
                             )
                             Icon(
                                 imageVector = Icons.Default.KeyboardArrowDown,
-                                contentDescription = null
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.surfaceTint
                             )
                         }
                         Spacer(Modifier.height(16.dp))
                         Text(
                             "Duration of Consumption",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.SemiBold
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onTertiaryContainer
                         )
                         Spacer(Modifier.height(6.dp))
                         ExposedDropdownMenuBox(
@@ -443,7 +486,7 @@ fun MedicationReminder(
                                     .menuAnchor()
                                     .border(
                                         1.dp,
-                                        color = Color(0xFFA6CFD5),
+                                        color = MaterialTheme.colorScheme.surfaceTint,
                                         shape = RoundedCornerShape(4.dp)
                                     )
                                     .padding(10.dp),
@@ -451,21 +494,28 @@ fun MedicationReminder(
                             ) {
                                 Text(
                                     text = consumption,
-                                    color = Color(0xFF4D4D4D),
+                                    style = MaterialTheme.typography.titleSmall,
+                                    color = MaterialTheme.colorScheme.onBackground,
                                     modifier = Modifier.weight(1f)
                                 )
                                 Icon(
                                     imageVector = if (expandedConsumption) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                                    contentDescription = null
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.surfaceTint
                                 )
                             }
                             ExposedDropdownMenu(
                                 expanded = expandedConsumption,
-                                onDismissRequest = { expandedConsumption = !expandedConsumption }
+                                onDismissRequest = { expandedConsumption = !expandedConsumption },
+                                modifier = Modifier.background(MaterialTheme.colorScheme.background)
                             ) {
                                 listOf("1 Week", "2 Weeks", "3 Weeks", "4 Weeks").forEach { it ->
                                     DropdownMenuItem(
-                                        text = { Text(it) },
+                                        text = { Text(
+                                            it,
+                                            style = MaterialTheme.typography.titleSmall,
+                                            color = MaterialTheme.colorScheme.onBackground
+                                        ) },
                                         onClick = {
                                             consumption = it
                                             expandedConsumption = false
@@ -477,15 +527,15 @@ fun MedicationReminder(
                         Spacer(Modifier.height(16.dp))
                         Text(
                             "Notes(Optional)",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.SemiBold
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onTertiaryContainer
                         )
                         Spacer(Modifier.height(6.dp))
                         Row(
                             modifier = Modifier
                                 .border(
                                     1.dp,
-                                    color = Color(0xFFA6CFD5),
+                                    color = MaterialTheme.colorScheme.surfaceTint,
                                     shape = RoundedCornerShape(4.dp)
                                 )
                                 .padding(10.dp),
@@ -493,7 +543,8 @@ fun MedicationReminder(
                         ) {
                             Text(
                                 "Add your notes",
-                                color = Color(0xFF4D4D4D),
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.onBackground,
                                 modifier = Modifier.weight(1f)
                             )
                         }
@@ -503,18 +554,20 @@ fun MedicationReminder(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .border(1.dp, color = Color(0xFFC2E7D9), shape = RoundedCornerShape(8.dp))
+                        .border(1.dp, color = MaterialTheme.colorScheme.surfaceTint, shape = RoundedCornerShape(8.dp))
+                        .clickable(onClick = {checked = !checked})
                         .padding(horizontal = 12.dp)
                 ) {
                     Image(
                         painter = painterResource(R.drawable.bell),
                         contentDescription = null,
-                        modifier = Modifier.size(30.dp)
+                        modifier = Modifier.size(30.dp),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.surfaceTint)
                     )
                     Spacer(Modifier.width(4.dp))
                     Text(
                         "Activate notifications",
-                        color = Color(0xFF4D4D4D),
+                        style = MaterialTheme.typography.labelLarge,
                         modifier = Modifier.weight(1f)
                     )
                     Switch(
@@ -522,18 +575,20 @@ fun MedicationReminder(
                         onCheckedChange = {
                             checked = it
                         },
-                        colors = SwitchDefaults.colors(checkedTrackColor = Color(0xFF26408B))
+                        colors = SwitchDefaults.colors(checkedTrackColor = MaterialTheme.colorScheme.surfaceTint)
                     )
                 }
                 Spacer(Modifier.height(10.dp))
                 Button(
                     onClick = { navigateToSavedReminder(mediName,selectedDosage,drinkRules) },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF26408B)),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSecondaryContainer),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
                         "Save",
-                        fontWeight = FontWeight.SemiBold
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 }
             }
