@@ -20,6 +20,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -40,23 +41,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true,
-    showSystemUi = true)
 @Composable
 fun AccountSettings(
     back: () -> Unit
 ) {
     Scaffold(
         topBar = { CenterAlignedTopAppBar(
-            title = { Text("Account Setting",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold
+            title = { Text(
+                "Account Settings",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onBackground
             ) },
             navigationIcon = {
                 IconButton(onClick = back) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                        contentDescription = null
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
             }
@@ -79,28 +80,32 @@ fun AccountSettings(
             Column(modifier = Modifier
                 .padding(horizontal = 12.dp)
                 .fillMaxSize()) {
-                Text("Password",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color(0xFF26408B)
+                Text(
+                    "Password",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(Modifier.height(4.dp))
                 OutlinedTextField(
                     value = password,
                     onValueChange = {password = it},
                     modifier = Modifier
-                        .border(1.dp, Color(0xFFA6CFD5), shape = RoundedCornerShape(4.dp))
+                        .border(2.dp, MaterialTheme.colorScheme.outlineVariant, shape = RoundedCornerShape(4.dp))
                         .height(48.dp)
                         .fillMaxWidth(),
-                    placeholder = {Text("Enter your password")},
+                    placeholder = {Text(
+                        "Enter your password",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )},
                     visualTransformation = PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
                 )
                 Spacer(Modifier.height(12.dp))
-                Text("Language",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color(0xFF26408B)
+                Text(
+                    "Language",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(Modifier.height(4.dp))
                 ExposedDropdownMenuBox(expanded = expand,
@@ -112,8 +117,8 @@ fun AccountSettings(
                         onValueChange = {},
                         modifier = Modifier
                             .border(
-                                width = 1.dp,
-                                color = Color(0xFFA6CFD5),
+                                width = 2.dp,
+                                color = MaterialTheme.colorScheme.outlineVariant,
                                 shape = RoundedCornerShape(4.dp)
                             )
                             .fillMaxWidth()
@@ -126,7 +131,11 @@ fun AccountSettings(
                         listOfLang.forEach {
                             language ->
                             DropdownMenuItem(
-                                text = { Text(language)},
+                                text = { Text(
+                                    language,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = MaterialTheme.colorScheme.onBackground
+                                )},
                                 onClick = {
                                     selected = language
                                     expand = false
@@ -136,27 +145,29 @@ fun AccountSettings(
                     }
                 }
                 Spacer(Modifier.height(12.dp))
-                Text("Privacy Settings",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color(0xFF26408B)
+                Text(
+                    "Privacy Settings",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(Modifier.height(4.dp))
                 Row(modifier = Modifier
-                    .border(width = 1.dp, color = Color(0xFFA6CFD5), shape = RoundedCornerShape(4.dp))
+                    .border(width = 2.dp, MaterialTheme.colorScheme.outlineVariant, shape = RoundedCornerShape(4.dp))
                     .padding(12.dp)
                     .clickable(enabled = true,
                         onClick = {}),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Information Privacy",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.SemiBold,
+                    Text(
+                        "Information Privacy",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.weight(1f)
                     )
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                        contentDescription = null
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
             }

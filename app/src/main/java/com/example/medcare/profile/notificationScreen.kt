@@ -1,5 +1,6 @@
 package com.example.medcare.profile
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,8 +31,6 @@ import androidx.compose.ui.unit.sp
 import com.example.medcare.class_objects.notification
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true,
-    showSystemUi = true)
 @Composable
 fun NotificationScreen(
     back: () -> Unit,
@@ -38,15 +38,17 @@ fun NotificationScreen(
 ) {
     Scaffold(
         topBar = { CenterAlignedTopAppBar(
-            title = { Text("Notifications",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold
+            title = { Text(
+                "Notifications",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onBackground
             ) },
             navigationIcon = {
                 IconButton(onClick = back) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                        contentDescription = null
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
             }
@@ -63,9 +65,14 @@ fun NotificationScreen(
             Button(
                 onClick = {navigateToClearNotifications()},
                 modifier = Modifier.align(Alignment.CenterHorizontally),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF26408B))
+                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.tertiaryContainer),
+                border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
             ) {
-                Text("Clear All")
+                Text(
+                    "Clear All",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
             }
         }
     }

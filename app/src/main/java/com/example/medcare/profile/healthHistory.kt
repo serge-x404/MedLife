@@ -21,6 +21,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,10 +35,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
 @Composable
 fun HealthHistory(
     back: () -> Unit
@@ -48,15 +45,16 @@ fun HealthHistory(
                 title = {
                     Text(
                         "Health History",
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 16.sp
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = back) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                            contentDescription = null
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -72,25 +70,26 @@ fun HealthHistory(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .border(1.dp, color = Color(0xFFC2E7D9))
+                        .border(2.dp, MaterialTheme.colorScheme.outlineVariant)
                         .padding(12.dp)
                 ) {
                     Text(
                         "Disease History",
-                        color = Color(0xFF26408B),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.weight(1f)
                     )
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowDown,
                         contentDescription = null,
-                        tint = Color(0xFF26408B)
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
                 Spacer(Modifier.height(30.dp))
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     Card(
                         modifier = Modifier.fillMaxWidth(),
-                        colors = CardDefaults.cardColors(containerColor = Color.Black)
+                        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest)
                     ) {
                         Column(
                             modifier = Modifier
@@ -102,25 +101,27 @@ fun HealthHistory(
                                 label = { Text("Disease History") },
                                 modifier = Modifier.align(Alignment.End),
                                 colors = AssistChipDefaults.assistChipColors(
-                                    Color(0xFF4D4D4D),
-                                    Color.White
+                                    MaterialTheme.colorScheme.secondaryContainer,
+                                    MaterialTheme.colorScheme.onBackground
                                 )
                             )
                             Text(
                                 "Diagnosis: December 12, 2025",
-                                color = Color(0xFF8F8F8F)
+                                color = MaterialTheme.colorScheme.onBackground,
+                                style = MaterialTheme.typography.titleMedium
                             )
                             Spacer(Modifier.height(4.dp))
                             Text(
                                 "Check Details",
-                                color = Color(0xFF26408B),
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.onBackground,
                                 textDecoration = TextDecoration.Underline
                             )
                         }
                     }
                     Card(
                         modifier = Modifier.fillMaxWidth(),
-                        colors = CardDefaults.cardColors(containerColor = Color.Black)
+                        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest)
                     ) {
                         Column(
                             modifier = Modifier
@@ -132,25 +133,27 @@ fun HealthHistory(
                                 label = { Text("Disease History") },
                                 modifier = Modifier.align(Alignment.End),
                                 colors = AssistChipDefaults.assistChipColors(
-                                    Color(0xFF4D4D4D),
-                                    Color.White
+                                    MaterialTheme.colorScheme.secondaryContainer,
+                                    MaterialTheme.colorScheme.onBackground
                                 )
                             )
                             Text(
-                                "Diagnosis: January 16, 2026",
-                                color = Color(0xFF8F8F8F)
+                                "Diagnosis: December 12, 2025",
+                                color = MaterialTheme.colorScheme.onBackground,
+                                style = MaterialTheme.typography.titleMedium
                             )
                             Spacer(Modifier.height(4.dp))
                             Text(
                                 "Check Details",
-                                color = Color(0xFF26408B),
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.onBackground,
                                 textDecoration = TextDecoration.Underline
                             )
                         }
                     }
                     Card(
                         modifier = Modifier.fillMaxWidth(),
-                        colors = CardDefaults.cardColors(containerColor = Color.Black)
+                        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest)
                     ) {
                         Column(
                             modifier = Modifier
@@ -159,23 +162,23 @@ fun HealthHistory(
                         ) {
                             AssistChip(
                                 onClick = {},
-                                label = { Text("Allergy History") },
+                                label = { Text("Disease History") },
                                 modifier = Modifier.align(Alignment.End),
                                 colors = AssistChipDefaults.assistChipColors(
-                                    Color(0xFF4D4D4D),
-                                    Color.White
+                                    MaterialTheme.colorScheme.secondaryContainer,
+                                    MaterialTheme.colorScheme.onBackground
                                 )
                             )
                             Text(
-                                "Severity: Severe, Precautions\n" +
-                                        "Avoid foods containing nuts",
-                                color = Color(0xFF8F8F8F),
-                                lineHeight = 30.sp
+                                "Diagnosis: December 12, 2025",
+                                color = MaterialTheme.colorScheme.onBackground,
+                                style = MaterialTheme.typography.titleMedium
                             )
                             Spacer(Modifier.height(4.dp))
                             Text(
                                 "Check Details",
-                                color = Color(0xFF26408B),
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.onBackground,
                                 textDecoration = TextDecoration.Underline
                             )
                         }

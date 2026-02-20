@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,7 +26,7 @@ import com.example.medcare.class_objects.Notifications
 
 @Composable
 fun NotificationLayout(notifications: Notifications) {
-    Card(colors = CardDefaults.cardColors(containerColor = Color.Black),
+    Card(colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest),
         modifier = Modifier.clickable(enabled = true,
             onClick = {})) {
         Row(verticalAlignment = Alignment.CenterVertically,
@@ -39,16 +40,14 @@ fun NotificationLayout(notifications: Notifications) {
             Spacer(Modifier.width(8.dp))
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(notifications.header,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.White
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Text(notifications.body,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Normal,
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onBackground,
                     maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    color = Color(0xFF8F8F8F)
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }

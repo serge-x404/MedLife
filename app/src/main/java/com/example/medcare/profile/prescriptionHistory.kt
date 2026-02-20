@@ -22,6 +22,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,23 +36,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true,
-    showSystemUi = true)
 @Composable
 fun PrescriptionHistory(
     back: () -> Unit
 ) {
     Scaffold(
         topBar = { CenterAlignedTopAppBar(
-            title = { Text("Prescription History",
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 16.sp
+            title = { Text(
+                "Prescription History",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onBackground
             ) },
             navigationIcon = {
                 IconButton(onClick = back) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                        contentDescription = null
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
             }
@@ -62,45 +63,52 @@ fun PrescriptionHistory(
                 .padding(horizontal = 12.dp)
                 .verticalScroll(rememberScrollState())) {
                 Row(modifier = Modifier.fillMaxWidth()
-                    .border(1.dp, color = Color(0xFFE3E3E3))
+                    .border(2.dp, color = MaterialTheme.colorScheme.outlineVariant)
                     .padding(12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Active Recipe",
-                        color = Color(0xFF26408B),
+                    Text(
+                        "Active Recipe",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.weight(1f)
                     )
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowDown,
                         contentDescription = null,
-                        tint = Color(0xFF26408B)
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
                 Spacer(Modifier.height(30.dp))
-                Card(colors = CardDefaults.cardColors(containerColor = Color(0xFFE3E3E3))) {
+                Card(colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest)) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Row(modifier = Modifier.fillMaxWidth()
-                            .background(Color(0xFF26408B))
-                            .padding(15.dp)) {
+                            .background(MaterialTheme.colorScheme.tertiaryContainer)
+                            .padding(15.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Text("Doctor's Name:",
-                                color = Color.White
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                             Text("Dr. Emily Smith, MD",
-                                color = Color.White,
-                                fontWeight = FontWeight.SemiBold
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         }
                         Column(modifier = Modifier.fillMaxWidth()
                             .background(Color.White)
                             .padding(15.dp)) {
-                            Text("Paracetamol 500 mg",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.SemiBold
+                            Text(
+                                "Paracetamol 500 mg",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                             Spacer(Modifier.height(6.dp))
-                            Text("Take 1 tablet every 6 hours as needed to reduce fever or pain.",
-                                fontWeight = FontWeight.Normal,
-                                color = Color(0xFF4D4D4D)
+                            Text(
+                                "Take 1 tablet every 6 hours as needed to reduce fever or pain.",
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         }
                         HorizontalDivider()
@@ -108,59 +116,70 @@ fun PrescriptionHistory(
                             .background(Color.White)
                             .padding(15.dp)) {
                             Text("Amoxicillin 500 mg",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.SemiBold
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                             Spacer(Modifier.height(6.dp))
-                            Text("Take 1 tablet every 8 hours for 7 days to treat bacterial infection.",
-                                fontWeight = FontWeight.Normal,
-                                color = Color(0xFF4D4D4D)
+                            Text(
+                                "Take 1 tablet every 8 hours for 7 days to treat bacterial infection.",
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         }
                         HorizontalDivider()
                         Column(modifier = Modifier.fillMaxWidth()
                             .background(Color.White)
                             .padding(15.dp)) {
-                            Text("Omeprazole 20 mg",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.SemiBold
+                            Text(
+                                "Omeprazole 20 mg",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                             Spacer(Modifier.height(6.dp))
-                            Text("Take 1 tablet every morning before eating to reduce stomach acid production.",
-                                fontWeight = FontWeight.Normal,
-                                color = Color(0xFF4D4D4D)
+                            Text(
+                                "Take 1 tablet every morning before eating to reduce stomach acid production.",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         }
-                        Text("12 Jan 2026 - 20 Jan 2026",
-                            color = Color(0xFF8F8F8F)
+                        Text(
+                            "12 Jan 2026 - 20 Jan 2026",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier.padding(vertical = 4.dp)
                         )
                     }
                 }
                 Spacer(Modifier.height(30.dp))
-                Card(colors = CardDefaults.cardColors(containerColor = Color(0xFFE3E3E3))) {
+                Card(colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest)) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Row(modifier = Modifier.fillMaxWidth()
-                            .background(Color(0xFF26408B))
-                            .padding(15.dp)) {
+                            .background(MaterialTheme.colorScheme.tertiaryContainer)
+                            .padding(15.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Text("Doctor's Name:",
-                                color = Color.White
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                             Text("Dr. Emily Smith, MD",
-                                color = Color.White,
-                                fontWeight = FontWeight.SemiBold
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         }
                         Column(modifier = Modifier.fillMaxWidth()
                             .background(Color.White)
                             .padding(15.dp)) {
-                            Text("Paracetamol 500 mg",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.SemiBold
+                            Text(
+                                "Paracetamol 500 mg",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                             Spacer(Modifier.height(6.dp))
-                            Text("Take 1 tablet every 6 hours as needed to reduce fever or pain.",
-                                fontWeight = FontWeight.Normal,
-                                color = Color(0xFF4D4D4D)
+                            Text(
+                                "Take 1 tablet every 6 hours as needed to reduce fever or pain.",
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         }
                         HorizontalDivider()
@@ -168,31 +187,37 @@ fun PrescriptionHistory(
                             .background(Color.White)
                             .padding(15.dp)) {
                             Text("Amoxicillin 500 mg",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.SemiBold
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                             Spacer(Modifier.height(6.dp))
-                            Text("Take 1 tablet every 8 hours for 7 days to treat bacterial infection.",
-                                fontWeight = FontWeight.Normal,
-                                color = Color(0xFF4D4D4D)
+                            Text(
+                                "Take 1 tablet every 8 hours for 7 days to treat bacterial infection.",
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         }
                         HorizontalDivider()
                         Column(modifier = Modifier.fillMaxWidth()
                             .background(Color.White)
                             .padding(15.dp)) {
-                            Text("Omeprazole 20 mg",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.SemiBold
+                            Text(
+                                "Omeprazole 20 mg",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                             Spacer(Modifier.height(6.dp))
-                            Text("Take 1 tablet every morning before eating to reduce stomach acid production.",
-                                fontWeight = FontWeight.Normal,
-                                color = Color(0xFF4D4D4D)
+                            Text(
+                                "Take 1 tablet every morning before eating to reduce stomach acid production.",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         }
-                        Text("12 Jan 2026 - 20 Jan 2026",
-                            color = Color(0xFF8F8F8F)
+                        Text(
+                            "12 Jan 2026 - 20 Jan 2026",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier.padding(vertical = 4.dp)
                         )
                     }
                 }
