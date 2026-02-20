@@ -76,13 +76,13 @@ fun HospitalDetails(hospital: ListHospital,
             Text(
                 text = hospital.hospitalName,
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.onBackground
             )
             Spacer(Modifier.height(6.dp))
             Text(
                 text = hospital.hospitalLocation,
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.onBackground
             )
             Spacer(Modifier.height(10.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -90,13 +90,13 @@ fun HospitalDetails(hospital: ListHospital,
                     painter = painterResource(R.drawable.phone),
                     contentDescription = null,
                     modifier = Modifier.size(15.dp),
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.surfaceTint)
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
                 )
                 Spacer(Modifier.width(6.dp))
                 Text(
                     text = hospital.hospitalNumber,
                     style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             }
             Spacer(Modifier.height(20.dp))
@@ -105,7 +105,7 @@ fun HospitalDetails(hospital: ListHospital,
             Text(
                 text = "Specialities",
                 style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.onBackground
             )
             Spacer(Modifier.height(12.dp))
             LazyVerticalGrid(
@@ -124,7 +124,7 @@ fun HospitalDetails(hospital: ListHospital,
             Text(
                 text = "Type Rooms",
                 style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onBackground
             )
             Column {
                 HospitalData.rooms.forEach {
@@ -143,25 +143,25 @@ fun HospitalDetails(hospital: ListHospital,
                     navigateToMap()
                 },
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.surfaceTint),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                     modifier = Modifier.weight(1f)
                 ) {
                     Text(
                         "Maps",
                         style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 }
                 Spacer(Modifier.width(6.dp))
                 Button(onClick = {},
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.onPrimaryContainer),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                     modifier = Modifier.weight(2f)
                 ) {
                     Text(
                         "Contact Now",
                         style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 }
             }

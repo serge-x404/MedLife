@@ -1,13 +1,18 @@
 package com.example.medcare.history
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.Tab
@@ -25,13 +30,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
 @Composable
-fun HistoryLogic() {
+fun HistoryLogic(navigateToChatDoc: () -> Unit) {
 
 
     var storeHistoryIndex by remember { mutableIntStateOf(0) }
@@ -44,7 +46,7 @@ fun HistoryLogic() {
             SecondaryTabRow(
                 indicator = {
                     TabRowDefaults.SecondaryIndicator(
-                        color = Color(0xFF26408B),
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
                         modifier = Modifier.tabIndicatorOffset(
                             storeHistoryIndex,
                             matchContentSize = false
@@ -66,15 +68,16 @@ fun HistoryLogic() {
                                 Text(
                                     tabs.name
                                 )
-                            }
+                            },
+                            modifier = Modifier.verticalScroll(rememberScrollState())
                         )
                     }
 
                 }
             )
             when (storeHistoryIndex) {
-                0 -> UpcomingAppointment(isCompleted)
-                else -> UpcomingAppointment(isCompleted)
+                0 -> UpcomingAppointment(isCompleted, navigateToChatDoc)
+                else -> UpcomingAppointment(isCompleted, navigateToChatDoc)
             }
         }
     }

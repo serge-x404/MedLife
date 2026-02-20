@@ -47,8 +47,8 @@ fun HospitalMap(hospital: ListHospital) {
                 )
             }
             Card(
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.surfaceTint),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
                 modifier = Modifier
                     .padding(22.dp)
                     .align(Alignment.BottomCenter)
@@ -99,27 +99,27 @@ fun HospitalMap(hospital: ListHospital) {
                     ) {
                         Button(
                             onClick = {},
-                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
-                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurfaceVariant),
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
                             modifier = Modifier.weight(1f)
                         ) {
                             Text(
                                 text = "Bed detail",
                                 style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         }
                         Spacer(Modifier.width(10.dp))
                         Button(
                             onClick = {},
-                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
-                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.onPrimaryContainer),
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
                             modifier = Modifier.weight(1f)
                         ) {
                             Text(
                                 text = "Contact Now",
                                 style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         }
                     }

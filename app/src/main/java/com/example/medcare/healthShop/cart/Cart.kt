@@ -68,7 +68,7 @@ fun Cart(
                 title = {
                     Text(
                         text = "Cart",
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.titleMedium
                     )
                 },
@@ -79,7 +79,7 @@ fun Cart(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -122,14 +122,14 @@ fun Cart(
                                 Text(
                                     text = selectedPlace,
                                     style = MaterialTheme.typography.titleSmall,
-                                    color = MaterialTheme.colorScheme.primary,
+                                    color = MaterialTheme.colorScheme.onBackground,
                                 )
                                 Icon(
                                     imageVector = Icons.Default.KeyboardArrowDown,
                                     contentDescription = null,
                                     modifier = Modifier
                                         .size(15.dp),
-                                    tint = MaterialTheme.colorScheme.primary
+                                    tint = MaterialTheme.colorScheme.onBackground
                                 )
                             }
                         }
@@ -144,7 +144,7 @@ fun Cart(
                                         Text(
                                             place,
                                             style = MaterialTheme.typography.labelLarge,
-                                            color = MaterialTheme.colorScheme.primary
+                                            color = MaterialTheme.colorScheme.onBackground
                                     ) },
                                     onClick = {
                                         selectedPlace = place
@@ -169,7 +169,7 @@ fun Cart(
                     Text(
                         text = "Have a coupon code? Enter here",
                         style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(Modifier.height(5.dp))
                     OutlinedTextField(
@@ -191,8 +191,8 @@ fun Cart(
                     onClick = {
                         navigateToFindingPharma()
                     },
-                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondaryContainer),
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSecondaryContainer),
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary),
+                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant),
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.BottomCenter)
@@ -200,7 +200,7 @@ fun Cart(
                     Text(
                         text = "Continue",
                         style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                        color = MaterialTheme.colorScheme.onTertiary
                     )
                 }
             }

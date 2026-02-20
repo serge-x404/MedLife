@@ -55,7 +55,7 @@ fun HospitalMain(
                         leadingIcon = { Icon(
                             imageVector = Icons.Filled.Search,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.surfaceTint
+                            tint = MaterialTheme.colorScheme.onBackground
                         )},
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -65,7 +65,7 @@ fun HospitalMain(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.surfaceTint
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -78,19 +78,19 @@ fun HospitalMain(
                 Row(horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .border(BorderStroke(1.dp, MaterialTheme.colorScheme.surfaceTint),
+                        .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
                             shape = RoundedCornerShape(8.dp))
                         .padding(15.dp)) {
                     Text(
                         text = "Search Provinces",
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.labelLarge,
                         modifier = Modifier.weight(1f)
                     )
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowDown,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.surfaceTint
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
                 Spacer(Modifier.height(20.dp))

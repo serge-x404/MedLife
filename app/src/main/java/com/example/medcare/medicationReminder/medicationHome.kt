@@ -50,7 +50,7 @@ fun MedicationHome(
                     Text(
                         "Medication Reminder",
                         style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 },
                 navigationIcon = {
@@ -58,7 +58,7 @@ fun MedicationHome(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -75,13 +75,13 @@ fun MedicationHome(
                     Text(
                         "Reminder to take medicine",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
                     Spacer(Modifier.height(12.dp))
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .border(width = 1.dp, MaterialTheme.colorScheme.surfaceTint)
+                            .border(width = 1.dp, MaterialTheme.colorScheme.outline)
                             .padding(horizontal = 8.dp, vertical = 14.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -108,13 +108,13 @@ fun MedicationHome(
                     Text(
                         "History of Taking Medication",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
                     Spacer(Modifier.height(12.dp))
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .border(width = 1.dp, MaterialTheme.colorScheme.surfaceTint)
+                            .border(width = 1.dp, MaterialTheme.colorScheme.outline)
                             .padding(horizontal = 8.dp, vertical = 14.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -142,16 +142,16 @@ fun MedicationHome(
                     onClick = {
                         navigateToAddMed()
                     },
-                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondaryContainer),
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSecondaryContainer),
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary),
+                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant),
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.BottomCenter)
                 ) {
                     Text(
                         "Add Medicine",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onTertiary
                     )
                 }
             }

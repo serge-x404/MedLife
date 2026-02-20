@@ -253,8 +253,8 @@ fun CartCard(hotSales: HotSales) {
     var showDialog by remember { mutableStateOf(false) }
 
     Card(
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primaryContainer),
-        border = BorderStroke(width = 1.dp, MaterialTheme.colorScheme.onPrimaryContainer)
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest),
+        border = BorderStroke(width = 2.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
         if (showDialog) {
             Dialog(
@@ -307,8 +307,8 @@ fun CartCard(hotSales: HotSales) {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
-                        .background(MaterialTheme.colorScheme.secondaryContainer)
-                        .border(1.dp, MaterialTheme.colorScheme.onSecondaryContainer, RoundedCornerShape(6.dp))
+                        .background(MaterialTheme.colorScheme.tertiaryContainer)
+                        .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(6.dp))
                         .size(24.dp)
                         .clickable(
                             enabled = true, onClick = {
@@ -333,8 +333,8 @@ fun CartCard(hotSales: HotSales) {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
-                        .background(MaterialTheme.colorScheme.secondaryContainer)
-                        .border(1.dp, MaterialTheme.colorScheme.onSecondaryContainer, RoundedCornerShape(6.dp))
+                        .background(MaterialTheme.colorScheme.tertiaryContainer)
+                        .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(6.dp))
                         .size(24.dp)
                         .clickable(
                             enabled = true, onClick = {

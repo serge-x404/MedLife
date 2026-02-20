@@ -26,8 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medcare.R
 
-@Preview(showBackground = true,
-    showSystemUi = true)
 @Composable
 fun AppointmentSuccess(
     navigateToHistory: () -> Unit
@@ -56,14 +54,14 @@ fun AppointmentSuccess(
         )
         Spacer(Modifier.height(20.dp))
         Button(onClick = navigateToHistory,
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
-            border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.onSecondary),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest),
+            border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outlineVariant),
             modifier = Modifier.fillMaxWidth()
                 .padding(horizontal = 80.dp)
         ) {
             Text(
                 text = "Go to details",
-                color = MaterialTheme.colorScheme.onSecondaryContainer
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
     }

@@ -88,7 +88,7 @@ fun HomeScreen(
             title = {
                 Text(
                     text = "Hi, serge",
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.headlineLarge
                 )
             },
@@ -100,7 +100,7 @@ fun HomeScreen(
                         painter = painterResource(R.drawable.cart),
                         contentDescription = "Cart",
                         Modifier.size(26.dp),
-                        tint = MaterialTheme.colorScheme.surfaceTint
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
                 IconButton(onClick = {
@@ -110,7 +110,7 @@ fun HomeScreen(
                         painter = painterResource(R.drawable.bell),
                         contentDescription = "Bell",
                         Modifier.size(26.dp),
-                        tint = MaterialTheme.colorScheme.surfaceTint
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
             })
@@ -147,19 +147,20 @@ fun HomeScreen(
                             onClick = {
                                 navigateToProfile()
                             },
-                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
-                            shape = RectangleShape,
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+                            shape = RoundedCornerShape(12.dp),
                         ) {
                             Row(verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center) {
+                                horizontalArrangement = Arrangement.Center
+                            ) {
                                 Text(
                                     text = "Fill Your Profile Now!",
-                                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    color = MaterialTheme.colorScheme.onSecondaryContainer,
                                 )
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                                     contentDescription = "Arrow",
-                                    tint = MaterialTheme.colorScheme.surfaceTint
+                                    tint = MaterialTheme.colorScheme.onSecondaryContainer
                                 )
                             }
                         }
@@ -208,8 +209,8 @@ fun HomeScreen(
                     onClick = {
                         navigateToChatDoc()
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
-                    border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.surfaceTint),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest),
+                    border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outline),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(80.dp)
@@ -223,26 +224,26 @@ fun HomeScreen(
                     ) {
                         Text(
                             text = "Consult with a specialist",
-                            color = MaterialTheme.colorScheme.secondary,
+                            color = MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.titleMedium
                         )
                         Text(
                             text = "Promote health via chat or call",
-                            color = MaterialTheme.colorScheme.secondary,
+                            color = MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.labelSmall
                         )
                     }
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                         contentDescription = "Arrow Forward",
-                        tint = MaterialTheme.colorScheme.surfaceTint
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
                 Spacer(Modifier.height(30.dp))
                 Text(
                     text = "Chat Doctor",
                     style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.padding(start = 30.dp)
                 )
                 Spacer(Modifier.height(5.dp))
@@ -270,7 +271,7 @@ fun HomeScreen(
                 Text(
                     "Best Selling Products",
                     style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.padding(start = 30.dp)
                 )
                 Spacer(Modifier.height(5.dp))
@@ -295,7 +296,7 @@ fun HomeScreen(
                 Text(
                     "Nearby Hospitals",
                     style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.padding(start = 30.dp)
                 )
                 Spacer(Modifier.height(5.dp))
@@ -312,10 +313,10 @@ fun HomeScreen(
                                     onClick = {
                                         navigateToHospital()
                                     })
-                                .border(1.dp, color = MaterialTheme.colorScheme.surfaceTint,
+                                .border(1.dp, color = MaterialTheme.colorScheme.outline,
                                     shape = RoundedCornerShape(4.dp)
                                 )
-                                .background(MaterialTheme.colorScheme.secondaryContainer)
+                                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
                         ) {
 //                    Surface(shape = CircleShape,
 //                        modifier = Modifier
@@ -330,7 +331,7 @@ fun HomeScreen(
                                 )
                                 Text(
                                     it.name,
-                                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    color = MaterialTheme.colorScheme.onBackground,
                                     style = MaterialTheme.typography.labelLarge
                                 )
                                 Spacer(Modifier.height(8.dp))
@@ -338,12 +339,12 @@ fun HomeScreen(
                                     Text(
                                         "See maps",
                                         style = MaterialTheme.typography.bodyLarge,
-                                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                                        color = MaterialTheme.colorScheme.onBackground
                                     )
                                     Icon(
                                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                                         contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.surfaceTint
+                                        tint = MaterialTheme.colorScheme.onBackground
                                     )
                                 }
                             }
@@ -354,7 +355,7 @@ fun HomeScreen(
                 Text(
                     "Health Article",
                     style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.padding(start = 30.dp)
                 )
                 Spacer(Modifier.height(10.dp))

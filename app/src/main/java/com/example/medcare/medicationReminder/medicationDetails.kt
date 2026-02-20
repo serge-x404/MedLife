@@ -83,7 +83,7 @@ fun MedicationReminder(
                     Text(
                         "Details About The Drug",
                         style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 },
                 navigationIcon = {
@@ -91,7 +91,7 @@ fun MedicationReminder(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -107,7 +107,7 @@ fun MedicationReminder(
             ) {
                 Card(
                     colors = CardDefaults.cardColors(MaterialTheme.colorScheme.tertiaryContainer),
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.surfaceTint)
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
                 ) {
                     Column(modifier = Modifier.padding(12.dp)) {
                         Text(
@@ -127,7 +127,7 @@ fun MedicationReminder(
                 Card(
                     modifier = Modifier.fillMaxSize(),
                     colors = CardDefaults.cardColors(MaterialTheme.colorScheme.secondaryContainer),
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.surfaceTint),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
                     elevation = CardDefaults.elevatedCardElevation(4.dp)
                 ) {
                     Column(modifier = Modifier.padding(10.dp)) {
@@ -554,7 +554,7 @@ fun MedicationReminder(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .border(1.dp, color = MaterialTheme.colorScheme.surfaceTint, shape = RoundedCornerShape(8.dp))
+                        .border(1.dp, color = MaterialTheme.colorScheme.outline, shape = RoundedCornerShape(8.dp))
                         .clickable(onClick = {checked = !checked})
                         .padding(horizontal = 12.dp)
                 ) {
@@ -562,7 +562,7 @@ fun MedicationReminder(
                         painter = painterResource(R.drawable.bell),
                         contentDescription = null,
                         modifier = Modifier.size(30.dp),
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.surfaceTint)
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
                     )
                     Spacer(Modifier.width(4.dp))
                     Text(
@@ -575,20 +575,20 @@ fun MedicationReminder(
                         onCheckedChange = {
                             checked = it
                         },
-                        colors = SwitchDefaults.colors(checkedTrackColor = MaterialTheme.colorScheme.surfaceTint)
+                        colors = SwitchDefaults.colors(checkedTrackColor = MaterialTheme.colorScheme.tertiary)
                     )
                 }
                 Spacer(Modifier.height(10.dp))
                 Button(
                     onClick = { navigateToSavedReminder(mediName,selectedDosage,drinkRules) },
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSecondaryContainer),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
                         "Save",
                         style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onTertiary
                     )
                 }
             }

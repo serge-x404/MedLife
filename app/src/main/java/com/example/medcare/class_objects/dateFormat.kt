@@ -55,17 +55,21 @@ fun CalendarHeader(
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                 contentDescription = null,
+                tint = MaterialTheme.colorScheme.onBackground
             )
         }
         Text(
             text = month.format(
                 DateTimeFormatter.ofPattern("MMMM yyyy")
             ),
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.onBackground,
         )
         IconButton(onClick = onNextMonth) {
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = null,
+                tint = MaterialTheme.colorScheme.onBackground
             )
         }
     }
@@ -115,7 +119,7 @@ fun DateCard(
     onClick: () -> Unit
 ) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
         elevation = CardDefaults.elevatedCardElevation(2.dp),
         modifier = Modifier
             .size(70.dp)
@@ -134,14 +138,14 @@ fun DateCard(
                     Locale.getDefault()
                 ).uppercase(),
                 style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center
             )
             Spacer(Modifier.height(8.dp))
             Text(
                 text = date.dayOfMonth.toString(),
                 style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center
             )
         }
@@ -200,6 +204,7 @@ fun DateDisplay(selectedDate: LocalDate?) {
     Text(
         text = selectedDate?: "No date selected",
         style = MaterialTheme.typography.labelLarge,
+        color = MaterialTheme.colorScheme.onBackground,
         textAlign = TextAlign.Center
     )
 }

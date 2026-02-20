@@ -193,11 +193,15 @@ fun addServicesScreen(navHostController: NavHostController, navGraphBuilder: Nav
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun addHistoryScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
         route = NavRoute.History.path
     ) {
-        HistoryScreen(back = {navHostController.popBackStack()})
+        HistoryScreen(
+            back = {navHostController.popBackStack()},
+            navigateToChatDoc = {navHostController.navigate(NavRoute.ChatDoc.path)}
+        )
     }
 }
 

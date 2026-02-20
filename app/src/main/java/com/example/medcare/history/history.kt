@@ -1,13 +1,18 @@
 package com.example.medcare.history
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MultiChoiceSegmentedButtonRow
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SecondaryTabRow
@@ -27,14 +32,12 @@ import androidx.compose.ui.unit.sp
 enum class HistoryTabs { UPCOMING, COMPLETED }
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
 @Composable
 fun HistoryScreen(
-    back: () -> Unit
+    back: () -> Unit,
+    navigateToChatDoc: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -42,8 +45,8 @@ fun HistoryScreen(
                 title = {
                     Text(
                         text = "History",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 },
                 navigationIcon = {
@@ -52,7 +55,8 @@ fun HistoryScreen(
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                            contentDescription = null
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -60,7 +64,7 @@ fun HistoryScreen(
         }
     ) { it ->
         Column(Modifier.padding(it)) {
-            HistoryLogic()
+            HistoryLogic(navigateToChatDoc)
         }
     }
 }

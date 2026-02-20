@@ -93,7 +93,7 @@ fun DoctorDetails(
                     Text(
                         text = "Doctor Details",
                         style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 },
                 navigationIcon = {
@@ -101,7 +101,7 @@ fun DoctorDetails(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.surfaceTint
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 },
@@ -109,7 +109,7 @@ fun DoctorDetails(
                     Icon(
                         imageVector = Icons.Default.Share,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.surfaceTint
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(MaterialTheme.colorScheme.surfaceContainer),
@@ -169,34 +169,36 @@ fun DoctorDetails(
                 ) {
                     Column(
                         modifier = Modifier
-                            .border(BorderStroke(2.dp, MaterialTheme.colorScheme.surfaceTint))
+                            .background(MaterialTheme.colorScheme.surfaceContainer)
+                            .border(BorderStroke(1.dp, MaterialTheme.colorScheme.onSurfaceVariant))
                             .padding(8.dp)
                     ) {
                         Text(
                             text = "Education",
                             style = MaterialTheme.typography.titleSmall,
-                            color = MaterialTheme.colorScheme.secondary
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
                             text = "University of Milan",
                             style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.primary
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                     }
                     Column(
                         modifier = Modifier
-                            .border(BorderStroke(2.dp, MaterialTheme.colorScheme.surfaceTint))
+                            .background(MaterialTheme.colorScheme.surfaceContainer)
+                            .border(BorderStroke(1.dp, MaterialTheme.colorScheme.onSurfaceVariant))
                             .padding(8.dp)
                     ) {
                         Text(
                             text = "License",
                             style = MaterialTheme.typography.titleSmall,
-                            color = MaterialTheme.colorScheme.secondary
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
                             text = "1276126552881",
                             style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.primary
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                     }
                 }
@@ -205,18 +207,18 @@ fun DoctorDetails(
                     Text(
                         text = "Practice Location",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                     Card(
                         modifier = Modifier.fillMaxWidth(),
-                        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primaryContainer)
+                        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer)
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.padding(8.dp)) {
                             Text(
                                 text = "Rossi Cardiology Clinic",
                                 style = MaterialTheme.typography.labelLarge,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                color = MaterialTheme.colorScheme.onSurface,
                                 textAlign = TextAlign.Center
                             )
                         }
@@ -225,7 +227,7 @@ fun DoctorDetails(
                     Text(
                         "Working Hours",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(Modifier.height(10.dp))
                     LazyVerticalGrid(
@@ -242,7 +244,7 @@ fun DoctorDetails(
                     Text(
                         text = "Schedule",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(Modifier.height(5.dp))
                     DateScreen()
@@ -250,7 +252,7 @@ fun DoctorDetails(
                     Text(
                         text = "Review",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(Modifier.height(4.dp))
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -274,7 +276,7 @@ fun DoctorDetails(
                     onClick = {},
                     modifier = Modifier.weight(1f),
                     colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.surfaceContainer),
-                    border = BorderStroke(2.dp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    border = BorderStroke(2.dp, color = MaterialTheme.colorScheme.outlineVariant)
                 ) {
                     Image(
                         painter = painterResource(R.drawable.chat),
@@ -293,13 +295,13 @@ fun DoctorDetails(
                 Button(
                     onClick = navigateToAppointment,
                     modifier = Modifier.weight(2f),
-                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primaryContainer),
-                    border = BorderStroke(2.dp, color = MaterialTheme.colorScheme.onPrimaryContainer)
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.tertiaryContainer),
+                    border = BorderStroke(2.dp, color = MaterialTheme.colorScheme.outlineVariant)
                 ) {
                     Text(
                         text = "Make an Appointment",
                         style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                        color = MaterialTheme.colorScheme.onTertiaryContainer
                     )
                 }
             }

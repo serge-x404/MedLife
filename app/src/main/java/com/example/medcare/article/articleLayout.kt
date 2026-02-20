@@ -1,5 +1,6 @@
 package com.example.medcare.article
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -54,14 +56,14 @@ fun ArticleLayout(article: Article,
                 Button(onClick = {
                     navigateToArticle()
                 },
-                    colors = ButtonDefaults.buttonColors(Color(0xFF26408B)),
-                    shape = RectangleShape,
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                    shape = RoundedCornerShape(14.dp),
                     modifier = Modifier.align(Alignment.Start)
                 ) {
                     Text(
                         "Read Article",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = Color.White
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 }
             }
@@ -97,8 +99,10 @@ fun LatestArticle(article: Article,
                   navigateToArticle: () -> Unit
 ) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
-        modifier = Modifier.clickable(
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+        modifier = Modifier
+            .clickable(
             enabled = true,
             onClick = {
                 navigateToArticle()

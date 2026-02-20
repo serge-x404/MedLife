@@ -34,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
@@ -69,7 +70,7 @@ fun gridViewLayout(
         modifier = Modifier
             .padding(8.dp)
             .size(96.dp),
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primaryContainer),
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest),
         elevation = CardDefaults.elevatedCardElevation(4.dp)
     ) {
         Column(
@@ -82,14 +83,14 @@ fun gridViewLayout(
                 painter = painterResource(categories.icon),
                 contentDescription = "Image",
                 Modifier.size(36.dp),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.surfaceTint)
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
             )
             Spacer(Modifier.height(8.dp))
             Text(
                 text = categories.name,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
     }
@@ -103,7 +104,7 @@ fun doctorsListGrid(
     Card(
         onClick = { navigateToDocDtls() },
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer),
-        elevation = CardDefaults.elevatedCardElevation(4.dp)
+        elevation = CardDefaults.elevatedCardElevation(2.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -120,29 +121,29 @@ fun doctorsListGrid(
             Column(modifier = Modifier.weight(.1f)) {
                 Text(
                     text = doctorsSyntax.name,
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.primary
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
-                Spacer(Modifier.height(4.dp))
                 Text(
                     text = doctorsSyntax.speciality,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                Spacer(Modifier.height(10.dp))
                 Text(
                     text = doctorsSyntax.availability,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = MaterialTheme.colorScheme.onTertiaryContainer,
                     fontWeight = FontWeight.Normal,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
-                        .background(MaterialTheme.colorScheme.background)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(MaterialTheme.colorScheme.tertiaryContainer)
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
                 )
             }
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.surfaceTint,
+                tint = MaterialTheme.colorScheme.tertiary,
                 modifier = Modifier.padding(end = 12.dp)
             )
         }
@@ -154,12 +155,12 @@ fun doctorWorkingHours(hours: String) {
     var selected by remember { mutableStateOf(false) }
     Card(
         onClick = {selected = !selected},
-        colors = if (selected) CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.inverseOnSurface)
-        else CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+        colors = if (selected) CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)
+        else CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
         border = if (selected){
-            BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.surfaceTint)
+            BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outlineVariant)
         }
-        else BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.inverseOnSurface),
+        else BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outline),
         shape = CardDefaults.shape,
         modifier = Modifier.size(height = 30.dp, width = 100.dp)
     ) {
@@ -201,8 +202,8 @@ fun selectionDate(dateDay: DateDay) {
 fun Reviews(reviewContents: ReviewContents) {
     Card(
         onClick = {},
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primaryContainer),
-        modifier = Modifier.size(height = 150.dp, width = 220.dp)
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.secondaryContainer),
+        modifier = Modifier.size(height = 165.dp, width = 250.dp)
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -218,12 +219,12 @@ fun Reviews(reviewContents: ReviewContents) {
                     Text(
                         text = reviewContents.name,
                         style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                     Text(
                         text = reviewContents.timeperiod,
                         style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                 }
             }
@@ -231,7 +232,7 @@ fun Reviews(reviewContents: ReviewContents) {
             Text(
                 text = reviewContents.body,
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
                 overflow = TextOverflow.Ellipsis
             )
         }

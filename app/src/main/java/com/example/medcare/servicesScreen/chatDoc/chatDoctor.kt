@@ -56,20 +56,20 @@ fun ChatDoctorScreen(
             title = { Text(
                 text = "Chat Doctor",
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.onBackground
             ) },
             navigationIcon = { IconButton(onClick = back) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.surfaceTint
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             } }
         ) }
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
             Box(modifier = Modifier) {
-                Column {
+                Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                     OutlinedTextField(
                         value = "",
                         onValueChange = {},
@@ -86,7 +86,8 @@ fun ChatDoctorScreen(
                     Spacer(Modifier.height(10.dp))
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(1),
-                        modifier = Modifier.padding(start = 8.dp, end = 8.dp),
+                        modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+                            .height(960.dp),
                         verticalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         items(DoctorsGrid.listOfDoctors) { image ->
@@ -112,6 +113,9 @@ object DoctorsGrid {
         doctorsSyntax(R.drawable.dr_marco,"Dr. Marco Ferrari","Orthopedics Specialist","Available on Wed-Tue"),
         doctorsSyntax(R.drawable.dr_sofia,"Dr. Sofia Muller","Dermatology Specialist","Available on Wed-Sat"),
         doctorsSyntax(R.drawable.dr_rajesh,"Dr. Rajesh Patel","General Surgery","Available on Wed-Sat"),
+        doctorsSyntax(R.drawable.dr_anna,"Dr. Anna Schmidt","General Practitioner","Available on Wed-Sat"),
+        doctorsSyntax(R.drawable.dr_emma,"Dr. Emma Andersen","Neurology Specialist","Available on Wed-Sat"),
+        doctorsSyntax(R.drawable.dr_fabian,"Dr. Fabian Weber","General Surgery","Available on Wed-Sat"),
         doctorsSyntax(R.drawable.dr_anna,"Dr. Anna Schmidt","General Practitioner","Available on Wed-Sat"),
         doctorsSyntax(R.drawable.dr_emma,"Dr. Emma Andersen","Neurology Specialist","Available on Wed-Sat"),
         doctorsSyntax(R.drawable.dr_fabian,"Dr. Fabian Weber","General Surgery","Available on Wed-Sat"),

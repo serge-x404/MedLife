@@ -57,7 +57,7 @@ fun EmptyCart(
                 title = {
                     Text(
                         text = "Cart",
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.titleMedium
                     )
                 },
@@ -68,7 +68,7 @@ fun EmptyCart(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -111,14 +111,14 @@ fun EmptyCart(
                                 Text(
                                     text = selectedPlace,
                                     style = MaterialTheme.typography.titleSmall,
-                                    color = MaterialTheme.colorScheme.primary,
+                                    color = MaterialTheme.colorScheme.onBackground,
                                 )
                                 Icon(
                                     imageVector = Icons.Default.KeyboardArrowDown,
                                     contentDescription = null,
                                     modifier = Modifier
                                         .size(15.dp),
-                                    tint = MaterialTheme.colorScheme.primary
+                                    tint = MaterialTheme.colorScheme.onBackground
                                 )
                             }
                         }
@@ -133,7 +133,7 @@ fun EmptyCart(
                                         Text(
                                             place,
                                             style = MaterialTheme.typography.labelLarge,
-                                            color = MaterialTheme.colorScheme.primary
+                                            color = MaterialTheme.colorScheme.onBackground
                                         ) },
                                     onClick = {
                                         selectedPlace = place
@@ -170,8 +170,8 @@ fun EmptyCart(
                 onClick = {
                     navigateToHealthShop()
                 },
-                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondaryContainer),
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSecondaryContainer),
+                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary),
+                border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant),
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
@@ -179,7 +179,7 @@ fun EmptyCart(
                 Text(
                     text = "Add Medicines",
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                    color = MaterialTheme.colorScheme.onTertiary
                 )
             }
         }

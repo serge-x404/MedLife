@@ -27,6 +27,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -58,16 +59,19 @@ fun ProfileScreen(
 ) {
     Scaffold(
         topBar = { TopAppBar(
-            title = { Text("My Profile",
-                fontWeight = FontWeight.Normal,
-                fontSize = 16.sp
+            title = {
+                Text(
+                    "My Profile",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onBackground
             ) },
             navigationIcon = { IconButton(
                 onClick = back
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                    contentDescription = null
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             } }
         ) }
@@ -78,7 +82,9 @@ fun ProfileScreen(
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())) {
                 Card(modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(containerColor = Color.White)) {
+                    colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest),
+                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
+                ) {
                     Row(verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(12.dp)) {
                         Image(
@@ -89,45 +95,49 @@ fun ProfileScreen(
                         Spacer(Modifier.width(8.dp))
                         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                             Text(
-                                text = "userName",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.SemiBold
+                                text = "serge",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                             Row {
                                 Icon(
                                     imageVector = Icons.Default.Email,
                                     contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onBackground,
                                     modifier = Modifier.size(20.dp)
                                 )
                                 Spacer(Modifier.width(6.dp))
                                 Text(
                                     "lorenzoricci@example.com",
-                                    color = Color(0xFF4D4D4D)
+                                    style = MaterialTheme.typography.labelLarge,
+                                    color = MaterialTheme.colorScheme.onBackground
                                 )
                             }
                             Row {
                                 Icon(
                                     imageVector = Icons.Default.Phone,
                                     contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onBackground,
                                     modifier = Modifier.size(20.dp)
                                 )
                                 Spacer(Modifier.width(6.dp))
                                 Text(
                                     "+39 1234567890",
-                                    color = Color(0xFF4D4D4D)
+                                    style = MaterialTheme.typography.labelLarge,
+                                    color = MaterialTheme.colorScheme.onBackground
                                 )
                             }
                         }
                     }
                 }
-                Spacer(Modifier.height(40.dp))
-                Text("Menu",
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 16.sp,
-                    color = Color(0xFF4D4D4D)
+                Spacer(Modifier.height(20.dp))
+                Text(
+                    "Menu",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Card(modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(containerColor = Color.White)) {
+                    colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest)) {
                     Row(verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(12.dp)
                             .fillMaxWidth()
@@ -137,16 +147,20 @@ fun ProfileScreen(
                         Image(
                             painter = painterResource(R.drawable.book),
                             contentDescription = null,
-                            modifier = Modifier.size(30.dp)
+                            modifier = Modifier.size(30.dp),
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
                         )
                         Spacer(Modifier.width(8.dp))
                         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                            Text("Prescription History",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.SemiBold
+                            Text(
+                                "Prescription History",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
-                            Text("Check out the full prescription history here",
-                                color = Color(0xFF4D4D4D)
+                            Text(
+                                "Check out the full prescription history here",
+                                style = MaterialTheme.typography.labelLarge,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         }
                     }
@@ -159,16 +173,20 @@ fun ProfileScreen(
                         Image(
                             painter = painterResource(R.drawable.heart),
                             contentDescription = null,
-                            modifier = Modifier.size(30.dp)
+                            modifier = Modifier.size(30.dp),
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
                         )
                         Spacer(Modifier.width(8.dp))
                         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                            Text("Health History",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.SemiBold
+                            Text(
+                                "Health History",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
-                            Text("Check details regarding your medical history",
-                                color = Color(0xFF4D4D4D)
+                            Text(
+                                "Check details regarding your medical history",
+                                style = MaterialTheme.typography.labelLarge,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         }
                     }
@@ -181,28 +199,32 @@ fun ProfileScreen(
                         Image(
                             painter = painterResource(R.drawable.wallet),
                             contentDescription = null,
-                            modifier = Modifier.size(30.dp)
+                            modifier = Modifier.size(30.dp),
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
                         )
                         Spacer(Modifier.width(8.dp))
                         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                            Text("Transactions",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.SemiBold
+                            Text(
+                                "Transactions",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
-                            Text("Look back at your previous transactions",
-                                color = Color(0xFF4D4D4D)
+                            Text(
+                                "Look back at your previous transactions",
+                                style = MaterialTheme.typography.labelLarge,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         }
                     }
                 }
                 Spacer(Modifier.height(40.dp))
-                Text("General Information",
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 16.sp,
-                    color = Color(0xFF4D4D4D)
+                Text(
+                    "General Information",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Card(modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(containerColor = Color.White)) {
+                    colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest)) {
                     Row(verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(12.dp)
                             .fillMaxWidth()
@@ -212,12 +234,14 @@ fun ProfileScreen(
                         Image(
                             painter = painterResource(R.drawable.gear),
                             contentDescription = null,
-                            modifier = Modifier.size(30.dp)
+                            modifier = Modifier.size(30.dp),
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
                         )
                         Spacer(Modifier.width(8.dp))
-                        Text("Account Settings",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold
+                        Text(
+                            "Account Settings",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     Row(verticalAlignment = Alignment.CenterVertically,
@@ -229,13 +253,14 @@ fun ProfileScreen(
                         Image(
                             painter = painterResource(R.drawable.bell),
                             contentDescription = null,
-                            colorFilter = ColorFilter.tint(Color(0xFF26408B)),
-                            modifier = Modifier.size(30.dp)
+                            modifier = Modifier.size(30.dp),
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
                         )
                         Spacer(Modifier.width(8.dp))
-                        Text("Notifications",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold
+                        Text(
+                            "Notifications",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     Row(verticalAlignment = Alignment.CenterVertically,
@@ -244,12 +269,14 @@ fun ProfileScreen(
                         Image(
                             painter = painterResource(R.drawable.docs),
                             contentDescription = null,
-                            modifier = Modifier.size(30.dp)
+                            modifier = Modifier.size(30.dp),
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
                         )
                         Spacer(Modifier.width(8.dp))
-                        Text("Reference Settings",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold
+                        Text(
+                            "Reference Settings",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                     Row(verticalAlignment = Alignment.CenterVertically,
@@ -258,12 +285,14 @@ fun ProfileScreen(
                         Image(
                             painter = painterResource(R.drawable.moon),
                             contentDescription = null,
-                            modifier = Modifier.size(30.dp)
+                            modifier = Modifier.size(30.dp),
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
                         )
                         Spacer(Modifier.width(8.dp))
-                        Text("Dark Mode",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold,
+                        Text(
+                            "Dark Mode",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier.weight(1f)
                         )
                         val context = LocalContext.current
@@ -275,13 +304,13 @@ fun ProfileScreen(
                     }
                 }
                 Spacer(Modifier.height(40.dp))
-                Text("Pharmacy Portal",
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 16.sp,
-                    color = Color(0xFF4D4D4D)
+                Text(
+                    "Pharmacy Portal",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Card(modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(Color.White)) {
+                    colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest)) {
                     Row(modifier = Modifier.padding( 12.dp)
                         .fillMaxWidth()
                         .clickable(
@@ -295,13 +324,13 @@ fun ProfileScreen(
                             painter = painterResource(R.drawable.pharma_admin),
                             contentDescription = null,
                             modifier = Modifier.size(30.dp),
-                            colorFilter = ColorFilter.tint(Color(0xFF26408B))
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
                         )
                         Spacer(Modifier.width(8.dp))
                         Text(
                             text = "Admin Login",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -312,12 +341,13 @@ fun ProfileScreen(
                 },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(4.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-                    border = BorderStroke(1.dp, color = Color(0xFFC2E7D9)
-                    )
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.errorContainer),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.onErrorContainer)
                     ) {
-                    Text("Log Out",
-                        color = Color(0xFF9F3000)
+                    Text(
+                        "Log Out",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onErrorContainer
                     )
                 }
                 Spacer(Modifier.height(100.dp))

@@ -2,7 +2,9 @@ package com.example.medcare.medicationReminder
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +20,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
@@ -29,6 +32,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,6 +43,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -68,15 +73,16 @@ fun ReminderFilled(
                 title = {
                     Text(
                         "Medication Reminder",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = back) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                            contentDescription = null
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -108,14 +114,14 @@ fun ReminderFilled(
                             Spacer(Modifier.height(8.dp))
                             Text(
                                 "No medication scheduled for today",
-                                fontWeight = FontWeight.SemiBold,
-                                fontSize = 16.sp
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                             Spacer(Modifier.height(4.dp))
                             Text(
                                 "Click add medicine below to add a schedule",
-                                fontWeight = FontWeight.Normal,
-                                color = Color(0xFF4D4D4D)
+                                style = MaterialTheme.typography.labelLarge,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
                         }
                     }
@@ -126,7 +132,8 @@ fun ReminderFilled(
                                 horizontalArrangement = Arrangement.Start,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .border(1.dp, color = Color(0xFFE3E3E3))
+                                    .background(MaterialTheme.colorScheme.surfaceContainer)
+                                    .border(1.dp, color = MaterialTheme.colorScheme.onSurfaceVariant, shape = RoundedCornerShape(6.dp))
                                     .padding(10.dp)
                             ) {
                                 Image(
@@ -138,19 +145,21 @@ fun ReminderFilled(
                                 Column {
                                     Text(
                                         medName,
-                                        fontWeight = FontWeight.SemiBold,
-                                        fontSize = 14.sp
+                                        style = MaterialTheme.typography.titleSmall,
+                                        color = MaterialTheme.colorScheme.onSurface
                                     )
                                     Spacer(Modifier.height(4.dp))
                                     Row {
                                         Text(
                                             dosage,
-                                            fontSize = 14.sp
+                                            style = MaterialTheme.typography.labelMedium,
+                                            color = MaterialTheme.colorScheme.onSurface
                                         )
                                         Spacer(Modifier.width(4.dp))
                                         Text(
                                             timings,
-                                            fontSize = 14.sp
+                                            style = MaterialTheme.typography.labelMedium,
+                                            color = MaterialTheme.colorScheme.onSurface
                                         )
                                     }
                                 }
@@ -163,11 +172,13 @@ fun ReminderFilled(
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.BottomCenter),
-                    colors = ButtonDefaults.buttonColors(Color(0xFF26408B)),
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary),
+                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
                 ) {
                     Text(
                         "Add medicine",
-                        fontWeight = FontWeight.SemiBold
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onTertiary
                     )
                 }
             }
