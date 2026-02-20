@@ -59,13 +59,13 @@ fun MedicineDescription(
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.surfaceTint
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
             }, actions = {
                 Icon(
                     imageVector = Icons.Default.Share, contentDescription = null,
-                    tint = MaterialTheme.colorScheme.surfaceTint
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             },
                 modifier = Modifier
@@ -117,7 +117,7 @@ fun MedicineDescription(
                         Text(
                             text = "$2.00",
                             style = MaterialTheme.typography.titleLarge,
-                            color = MaterialTheme.colorScheme.primary
+                            color = MaterialTheme.colorScheme.onSecondaryContainer
                         )
                     }
                     Spacer(Modifier.height(15.dp))
@@ -126,7 +126,7 @@ fun MedicineDescription(
                     Text(
                         text = "Product Description",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(Modifier.height(5.dp))
                     Text(
@@ -142,7 +142,7 @@ fun MedicineDescription(
                     Text(
                         text = "Benefits",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(Modifier.height(5.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -182,7 +182,7 @@ fun MedicineDescription(
                     Text(
                         text = "Composition",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
@@ -221,7 +221,7 @@ fun MedicineDescription(
                     Text(
                         text = "Dosage",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(Modifier.height(5.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -260,7 +260,11 @@ fun MedicineDescription(
                         )
                     }
                     Spacer(Modifier.height(15.dp))
-                    Text(text = "Storage Instructions", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    Text(
+                        text = "Storage Instructions",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
                     Spacer(Modifier.height(5.dp))
                     Text(
                         text = "For optimal potency and safety, it is recommended to store this medication in a cool, " +
@@ -272,7 +276,7 @@ fun MedicineDescription(
                     Spacer(Modifier.height(15.dp))
                     Text(text = "Special Precautions",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(Modifier.height(5.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -311,7 +315,7 @@ fun MedicineDescription(
                     Spacer(Modifier.height(15.dp))
                     Text(text = "Reviews",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(Modifier.height(5.dp))
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -334,14 +338,15 @@ fun MedicineDescription(
                     onClick = {
                         navigateToCart()
                     },
-                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondaryContainer),
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSecondaryContainer),
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.tertiaryContainer),
+                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant),
                     modifier = Modifier
                         .align(alignment = Alignment.BottomCenter)
                         .fillMaxWidth()
                 ) {
                     Text(
                         text = "Add to Cart",
+                        style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                 }

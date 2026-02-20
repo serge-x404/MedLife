@@ -131,8 +131,8 @@ fun HotSalesGrid(
                             Box(
                                 contentAlignment = Alignment.Center,
                                 modifier = Modifier
-                                    .background(MaterialTheme.colorScheme.secondaryContainer)
-                                    .border(1.dp, MaterialTheme.colorScheme.onSecondaryContainer, RoundedCornerShape(6.dp))
+                                    .background(MaterialTheme.colorScheme.tertiaryContainer)
+                                    .border(2.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(6.dp))
                                     .size(36.dp)
                                     .clickable(
                                         enabled = true, onClick = {
@@ -155,8 +155,8 @@ fun HotSalesGrid(
                             Box(
                                 contentAlignment = Alignment.Center,
                                 modifier = Modifier
-                                    .background(MaterialTheme.colorScheme.secondaryContainer)
-                                    .border(1.dp, MaterialTheme.colorScheme.onSecondaryContainer, RoundedCornerShape(6.dp))
+                                    .background(MaterialTheme.colorScheme.tertiaryContainer)
+                                    .border(2.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(6.dp))
                                     .size(36.dp)
                                     .clickable(
                                         enabled = true, onClick = {
@@ -179,8 +179,8 @@ fun HotSalesGrid(
                         navigateToCart()
                     },
                     modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondaryContainer),
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.surfaceTint)
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.tertiaryContainer),
+                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
                 ) {
                     Text(
                         text = "Add to Cart",
@@ -195,8 +195,9 @@ fun HotSalesGrid(
         modifier = Modifier.clickable {
             navigateToMedDesc()
         },
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.background),
-        elevation = CardDefaults.elevatedCardElevation(6.dp),
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest),
+        border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant),
+        elevation = CardDefaults.elevatedCardElevation(2.dp),
     ) {
         Column(Modifier.padding(10.dp)) {
             Image(
@@ -232,8 +233,8 @@ fun HotSalesGrid(
                 Spacer(Modifier.width(6.dp))
                 Button(
                     onClick = { stateChange = true },
-                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondaryContainer),
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurfaceVariant)
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.tertiaryContainer),
+                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
                 ) {
                     Text(
                         text = "Add",

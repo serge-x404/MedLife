@@ -75,7 +75,7 @@ fun ShoppingHomePage(
                             Icon(
                                 imageVector = Icons.Default.Search,
                                 contentDescription = null,
-                                tint = MaterialTheme.colorScheme.surfaceTint
+                                tint = MaterialTheme.colorScheme.onBackground
                             )
                         },
                     )
@@ -85,7 +85,7 @@ fun ShoppingHomePage(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.surfaceTint
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 },
@@ -97,7 +97,7 @@ fun ShoppingHomePage(
                             .clickable(
                                 onClick = {navigateToCart()}
                             ),
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.surfaceTint)
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
                     )
                 }
             )
@@ -122,25 +122,26 @@ fun ShoppingHomePage(
             Spacer(Modifier.height(8.dp))
             Column(modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.secondaryContainer)
+                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
                 .padding(15.dp)) {
                 Row {
                     Text(
                         text = "Official Store",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.weight(1f)
                     )
                     Text(
                         text = "See all",
                         style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
                 Spacer(Modifier.height(8.dp))
                 Text(
                     text = "Special offers from various renowned brands",
-                    style = MaterialTheme.typography.labelMedium
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(Modifier.height(10.dp))
                 LazyRow(modifier = Modifier.fillMaxWidth(),
@@ -158,13 +159,13 @@ fun ShoppingHomePage(
                     Text(
                         text = "Hot Sales",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.weight(1f)
                     )
                     Text(
                         text = "See all",
                         style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.clickable(
                             enabled = true,
                             onClick = {
@@ -185,13 +186,13 @@ fun ShoppingHomePage(
                     Text(
                         text = "Recently Viewed",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onBackground,
                         modifier = Modifier.weight(1f)
                     )
                     Text(
                         text = "See all",
                         style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 }
                 Spacer(Modifier.height(6.dp))
