@@ -27,7 +27,7 @@ enum class Tabs { PHONE, EMAIL }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TabLogic(
-    navigateToHomeScreen: () -> Unit
+    navigateToLoginScreen: () -> Unit
 ) {
     var storeIndex by remember { mutableIntStateOf(0) }
     Scaffold(
@@ -50,8 +50,8 @@ fun TabLogic(
                 }
             )
             when(storeIndex) {
-                0 -> PhoneNumberRegister(navigateToHomeScreen)
-                else -> EmailRegister (navigateToHomeScreen)
+                0 -> PhoneNumberRegister(navigateToLoginScreen)
+                else -> EmailRegister (navigateToLoginScreen)
             }
         }
     }

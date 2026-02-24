@@ -25,6 +25,7 @@ import com.example.medcare.homeScreen.HomeScreen
 import com.example.medcare.hospitals.HospitalDetails
 import com.example.medcare.hospitals.HospitalMain
 import com.example.medcare.hospitals.Map
+import com.example.medcare.loginScreen.LoginScreen
 import com.example.medcare.medicationReminder.MedicationHome
 import com.example.medcare.medicationReminder.MedicationReminder
 import com.example.medcare.medicationReminder.ReminderFilled
@@ -56,6 +57,7 @@ fun NavGraph(navHostController: NavHostController, modifier: Modifier) {
         addSplashScreen(navHostController, this)
         addWalkthroughScreen(navHostController,this)
         addRegisterScreen(navHostController, this)
+        addLoginScreen(navHostController, this)
         addProfileScreen(navHostController,this)
         addHistoryScreen(navHostController,this)
         addServicesScreen(navHostController,this)
@@ -222,10 +224,18 @@ fun addRegisterScreen(navHostController: NavHostController, navGraphBuilder: Nav
         route = NavRoute.Register.path
     ) {
         RegisterScreen(
-            navigateToHomeScreen = {
-                navHostController.navigate(NavRoute.Main.path)
+            navigateToLoginScreen = {
+                navHostController.navigate(NavRoute.Login.path)
             }
         )
+    }
+}
+
+fun addLoginScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
+    navGraphBuilder.composable(
+        route = NavRoute.Login.path
+    ) {
+        LoginScreen()
     }
 }
 

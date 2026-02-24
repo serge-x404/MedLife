@@ -52,7 +52,7 @@ import java.util.Locale
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PhoneNumberRegister(
-    navigateToHomeScreen: () -> Unit
+    navigateToLoginScreen: () -> Unit
 ) {
     var checked by remember { mutableStateOf(false) }
     var password by remember { mutableStateOf("") }
@@ -217,9 +217,8 @@ fun PhoneNumberRegister(
                     modifier = Modifier
                         .clickable(
                             enabled = true,
-                            onClick = {}
-                        )
-                        .fillMaxWidth(),
+                            onClick = { navigateToLoginScreen() }
+                        ),
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
                     Text(

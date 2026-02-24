@@ -59,7 +59,7 @@ import java.util.Locale
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmailRegister(
-    navigateToHomeScreen: () -> Unit
+    navigateToLoginScreen: () -> Unit
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -228,9 +228,8 @@ fun EmailRegister(
                     modifier = Modifier
                         .clickable(
                             enabled = true,
-                            onClick = {}
-                        )
-                        .fillMaxWidth(),
+                            onClick = { navigateToLoginScreen() }
+                        ),
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
                     Text(

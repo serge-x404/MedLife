@@ -1,8 +1,12 @@
 package com.example.medcare.loginScreen
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.Tab
@@ -15,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.medcare.registerScreen.Tabs
 
 
@@ -24,7 +29,7 @@ import com.example.medcare.registerScreen.Tabs
 @Composable
 fun LoginLogic() {
     var storeLoginIndex by remember { mutableIntStateOf(0) }
-    Scaffold {it ->
+    Scaffold(contentWindowInsets = WindowInsets(0.dp)) { it ->
         Column(modifier = Modifier.padding(it)) {
             SecondaryTabRow(
                 selectedTabIndex = storeLoginIndex, tabs = {
@@ -35,7 +40,9 @@ fun LoginLogic() {
                                 Text(
                                     tabs.name
                                 )
-                            }
+                            },
+                            modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                                .border(2.dp, MaterialTheme.colorScheme.surfaceContainerHighest)
                         )
                     }
                 }
