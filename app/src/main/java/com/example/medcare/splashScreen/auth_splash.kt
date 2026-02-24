@@ -1,8 +1,10 @@
 package com.example.medcare.splashScreen
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,66 +31,96 @@ import androidx.compose.ui.unit.sp
 import com.example.medcare.R
 
 
-@Preview(
-    showBackground = true, showSystemUi = true
-)
 @Composable
-fun AuthSplashScreen() {
-    Box(modifier = Modifier.fillMaxWidth()
-        .padding(vertical = 30.dp)
-        .padding(horizontal = 12.dp)) {
-        Button(
-            onClick = {},
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surface),
-            border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outline),
-            modifier = Modifier.align(Alignment.TopEnd)
-        ) {
-            Text(
-                text = "English", color = Color.Black
-            )
-        }
-    }
+fun AuthSplashScreen(
+    navigateToRegister: () -> Unit,
+    navigateToHome: () -> Unit
+) {
     Column(
         modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Bottom
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+            .padding(horizontal = 10.dp, vertical = 20.dp)
     ) {
-        Image(
-            painter = painterResource(R.drawable.medcare_auth),
-            contentDescription = null, Modifier.size(250.dp)
-        )
-        Text(
-            text = "We're here to keep you healthy",
-            fontSize = 16.sp,
-            textAlign = TextAlign.Center,
-        )
-        Spacer(Modifier.height(150.dp))
-        Column(Modifier.padding(vertical = 40.dp)) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 30.dp)
+                .padding(horizontal = 12.dp)
+        ) {
+            val context = LocalContext.current
             Button(
                 onClick = {
-                    Log.d("NEXT BTN","next button")
+                    Toast.makeText(
+                        context,
+                        "This feature will be available soon",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
                 },
-                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.surface),
-                modifier = Modifier.fillMaxWidth()
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.inverseSurface),
+                border = BorderStroke(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.outlineVariant
+                ),
+                modifier = Modifier.align(Alignment.TopEnd)
             ) {
                 Text(
-                    text = "Next"
+                    text = "English",
+                    color = MaterialTheme.colorScheme.inverseOnSurface,
+                    style = MaterialTheme.typography.labelMedium
                 )
             }
-            Button(
-                onClick = {
-                    //
-                    Log.i("MYTAG", "clicked")
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFFFFF)),
-                border = BorderStroke(width = 1.dp, Color(0xFF26408B)),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = "Register", color = Color(0xFF000000)
-                )
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                .padding(horizontal = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Bottom
+        ) {
+            Image(
+                painter = painterResource(R.drawable.medcare_auth),
+                contentDescription = null, Modifier.size(250.dp)
+            )
+            Text(
+                text = "We're here to keep you healthy",
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.labelLarge
+            )
+            Spacer(Modifier.height(150.dp))
+            Column(Modifier.padding(vertical = 20.dp)) {
+                Button(
+                    onClick = {
+                        navigateToHome()
+                        Log.d("NEXT BTN", "next button")
+                    },
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.surface),
+                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = "Next",
+                        color = MaterialTheme.colorScheme.onBackground,
+                        style = MaterialTheme.typography.labelLarge
+                    )
+                }
+                Button(
+                    onClick = {
+                        navigateToRegister()
+                        Log.i("MYTAG", "clicked")
+                    },
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary),
+                    border = BorderStroke(width = 2.dp, MaterialTheme.colorScheme.outlineVariant),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = "Register",
+                        color = MaterialTheme.colorScheme.onTertiary,
+                        style = MaterialTheme.typography.labelLarge
+                    )
+                }
             }
         }
     }

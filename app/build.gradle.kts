@@ -52,6 +52,9 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.ui.text.google.fonts)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -59,6 +62,8 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    //Firebase dependencies
     implementation(platform("com.google.firebase:firebase-bom:34.9.0"))
-    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-auth")
 }

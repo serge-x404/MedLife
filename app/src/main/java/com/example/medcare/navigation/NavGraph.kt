@@ -4,7 +4,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavGraph
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -38,6 +37,7 @@ import com.example.medcare.profile.ProfileScreen
 import com.example.medcare.profile.Transactions
 import com.example.medcare.profile.pharma.AdminCred
 import com.example.medcare.profile.pharma.RegisterPharma
+import com.example.medcare.registerScreen.RegisterScreen
 import com.example.medcare.servicesScreen.ServicesScreen
 import com.example.medcare.servicesScreen.chatDoc.AppointmentSuccess
 import com.example.medcare.servicesScreen.chatDoc.ChatDoctorScreen
@@ -45,8 +45,8 @@ import com.example.medcare.servicesScreen.chatDoc.Confirmation
 import com.example.medcare.servicesScreen.chatDoc.DoctorDetails
 import com.example.medcare.specialization.Specialist
 import com.example.medcare.splashScreen.AuthSplashScreen
-import com.example.medcare.splashScreen.hPager
-import com.example.medcare.splashScreen.splashscreen
+import com.example.medcare.splashScreen.HPager
+import com.example.medcare.splashScreen.Splashscreen
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -55,6 +55,7 @@ fun NavGraph(navHostController: NavHostController, modifier: Modifier) {
         addHomeScreen(navHostController, this)
         addSplashScreen(navHostController, this)
         addWalkthroughScreen(navHostController,this)
+        addRegisterScreen(navHostController, this)
         addProfileScreen(navHostController,this)
         addHistoryScreen(navHostController,this)
         addServicesScreen(navHostController,this)
@@ -127,7 +128,7 @@ fun addSplashScreen(navHostController: NavHostController, navGraphBuilder: NavGr
     navGraphBuilder.composable(
         route = NavRoute.Splash.path
     ) {
-        splashscreen(
+        Splashscreen(
             navigateToOnBoard = {
                 navHostController.navigate(NavRoute.Walkthrough.path)
             },
@@ -142,7 +143,7 @@ fun addWalkthroughScreen(navHostController: NavHostController, navGraphBuilder: 
     navGraphBuilder.composable(
         route = NavRoute.Walkthrough.path
     ) {
-        hPager(navigateToAuthSplash = {
+        HPager(navigateToAuthSplash = {
             navHostController.navigate(NavRoute.AuthSplash.path)
         })
     }
@@ -209,7 +210,22 @@ fun addAuthSplash(navHostController: NavHostController, navGraphBuilder: NavGrap
     navGraphBuilder.composable(
         route = NavRoute.AuthSplash.path
     ) {
-        AuthSplashScreen()
+        AuthSplashScreen(
+            navigateToHome = {navHostController.navigate(NavRoute.Main.path)},
+            navigateToRegister = {navHostController.navigate(NavRoute.Register.path)}
+        )
+    }
+}
+
+fun addRegisterScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
+    navGraphBuilder.composable(
+        route = NavRoute.Register.path
+    ) {
+        RegisterScreen(
+            navigateToHomeScreen = {
+                navHostController.navigate(NavRoute.Main.path)
+            }
+        )
     }
 }
 

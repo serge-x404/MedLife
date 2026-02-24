@@ -10,23 +10,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.medcare.R
 import kotlinx.coroutines.delay
 
 @Composable
-fun splashscreen(
+fun Splashscreen(
     navigateToOnBoard: () -> Unit,
     navigateToHome: () -> Unit
 ) {
 
     LaunchedEffect(Unit) {
         delay(1000)
-        navigateToHome()
+        navigateToOnBoard()
     }
 
     Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)

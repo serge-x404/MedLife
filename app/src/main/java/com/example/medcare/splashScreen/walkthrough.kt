@@ -7,9 +7,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,7 +30,7 @@ import androidx.compose.ui.unit.sp
 fun walkthrough(onBoardingPage: OnBoardingPage) {
     Column(
         modifier = Modifier
-            .background(Color(0xFFFFFFFF))
+            .background(MaterialTheme.colorScheme.surfaceContainerHighest)
             .fillMaxSize()
     ) {
         val image = painterResource(onBoardingPage.image)
@@ -44,18 +46,17 @@ fun walkthrough(onBoardingPage: OnBoardingPage) {
                     .size(height = 400.dp, width = 300.dp)
                     .padding(top = 50.dp)
             )
-            Spacer(Modifier.padding(10.dp))
+            Spacer(Modifier.height(8.dp))
             Text(
                 text = onBoardingPage.title,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.SemiBold,
-                fontFamily = FontFamily.Serif,
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onBackground
             )
-            Spacer(Modifier.padding(10.dp))
+            Spacer(Modifier.height(10.dp))
             Text(
                 text = onBoardingPage.description,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Normal,
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Center
             )
 
@@ -67,8 +68,8 @@ fun walkthrough(onBoardingPage: OnBoardingPage) {
 fun dotIndiactor(current: Int) {
     Row {
         repeat(3) { index ->
-            val isSelected = if (current == index) Color(0xFF26408B)
-            else Color(0xFFC2E7D9)
+            val isSelected = if (current == index) MaterialTheme.colorScheme.secondary
+            else MaterialTheme.colorScheme.primary
             Surface(
                 color = isSelected,
                 modifier = Modifier

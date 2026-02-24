@@ -17,12 +17,15 @@ import com.example.medcare.navigation.BottomNavigation
 import com.example.medcare.navigation.NavGraph
 import com.example.medcare.navigation.NavRoute
 import com.example.medcare.ui.theme.MedlifeTheme
+import com.google.firebase.Firebase
+import com.google.firebase.initialize
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        Firebase.initialize(this)
         setContent {
             MedlifeTheme {
                 val navController = rememberNavController()
