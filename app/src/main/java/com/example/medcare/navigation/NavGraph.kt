@@ -214,7 +214,8 @@ fun addAuthSplash(navHostController: NavHostController, navGraphBuilder: NavGrap
     ) {
         AuthSplashScreen(
             navigateToHome = {navHostController.navigate(NavRoute.Main.path)},
-            navigateToRegister = {navHostController.navigate(NavRoute.Register.path)}
+            navigateToRegister = {navHostController.navigate(NavRoute.Register.path)},
+            navigateToLogin = {navHostController.navigate(NavRoute.Login.path)}
         )
     }
 }
@@ -235,7 +236,10 @@ fun addLoginScreen(navHostController: NavHostController, navGraphBuilder: NavGra
     navGraphBuilder.composable(
         route = NavRoute.Login.path
     ) {
-        LoginScreen()
+        LoginScreen(
+            navigateToHomeScreen = {navHostController.navigate(NavRoute.Main.path)},
+            navigateToRegister = {navHostController.navigate(NavRoute.Register.path)}
+        )
     }
 }
 

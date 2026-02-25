@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -34,7 +35,8 @@ import com.example.medcare.R
 @Composable
 fun AuthSplashScreen(
     navigateToRegister: () -> Unit,
-    navigateToHome: () -> Unit
+    navigateToHome: () -> Unit,
+    navigateToLogin: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -53,10 +55,10 @@ fun AuthSplashScreen(
                 onClick = {
                     Toast.makeText(
                         context,
-                        "This feature will be available soon",
+                        "App language will be available soon",
                         Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    ).show()
+                    navigateToLogin()
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.inverseSurface),
                 border = BorderStroke(
@@ -81,8 +83,9 @@ fun AuthSplashScreen(
             verticalArrangement = Arrangement.Bottom
         ) {
             Image(
-                painter = painterResource(R.drawable.medcare_auth),
-                contentDescription = null, Modifier.size(250.dp)
+                painter = painterResource(R.drawable.medlife_main),
+                contentDescription = null, Modifier.size(250.dp),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
             )
             Text(
                 text = "We're here to keep you healthy",

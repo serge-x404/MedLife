@@ -24,10 +24,11 @@ import com.example.medcare.registerScreen.Tabs
 
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true,
-    showSystemUi = true)
 @Composable
-fun LoginLogic() {
+fun LoginLogic(
+    navigateToHomeScreen: () -> Unit,
+    navigateToRegister: () -> Unit
+) {
     var storeLoginIndex by remember { mutableIntStateOf(0) }
     Scaffold(contentWindowInsets = WindowInsets(0.dp)) { it ->
         Column(modifier = Modifier.padding(it)) {
@@ -48,8 +49,8 @@ fun LoginLogic() {
                 }
             )
             when(storeLoginIndex) {
-                0 -> PhoneNumberLogin()
-                else -> EmailLogin()
+                0 -> PhoneNumberLogin(navigateToRegister)
+                else -> EmailLogin(navigateToHomeScreen, navigateToRegister)
             }
         }
     }

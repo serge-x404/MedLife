@@ -1,5 +1,6 @@
 package com.example.medcare.registerScreen
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -33,6 +34,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -50,7 +52,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.Date
@@ -61,12 +65,25 @@ import java.util.Locale
 fun EmailRegister(
     navigateToLoginScreen: () -> Unit
 ) {
+    val auth = FirebaseAuth.getInstance()
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var userName by remember { mutableStateOf("") }
     var checked by remember { mutableStateOf(false) }
     var showDatePicker by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState()
     val selectedDate = datePickerState.selectedDateMillis?.let { convertMillisToDate(it) } ?: ""
+    var isLoading by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf("") }
+
+
+    if (errorMessage.isNotEmpty()) {
+        Text(
+            errorMessage,
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+    }
     Scaffold(
         contentWindowInsets = WindowInsets(0.dp)
     ) { innerPadding ->
@@ -93,7 +110,9 @@ fun EmailRegister(
                             style = MaterialTheme.typography.titleSmall
                         )
                     },
-                    onValueChange = { email = it }
+                    onValueChange = { email = it },
+                    textStyle = MaterialTheme.typography.titleSmall,
+                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
                 Spacer(Modifier.height(5.dp))
                 Text(
@@ -110,7 +129,9 @@ fun EmailRegister(
                             style = MaterialTheme.typography.titleSmall
                         )
                     },
-                    onValueChange = { password = it }
+                    onValueChange = { password = it },
+                    textStyle = MaterialTheme.typography.titleSmall,
+                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
                 Spacer(Modifier.height(5.dp))
                 Text(
@@ -119,7 +140,7 @@ fun EmailRegister(
                     style = MaterialTheme.typography.titleLarge
                 )
                 OutlinedTextField(
-                    value = "",
+                    value = userName,
                     label = {
                         Text(
                             "Enter your full name",
@@ -127,7 +148,9 @@ fun EmailRegister(
                             style = MaterialTheme.typography.titleSmall
                         )
                     },
-                    onValueChange = {}
+                    onValueChange = {userName = it},
+                    textStyle = MaterialTheme.typography.titleSmall,
+                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
                 Spacer(Modifier.height(5.dp))
                 Text(
@@ -212,7 +235,35 @@ fun EmailRegister(
             Column {
                 Button(
                     onClick = {
-                        //
+                        if (email.isBlank() || password.isBlank() || userName.isBlank()) {
+                            errorMessage = "Please fill in all fields"
+                            return@Button
+                        }
+                        if (password.length<8) {
+                            errorMessage = "Length of password must be at least of 8 characters"
+                            return@Button
+                        }
+                        isLoading = true
+                        auth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener { task ->
+                                isLoading = false
+                                if (task.isSuccessful) {
+                                    navigateToLoginScreen()
+                                }
+                                else {
+                                    errorMessage = task.exception?.message ?: "Registration failed"
+                                }
+                                val db = FirebaseDatabase.getInstance().reference
+                                val uid = auth.currentUser!!.uid
+                                val userMap = mapOf(
+                                    "userName" to userName,
+                                    "email" to email,
+                                    "password" to password
+                                )
+                                db.child("users").child(uid).setValue(userMap)
+                                    .addOnCompleteListener { navigateToLoginScreen() }
+                                    .addOnFailureListener { e -> errorMessage = e.message ?: "Failed to save data" }
+                            }
                     },
                     Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),

@@ -29,7 +29,7 @@ fun Splashscreen(
 
     Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)
         .fillMaxSize()) {
-        val image = painterResource(R.drawable.medcare)
+        val image = painterResource(R.drawable.medlife_main)
         Image(
             painter = image,
             contentDescription = null,

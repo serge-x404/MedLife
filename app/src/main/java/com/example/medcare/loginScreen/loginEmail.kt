@@ -21,7 +21,12 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,13 +35,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.firebase.auth.FirebaseAuth
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
 @Composable
-fun EmailLogin() {
+fun EmailLogin(
+    navigateToHomeScreen: () -> Unit,
+    navigateToRegister: () -> Unit
+) {
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf("") }
+    var isLoading by remember { mutableStateOf(false) }
+    val auth = FirebaseAuth.getInstance()
     Scaffold(
         contentWindowInsets = WindowInsets(0.dp)
     ) { innerPadding ->
@@ -54,7 +64,7 @@ fun EmailLogin() {
                     color = MaterialTheme.colorScheme.onBackground
                 )
                 OutlinedTextField(
-                    value = "",
+                    value = email,
                     label = {
                         Text(
                             "Enter your email",
@@ -62,7 +72,28 @@ fun EmailLogin() {
                             color = MaterialTheme.colorScheme.onBackground
                         )
                     },
-                    onValueChange = {}
+                    onValueChange = { email = it},
+                    textStyle = MaterialTheme.typography.titleSmall,
+                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
+                )
+                Spacer(Modifier.height(10.dp))
+                Text(
+                    text = "Password",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+                OutlinedTextField(
+                    value = password,
+                    label = {
+                        Text(
+                            "Enter your password",
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                    },
+                    onValueChange = { password = it},
+                    textStyle = MaterialTheme.typography.titleSmall,
+                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
                 Spacer(Modifier.height(10.dp))
                 Text(
@@ -85,7 +116,20 @@ fun EmailLogin() {
             Column {
                 Button(
                     onClick = {
-                        //
+                        if (email.isBlank() || password.isBlank()) {
+                            errorMessage = "Please fill all the fields"
+                            return@Button
+                        }
+                        isLoading = true
+                        auth.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    navigateToHomeScreen()
+                                }
+                                else {
+                                    errorMessage = task.exception?.message ?: "Login failed"
+                                }
+                            }
                     },
                     Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary),
@@ -102,7 +146,7 @@ fun EmailLogin() {
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     modifier = Modifier.clickable(
                         enabled = true,
-                        onClick = {}
+                        onClick = { navigateToRegister() }
                     )
                 ) {
                     Text(

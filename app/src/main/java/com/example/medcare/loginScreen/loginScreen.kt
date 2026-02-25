@@ -33,10 +33,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true,
-    showSystemUi = true)
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    navigateToHomeScreen: () -> Unit,
+    navigateToRegister: () -> Unit
+) {
     Scaffold(
         contentWindowInsets = WindowInsets(0.dp),
         topBar = {
@@ -58,7 +59,7 @@ fun LoginScreen() {
                     color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.padding(horizontal = 12.dp)
                 )
-                LoginLogic()
+                LoginLogic(navigateToHomeScreen, navigateToRegister)
             }
         }
     }
