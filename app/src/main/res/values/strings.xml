@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">medcare</string>
+    <string name="app_name">MedLife</string>
     <string name="cardio">Cardiology Specialist</string>
     <string name="ortho">Orthopedics Specialist</string>
     <string name="derma">Dermatology Specialist</string>

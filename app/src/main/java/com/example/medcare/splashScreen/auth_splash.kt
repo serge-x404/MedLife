@@ -86,10 +86,18 @@ fun AuthSplashScreen(
             verticalArrangement = Arrangement.Bottom
         ) {
             Image(
-                painter = painterResource(R.drawable.medlife_main),
-                contentDescription = null, Modifier.size(250.dp),
+                painter = painterResource(R.drawable.asclepius),
+                contentDescription = null,
+                Modifier.size(150.dp),
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
             )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                "MedLife",
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.displayLarge
+            )
+            Spacer(Modifier.height(1.dp))
             Text(
                 text = "We're here to keep you healthy",
                 color = MaterialTheme.colorScheme.onBackground,
