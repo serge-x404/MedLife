@@ -35,8 +35,9 @@ import androidx.compose.ui.unit.sp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    navigateToHomeScreen: () -> Unit,
-    navigateToRegister: () -> Unit
+    navigateToHomeScreen: (String, String) -> Unit,
+    navigateToRegister: () -> Unit,
+    navigateToOTP: () -> Unit
 ) {
     Scaffold(
         contentWindowInsets = WindowInsets(0.dp),
@@ -59,7 +60,7 @@ fun LoginScreen(
                     color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.padding(horizontal = 12.dp)
                 )
-                LoginLogic(navigateToHomeScreen, navigateToRegister)
+                LoginLogic(navigateToHomeScreen, navigateToRegister, navigateToOTP)
             }
         }
     }

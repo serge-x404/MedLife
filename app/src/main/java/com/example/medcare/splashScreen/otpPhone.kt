@@ -1,23 +1,39 @@
 package com.example.medcare.splashScreen
 
+import android.content.ContentValues.TAG
+import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,94 +43,70 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.firebase.FirebaseException
+import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthProvider
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview(
     showBackground = true, showSystemUi = true
 )
 @Composable
 fun OtpPhone() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(18.dp)
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            IconButton(
-                onClick = { },
-            ) {
-                Icon(
-                    imageVector = Icons.Default.KeyboardArrowLeft,
-                    contentDescription = "Back Button"
-                )
-            }
-            Text(
-                text = "Register",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
+    var otp by remember { mutableStateOf("") }
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        "OTP Login",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors(MaterialTheme.colorScheme.surfaceContainerHighest)
             )
         }
-        Spacer(Modifier.padding(top = 80.dp))
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "Enter the 4-digit verification code (OTP) sent to your phone",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Normal,
-                textAlign = TextAlign.Center,
-            )
-            Spacer(Modifier.padding(10.dp))
-            Text(
-                text = "(+91) 123xx x7890",
-                color = Color(0xFF26408B),
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp
-            )
-            Spacer(Modifier.padding(20.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
-                Surface(
-                    shape = RectangleShape,
-                    modifier = Modifier.size(50.dp)
-                        .border(width = 2.dp, color = Color(0xFFa6CFDF))
-                        .background(Color(0xFFFFFFFF))
-                ) { }
-                Surface(
-                    shape = RectangleShape,
-                    modifier = Modifier.size(50.dp)
-                        .border(width = 2.dp, color = Color(0xFFa6CFDF))
-                        .background(Color(0xFFFFFFFF))
-                ) { }
-                Surface(
-                    shape = RectangleShape,
-                    modifier = Modifier.size(50.dp)
-                        .border(width = 2.dp, color = Color(0xFFa6CFDF))
-                        .background(Color(0xFFFFFFFF))
-                ) { }
-                Surface(
-                    shape = RectangleShape,
-                    modifier = Modifier.size(50.dp)
-                        .border(width = 2.dp, color = Color(0xFFa6CFDF))
-                        .background(Color(0xFFFFFFFF))
-                ) { }
-            }
-            Spacer(Modifier.padding(30.dp))
-            Button(
-                onClick = {},
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF26408B)),
-                modifier = Modifier.fillMaxWidth()
+    ) { it ->
+        Column(modifier = Modifier.padding(it)) {
+            Column(modifier = Modifier
+                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                .fillMaxSize()
+                .padding(horizontal = 12.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Continue"
+                    "Enter the 6-digit OTP sent to your phone",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
+                Spacer(Modifier.height(5.dp))
+                Text(
+                    "+91 90xxxx1567",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.secondary
+                )
+                Spacer(Modifier.height(10.dp))
+                OutlinedTextField(
+                    value = otp,
+                    onValueChange = { otp = it},
+                    textStyle = MaterialTheme.typography.titleSmall,
+                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
+                )
+                Spacer(Modifier.height(18.dp))
+                Button(
+                    onClick = {},
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary),
+                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
+                ) {
+                    Text(
+                        "Continue",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onTertiary
+                    )
+                }
             }
-            Spacer(Modifier.padding(4.dp))
-            Text(
-                text = "Resend in 60 seconds",
-                fontSize = 16.sp
-            )
         }
     }
 }

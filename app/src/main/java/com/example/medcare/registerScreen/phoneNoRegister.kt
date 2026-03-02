@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
@@ -40,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -52,8 +54,11 @@ import java.util.Locale
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PhoneNumberRegister(
-    navigateToLoginScreen: () -> Unit
+    navigateToLoginScreen: () -> Unit,
+    navigateToHomeScreen: (String, String) -> Unit
 ) {
+    var userName by remember { mutableStateOf("") }
+    var phoneNumber by remember { mutableStateOf("") }
     var checked by remember { mutableStateOf(false) }
     var password by remember { mutableStateOf("") }
     var showDatePicker by remember { mutableStateOf(false) }
@@ -79,7 +84,7 @@ fun PhoneNumberRegister(
                     color = MaterialTheme.colorScheme.onBackground
                 )
                 OutlinedTextField(
-                    value = "",
+                    value = phoneNumber,
                     label = {
                         Text(
                             "Enter Phone Number",
@@ -87,7 +92,10 @@ fun PhoneNumberRegister(
                             color = MaterialTheme.colorScheme.onBackground
                         )
                     },
-                    onValueChange = {})
+                    onValueChange = {phoneNumber = it},
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+                    modifier = Modifier.fillMaxWidth(),
+                )
                 Spacer(Modifier.height(5.dp))
                 Text(
                     text = "Password",
@@ -101,6 +109,7 @@ fun PhoneNumberRegister(
                         color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.titleSmall
                     ) },
+                    modifier = Modifier.fillMaxWidth(),
                     onValueChange = {password = it}
                 )
                 Spacer(Modifier.height(5.dp))
@@ -110,7 +119,7 @@ fun PhoneNumberRegister(
                     color = MaterialTheme.colorScheme.onBackground
                 )
                 OutlinedTextField(
-                    value = "",
+                    value = userName,
                     label = {
                         Text(
                             "Enter your full name",
@@ -118,7 +127,8 @@ fun PhoneNumberRegister(
                             color = MaterialTheme.colorScheme.onBackground,
                         )
                     },
-                    onValueChange = {}
+                    modifier = Modifier.fillMaxWidth(),
+                    onValueChange = {userName = it}
                 )
                 Spacer(Modifier.height(5.dp))
                 Text(
@@ -135,6 +145,7 @@ fun PhoneNumberRegister(
                             style = MaterialTheme.typography.titleSmall
                         )
                     },
+                    modifier = Modifier.fillMaxWidth(),
                     onValueChange = {}
                 )
                 Spacer(Modifier.height(5.dp))
@@ -150,6 +161,7 @@ fun PhoneNumberRegister(
                         color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.titleSmall
                     ) },
+                    modifier = Modifier.fillMaxWidth(),
                     onValueChange = {},
                     readOnly = true,
                     trailingIcon = {
@@ -200,9 +212,7 @@ fun PhoneNumberRegister(
         ) {
             Column {
                 Button(
-                    onClick = {
-                        //
-                    },
+                    onClick = { navigateToHomeScreen(userName, phoneNumber) },
                     Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                     border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
@@ -217,7 +227,7 @@ fun PhoneNumberRegister(
                     modifier = Modifier
                         .clickable(
                             enabled = true,
-                            onClick = { navigateToLoginScreen() }
+                            onClick = navigateToLoginScreen
                         ),
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                 ) {

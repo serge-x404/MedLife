@@ -19,7 +19,8 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(
-    navigateToLoginScreen: () -> Unit
+    navigateToLoginScreen: () -> Unit,
+    navigateToHomeScreen: (String, String) -> Unit
 ) {
     Scaffold(
         contentWindowInsets = WindowInsets(0.dp),
@@ -50,7 +51,7 @@ fun RegisterScreen(
                     modifier = Modifier
                         .padding(horizontal = 12.dp)
                 )
-                TabLogic(navigateToLoginScreen)
+                TabLogic(navigateToLoginScreen, navigateToHomeScreen)
             }
         }
     }

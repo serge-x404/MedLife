@@ -48,6 +48,10 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -75,19 +79,20 @@ import com.example.medcare.layoutsFile.gridViewLayout
 @Composable
 fun HomeScreen(
     navigateToChatDoc: () -> Unit,
-    navigateToProfile: () -> Unit,
+    navigateToProfile: (String, String) -> Unit,
     navigateToNotifications: () -> Unit,
     navigateToCart: () -> Unit,
     navigateToHealthShop: () -> Unit,
     navigateToHospital: () -> Unit,
-    navigateToArticle: () -> Unit
-
+    navigateToArticle: () -> Unit,
+    userName: String,
+    email: String
 ) {
     Scaffold(topBar = {
         TopAppBar(
             title = {
                 Text(
-                    text = "Hi, serge",
+                    text = "Hi, $userName",
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.headlineLarge
                 )
@@ -145,7 +150,7 @@ fun HomeScreen(
                         )
                         Button(
                             onClick = {
-                                navigateToProfile()
+                                navigateToProfile(userName, email)
                             },
                             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
                             shape = RoundedCornerShape(12.dp),

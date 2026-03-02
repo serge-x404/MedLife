@@ -1,5 +1,6 @@
 package com.example.medcare.loginScreen
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -36,10 +37,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 @Composable
 fun EmailLogin(
-    navigateToHomeScreen: () -> Unit,
+    navigateToHomeScreen: (String, String) -> Unit,
     navigateToRegister: () -> Unit
 ) {
     var email by remember { mutableStateOf("") }
@@ -72,7 +74,9 @@ fun EmailLogin(
                             color = MaterialTheme.colorScheme.onBackground
                         )
                     },
+                    modifier = Modifier.fillMaxWidth(),
                     onValueChange = { email = it},
+                    maxLines = 1,
                     textStyle = MaterialTheme.typography.titleSmall,
                     colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
@@ -92,6 +96,7 @@ fun EmailLogin(
                         )
                     },
                     onValueChange = { password = it},
+                    maxLines = 1,
                     textStyle = MaterialTheme.typography.titleSmall,
                     colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
@@ -123,8 +128,17 @@ fun EmailLogin(
                         isLoading = true
                         auth.signInWithEmailAndPassword(email, password)
                             .addOnCompleteListener { task ->
+                                isLoading =false
+                                Log.i("login btn click", "$isLoading")
                                 if (task.isSuccessful) {
-                                    navigateToHomeScreen()
+                                    val db = FirebaseDatabase.getInstance().reference
+                                    val uid = auth.currentUser?.uid
+                                    db.child("users").child("$uid").get()
+                                        .addOnSuccessListener { snapshot ->
+                                            val userName = snapshot.child("userName").value as? String ?: ""
+                                            val email = snapshot.child("email").value as? String ?: ""
+                                            navigateToHomeScreen(userName, email)
+                                        }
                                 }
                                 else {
                                     errorMessage = task.exception?.message ?: "Login failed"

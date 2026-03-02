@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,6 +34,10 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -44,6 +49,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medcare.R
+import com.example.medcare.loginScreen.auth
 import kotlin.math.sin
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,9 +60,14 @@ fun ProfileScreen(
     navigateToTransactions: () -> Unit,
     navigateToAccSettings: () -> Unit,
     navigateToNotifications: () -> Unit,
-    navigateToPharmaAdmin: () -> Unit,
-    back: () -> Unit
+//    navigateToPharmaAdmin: () -> Unit,
+    back: () -> Unit,
+    navigateToAuthSplash: () -> Unit,
+    userName: String,
+    email: String
 ) {
+    var checkDarkTheme by remember { mutableStateOf(false) }
+    var phoneNumber by remember { mutableStateOf("") }
     Scaffold(
         topBar = { TopAppBar(
             title = {
@@ -95,7 +106,7 @@ fun ProfileScreen(
                         Spacer(Modifier.width(8.dp))
                         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                             Text(
-                                text = "serge",
+                                text = userName,
                                 style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.onBackground
                             )
@@ -108,7 +119,7 @@ fun ProfileScreen(
                                 )
                                 Spacer(Modifier.width(6.dp))
                                 Text(
-                                    "lorenzoricci@example.com",
+                                    email,
                                     style = MaterialTheme.typography.labelLarge,
                                     color = MaterialTheme.colorScheme.onBackground
                                 )
@@ -122,7 +133,7 @@ fun ProfileScreen(
                                 )
                                 Spacer(Modifier.width(6.dp))
                                 Text(
-                                    "+39 1234567890",
+                                    phoneNumber,
                                     style = MaterialTheme.typography.labelLarge,
                                     color = MaterialTheme.colorScheme.onBackground
                                 )
@@ -217,7 +228,7 @@ fun ProfileScreen(
                         }
                     }
                 }
-                Spacer(Modifier.height(40.dp))
+                Spacer(Modifier.height(20.dp))
                 Text(
                     "General Information",
                     style = MaterialTheme.typography.titleLarge,
@@ -296,48 +307,57 @@ fun ProfileScreen(
                             modifier = Modifier.weight(1f)
                         )
                         val context = LocalContext.current
-                        Switch(checked = false,
+                        Switch(checked = checkDarkTheme,
                             onCheckedChange = {
-                                Toast.makeText(context,"Dark mode will be available soon", Toast.LENGTH_LONG).show()
+                                checkDarkTheme = it
+                                Toast.makeText(context, "Available soon", Toast.LENGTH_SHORT).show()
                             }
                         )
                     }
                 }
-                Spacer(Modifier.height(40.dp))
+
+                // Remove Pharmacy portal
+
+//                Text(
+//                    "Pharmacy Portal",
+//                    style = MaterialTheme.typography.titleLarge,
+//                    color = MaterialTheme.colorScheme.onBackground
+//                )
+//                Card(modifier = Modifier.fillMaxWidth(),
+//                    colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest)) {
+//                    Row(modifier = Modifier.padding( 12.dp)
+//                        .fillMaxWidth()
+//                        .clickable(
+//                            onClick = {
+//                                navigateToPharmaAdmin()
+//                            }
+//                        ),
+//                        verticalAlignment = Alignment.CenterVertically
+//                    ) {
+//                        Image(
+//                            painter = painterResource(R.drawable.pharma_admin),
+//                            contentDescription = null,
+//                            modifier = Modifier.size(30.dp),
+//                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+//                        )
+//                        Spacer(Modifier.width(8.dp))
+//                        Text(
+//                            text = "Admin Login",
+//                            style = MaterialTheme.typography.titleMedium,
+//                            color = MaterialTheme.colorScheme.onBackground
+//                        )
+//                    }
+//                }
+                Spacer(Modifier.height(20.dp))
                 Text(
-                    "Pharmacy Portal",
+                    "Danger Zone",
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground
                 )
-                Card(modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest)) {
-                    Row(modifier = Modifier.padding( 12.dp)
-                        .fillMaxWidth()
-                        .clickable(
-                            onClick = {
-                                navigateToPharmaAdmin()
-                            }
-                        ),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Image(
-                            painter = painterResource(R.drawable.pharma_admin),
-                            contentDescription = null,
-                            modifier = Modifier.size(30.dp),
-                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
-                        )
-                        Spacer(Modifier.width(8.dp))
-                        Text(
-                            text = "Admin Login",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                    }
-                }
-                Spacer(Modifier.height(30.dp))
                 val context = LocalContext.current
                 Button(onClick = {
-                    Toast.makeText(context,"You clicked logout button",Toast.LENGTH_SHORT).show()
+                    auth.signOut()
+                    navigateToAuthSplash()
                 },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(4.dp),

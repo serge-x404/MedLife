@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -47,6 +48,7 @@ import com.example.medcare.servicesScreen.chatDoc.DoctorDetails
 import com.example.medcare.specialization.Specialist
 import com.example.medcare.splashScreen.AuthSplashScreen
 import com.example.medcare.splashScreen.HPager
+import com.example.medcare.splashScreen.OtpPhone
 import com.example.medcare.splashScreen.Splashscreen
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -58,6 +60,7 @@ fun NavGraph(navHostController: NavHostController, modifier: Modifier) {
         addWalkthroughScreen(navHostController,this)
         addRegisterScreen(navHostController, this)
         addLoginScreen(navHostController, this)
+        addOTPScreen(navHostController, this)
         addProfileScreen(navHostController,this)
         addHistoryScreen(navHostController,this)
         addServicesScreen(navHostController,this)
@@ -87,22 +90,35 @@ fun NavGraph(navHostController: NavHostController, modifier: Modifier) {
         addHealthHistScreen(navHostController,this)
         addTransactionScreen(navHostController,this)
         addAccSettScreen(navHostController,this)
-        addPharmacyPortalScreen(navHostController,this)
-        addPharmaRegisterScreen(navHostController,this)
+//        addPharmacyPortalScreen(navHostController,this)
+//        addPharmaRegisterScreen(navHostController,this)
         addSavedReminder(navHostController,this)
     }
 }
 
 fun addHomeScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder)  {
     navGraphBuilder.composable(
-        route = NavRoute.Main.path
+        route = NavRoute.Main.path,
+        arguments = listOf(
+            navArgument("userName") {
+                type = NavType.StringType
+//                nullable = true
+//                defaultValue = null
+            },
+            navArgument("email") {
+                type = NavType.StringType
+//                nullable = true
+//                defaultValue = null
+            }
+        )
     ) {
         HomeScreen(
             navigateToChatDoc = {
                 navHostController.navigate(NavRoute.ChatDoc.path)
             },
             navigateToProfile = {
-                navHostController.navigate(NavRoute.Profile.path) {
+                userName, email ->
+                navHostController.navigate(NavRoute.Profile.path.plus("/${userName}/${email}")) {
                     popUpTo(NavRoute.Main.path) {
                         inclusive = true
                     }
@@ -122,7 +138,9 @@ fun addHomeScreen(navHostController: NavHostController, navGraphBuilder: NavGrap
             },
             navigateToArticle = {
                 navHostController.navigate(NavRoute.articleRead.path)
-            }
+            },
+            userName = it.arguments?.getString("userName").toString(),
+            email = it.arguments?.getString("email").toString()
         )
     }
 }
@@ -154,16 +172,21 @@ fun addWalkthroughScreen(navHostController: NavHostController, navGraphBuilder: 
 fun addProfileScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
         route = NavRoute.Profile.path,
-//        arguments = listOf(
-//            navArgument("userName") {
-//                type = NavType.StringType
-//            }
-//        )
+        arguments = listOf(
+            navArgument("userName") {
+                type = NavType.StringType
+                nullable = true
+                defaultValue = null
+            },
+            navArgument("email") {
+                type = NavType.StringType
+                nullable = true
+                defaultValue = null
+            }
+        )
     ) {
-
-//        val userName = it.arguments?.getString("userName").toString()
         ProfileScreen(
-            back = {navHostController.popBackStack()},
+            back = { navHostController.popBackStack() },
             navigateToPresHist = {
                 navHostController.navigate(NavRoute.presHist.path)
             },
@@ -179,10 +202,18 @@ fun addProfileScreen(navHostController: NavHostController, navGraphBuilder: NavG
             navigateToNotifications = {
                 navHostController.navigate(NavRoute.Notifications.path)
             },
-            navigateToPharmaAdmin = {
-                navHostController.navigate(NavRoute.pharmaPortal.path)
-            }
-//            userName
+//            navigateToPharmaAdmin = {
+//                navHostController.navigate(NavRoute.pharmaPortal.path)
+//            },
+            navigateToAuthSplash = {
+                navHostController.navigate(NavRoute.AuthSplash.path) {
+                    popUpTo(navHostController.graph.findStartDestination().id) {
+                        inclusive = true
+                    }
+                }
+            },
+            userName = it.arguments?.getString("userName").toString(),
+            email = it.arguments?.getString("email").toString(),
         )
     }
 }
@@ -213,7 +244,7 @@ fun addAuthSplash(navHostController: NavHostController, navGraphBuilder: NavGrap
         route = NavRoute.AuthSplash.path
     ) {
         AuthSplashScreen(
-            navigateToHome = {navHostController.navigate(NavRoute.Main.path)},
+            navigateToHome = {navHostController.navigate(NavRoute.Main.path.plus("/?userName={userName}&email={email}"))},
             navigateToRegister = {navHostController.navigate(NavRoute.Register.path)},
             navigateToLogin = {navHostController.navigate(NavRoute.Login.path)}
         )
@@ -222,11 +253,15 @@ fun addAuthSplash(navHostController: NavHostController, navGraphBuilder: NavGrap
 
 fun addRegisterScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = NavRoute.Register.path
+        route = NavRoute.Register.path,
     ) {
         RegisterScreen(
             navigateToLoginScreen = {
                 navHostController.navigate(NavRoute.Login.path)
+            },
+            navigateToHomeScreen = {
+                userName, email ->
+                navHostController.navigate(NavRoute.Main.path.plus("/$userName/$email"))
             }
         )
     }
@@ -237,9 +272,20 @@ fun addLoginScreen(navHostController: NavHostController, navGraphBuilder: NavGra
         route = NavRoute.Login.path
     ) {
         LoginScreen(
-            navigateToHomeScreen = {navHostController.navigate(NavRoute.Main.path)},
-            navigateToRegister = {navHostController.navigate(NavRoute.Register.path)}
+            navigateToHomeScreen = {
+                userName,email ->
+                navHostController.navigate(NavRoute.Main.path.plus("/${userName}/${email}"))},
+            navigateToRegister = {navHostController.navigate(NavRoute.Register.path)},
+            navigateToOTP = {navHostController.navigate(NavRoute.OTP.path)}
         )
+    }
+}
+
+fun addOTPScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
+    navGraphBuilder.composable(
+        route = NavRoute.OTP.path
+    ) {
+        OtpPhone()
     }
 }
 
@@ -597,22 +643,22 @@ fun addClearNotiScreen(navHostController: NavHostController, navGraphBuilder: Na
     }
 }
 
-fun addPharmacyPortalScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
-    navGraphBuilder.composable(
-        route = NavRoute.pharmaPortal.path
-    ) {
-        AdminCred(
-            navigateToPharmaRegister = {
-                navHostController.navigate(NavRoute.pharmaRegister.path)
-            }
-        )
-    }
-}
-
-fun addPharmaRegisterScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
-    navGraphBuilder.composable(
-        route = NavRoute.pharmaRegister.path
-    ) {
-        RegisterPharma()
-    }
-}
+//fun addPharmacyPortalScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
+//    navGraphBuilder.composable(
+//        route = NavRoute.pharmaPortal.path
+//    ) {
+//        AdminCred(
+//            navigateToPharmaRegister = {
+//                navHostController.navigate(NavRoute.pharmaRegister.path)
+//            }
+//        )
+//    }
+//}
+//
+//fun addPharmaRegisterScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
+//    navGraphBuilder.composable(
+//        route = NavRoute.pharmaRegister.path
+//    ) {
+//        RegisterPharma()
+//    }
+//}

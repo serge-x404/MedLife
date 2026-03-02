@@ -63,7 +63,8 @@ import java.util.Locale
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmailRegister(
-    navigateToLoginScreen: () -> Unit
+    navigateToLoginScreen: () -> Unit,
+    navigateToHomeScreen: (String, String) -> Unit
 ) {
     val auth = FirebaseAuth.getInstance()
     var email by remember { mutableStateOf("") }
@@ -111,6 +112,8 @@ fun EmailRegister(
                         )
                     },
                     onValueChange = { email = it },
+                    maxLines = 1    ,
+                    modifier = Modifier.fillMaxWidth(),
                     textStyle = MaterialTheme.typography.titleSmall,
                     colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
@@ -130,6 +133,8 @@ fun EmailRegister(
                         )
                     },
                     onValueChange = { password = it },
+                    maxLines = 1,
+                    modifier = Modifier.fillMaxWidth(),
                     textStyle = MaterialTheme.typography.titleSmall,
                     colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
@@ -149,6 +154,7 @@ fun EmailRegister(
                         )
                     },
                     onValueChange = {userName = it},
+                    modifier = Modifier.fillMaxWidth(),
                     textStyle = MaterialTheme.typography.titleSmall,
                     colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
@@ -163,6 +169,7 @@ fun EmailRegister(
                     placeholder = {
                         Text(
                             "Choose your gender",
+                            modifier = Modifier.fillMaxWidth(),
                             color = MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.titleSmall
                         )
@@ -185,6 +192,7 @@ fun EmailRegister(
                         )
                     },
                     onValueChange = {},
+                    modifier = Modifier.fillMaxWidth(),
                     readOnly = true,
                     trailingIcon = {
                         IconButton(onClick = { showDatePicker = !showDatePicker }) {
@@ -248,21 +256,20 @@ fun EmailRegister(
                             .addOnCompleteListener { task ->
                                 isLoading = false
                                 if (task.isSuccessful) {
-                                    navigateToLoginScreen()
+                                    val db = FirebaseDatabase.getInstance().reference
+                                    val uid = auth.currentUser!!.uid
+                                    val userMap = mapOf(
+                                        "userName" to userName,
+                                        "email" to email,
+                                        "password" to password
+                                    )
+                                    db.child("users").child(uid).setValue(userMap)
+                                        .addOnSuccessListener { navigateToHomeScreen(userName, email) }
+                                        .addOnFailureListener { e -> errorMessage = e.message ?: "Failed to save data" }
                                 }
                                 else {
                                     errorMessage = task.exception?.message ?: "Registration failed"
                                 }
-                                val db = FirebaseDatabase.getInstance().reference
-                                val uid = auth.currentUser!!.uid
-                                val userMap = mapOf(
-                                    "userName" to userName,
-                                    "email" to email,
-                                    "password" to password
-                                )
-                                db.child("users").child(uid).setValue(userMap)
-                                    .addOnCompleteListener { navigateToLoginScreen() }
-                                    .addOnFailureListener { e -> errorMessage = e.message ?: "Failed to save data" }
                             }
                     },
                     Modifier.fillMaxWidth(),
@@ -279,7 +286,7 @@ fun EmailRegister(
                     modifier = Modifier
                         .clickable(
                             enabled = true,
-                            onClick = { navigateToLoginScreen() }
+                            onClick = navigateToLoginScreen
                         ),
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
