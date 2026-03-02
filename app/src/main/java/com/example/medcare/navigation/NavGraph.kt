@@ -102,12 +102,12 @@ fun addHomeScreen(navHostController: NavHostController, navGraphBuilder: NavGrap
         arguments = listOf(
             navArgument("userName") {
                 type = NavType.StringType
-//                nullable = true
+                nullable = true
 //                defaultValue = null
             },
             navArgument("email") {
                 type = NavType.StringType
-//                nullable = true
+                nullable = true
 //                defaultValue = null
             }
         )
@@ -176,12 +176,12 @@ fun addProfileScreen(navHostController: NavHostController, navGraphBuilder: NavG
             navArgument("userName") {
                 type = NavType.StringType
                 nullable = true
-                defaultValue = null
+//                defaultValue = null
             },
             navArgument("email") {
                 type = NavType.StringType
                 nullable = true
-                defaultValue = null
+//                defaultValue = null
             }
         )
     ) {
@@ -244,7 +244,7 @@ fun addAuthSplash(navHostController: NavHostController, navGraphBuilder: NavGrap
         route = NavRoute.AuthSplash.path
     ) {
         AuthSplashScreen(
-            navigateToHome = {navHostController.navigate(NavRoute.Main.path.plus("/?userName={userName}&email={email}"))},
+//            navigateToHome = {navHostController.navigate(NavRoute.Main.path.plus("?&userName&email"))},
             navigateToRegister = {navHostController.navigate(NavRoute.Register.path)},
             navigateToLogin = {navHostController.navigate(NavRoute.Login.path)}
         )

@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -132,13 +133,14 @@ fun EmailLogin(
                                 Log.i("login btn click", "$isLoading")
                                 if (task.isSuccessful) {
                                     val db = FirebaseDatabase.getInstance().reference
-                                    val uid = auth.currentUser?.uid
-                                    db.child("users").child("$uid").get()
+                                    val uid = auth.currentUser?.uid ?: ""
+                                    db.child("users").child(uid).get()
                                         .addOnSuccessListener { snapshot ->
                                             val userName = snapshot.child("userName").value as? String ?: ""
                                             val email = snapshot.child("email").value as? String ?: ""
                                             navigateToHomeScreen(userName, email)
                                         }
+                                        .addOnFailureListener { errorMessage = task.exception?.message ?: "Error fetching" }
                                 }
                                 else {
                                     errorMessage = task.exception?.message ?: "Login failed"
@@ -149,11 +151,18 @@ fun EmailLogin(
                     colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary),
                     border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
                 ) {
-                    Text(
-                        text = "Login",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onTertiary
-                    )
+                    if (isLoading) {
+                        CircularProgressIndicator(
+                            color = MaterialTheme.colorScheme.onTertiary
+                        )
+                    }
+                    else {
+                        Text(
+                            text = "Login",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onTertiary
+                        )
+                    }
                 }
                 Spacer(Modifier.height(4.dp))
                 Row(

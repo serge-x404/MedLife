@@ -25,6 +25,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -76,6 +77,10 @@ fun EmailRegister(
     val selectedDate = datePickerState.selectedDateMillis?.let { convertMillisToDate(it) } ?: ""
     var isLoading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf("") }
+
+//    if (isLoading) {
+//        CircularProgressIndicator()
+//    }
 
 
     if (errorMessage.isNotEmpty()) {
@@ -276,11 +281,16 @@ fun EmailRegister(
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                     border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
                 ) {
-                    Text(
-                        text = "Register",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onTertiary
-                    )
+                    if (isLoading) {
+                        CircularProgressIndicator()
+                    }
+                    else {
+                        Text(
+                            text = "Register",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onTertiary
+                        )
+                    }
                 }
                 Row(
                     modifier = Modifier

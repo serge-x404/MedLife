@@ -35,8 +35,8 @@ import com.example.medcare.R
 @Composable
 fun AuthSplashScreen(
     navigateToRegister: () -> Unit,
-    navigateToHome: () -> Unit,
     navigateToLogin: () -> Unit
+//    navigateToHome: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -44,36 +44,39 @@ fun AuthSplashScreen(
             .background(MaterialTheme.colorScheme.surfaceContainerHighest)
             .padding(horizontal = 10.dp, vertical = 20.dp)
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 30.dp)
-                .padding(horizontal = 12.dp)
-        ) {
-            val context = LocalContext.current
-            Button(
-                onClick = {
-                    Toast.makeText(
-                        context,
-                        "App language will be available soon",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    navigateToLogin()
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.inverseSurface),
-                border = BorderStroke(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.outlineVariant
-                ),
-                modifier = Modifier.align(Alignment.TopEnd)
-            ) {
-                Text(
-                    text = "English",
-                    color = MaterialTheme.colorScheme.inverseOnSurface,
-                    style = MaterialTheme.typography.labelMedium
-                )
-            }
-        }
+
+        // Remove Language Button
+
+//        Box(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(vertical = 30.dp)
+//                .padding(horizontal = 12.dp)
+//        ) {
+//            val context = LocalContext.current
+//            Button(
+//                onClick = {
+//                    Toast.makeText(
+//                        context,
+//                        "App language will be available soon",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                    navigateToLogin()
+//                },
+//                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.inverseSurface),
+//                border = BorderStroke(
+//                    width = 1.dp,
+//                    color = MaterialTheme.colorScheme.outlineVariant
+//                ),
+//                modifier = Modifier.align(Alignment.TopEnd)
+//            ) {
+//                Text(
+//                    text = "English",
+//                    color = MaterialTheme.colorScheme.inverseOnSurface,
+//                    style = MaterialTheme.typography.labelMedium
+//                )
+//            }
+//        }
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -96,15 +99,14 @@ fun AuthSplashScreen(
             Column(Modifier.padding(vertical = 20.dp)) {
                 Button(
                     onClick = {
-                        navigateToHome()
-                        Log.d("NEXT BTN", "next button")
+                        navigateToLogin()
                     },
                     colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.surface),
                     border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = "Next",
+                        text = "Login",
                         color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.labelLarge
                     )
@@ -112,7 +114,6 @@ fun AuthSplashScreen(
                 Button(
                     onClick = {
                         navigateToRegister()
-                        Log.i("MYTAG", "clicked")
                     },
                     colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary),
                     border = BorderStroke(width = 2.dp, MaterialTheme.colorScheme.outlineVariant),

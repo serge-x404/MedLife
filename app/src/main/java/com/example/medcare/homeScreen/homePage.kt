@@ -92,7 +92,7 @@ fun HomeScreen(
         TopAppBar(
             title = {
                 Text(
-                    text = "Hi, $userName",
+                    text = "Hi, $email",
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.headlineLarge
                 )
