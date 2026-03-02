@@ -1,5 +1,6 @@
 package com.example.medcare.homeScreen
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -13,20 +14,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -38,16 +34,12 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -56,43 +48,48 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Outline
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medcare.R
 import com.example.medcare.article.LatestArticle
 import com.example.medcare.class_objects.Hot
-import com.example.medcare.class_objects.Notifications
 import com.example.medcare.class_objects.bestSellingProducts
 import com.example.medcare.class_objects.gridData
 import com.example.medcare.class_objects.hospitals
 import com.example.medcare.class_objects.lazyRow
 import com.example.medcare.layoutsFile.gridViewLayout
+import com.example.medcare.rtdb.RTDB
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navigateToChatDoc: () -> Unit,
-    navigateToProfile: (String, String) -> Unit,
+    navigateToProfile: () -> Unit,
     navigateToNotifications: () -> Unit,
     navigateToCart: () -> Unit,
     navigateToHealthShop: () -> Unit,
     navigateToHospital: () -> Unit,
-    navigateToArticle: () -> Unit,
-    userName: String,
-    email: String
+    navigateToArticle: () -> Unit
 ) {
+    val rtdb = RTDB()
+    var userName by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    LaunchedEffect(Unit) {
+        rtdb.FetchUserInfo {
+            first, second ->
+            userName = first
+            email = second
+        }
+        Log.i("userNameFetch", "${userName}")
+    }
     Scaffold(topBar = {
         TopAppBar(
             title = {
                 Text(
-                    text = "Hi, $email",
+                    text = "Hi, $userName",
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.headlineLarge
                 )
@@ -140,8 +137,11 @@ fun HomeScreen(
                         .fillMaxWidth()
                         .height(150.dp)
                 ) {
-                    Column(modifier = Modifier.padding(horizontal = 20.dp)
-                        .padding(top = 20.dp)) {
+                    Column(
+                        modifier = Modifier
+                            .padding(horizontal = 20.dp)
+                            .padding(top = 20.dp)
+                    ) {
                         Text(
                             text = "Experience Seamless Healthcare Management with MedLife",
                             fontSize = 20.sp,
@@ -150,12 +150,13 @@ fun HomeScreen(
                         )
                         Button(
                             onClick = {
-                                navigateToProfile(userName, email)
+                                navigateToProfile()
                             },
                             colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
                             shape = RoundedCornerShape(12.dp),
                         ) {
-                            Row(verticalAlignment = Alignment.CenterVertically,
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.Center
                             ) {
                                 Text(
@@ -318,7 +319,8 @@ fun HomeScreen(
                                     onClick = {
                                         navigateToHospital()
                                     })
-                                .border(1.dp, color = MaterialTheme.colorScheme.outline,
+                                .border(
+                                    1.dp, color = MaterialTheme.colorScheme.outline,
                                     shape = RoundedCornerShape(4.dp)
                                 )
                                 .background(MaterialTheme.colorScheme.surfaceContainerHighest)

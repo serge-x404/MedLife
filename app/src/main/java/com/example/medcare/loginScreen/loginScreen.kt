@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.sp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    navigateToHomeScreen: (String, String) -> Unit,
+    navigateToHomeScreen: () -> Unit,
     navigateToRegister: () -> Unit,
     navigateToOTP: () -> Unit
 ) {

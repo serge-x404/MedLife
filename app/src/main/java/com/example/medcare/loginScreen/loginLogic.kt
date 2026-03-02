@@ -26,7 +26,7 @@ import com.example.medcare.registerScreen.Tabs
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginLogic(
-    navigateToHomeScreen: (String, String) -> Unit,
+    navigateToHomeScreen: () -> Unit,
     navigateToRegister: () -> Unit,
     navigateToOTP: () -> Unit
 ) {

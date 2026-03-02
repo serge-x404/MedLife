@@ -99,26 +99,25 @@ fun NavGraph(navHostController: NavHostController, modifier: Modifier) {
 fun addHomeScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder)  {
     navGraphBuilder.composable(
         route = NavRoute.Main.path,
-        arguments = listOf(
-            navArgument("userName") {
-                type = NavType.StringType
-                nullable = true
+//        arguments = listOf(
+//            navArgument("userName") {
+//                type = NavType.StringType
+//                nullable = true
 //                defaultValue = null
-            },
-            navArgument("email") {
-                type = NavType.StringType
-                nullable = true
+//            },
+//            navArgument("email") {
+//                type = NavType.StringType
+//                nullable = true
 //                defaultValue = null
-            }
-        )
+//            }
+//        )
     ) {
         HomeScreen(
             navigateToChatDoc = {
                 navHostController.navigate(NavRoute.ChatDoc.path)
             },
             navigateToProfile = {
-                userName, email ->
-                navHostController.navigate(NavRoute.Profile.path.plus("/${userName}/${email}")) {
+                navHostController.navigate(NavRoute.Profile.path) {
                     popUpTo(NavRoute.Main.path) {
                         inclusive = true
                     }
@@ -139,8 +138,8 @@ fun addHomeScreen(navHostController: NavHostController, navGraphBuilder: NavGrap
             navigateToArticle = {
                 navHostController.navigate(NavRoute.articleRead.path)
             },
-            userName = it.arguments?.getString("userName").toString(),
-            email = it.arguments?.getString("email").toString()
+//            userName = it.arguments?.getString("userName").toString(),
+//            email = it.arguments?.getString("email").toString()
         )
     }
 }
@@ -176,12 +175,12 @@ fun addProfileScreen(navHostController: NavHostController, navGraphBuilder: NavG
             navArgument("userName") {
                 type = NavType.StringType
                 nullable = true
-//                defaultValue = null
+                defaultValue = null
             },
             navArgument("email") {
                 type = NavType.StringType
                 nullable = true
-//                defaultValue = null
+                defaultValue = null
             }
         )
     ) {
@@ -212,8 +211,8 @@ fun addProfileScreen(navHostController: NavHostController, navGraphBuilder: NavG
                     }
                 }
             },
-            userName = it.arguments?.getString("userName").toString(),
-            email = it.arguments?.getString("email").toString(),
+//            userName = it.arguments?.getString("userName").toString(),
+//            email = it.arguments?.getString("email").toString(),
         )
     }
 }
@@ -273,8 +272,8 @@ fun addLoginScreen(navHostController: NavHostController, navGraphBuilder: NavGra
     ) {
         LoginScreen(
             navigateToHomeScreen = {
-                userName,email ->
-                navHostController.navigate(NavRoute.Main.path.plus("/${userName}/${email}"))},
+//                userName,email ->
+                navHostController.navigate(NavRoute.Main.path)},
             navigateToRegister = {navHostController.navigate(NavRoute.Register.path)},
             navigateToOTP = {navHostController.navigate(NavRoute.OTP.path)}
         )

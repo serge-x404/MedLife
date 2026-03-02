@@ -34,6 +34,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,6 +51,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medcare.R
 import com.example.medcare.loginScreen.auth
+import com.example.medcare.rtdb.RTDB
+import com.google.firebase.auth.FirebaseAuth
 import kotlin.math.sin
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -63,11 +66,19 @@ fun ProfileScreen(
 //    navigateToPharmaAdmin: () -> Unit,
     back: () -> Unit,
     navigateToAuthSplash: () -> Unit,
-    userName: String,
-    email: String
+//    userName: String,
+//    email: String
 ) {
     var checkDarkTheme by remember { mutableStateOf(false) }
-    var phoneNumber by remember { mutableStateOf("") }
+    val rtdb = RTDB()
+    var userName by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    LaunchedEffect(Unit) {
+        rtdb.FetchUserInfo { uName, eMail ->
+            userName = uName
+            email = eMail
+        }
+    }
     Scaffold(
         topBar = { TopAppBar(
             title = {
@@ -106,7 +117,7 @@ fun ProfileScreen(
                         Spacer(Modifier.width(8.dp))
                         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                             Text(
-                                text = userName,
+                                userName,
                                 style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.onBackground
                             )
@@ -124,20 +135,20 @@ fun ProfileScreen(
                                     color = MaterialTheme.colorScheme.onBackground
                                 )
                             }
-                            Row {
-                                Icon(
-                                    imageVector = Icons.Default.Phone,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.onBackground,
-                                    modifier = Modifier.size(20.dp)
-                                )
-                                Spacer(Modifier.width(6.dp))
-                                Text(
-                                    phoneNumber,
-                                    style = MaterialTheme.typography.labelLarge,
-                                    color = MaterialTheme.colorScheme.onBackground
-                                )
-                            }
+//                            Row {
+//                                Icon(
+//                                    imageVector = Icons.Default.Phone,
+//                                    contentDescription = null,
+//                                    tint = MaterialTheme.colorScheme.onBackground,
+//                                    modifier = Modifier.size(20.dp)
+//                                )
+//                                Spacer(Modifier.width(6.dp))
+//                                Text(
+//                                    "phoneNumber",
+//                                    style = MaterialTheme.typography.labelLarge,
+//                                    color = MaterialTheme.colorScheme.onBackground
+//                                )
+//                            }
                         }
                     }
                 }

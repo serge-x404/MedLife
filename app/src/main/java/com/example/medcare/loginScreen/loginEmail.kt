@@ -42,7 +42,7 @@ import com.google.firebase.database.FirebaseDatabase
 
 @Composable
 fun EmailLogin(
-    navigateToHomeScreen: (String, String) -> Unit,
+    navigateToHomeScreen: () -> Unit,
     navigateToRegister: () -> Unit
 ) {
     var email by remember { mutableStateOf("") }
@@ -132,15 +132,7 @@ fun EmailLogin(
                                 isLoading =false
                                 Log.i("login btn click", "$isLoading")
                                 if (task.isSuccessful) {
-                                    val db = FirebaseDatabase.getInstance().reference
-                                    val uid = auth.currentUser?.uid ?: ""
-                                    db.child("users").child(uid).get()
-                                        .addOnSuccessListener { snapshot ->
-                                            val userName = snapshot.child("userName").value as? String ?: ""
-                                            val email = snapshot.child("email").value as? String ?: ""
-                                            navigateToHomeScreen(userName, email)
-                                        }
-                                        .addOnFailureListener { errorMessage = task.exception?.message ?: "Error fetching" }
+                                    navigateToHomeScreen()
                                 }
                                 else {
                                     errorMessage = task.exception?.message ?: "Login failed"
