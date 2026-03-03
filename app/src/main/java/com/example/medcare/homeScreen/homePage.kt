@@ -179,27 +179,27 @@ fun HomeScreen(
                             .size(90.dp)
                     )
                 }
-                Spacer(Modifier.height(30.dp))
-                OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
-                    placeholder = {
-                        Text(
-                            "Find a doctor, medicine or health services",
-                            fontSize = 12.sp
-                        )
-                    },
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = null
-                        )
-                    },
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(horizontal = 30.dp),
-                )
-                Spacer(Modifier.height(30.dp))
+                Spacer(Modifier.height(14.dp))
+//                OutlinedTextField(
+//                    value = "",
+//                    onValueChange = {},
+//                    placeholder = {
+//                        Text(
+//                            "Find a doctor, medicine or health services",
+//                            fontSize = 12.sp
+//                        )
+//                    },
+//                    leadingIcon = {
+//                        Icon(
+//                            imageVector = Icons.Default.Search,
+//                            contentDescription = null
+//                        )
+//                    },
+//                    modifier = Modifier
+//                        .align(Alignment.CenterHorizontally)
+//                        .padding(horizontal = 30.dp),
+//                )
+//                Spacer(Modifier.height(30.dp))
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(4),
                     modifier = Modifier

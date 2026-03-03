@@ -1,7 +1,5 @@
 package com.example.medcare.registerScreen
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -17,15 +15,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -34,8 +29,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -44,83 +37,66 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.TextFieldDefaults
 import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.database.FirebaseDatabase
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.util.Date
-import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EmailRegister(
+fun DoctorRegister(
     navigateToLoginScreen: () -> Unit,
-    navigateToHomeScreen: (String, String) -> Unit
+    navigateToHomeScreen: () -> Unit,
+    navigateToConfirmationScreen: () -> Unit
 ) {
-    val auth = FirebaseAuth.getInstance()
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
     var userName by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
     var checked by remember { mutableStateOf(false) }
+    var password by remember { mutableStateOf("") }
     var showDatePicker by remember { mutableStateOf(false) }
-    val datePickerState = rememberDatePickerState()
-    val selectedDate = datePickerState.selectedDateMillis?.let { convertMillisToDate(it) } ?: ""
-    var isLoading by remember { mutableStateOf(false) }
+    val auth = Firebase.auth
     var errorMessage by remember { mutableStateOf("") }
-
-//    if (isLoading) {
-//        CircularProgressIndicator()
-//    }
-
-
-    if (errorMessage.isNotEmpty()) {
-        Text(
-            errorMessage,
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onBackground
-        )
-    }
+    var isLoading by remember { mutableStateOf(false) }
+    val datePickerState = rememberDatePickerState()
+    val selectedDate = datePickerState.selectedDateMillis?.let {convertMillisToDate(it) }?:""
     Scaffold(
         contentWindowInsets = WindowInsets(0.dp)
-    ) { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding)) {
+    ) {
+        Column(
+            modifier = Modifier.padding(it)
+        ) {
             Column(
-                Modifier
+                modifier = Modifier
                     .background(MaterialTheme.colorScheme.surfaceContainerHighest)
                     .border(2.dp, MaterialTheme.colorScheme.outlineVariant)
-                    .padding(horizontal = 12.dp)
                     .fillMaxSize()
+                    .padding(horizontal = 12.dp)
             ) {
                 Spacer(Modifier.height(10.dp))
                 Text(
                     text = "Email",
-                    color = MaterialTheme.colorScheme.onBackground,
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 OutlinedTextField(
                     value = email,
                     label = {
                         Text(
                             "Enter your email",
-                            color = MaterialTheme.colorScheme.onBackground,
-                            style = MaterialTheme.typography.titleSmall
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.onBackground
                         )
                     },
-                    onValueChange = { email = it },
-                    maxLines = 1    ,
-                    modifier = Modifier.fillMaxWidth(),
+                    onValueChange = {email = it},
                     textStyle = MaterialTheme.typography.titleSmall,
-                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
+                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+                    modifier = Modifier.fillMaxWidth(),
                 )
                 Spacer(Modifier.height(5.dp))
                 Text(
@@ -130,38 +106,35 @@ fun EmailRegister(
                 )
                 OutlinedTextField(
                     value = password,
-                    label = {
-                        Text(
-                            "Create a password",
-                            color = MaterialTheme.colorScheme.onBackground,
-                            style = MaterialTheme.typography.titleSmall
-                        )
-                    },
-                    onValueChange = { password = it },
-                    maxLines = 1,
+                    label = { Text(
+                        "Create a password",
+                        color = MaterialTheme.colorScheme.onBackground,
+                        style = MaterialTheme.typography.titleSmall
+                    ) },
                     modifier = Modifier.fillMaxWidth(),
+                    onValueChange = {password = it},
                     textStyle = MaterialTheme.typography.titleSmall,
-                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
+                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
                 )
                 Spacer(Modifier.height(5.dp))
                 Text(
                     text = "Full Name",
-                    color = MaterialTheme.colorScheme.onBackground,
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 OutlinedTextField(
                     value = userName,
                     label = {
                         Text(
                             "Enter your full name",
+                            style = MaterialTheme.typography.titleSmall,
                             color = MaterialTheme.colorScheme.onBackground,
-                            style = MaterialTheme.typography.titleSmall
                         )
                     },
-                    onValueChange = {userName = it},
                     modifier = Modifier.fillMaxWidth(),
+                    onValueChange = {userName = it},
                     textStyle = MaterialTheme.typography.titleSmall,
-                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
+                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
                 )
                 Spacer(Modifier.height(5.dp))
                 Text(
@@ -174,69 +147,53 @@ fun EmailRegister(
                     placeholder = {
                         Text(
                             "Choose your gender",
-                            modifier = Modifier.fillMaxWidth(),
                             color = MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.titleSmall
                         )
                     },
-                    onValueChange = {}
+                    modifier = Modifier.fillMaxWidth(),
+                    onValueChange = {},
+                    textStyle = MaterialTheme.typography.titleSmall,
+                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
                 )
                 Spacer(Modifier.height(5.dp))
                 Text(
-                    text = "Date of birth",
+                    text = "Upload documents",
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.titleLarge
                 )
                 OutlinedTextField(
                     value = selectedDate,
-                    placeholder = {
-                        Text(
-                            "Enter your date of birth",
-                            color = MaterialTheme.colorScheme.onBackground,
-                            style = MaterialTheme.typography.titleSmall
-                        )
-                    },
-                    onValueChange = {},
-                    modifier = Modifier.fillMaxWidth(),
-                    readOnly = true,
-                    trailingIcon = {
-                        IconButton(onClick = { showDatePicker = !showDatePicker }) {
-                            Icon(
-                                imageVector = Icons.Default.DateRange,
-                                contentDescription = null
-                            )
-                            if (showDatePicker) {
-                                Popup(
-                                    onDismissRequest = { showDatePicker = false },
-                                    alignment = Alignment.Center
-                                ) {
-                                    Box {
-                                        DatePicker(
-                                            state = datePickerState,
-                                            showModeToggle = false
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    }
-                )
-                Spacer(Modifier.height(5.dp))
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(5.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Checkbox(
-                        checked = checked,
-                        onCheckedChange = { checked = it },
-                        modifier = Modifier.size(18.dp)
-                    )
-                    Text(
-                        text = "You agree to receive information and notifications sent by MedCare",
-                        style = MaterialTheme.typography.titleSmall,
+                    placeholder = { Text(
+                        "Upload documents",
                         color = MaterialTheme.colorScheme.onBackground,
-                    )
-                }
+                        style = MaterialTheme.typography.titleSmall
+                    ) },
+                    modifier = Modifier.fillMaxWidth(),
+                    onValueChange = {},
+//                    readOnly = true,
+//                    trailingIcon = {
+//                        IconButton(onClick = {showDatePicker = !showDatePicker}) {
+//                            Icon(
+//                                imageVector = Icons.Default.DateRange,
+//                                contentDescription = null
+//                            )
+//                            if (showDatePicker) {
+//                                Popup(
+//                                    onDismissRequest = { showDatePicker = false },
+//                                    alignment = Alignment.Center
+//                                ) {
+//                                    Box {
+//                                        DatePicker(
+//                                            state = datePickerState,
+//                                            showModeToggle = false
+//                                        )
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+                )
             }
         }
         Box(
@@ -252,8 +209,8 @@ fun EmailRegister(
                             errorMessage = "Please fill in all fields"
                             return@Button
                         }
-                        if (password.length<8) {
-                            errorMessage = "Length of password must be at least of 8 characters"
+                        if (password.length < 8) {
+                            errorMessage = "Password length must be at least of 8 characters"
                             return@Button
                         }
                         isLoading = true
@@ -264,13 +221,13 @@ fun EmailRegister(
                                     val db = FirebaseDatabase.getInstance().reference
                                     val uid = auth.currentUser!!.uid
                                     val userMap = mapOf(
-                                        "userName" to userName,
-                                        "email" to email,
-                                        "password" to password
+                                        "doctorEmail" to email,
+                                        "doctorPassword" to password,
+                                        "doctorUserName" to userName
                                     )
-                                    db.child("users").child(uid).setValue(userMap)
-                                        .addOnSuccessListener { navigateToHomeScreen(userName, email) }
-                                        .addOnFailureListener { e -> errorMessage = e.message ?: "Failed to save data" }
+                                    db.child("doctors").child(uid).setValue(userMap)
+                                        .addOnSuccessListener { navigateToConfirmationScreen() }
+                                        .addOnFailureListener { e -> errorMessage = e.message ?: "Failed to register" }
                                 }
                                 else {
                                     errorMessage = task.exception?.message ?: "Registration failed"
@@ -282,7 +239,9 @@ fun EmailRegister(
                     border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
                 ) {
                     if (isLoading) {
-                        CircularProgressIndicator()
+                        CircularProgressIndicator(
+                            color = MaterialTheme.colorScheme.onTertiary
+                        )
                     }
                     else {
                         Text(
@@ -296,7 +255,7 @@ fun EmailRegister(
                     modifier = Modifier
                         .clickable(
                             enabled = true,
-                            onClick = navigateToLoginScreen
+                            onClick = navigateToConfirmationScreen
                         ),
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
@@ -316,10 +275,4 @@ fun EmailRegister(
             }
         }
     }
-}
-
-@Composable
-fun convertMillisToDate(millis: Long): String {
-    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-    return formatter.format(Date(millis))
 }

@@ -1,7 +1,6 @@
 package com.example.medcare.registerScreen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
@@ -10,7 +9,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,17 +16,16 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-enum class Tabs { PHONE, EMAIL }
+enum class Tabs { PATIENT, DOCTOR }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TabLogic(
     navigateToLoginScreen: () -> Unit,
-    navigateToHomeScreen: (String, String) -> Unit
+    navigateToHomeScreen: () -> Unit,
+    navigateToConfirmationScreen: () -> Unit
 ) {
     var storeIndex by remember { mutableIntStateOf(0) }
     Scaffold(
@@ -51,8 +48,8 @@ fun TabLogic(
                 }
             )
             when(storeIndex) {
-                0 -> PhoneNumberRegister(navigateToLoginScreen, navigateToHomeScreen)
-                else -> EmailRegister (navigateToLoginScreen, navigateToHomeScreen)
+                0 -> PatientRegister (navigateToLoginScreen, navigateToHomeScreen)
+                else -> DoctorRegister(navigateToLoginScreen, navigateToHomeScreen, navigateToConfirmationScreen)
             }
         }
     }

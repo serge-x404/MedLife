@@ -39,6 +39,7 @@ import com.example.medcare.profile.ProfileScreen
 import com.example.medcare.profile.Transactions
 import com.example.medcare.profile.pharma.AdminCred
 import com.example.medcare.profile.pharma.RegisterPharma
+import com.example.medcare.registerScreen.DoctorConfirmation
 import com.example.medcare.registerScreen.RegisterScreen
 import com.example.medcare.servicesScreen.ServicesScreen
 import com.example.medcare.servicesScreen.chatDoc.AppointmentSuccess
@@ -59,6 +60,7 @@ fun NavGraph(navHostController: NavHostController, modifier: Modifier) {
         addSplashScreen(navHostController, this)
         addWalkthroughScreen(navHostController,this)
         addRegisterScreen(navHostController, this)
+        addDoctorRegisterConfirmationScreen(navHostController, this)
         addLoginScreen(navHostController, this)
         addOTPScreen(navHostController, this)
         addProfileScreen(navHostController,this)
@@ -259,10 +261,21 @@ fun addRegisterScreen(navHostController: NavHostController, navGraphBuilder: Nav
                 navHostController.navigate(NavRoute.Login.path)
             },
             navigateToHomeScreen = {
-                userName, email ->
-                navHostController.navigate(NavRoute.Main.path.plus("/$userName/$email"))
+//                userName, email ->
+                navHostController.navigate(NavRoute.Main.path)
+            },
+            navigateToConfirmationScreen = {
+                navHostController.navigate(NavRoute.doctorRegisterConfirmation.path)
             }
         )
+    }
+}
+
+fun addDoctorRegisterConfirmationScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
+    navGraphBuilder.composable(
+        route = NavRoute.doctorRegisterConfirmation.path
+    ) {
+        DoctorConfirmation()
     }
 }
 

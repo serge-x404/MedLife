@@ -20,7 +20,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun RegisterScreen(
     navigateToLoginScreen: () -> Unit,
-    navigateToHomeScreen: (String, String) -> Unit
+    navigateToHomeScreen: () -> Unit,
+    navigateToConfirmationScreen: () -> Unit
 ) {
     Scaffold(
         contentWindowInsets = WindowInsets(0.dp),
@@ -51,7 +52,7 @@ fun RegisterScreen(
                     modifier = Modifier
                         .padding(horizontal = 12.dp)
                 )
-                TabLogic(navigateToLoginScreen, navigateToHomeScreen)
+                TabLogic(navigateToLoginScreen, navigateToHomeScreen, navigateToConfirmationScreen)
             }
         }
     }

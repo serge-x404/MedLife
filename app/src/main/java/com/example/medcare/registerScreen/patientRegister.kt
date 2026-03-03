@@ -15,15 +15,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,6 +30,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -39,62 +39,74 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PhoneNumberRegister(
+fun PatientRegister(
     navigateToLoginScreen: () -> Unit,
-    navigateToHomeScreen: (String, String) -> Unit
+    navigateToHomeScreen: () -> Unit
 ) {
-    var userName by remember { mutableStateOf("") }
-    var phoneNumber by remember { mutableStateOf("") }
-    var checked by remember { mutableStateOf(false) }
+    val auth = FirebaseAuth.getInstance()
+    var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var userName by remember { mutableStateOf("") }
+    var checked by remember { mutableStateOf(false) }
     var showDatePicker by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState()
-    val selectedDate = datePickerState.selectedDateMillis?.let {convertMillisToDate(it) }?:""
+    var selectedDate = datePickerState.selectedDateMillis?.let { convertMillisToDate(it) } ?: ""
+    var isLoading by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf("") }
+
+//    if (isLoading) {
+//        CircularProgressIndicator()
+//    }
+
+    if (errorMessage.isNotEmpty()) {
+        Text(
+            errorMessage,
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+    }
     Scaffold(
         contentWindowInsets = WindowInsets(0.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(it)
-        ) {
+    ) { innerPadding ->
+        Column(modifier = Modifier.padding(innerPadding)) {
             Column(
-                modifier = Modifier
+                Modifier
                     .background(MaterialTheme.colorScheme.surfaceContainerHighest)
                     .border(2.dp, MaterialTheme.colorScheme.outlineVariant)
-                    .fillMaxSize()
                     .padding(horizontal = 12.dp)
+                    .fillMaxSize()
             ) {
                 Spacer(Modifier.height(10.dp))
                 Text(
-                    text = "Phone No",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground
+                    text = "Email",
+                    color = MaterialTheme.colorScheme.onBackground,
+                    style = MaterialTheme.typography.titleLarge
                 )
                 OutlinedTextField(
-                    value = phoneNumber,
+                    value = email,
                     label = {
                         Text(
-                            "Enter Phone Number",
-                            style = MaterialTheme.typography.titleSmall,
-                            color = MaterialTheme.colorScheme.onBackground
+                            "Enter your email",
+                            color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.titleSmall
                         )
                     },
-                    onValueChange = {phoneNumber = it},
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+                    onValueChange = { email = it },
+                    maxLines = 1    ,
                     modifier = Modifier.fillMaxWidth(),
+                    textStyle = MaterialTheme.typography.titleSmall,
+                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
                 Spacer(Modifier.height(5.dp))
                 Text(
@@ -104,31 +116,38 @@ fun PhoneNumberRegister(
                 )
                 OutlinedTextField(
                     value = password,
-                    label = { Text(
-                        "Create a password",
-                        color = MaterialTheme.colorScheme.onBackground,
-                        style = MaterialTheme.typography.titleSmall
-                    ) },
+                    label = {
+                        Text(
+                            "Create a password",
+                            color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.titleSmall
+                        )
+                    },
+                    onValueChange = { password = it },
+                    maxLines = 1,
                     modifier = Modifier.fillMaxWidth(),
-                    onValueChange = {password = it}
+                    textStyle = MaterialTheme.typography.titleSmall,
+                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
                 Spacer(Modifier.height(5.dp))
                 Text(
                     text = "Full Name",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onBackground,
+                    style = MaterialTheme.typography.titleLarge
                 )
                 OutlinedTextField(
                     value = userName,
                     label = {
                         Text(
                             "Enter your full name",
-                            style = MaterialTheme.typography.titleSmall,
                             color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.titleSmall
                         )
                     },
+                    onValueChange = {userName = it},
                     modifier = Modifier.fillMaxWidth(),
-                    onValueChange = {userName = it}
+                    textStyle = MaterialTheme.typography.titleSmall,
+                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
                 Spacer(Modifier.height(5.dp))
                 Text(
@@ -141,11 +160,11 @@ fun PhoneNumberRegister(
                     placeholder = {
                         Text(
                             "Choose your gender",
+                            modifier = Modifier.fillMaxWidth(),
                             color = MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.titleSmall
                         )
                     },
-                    modifier = Modifier.fillMaxWidth(),
                     onValueChange = {}
                 )
                 Spacer(Modifier.height(5.dp))
@@ -156,19 +175,25 @@ fun PhoneNumberRegister(
                 )
                 OutlinedTextField(
                     value = selectedDate,
-                    placeholder = { Text(
-                        "Enter your date of birth",
-                        color = MaterialTheme.colorScheme.onBackground,
-                        style = MaterialTheme.typography.titleSmall
-                    ) },
-                    modifier = Modifier.fillMaxWidth(),
+                    placeholder = {
+                        Text(
+                            "Enter your date of birth",
+                            color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.titleSmall
+                        )
+                    },
                     onValueChange = {},
+                    textStyle = MaterialTheme.typography.titleSmall,
+                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
+                    modifier = Modifier
+                        .fillMaxWidth(),
                     readOnly = true,
                     trailingIcon = {
-                        IconButton(onClick = {showDatePicker = !showDatePicker}) {
+                        IconButton(onClick = { showDatePicker = !showDatePicker }) {
                             Icon(
                                 imageVector = Icons.Default.DateRange,
-                                contentDescription = null
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onBackground
                             )
                             if (showDatePicker) {
                                 Popup(
@@ -212,16 +237,52 @@ fun PhoneNumberRegister(
         ) {
             Column {
                 Button(
-                    onClick = { navigateToHomeScreen(userName, phoneNumber) },
+                    onClick = {
+                        if (email.isBlank() || password.isBlank() || userName.isBlank()) {
+                            errorMessage = "Please fill in all fields"
+                            return@Button
+                        }
+                        if (password.length<8) {
+                            errorMessage = "Length of password must be at least of 8 characters"
+                            return@Button
+                        }
+                        isLoading = true
+                        auth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener { task ->
+                                isLoading = false
+                                if (task.isSuccessful) {
+                                    val db = FirebaseDatabase.getInstance().reference
+                                    val uid = auth.currentUser!!.uid
+                                    val userMap = mapOf(
+                                        "userName" to userName,
+                                        "email" to email,
+                                        "password" to password
+                                    )
+                                    db.child("users").child(uid).setValue(userMap)
+                                        .addOnSuccessListener { navigateToHomeScreen() }
+                                        .addOnFailureListener { e -> errorMessage = e.message ?: "Failed to save data" }
+                                }
+                                else {
+                                    errorMessage = task.exception?.message ?: "Registration failed"
+                                }
+                            }
+                    },
                     Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                     border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
                 ) {
-                    Text(
-                        text = "Register",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onTertiary
-                    )
+                    if (isLoading) {
+                        CircularProgressIndicator(
+                            color = MaterialTheme.colorScheme.onTertiary
+                        )
+                    }
+                    else {
+                        Text(
+                            text = "Register",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onTertiary
+                        )
+                    }
                 }
                 Row(
                     modifier = Modifier
@@ -247,4 +308,10 @@ fun PhoneNumberRegister(
             }
         }
     }
+}
+
+@Composable
+fun convertMillisToDate(millis: Long): String {
+    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    return formatter.format(Date(millis))
 }
