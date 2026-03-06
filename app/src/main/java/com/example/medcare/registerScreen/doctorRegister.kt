@@ -302,7 +302,7 @@ fun DoctorRegister(
                     modifier = Modifier
                         .clickable(
                             enabled = true,
-                            onClick = navigateToConfirmationScreen
+                            onClick = navigateToLoginScreen
                         ),
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                 ) {

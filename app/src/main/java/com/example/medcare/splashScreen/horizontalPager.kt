@@ -1,5 +1,6 @@
 package com.example.medcare.splashScreen
 
+import android.content.SharedPreferences
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -18,11 +19,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.core.content.edit
 import kotlinx.coroutines.launch
 
 @Composable
 fun HPager(
-    navigateToAuthSplash: () -> Unit
+    navigateToAuthSplash: () -> Unit,
+    sharedPreferences: SharedPreferences
 ) {
     val pages = OnBoardContent.pages
     val pagerState = rememberPagerState(
@@ -49,6 +52,9 @@ fun HPager(
                 scope.launch {
                     if(isLast) {
                         navigateToAuthSplash()
+                        sharedPreferences.edit(commit = true) {
+                            putBoolean("isOnBoarded", true)
+                        }
                     } else {
                         pagerState.animateScrollToPage(
                             pagerState.currentPage+1,

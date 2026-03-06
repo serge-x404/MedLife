@@ -25,7 +25,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun Splashscreen(
     navigateToOnBoard: () -> Unit,
-    navigateToHome: () -> Unit
+//    navigateToHome: () -> Unit
 ) {
 
     LaunchedEffect(Unit) {

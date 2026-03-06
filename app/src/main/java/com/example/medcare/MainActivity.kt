@@ -21,12 +21,16 @@ import com.google.firebase.Firebase
 import com.google.firebase.initialize
 
 class MainActivity : ComponentActivity() {
+
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         Firebase.initialize(this)
         setContent {
+            val sharedPreferences =
+                applicationContext.getSharedPreferences("medlife", MODE_PRIVATE)
             MedlifeTheme {
                 val navController = rememberNavController()
 
@@ -52,7 +56,7 @@ class MainActivity : ComponentActivity() {
                     }
                 ) {
 
-                    NavGraph(navController, Modifier.padding(it))
+                    NavGraph(navController, sharedPreferences, Modifier.padding(it))
                 }
             }
         }
