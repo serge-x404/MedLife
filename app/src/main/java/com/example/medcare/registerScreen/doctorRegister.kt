@@ -1,5 +1,6 @@
 package com.example.medcare.registerScreen
 
+import android.content.SharedPreferences
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -49,6 +50,7 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.core.content.edit
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.database.FirebaseDatabase
@@ -58,7 +60,8 @@ import com.google.firebase.database.FirebaseDatabase
 fun DoctorRegister(
     navigateToLoginScreen: () -> Unit,
     navigateToHomeScreen: () -> Unit,
-    navigateToConfirmationScreen: () -> Unit
+    navigateToConfirmationScreen: () -> Unit,
+    sharedPreferences: SharedPreferences
 ) {
     var userName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -273,7 +276,12 @@ fun DoctorRegister(
                                         "doctorUserName" to userName
                                     )
                                     db.child("doctors").child(uid).setValue(userMap)
-                                        .addOnSuccessListener { navigateToConfirmationScreen() }
+                                        .addOnSuccessListener {
+                                            navigateToConfirmationScreen()
+                                            sharedPreferences.edit(commit = true) {
+                                                putBoolean("isRegistered", true)
+                                            }
+                                        }
                                         .addOnFailureListener { e -> errorMessage = e.message ?: "Failed to register" }
                                 }
                                 else {

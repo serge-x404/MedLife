@@ -18,6 +18,7 @@ import com.example.medcare.navigation.NavGraph
 import com.example.medcare.navigation.NavRoute
 import com.example.medcare.ui.theme.MedlifeTheme
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.initialize
 
 class MainActivity : ComponentActivity() {
@@ -28,6 +29,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         Firebase.initialize(this)
+        val auth = FirebaseAuth.getInstance()
         setContent {
             val sharedPreferences =
                 applicationContext.getSharedPreferences("medlife", MODE_PRIVATE)
@@ -56,7 +58,10 @@ class MainActivity : ComponentActivity() {
                     }
                 ) {
 
-                    NavGraph(navController, sharedPreferences, Modifier.padding(it))
+                    NavGraph(navController, sharedPreferences,
+                        isLoggedIn = auth.currentUser != null,
+                        isRegistered = auth.currentUser != null,
+                        Modifier.padding(it))
                 }
             }
         }

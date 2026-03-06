@@ -2,6 +2,7 @@ package com.example.medcare.loginScreen
 
 import android.app.Activity
 import android.content.ContentValues.TAG
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.biometric.R
 import androidx.compose.foundation.BorderStroke
@@ -63,7 +64,8 @@ import java.util.concurrent.TimeUnit
 @Composable
 fun DoctorLogin(
     navigateToRegister: () -> Unit,
-    navigateToDoctorHome: () -> Unit
+    navigateToDoctorHome: () -> Unit,
+    sharedPreferences: SharedPreferences
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }

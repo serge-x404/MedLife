@@ -1,5 +1,6 @@
 package com.example.medcare.registerScreen
 
+import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -27,7 +28,8 @@ enum class Tabs { PATIENT, DOCTOR }
 fun TabLogic(
     navigateToLoginScreen: () -> Unit,
     navigateToHomeScreen: () -> Unit,
-    navigateToConfirmationScreen: () -> Unit
+    navigateToConfirmationScreen: () -> Unit,
+    sharedPreferences: SharedPreferences
 ) {
     var storeIndex by remember { mutableIntStateOf(0) }
     Scaffold(
@@ -56,11 +58,12 @@ fun TabLogic(
                 }
             )
             when (storeIndex) {
-                0 -> PatientRegister(navigateToLoginScreen, navigateToHomeScreen)
+                0 -> PatientRegister(navigateToLoginScreen, navigateToHomeScreen, sharedPreferences)
                 else -> DoctorRegister(
                     navigateToLoginScreen,
                     navigateToHomeScreen,
-                    navigateToConfirmationScreen
+                    navigateToConfirmationScreen,
+                    sharedPreferences
                 )
             }
         }

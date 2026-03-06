@@ -60,19 +60,20 @@ import com.example.medcare.splashScreen.Splashscreen
 fun NavGraph(
     navHostController: NavHostController,
     sharedPreferences: SharedPreferences,
+    isLoggedIn: Boolean,
+    isRegistered: Boolean,
     modifier: Modifier
 ) {
     val isOnBoarded = sharedPreferences.getBoolean("isOnBoarded", false)
-    Log.i("ONBOARD", "onboard: " + isOnBoarded)
 
     NavHost(navHostController, startDestination = NavRoute.Splash.path) {
         addHomeScreen(navHostController, this)
         addDoctorHomeScreen(navHostController, this)
-        addSplashScreen(navHostController, this, isOnBoarded)
+        addSplashScreen(navHostController, this, isOnBoarded, isLoggedIn, isRegistered)
         addWalkthroughScreen(navHostController, this, sharedPreferences)
-        addRegisterScreen(navHostController, this)
+        addRegisterScreen(navHostController, this, sharedPreferences)
         addDoctorRegisterConfirmationScreen(navHostController, this)
-        addLoginScreen(navHostController, this)
+        addLoginScreen(navHostController, this, sharedPreferences)
         addOTPScreen(navHostController, this)
         addProfileScreen(navHostController, this)
         addHistoryScreen(navHostController, this)
@@ -109,7 +110,11 @@ fun NavGraph(
     }
 }
 
-fun addHomeScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
+fun addHomeScreen(navHostController: NavHostController,
+                  navGraphBuilder: NavGraphBuilder,
+//                  isLoggedIn: Boolean,
+//                  isRegistered: Boolean
+) {
     navGraphBuilder.composable(
         route = NavRoute.Main.path,
 //        arguments = listOf(
@@ -165,13 +170,21 @@ fun addDoctorHomeScreen(navHostController: NavHostController, navGrahBuilder: Na
 }
 
 fun addSplashScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder,
-                    isOnBoarded: Boolean) {
+                    isOnBoarded: Boolean,
+                    isLoggedIn: Boolean,
+                    isRegistered: Boolean) {
     navGraphBuilder.composable(
         route = NavRoute.Splash.path
     ) {
         Splashscreen(
             navigateToOnBoard = {
-                if(isOnBoarded) {
+                if (isOnBoarded && isLoggedIn) {
+                    navHostController.navigate(NavRoute.Main.path)
+                }
+                else if (isOnBoarded && isRegistered) {
+                    navHostController.navigate(NavRoute.Main.path)
+                }
+                else  if(isOnBoarded){
                     navHostController.navigate(NavRoute.AuthSplash.path)
                 }
                 else {
@@ -284,7 +297,10 @@ fun addAuthSplash(navHostController: NavHostController, navGraphBuilder: NavGrap
     }
 }
 
-fun addRegisterScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
+fun addRegisterScreen(navHostController: NavHostController,
+                      navGraphBuilder: NavGraphBuilder,
+                      sharedPreferences: SharedPreferences
+) {
     navGraphBuilder.composable(
         route = NavRoute.Register.path,
     ) {
@@ -298,7 +314,8 @@ fun addRegisterScreen(navHostController: NavHostController, navGraphBuilder: Nav
             },
             navigateToConfirmationScreen = {
                 navHostController.navigate(NavRoute.doctorRegisterConfirmation.path)
-            }
+            },
+            sharedPreferences
         )
     }
 }
@@ -314,17 +331,19 @@ fun addDoctorRegisterConfirmationScreen(
     }
 }
 
-fun addLoginScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
+fun addLoginScreen(navHostController: NavHostController,
+                   navGraphBuilder: NavGraphBuilder,
+                   sharedPreferences: SharedPreferences) {
     navGraphBuilder.composable(
         route = NavRoute.Login.path
     ) {
         LoginScreen(
             navigateToHomeScreen = {
 //                userName,email ->
-                navHostController.navigate(NavRoute.Main.path)
-            },
+                navHostController.navigate(NavRoute.Main.path) },
             navigateToRegister = { navHostController.navigate(NavRoute.Register.path) },
-            navigateToDoctorHome = { navHostController.navigate(NavRoute.DoctorMain.path) }
+            navigateToDoctorHome = { navHostController.navigate(NavRoute.DoctorMain.path) },
+            sharedPreferences
         )
     }
 }

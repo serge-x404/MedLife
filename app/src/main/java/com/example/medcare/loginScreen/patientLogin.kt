@@ -1,5 +1,6 @@
 package com.example.medcare.loginScreen
 
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -39,13 +40,15 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.content.edit
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 @Composable
 fun PatientLogin(
     navigateToHomeScreen: () -> Unit,
-    navigateToRegister: () -> Unit
+    navigateToRegister: () -> Unit,
+    sharedPreferences: SharedPreferences
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -157,7 +160,12 @@ fun PatientLogin(
                                     val uid = auth.currentUser!!.uid
                                     db.child("users").child(uid).get()
                                         .addOnSuccessListener { snapshot ->
-                                            if (snapshot.exists()) navigateToHomeScreen()
+                                            if (snapshot.exists()) {
+                                                navigateToHomeScreen()
+                                                sharedPreferences.edit(commit = true) {
+                                                    putBoolean("isLoggedIn", true)
+                                                }
+                                            }
                                         }
                                 }
                                 else {

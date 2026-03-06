@@ -1,5 +1,6 @@
 package com.example.medcare.registerScreen
 
+import android.content.SharedPreferences
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,7 +22,8 @@ import androidx.compose.ui.unit.dp
 fun RegisterScreen(
     navigateToLoginScreen: () -> Unit,
     navigateToHomeScreen: () -> Unit,
-    navigateToConfirmationScreen: () -> Unit
+    navigateToConfirmationScreen: () -> Unit,
+    sharedPreferences: SharedPreferences
 ) {
     Scaffold(
         contentWindowInsets = WindowInsets(0.dp),
@@ -52,7 +54,7 @@ fun RegisterScreen(
                     modifier = Modifier
                         .padding(horizontal = 12.dp)
                 )
-                TabLogic(navigateToLoginScreen, navigateToHomeScreen, navigateToConfirmationScreen)
+                TabLogic(navigateToLoginScreen, navigateToHomeScreen, navigateToConfirmationScreen, sharedPreferences)
             }
         }
     }

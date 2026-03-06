@@ -1,5 +1,6 @@
 package com.example.medcare.registerScreen
 
+import android.content.SharedPreferences
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -50,6 +51,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
+import androidx.core.content.edit
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
@@ -61,7 +63,8 @@ import kotlin.math.exp
 @Composable
 fun PatientRegister(
     navigateToLoginScreen: () -> Unit,
-    navigateToHomeScreen: () -> Unit
+    navigateToHomeScreen: () -> Unit,
+    sharedPreferences: SharedPreferences
 ) {
     val auth = FirebaseAuth.getInstance()
     var email by remember { mutableStateOf("") }
@@ -315,7 +318,12 @@ fun PatientRegister(
                                         "password" to password
                                     )
                                     db.child("users").child(uid).setValue(userMap)
-                                        .addOnSuccessListener { navigateToHomeScreen() }
+                                        .addOnSuccessListener {
+                                            navigateToHomeScreen()
+                                            sharedPreferences.edit(commit = true){
+                                                putBoolean("isRegistered", true)
+                                            }
+                                        }
                                         .addOnFailureListener { e -> errorMessage = e.message ?: "Failed to save data" }
                                 }
                                 else {

@@ -1,5 +1,6 @@
 package com.example.medcare.loginScreen
 
+import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -29,7 +30,8 @@ import com.example.medcare.registerScreen.Tabs
 fun LoginLogic(
     navigateToHomeScreen: () -> Unit,
     navigateToRegister: () -> Unit,
-    navigateToDoctorHome: () -> Unit
+    navigateToDoctorHome: () -> Unit,
+    sharedPreferences: SharedPreferences
 ) {
     var storeLoginIndex by remember { mutableIntStateOf(0) }
     Scaffold(contentWindowInsets = WindowInsets(0.dp)) { it ->
@@ -59,8 +61,8 @@ fun LoginLogic(
                 }
             )
             when(storeLoginIndex) {
-                0 -> PatientLogin(navigateToHomeScreen, navigateToRegister)
-                else -> DoctorLogin(navigateToRegister, navigateToDoctorHome)
+                0 -> PatientLogin(navigateToHomeScreen, navigateToRegister, sharedPreferences)
+                else -> DoctorLogin(navigateToRegister, navigateToDoctorHome, sharedPreferences)
             }
         }
     }

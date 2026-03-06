@@ -1,5 +1,6 @@
 package com.example.medcare.loginScreen
 
+import android.content.SharedPreferences
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,7 +38,8 @@ import androidx.compose.ui.unit.sp
 fun LoginScreen(
     navigateToHomeScreen: () -> Unit,
     navigateToRegister: () -> Unit,
-    navigateToDoctorHome: () -> Unit
+    navigateToDoctorHome: () -> Unit,
+    sharedPreferences: SharedPreferences
 ) {
     Scaffold(
         contentWindowInsets = WindowInsets(0.dp),
@@ -60,7 +62,7 @@ fun LoginScreen(
                     color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.padding(horizontal = 12.dp)
                 )
-                LoginLogic(navigateToHomeScreen, navigateToRegister, navigateToDoctorHome)
+                LoginLogic(navigateToHomeScreen, navigateToRegister, navigateToDoctorHome, sharedPreferences)
             }
         }
     }
