@@ -8,6 +8,8 @@ sealed class NavRoute(val path: String) {
     object OTP : NavRoute("otp")
     object Verification : NavRoute("verification")
     object Main : NavRoute("main")
+
+    object DoctorMain: NavRoute("doctorMain")
     object Services : NavRoute("services")
     object OnBoard : NavRoute("onBoard")
     object Walkthrough: NavRoute("walkthrough")

@@ -15,7 +15,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -23,7 +26,9 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -39,6 +44,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
@@ -47,6 +55,7 @@ import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.math.exp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,8 +66,11 @@ fun PatientRegister(
     val auth = FirebaseAuth.getInstance()
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var passwordVisibility by remember { mutableStateOf(false) }
     var userName by remember { mutableStateOf("") }
     var checked by remember { mutableStateOf(false) }
+    var gender by remember { mutableStateOf("") }
+    var expandedGender by remember { mutableStateOf(false) }
     var showDatePicker by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState()
     var selectedDate = datePickerState.selectedDateMillis?.let { convertMillisToDate(it) } ?: ""
@@ -124,7 +136,20 @@ fun PatientRegister(
                         )
                     },
                     onValueChange = { password = it },
-                    maxLines = 1,
+                    singleLine = true,
+                    visualTransformation = if (passwordVisibility) VisualTransformation.None
+                    else PasswordVisualTransformation() ,
+                    trailingIcon = {
+                        val icon = if (passwordVisibility) Icons.Filled.Clear
+                        else Icons.Filled.Check
+                        IconButton(onClick = {passwordVisibility = !passwordVisibility}) {
+                            Icon(
+                                imageVector = icon,
+                                contentDescription = null
+                            )
+                        }
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     modifier = Modifier.fillMaxWidth(),
                     textStyle = MaterialTheme.typography.titleSmall,
                     colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
@@ -155,18 +180,49 @@ fun PatientRegister(
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.titleLarge
                 )
-                OutlinedTextField(
-                    value = "",
-                    placeholder = {
-                        Text(
-                            "Choose your gender",
-                            modifier = Modifier.fillMaxWidth(),
-                            color = MaterialTheme.colorScheme.onBackground,
-                            style = MaterialTheme.typography.titleSmall
-                        )
-                    },
-                    onValueChange = {}
-                )
+                ExposedDropdownMenuBox(
+                    expanded = expandedGender,
+                    onExpandedChange = {expandedGender = !expandedGender}
+                ) {
+                    OutlinedTextField(
+                        value = gender,
+                        placeholder = {
+                            Text(
+                                "Select your gender",
+                                color = MaterialTheme.colorScheme.onBackground,
+                                style = MaterialTheme.typography.titleSmall
+                            )
+                        },
+                        onValueChange = { gender = it },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .menuAnchor(),
+                        readOnly = true,
+                        textStyle = MaterialTheme.typography.titleSmall,
+                        colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
+                    )
+                    ExposedDropdownMenu(
+                        expanded = expandedGender,
+                        onDismissRequest = {expandedGender = !expandedGender },
+                        modifier = Modifier.background(MaterialTheme.colorScheme.background)
+                    ) {
+                        listOf("Male", "Female", "Others").forEach { it ->
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        it,
+                                        style = MaterialTheme.typography.titleSmall,
+                                        color = MaterialTheme.colorScheme.onBackground
+                                    )
+                                },
+                                onClick = {
+                                    gender = it
+                                    expandedGender = false
+                                }
+                            )
+                        }
+                    }
+                }
                 Spacer(Modifier.height(5.dp))
                 Text(
                     text = "Date of birth",
@@ -314,4 +370,21 @@ fun PatientRegister(
 fun convertMillisToDate(millis: Long): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return formatter.format(Date(millis))
+}
+
+
+@Composable
+fun PasswordField(
+    value: String,
+    onValueChange: (String) -> Unit
+) {
+    var visible by remember { mutableStateOf(false) }
+
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        singleLine = true,
+//        visualTransformation = if (visible) visualTransformation.None
+//        else passwordVisualTransformation
+    )
 }

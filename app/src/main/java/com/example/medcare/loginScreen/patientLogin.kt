@@ -15,9 +15,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -30,9 +35,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 @Composable
 fun PatientLogin(
@@ -41,9 +49,11 @@ fun PatientLogin(
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var passwordVisibility by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }
     val auth = FirebaseAuth.getInstance()
+    val db = FirebaseDatabase.getInstance().reference
     Scaffold(
         contentWindowInsets = WindowInsets(0.dp)
     ) { innerPadding ->
@@ -55,6 +65,12 @@ fun PatientLogin(
                 .fillMaxSize()
             ) {
                 Spacer(Modifier.height(10.dp))
+//                Text(
+//                    "Patient",
+//                    style = MaterialTheme.typography.headlineSmall,
+//                    color = MaterialTheme.colorScheme.onBackground,
+//                    modifier = Modifier.align(Alignment.CenterHorizontally)
+//                )
                 Text(
                     text = "Email",
                     style = MaterialTheme.typography.titleLarge,
@@ -92,7 +108,18 @@ fun PatientLogin(
                     },
                     onValueChange = { password = it},
                     modifier = Modifier.fillMaxWidth(),
-                    maxLines = 1,
+                    visualTransformation = if (passwordVisibility) VisualTransformation.None
+                    else PasswordVisualTransformation(),
+                    singleLine = true,
+                    trailingIcon = {
+                        val icon = if (passwordVisibility) Icons.Default.Clear else Icons.Default.Check
+                        IconButton(onClick = {passwordVisibility = !passwordVisibility}) {
+                            Icon(
+                                imageVector = icon,
+                                contentDescription = null
+                            )
+                        }
+                    },
                     textStyle = MaterialTheme.typography.titleSmall,
                     colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
@@ -127,7 +154,11 @@ fun PatientLogin(
                                 isLoading =false
                                 Log.i("login btn click", "$isLoading")
                                 if (task.isSuccessful) {
-                                    navigateToHomeScreen()
+                                    val uid = auth.currentUser!!.uid
+                                    db.child("users").child(uid).get()
+                                        .addOnSuccessListener { snapshot ->
+                                            if (snapshot.exists()) navigateToHomeScreen()
+                                        }
                                 }
                                 else {
                                     errorMessage = task.exception?.message ?: "Login failed"

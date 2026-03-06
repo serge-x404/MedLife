@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.sp
 fun LoginScreen(
     navigateToHomeScreen: () -> Unit,
     navigateToRegister: () -> Unit,
-    navigateToOTP: () -> Unit
+    navigateToDoctorHome: () -> Unit
 ) {
     Scaffold(
         contentWindowInsets = WindowInsets(0.dp),
@@ -55,12 +55,12 @@ fun LoginScreen(
                     .background(MaterialTheme.colorScheme.surfaceContainerHighest)
             ) {
                 Text(
-                    text = "Enter your phone number or email",
+                    text = "Login with your credentials",
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.padding(horizontal = 12.dp)
                 )
-                LoginLogic(navigateToHomeScreen, navigateToRegister, navigateToOTP)
+                LoginLogic(navigateToHomeScreen, navigateToRegister, navigateToDoctorHome)
             }
         }
     }

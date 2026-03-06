@@ -1,7 +1,9 @@
 package com.example.medcare.loginScreen
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
@@ -17,6 +19,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.medcare.registerScreen.Tabs
 
@@ -26,30 +29,38 @@ import com.example.medcare.registerScreen.Tabs
 fun LoginLogic(
     navigateToHomeScreen: () -> Unit,
     navigateToRegister: () -> Unit,
-    navigateToOTP: () -> Unit
+    navigateToDoctorHome: () -> Unit
 ) {
     var storeLoginIndex by remember { mutableIntStateOf(0) }
     Scaffold(contentWindowInsets = WindowInsets(0.dp)) { it ->
         Column(modifier = Modifier.padding(it)) {
             SecondaryTabRow(
                 selectedTabIndex = storeLoginIndex, tabs = {
+                    val context = LocalContext.current
+
 
                     Tabs.entries.forEachIndexed { index, tabs ->
-                        Tab(selected = storeLoginIndex == index,
-                            onClick = {storeLoginIndex = index}, text = {
+                        Tab(
+                            selected = storeLoginIndex == index,
+                            onClick = {
+                                storeLoginIndex = index
+                                Toast.makeText(context, tabs.name, Toast.LENGTH_SHORT).show()
+                            },
+                            text = {
                                 Text(
                                     tabs.name
                                 )
                             },
-                            modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                            modifier = Modifier
+                                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
                                 .border(2.dp, MaterialTheme.colorScheme.surfaceContainerHighest)
                         )
                     }
                 }
             )
             when(storeLoginIndex) {
-                0 -> DoctorLogin(navigateToRegister, navigateToOTP)
-                else -> PatientLogin(navigateToHomeScreen, navigateToRegister)
+                0 -> PatientLogin(navigateToHomeScreen, navigateToRegister)
+                else -> DoctorLogin(navigateToRegister, navigateToDoctorHome)
             }
         }
     }

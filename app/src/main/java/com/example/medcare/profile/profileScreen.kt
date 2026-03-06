@@ -50,7 +50,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medcare.R
-import com.example.medcare.loginScreen.auth
 import com.example.medcare.rtdb.RTDB
 import com.google.firebase.auth.FirebaseAuth
 import kotlin.math.sin
@@ -71,6 +70,7 @@ fun ProfileScreen(
 ) {
     var checkDarkTheme by remember { mutableStateOf(false) }
     val rtdb = RTDB()
+    val auth = FirebaseAuth.getInstance()
     var userName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     LaunchedEffect(Unit) {

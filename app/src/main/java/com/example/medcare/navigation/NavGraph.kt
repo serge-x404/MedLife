@@ -22,6 +22,7 @@ import com.example.medcare.healthShop.cart.Cart
 import com.example.medcare.healthShop.cart.EmptyCart
 import com.example.medcare.healthShop.cart.FindingPharmacy
 import com.example.medcare.history.HistoryScreen
+import com.example.medcare.homeScreen.DoctorHomeScreen
 import com.example.medcare.homeScreen.HomeScreen
 import com.example.medcare.hospitals.HospitalDetails
 import com.example.medcare.hospitals.HospitalMain
@@ -57,6 +58,7 @@ import com.example.medcare.splashScreen.Splashscreen
 fun NavGraph(navHostController: NavHostController, modifier: Modifier) {
     NavHost(navHostController, startDestination = NavRoute.Splash.path) {
         addHomeScreen(navHostController, this)
+        addDoctorHomeScreen(navHostController, this)
         addSplashScreen(navHostController, this)
         addWalkthroughScreen(navHostController,this)
         addRegisterScreen(navHostController, this)
@@ -143,6 +145,13 @@ fun addHomeScreen(navHostController: NavHostController, navGraphBuilder: NavGrap
 //            userName = it.arguments?.getString("userName").toString(),
 //            email = it.arguments?.getString("email").toString()
         )
+    }
+}
+
+
+fun addDoctorHomeScreen(navHostController: NavHostController, navGrahBuilder: NavGraphBuilder) {
+    navGrahBuilder.composable(NavRoute.DoctorMain.path){
+        DoctorHomeScreen()
     }
 }
 fun addSplashScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
@@ -288,7 +297,7 @@ fun addLoginScreen(navHostController: NavHostController, navGraphBuilder: NavGra
 //                userName,email ->
                 navHostController.navigate(NavRoute.Main.path)},
             navigateToRegister = {navHostController.navigate(NavRoute.Register.path)},
-            navigateToOTP = {navHostController.navigate(NavRoute.OTP.path)}
+            navigateToDoctorHome = {navHostController.navigate(NavRoute.DoctorMain.path)}
         )
     }
 }

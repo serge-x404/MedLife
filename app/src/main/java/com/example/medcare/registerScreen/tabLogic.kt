@@ -1,5 +1,6 @@
 package com.example.medcare.registerScreen
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -16,6 +17,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 
 enum class Tabs { PATIENT, DOCTOR }
@@ -34,22 +36,32 @@ fun TabLogic(
         Column(modifier = Modifier.padding(it)) {
             SecondaryTabRow(
                 selectedTabIndex = storeIndex, tabs = {
+                    val context = LocalContext.current
 
                     Tabs.entries.forEachIndexed { index, tabs ->
-                        Tab(selected = storeIndex == index,
-                            onClick = { storeIndex = index}, text = {
-                            Text(
-                                tabs.name
-                            )
-                        },
+                        Tab(
+                            selected = storeIndex == index,
+                            onClick = {
+                                storeIndex = index
+                                Toast.makeText(context, tabs.name, Toast.LENGTH_SHORT).show()
+                            },
+                            text = {
+                                Text(
+                                    tabs.name
+                                )
+                            },
                             modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainerHighest)
                         )
                     }
                 }
             )
-            when(storeIndex) {
-                0 -> PatientRegister (navigateToLoginScreen, navigateToHomeScreen)
-                else -> DoctorRegister(navigateToLoginScreen, navigateToHomeScreen, navigateToConfirmationScreen)
+            when (storeIndex) {
+                0 -> PatientRegister(navigateToLoginScreen, navigateToHomeScreen)
+                else -> DoctorRegister(
+                    navigateToLoginScreen,
+                    navigateToHomeScreen,
+                    navigateToConfirmationScreen
+                )
             }
         }
     }

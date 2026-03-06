@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -42,7 +44,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.database.FirebaseDatabase
@@ -58,10 +64,13 @@ fun DoctorRegister(
     var email by remember { mutableStateOf("") }
     var checked by remember { mutableStateOf(false) }
     var password by remember { mutableStateOf("") }
+    var passwordVisibility by remember { mutableStateOf(false) }
     var showDatePicker by remember { mutableStateOf(false) }
     val auth = Firebase.auth
     var errorMessage by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }
+    var gender by remember { mutableStateOf("") }
+    var expandedGender by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState()
     val selectedDate = datePickerState.selectedDateMillis?.let {convertMillisToDate(it) }?:""
     Scaffold(
@@ -113,6 +122,18 @@ fun DoctorRegister(
                     ) },
                     modifier = Modifier.fillMaxWidth(),
                     onValueChange = {password = it},
+                    visualTransformation = if (passwordVisibility) VisualTransformation.None
+                    else PasswordVisualTransformation(),
+                    trailingIcon = {
+                        val icon = if (passwordVisibility) Icons.Default.Clear
+                        else Icons.Default.Check
+                        IconButton(onClick = {passwordVisibility = !passwordVisibility}) {
+                            Icon(
+                                imageVector = icon,
+                                contentDescription = null
+                            )
+                        }
+                    },
                     textStyle = MaterialTheme.typography.titleSmall,
                     colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
                 )
@@ -142,20 +163,46 @@ fun DoctorRegister(
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.titleLarge
                 )
-                OutlinedTextField(
-                    value = "",
-                    placeholder = {
-                        Text(
-                            "Choose your gender",
-                            color = MaterialTheme.colorScheme.onBackground,
-                            style = MaterialTheme.typography.titleSmall
-                        )
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    onValueChange = {},
-                    textStyle = MaterialTheme.typography.titleSmall,
-                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
-                )
+                ExposedDropdownMenuBox(expanded = expandedGender,
+                    onExpandedChange = {expandedGender = !expandedGender}) {
+                    OutlinedTextField(
+                        value = gender,
+                        placeholder = {
+                            Text(
+                                "Select your gender",
+                                color = MaterialTheme.colorScheme.onBackground,
+                                style = MaterialTheme.typography.titleSmall
+                            )
+                        },
+                        onValueChange = { gender = it },
+                        readOnly = true,
+                        textStyle = MaterialTheme.typography.titleSmall,
+                        colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
+                        modifier = Modifier.fillMaxWidth()
+                            .menuAnchor()
+                    )
+                    ExposedDropdownMenu(
+                        expanded = expandedGender,
+                        onDismissRequest = {expandedGender = !expandedGender},
+                        modifier = Modifier.background(MaterialTheme.colorScheme.background)
+                    ) {
+                        listOf("Male", "Female", "Others").forEach { it ->
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        it,
+                                        style = MaterialTheme.typography.titleSmall,
+                                        color = MaterialTheme.colorScheme.onBackground
+                                    )
+                                },
+                                onClick = {
+                                    gender = it
+                                    expandedGender = false
+                                }
+                            )
+                        }
+                    }
+                }
                 Spacer(Modifier.height(5.dp))
                 Text(
                     text = "Upload documents",
