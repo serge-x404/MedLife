@@ -1,10 +1,12 @@
 package com.example.medcare.registerScreen
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +29,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDefaults
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -35,10 +38,13 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,6 +61,7 @@ import androidx.core.content.edit
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import kotlin.math.exp
@@ -74,11 +81,49 @@ fun PatientRegister(
     var checked by remember { mutableStateOf(false) }
     var gender by remember { mutableStateOf("") }
     var expandedGender by remember { mutableStateOf(false) }
+    val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+    val calendar = Calendar.getInstance().apply {
+        add(Calendar.YEAR, -18)
+        set(Calendar.HOUR_OF_DAY, 23)
+        set(Calendar.MINUTE, 59)
+        set(Calendar.SECOND, 59)
+        set(Calendar.MILLISECOND, 999)
+    }
+    val maxDateMillis = calendar.timeInMillis
     var showDatePicker by remember { mutableStateOf(false) }
+    var selectedDate by remember { mutableStateOf("") }
     val datePickerState = rememberDatePickerState()
-    var selectedDate = datePickerState.selectedDateMillis?.let { convertMillisToDate(it) } ?: ""
     var isLoading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf("") }
+
+//    LaunchedEffect(datePickerState.selectedDateMillis) {
+//        datePickerState.selectedDateMillis?.let {
+//            selectedDate = convertMillisToDate(it)
+//            showDatePicker = false
+//            Log.i("SelectedDate", "selected date "+ selectedDate)
+//        }
+//    }
+
+    if (showDatePicker) {
+        DatePickerDialog(
+            onDismissRequest = { showDatePicker = false },
+            confirmButton = {
+                TextButton(onClick = {
+                    datePickerState.selectedDateMillis?.let { selectedDate = convertMillisToDate(it) }
+                    showDatePicker = false
+                }) {
+                    Text("OK")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = {showDatePicker = false}) {
+                    Text("Cancel")
+                }
+            }
+        ) {
+            DatePicker( state = datePickerState, showModeToggle = false )
+        }
+    }
 
 //    if (isLoading) {
 //        CircularProgressIndicator()
@@ -118,7 +163,7 @@ fun PatientRegister(
                         )
                     },
                     onValueChange = { email = it },
-                    maxLines = 1    ,
+                    maxLines = 1,
                     modifier = Modifier.fillMaxWidth(),
                     textStyle = MaterialTheme.typography.titleSmall,
                     colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
@@ -141,11 +186,11 @@ fun PatientRegister(
                     onValueChange = { password = it },
                     singleLine = true,
                     visualTransformation = if (passwordVisibility) VisualTransformation.None
-                    else PasswordVisualTransformation() ,
+                    else PasswordVisualTransformation(),
                     trailingIcon = {
                         val icon = if (passwordVisibility) Icons.Filled.Clear
                         else Icons.Filled.Check
-                        IconButton(onClick = {passwordVisibility = !passwordVisibility}) {
+                        IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
                             Icon(
                                 imageVector = icon,
                                 contentDescription = null
@@ -172,7 +217,7 @@ fun PatientRegister(
                             style = MaterialTheme.typography.titleSmall
                         )
                     },
-                    onValueChange = {userName = it},
+                    onValueChange = { userName = it },
                     modifier = Modifier.fillMaxWidth(),
                     textStyle = MaterialTheme.typography.titleSmall,
                     colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
@@ -185,7 +230,7 @@ fun PatientRegister(
                 )
                 ExposedDropdownMenuBox(
                     expanded = expandedGender,
-                    onExpandedChange = {expandedGender = !expandedGender}
+                    onExpandedChange = { expandedGender = !expandedGender }
                 ) {
                     OutlinedTextField(
                         value = gender,
@@ -206,7 +251,7 @@ fun PatientRegister(
                     )
                     ExposedDropdownMenu(
                         expanded = expandedGender,
-                        onDismissRequest = {expandedGender = !expandedGender },
+                        onDismissRequest = { expandedGender = !expandedGender },
                         modifier = Modifier.background(MaterialTheme.colorScheme.background)
                     ) {
                         listOf("Male", "Female", "Others").forEach { it ->
@@ -254,19 +299,6 @@ fun PatientRegister(
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.onBackground
                             )
-                            if (showDatePicker) {
-                                Popup(
-                                    onDismissRequest = { showDatePicker = false },
-                                    alignment = Alignment.Center
-                                ) {
-                                    Box {
-                                        DatePicker(
-                                            state = datePickerState,
-                                            showModeToggle = false
-                                        )
-                                    }
-                                }
-                            }
                         }
                     }
                 )
@@ -301,7 +333,7 @@ fun PatientRegister(
                             errorMessage = "Please fill in all fields"
                             return@Button
                         }
-                        if (password.length<8) {
+                        if (password.length < 8) {
                             errorMessage = "Length of password must be at least of 8 characters"
                             return@Button
                         }
@@ -320,13 +352,14 @@ fun PatientRegister(
                                     db.child("users").child(uid).setValue(userMap)
                                         .addOnSuccessListener {
                                             navigateToHomeScreen()
-                                            sharedPreferences.edit(commit = true){
+                                            sharedPreferences.edit(commit = true) {
                                                 putBoolean("isRegistered", true)
                                             }
                                         }
-                                        .addOnFailureListener { e -> errorMessage = e.message ?: "Failed to save data" }
-                                }
-                                else {
+                                        .addOnFailureListener { e ->
+                                            errorMessage = e.message ?: "Failed to save data"
+                                        }
+                                } else {
                                     errorMessage = task.exception?.message ?: "Registration failed"
                                 }
                             }
@@ -339,8 +372,7 @@ fun PatientRegister(
                         CircularProgressIndicator(
                             color = MaterialTheme.colorScheme.onTertiary
                         )
-                    }
-                    else {
+                    } else {
                         Text(
                             text = "Register",
                             style = MaterialTheme.typography.titleMedium,
@@ -374,25 +406,25 @@ fun PatientRegister(
     }
 }
 
-@Composable
+//@Composable
 fun convertMillisToDate(millis: Long): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return formatter.format(Date(millis))
 }
 
 
-@Composable
-fun PasswordField(
-    value: String,
-    onValueChange: (String) -> Unit
-) {
-    var visible by remember { mutableStateOf(false) }
-
-    OutlinedTextField(
-        value = value,
-        onValueChange = onValueChange,
-        singleLine = true,
-//        visualTransformation = if (visible) visualTransformation.None
-//        else passwordVisualTransformation
-    )
-}
+//@Composable
+//fun PasswordField(
+//    value: String,
+//    onValueChange: (String) -> Unit
+//) {
+//    var visible by remember { mutableStateOf(false) }
+//
+//    OutlinedTextField(
+//        value = value,
+//        onValueChange = onValueChange,
+//        singleLine = true,
+////        visualTransformation = if (visible) visualTransformation.None
+////        else passwordVisualTransformation
+//    )
+//}

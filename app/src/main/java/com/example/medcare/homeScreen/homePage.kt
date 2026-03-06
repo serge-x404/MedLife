@@ -140,7 +140,7 @@ fun HomeScreen(
                     Column(
                         modifier = Modifier
                             .padding(horizontal = 20.dp)
-                            .padding(top = 20.dp)
+                            .padding(top = 36.dp)
                     ) {
                         Text(
                             text = "Experience Seamless Healthcare Management with MedLife",
@@ -148,28 +148,28 @@ fun HomeScreen(
                             fontWeight = FontWeight.SemiBold,
                             color = Color.White,
                         )
-                        Button(
-                            onClick = {
-                                navigateToProfile()
-                            },
-                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
-                            shape = RoundedCornerShape(12.dp),
-                        ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                Text(
-                                    text = "Fill Your Profile Now!",
-                                    color = MaterialTheme.colorScheme.onSecondaryContainer,
-                                )
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                                    contentDescription = "Arrow",
-                                    tint = MaterialTheme.colorScheme.onSecondaryContainer
-                                )
-                            }
-                        }
+//                        Button(
+//                            onClick = {
+//                                navigateToProfile()
+//                            },
+//                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+//                            shape = RoundedCornerShape(12.dp),
+//                        ) {
+//                            Row(
+//                                verticalAlignment = Alignment.CenterVertically,
+//                                horizontalArrangement = Arrangement.Center
+//                            ) {
+//                                Text(
+//                                    text = "Fill Your Profile Now!",
+//                                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+//                                )
+//                                Icon(
+//                                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+//                                    contentDescription = "Arrow",
+//                                    tint = MaterialTheme.colorScheme.onSecondaryContainer
+//                                )
+//                            }
+//                        }
                     }
                     Image(
                         painter = painterResource(R.drawable.doctor),
