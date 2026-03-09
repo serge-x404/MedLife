@@ -13,9 +13,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.medcare.navigation.BottomNavigation
-import com.example.medcare.navigation.NavGraph
-import com.example.medcare.navigation.NavRoute
+import com.example.medcare.screens.navigation.BottomNavigation
+import com.example.medcare.screens.navigation.NavGraph
+import com.example.medcare.screens.navigation.NavRoute
 import com.example.medcare.ui.theme.MedlifeTheme
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -42,10 +42,10 @@ class MainActivity : ComponentActivity() {
 
                 val navItems =
                     listOf(
-                        NavRoute.Main.path,
-                        NavRoute.Services.path,
-                        NavRoute.History.path,
-                        NavRoute.Profile.path
+                        _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Main.path,
+                        _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Services.path,
+                        _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.History.path,
+                        _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Profile.path
                     )
 
                 val showBottomBar = currentRoute in navItems
@@ -53,15 +53,19 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     bottomBar = {
                         AnimatedVisibility(showBottomBar) {
-                            BottomNavigation(navController)
+                            _root_ide_package_.com.example.medcare.screens.navigation.BottomNavigation(
+                                navController
+                            )
                         }
                     }
                 ) {
 
-                    NavGraph(navController, sharedPreferences,
+                    _root_ide_package_.com.example.medcare.screens.navigation.NavGraph(
+                        navController, sharedPreferences,
                         isLoggedIn = auth.currentUser != null,
                         isRegistered = auth.currentUser != null,
-                        Modifier.padding(it))
+                        Modifier.padding(it)
+                    )
                 }
             }
         }
