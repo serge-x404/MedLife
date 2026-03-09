@@ -259,7 +259,7 @@ fun HomeScreen(
                     modifier = Modifier.padding(start = 26.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(_root_ide_package_.com.example.medcare.screens.class_objects.lazyRow.doctors) { image ->
+                    items(lazyRow.doctors) { image ->
                         Image(
                             painter = painterResource(id = image),
                             contentDescription = null,

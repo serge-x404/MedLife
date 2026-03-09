@@ -6,8 +6,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavArgs
-import androidx.navigation.NavArgument
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -66,8 +64,8 @@ fun NavGraph(
 ) {
     val isOnBoarded = sharedPreferences.getBoolean("isOnBoarded", false)
 
-    NavHost(navHostController, startDestination = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Splash.path) {
-        _root_ide_package_.com.example.medcare.screens.navigation.addHomeScreen(
+    NavHost(navHostController, startDestination = NavRoute.Splash.path) {
+        addHomeScreen(
             navHostController,
             this
         )
@@ -253,29 +251,29 @@ fun addHomeScreen(
     ) {
         _root_ide_package_.com.example.medcare.screens.homeScreen.HomeScreen(
             navigateToChatDoc = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.ChatDoc.path)
+                navHostController.navigate(NavRoute.ChatDoc.path)
             },
             navigateToProfile = {
                 navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Profile.path) {
-                    popUpTo(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Main.path) {
-                        _root_ide_package_.androidx.navigation.PopUpToBuilder.inclusive = true
+                    popUpTo(NavRoute.Main.path) {
+                        inclusive = true
                     }
                 }
             },
             navigateToNotifications = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Notifications.path)
+                navHostController.navigate(NavRoute.Notifications.path)
             },
             navigateToCart = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Cart.path)
+                navHostController.navigate(NavRoute.Cart.path)
             },
             navigateToHealthShop = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.HealthShop.path)
+                navHostController.navigate(NavRoute.HealthShop.path)
             },
             navigateToHospital = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.hospital.path)
+                navHostController.navigate(NavRoute.hospital.path)
             },
             navigateToArticle = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.articleRead.path)
+                navHostController.navigate(NavRoute.articleRead.path)
             },
 //            userName = it.arguments?.getString("userName").toString(),
 //            email = it.arguments?.getString("email").toString()
@@ -589,7 +587,8 @@ fun addHospiDetailsScreen(navHostController: NavHostController, navGraphBuilder:
     navGraphBuilder.composable(
         route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.hospiDtls.path
     ) {
-        val item = _root_ide_package_.com.example.medcare.screens.class_objects.HospitalData.data.first()
+        val item =
+            _root_ide_package_.com.example.medcare.screens.class_objects.HospitalData.data.first()
         _root_ide_package_.com.example.medcare.screens.hospitals.HospitalDetails(
             item,
             navigateToMap = {
@@ -638,7 +637,9 @@ fun addDocDtls(navHostController: NavHostController, navGraphBuilder: NavGraphBu
 
 fun addAppointmentScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Appointment.path.plus("/{date}/{hours}"),
+        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Appointment.path.plus(
+            "/{date}/{hours}"
+        ),
         arguments = listOf(
             navArgument("date") {
                 type = NavType.StringType
@@ -672,7 +673,7 @@ fun addAppointmentSuccessScreen(
             navigateToHistory = {
                 navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.History.path) {
                     popUpTo(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Services.path) {
-                        _root_ide_package_.androidx.navigation.PopUpToBuilder.inclusive = true
+                        inclusive = true
                     }
                 }
             }
@@ -713,7 +714,9 @@ fun addMedicineScreen(navHostController: NavHostController, navGraphBuilder: Nav
 @RequiresApi(Build.VERSION_CODES.O)
 fun addSavedReminder(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.savedReminder.path.plus("/{medName}/{dosage}/{timings}"),
+        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.savedReminder.path.plus(
+            "/{medName}/{dosage}/{timings}"
+        ),
         arguments = listOf(
             navArgument("medName") {
                 type = NavType.StringType
@@ -799,14 +802,14 @@ fun addFindPharmaScreen(navHostController: NavHostController, navGraphBuilder: N
 
 fun addEmptyCartScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.emptyCart.path
+        route = NavRoute.emptyCart.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.healthShop.cart.EmptyCart(
+        EmptyCart(
             back = { navHostController.popBackStack() },
             navigateToHealthShop = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.HealthShop.path) {
-                    popUpTo(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.HealthShop.path) {
-                        _root_ide_package_.androidx.navigation.PopUpToBuilder.inclusive = true
+                navHostController.navigate(NavRoute.HealthShop.path) {
+                    popUpTo(NavRoute.HealthShop.path) {
+                        inclusive = true
                     }
                 }
             }
@@ -819,9 +822,9 @@ fun addPrescriptionHistScreen(
     navGraphBuilder: NavGraphBuilder
 ) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.presHist.path
+        route = NavRoute.presHist.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.profile.PrescriptionHistory(
+        PrescriptionHistory(
             back = { navHostController.popBackStack() }
         )
     }
@@ -829,9 +832,9 @@ fun addPrescriptionHistScreen(
 
 fun addHealthHistScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.healthHist.path
+        NavRoute.healthHist.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.profile.HealthHistory(
+        HealthHistory(
             back = { navHostController.popBackStack() }
         )
     }
@@ -849,9 +852,9 @@ fun addTransactionScreen(navHostController: NavHostController, navGraphBuilder: 
 
 fun addAccSettScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.accSett.path
+        route = NavRoute.accSett.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.profile.AccountSettings(
+        AccountSettings(
             back = { navHostController.popBackStack() }
         )
     }
@@ -859,13 +862,13 @@ fun addAccSettScreen(navHostController: NavHostController, navGraphBuilder: NavG
 
 fun addClearNotiScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.clearNoti.path
+        route = NavRoute.clearNoti.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.profile.EmptyNotifications(
+        EmptyNotifications(
             navigateToHome = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Main.path) {
-                    popUpTo(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Main.path) {
-                        _root_ide_package_.androidx.navigation.PopUpToBuilder.inclusive = true
+                navHostController.navigate(NavRoute.Main.path) {
+                    popUpTo(NavRoute.Main.path) {
+                        inclusive = true
                     }
                 }
             }

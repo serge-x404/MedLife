@@ -42,10 +42,10 @@ class MainActivity : ComponentActivity() {
 
                 val navItems =
                     listOf(
-                        _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Main.path,
-                        _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Services.path,
-                        _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.History.path,
-                        _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Profile.path
+                        NavRoute.Main.path,
+                        NavRoute.Services.path,
+                        NavRoute.History.path,
+                        NavRoute.Profile.path
                     )
 
                 val showBottomBar = currentRoute in navItems
@@ -53,14 +53,14 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     bottomBar = {
                         AnimatedVisibility(showBottomBar) {
-                            _root_ide_package_.com.example.medcare.screens.navigation.BottomNavigation(
+                            BottomNavigation(
                                 navController
                             )
                         }
                     }
                 ) {
 
-                    _root_ide_package_.com.example.medcare.screens.navigation.NavGraph(
+                    NavGraph(
                         navController, sharedPreferences,
                         isLoggedIn = auth.currentUser != null,
                         isRegistered = auth.currentUser != null,
