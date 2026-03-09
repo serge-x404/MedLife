@@ -1,7 +1,8 @@
 package com.example.medcare.servicesScreen.chatDoc
 
-import android.media.Image
+import android.net.Uri
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -17,32 +18,23 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -61,19 +53,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medcare.R
-import com.example.medcare.class_objects.CalendarScreen
-import com.example.medcare.class_objects.DateGrid
 import com.example.medcare.class_objects.DateScreen
 import com.example.medcare.layoutsFile.Reviews
-import com.example.medcare.layoutsFile.doctorWorkingHours
-import com.example.medcare.layoutsFile.selectionDate
-import com.example.medcare.class_objects.dates
+import com.example.medcare.layoutsFile.DoctorWorkingHours
 import com.example.medcare.class_objects.docWorkHrs
 import com.example.medcare.class_objects.review
 import java.time.LocalDate
@@ -83,9 +69,13 @@ import java.time.LocalDate
 @Composable
 fun DoctorDetails(
     back: () -> Unit,
-    navigateToAppointment: () -> Unit
+    navigateToAppointment: (String, String) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
+    var selectedIndex by remember { mutableStateOf(-1) }
+    var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
+    val selectedHour = if (selectedIndex != -1) docWorkHrs.workingHours[selectedIndex] else ""
+    var errorMessage by remember { mutableStateOf("") }
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -236,18 +226,25 @@ fun DoctorDetails(
                         verticalArrangement = Arrangement.spacedBy(10.dp),
                         horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        items(docWorkHrs.workingHours) { item ->
-                            doctorWorkingHours(item)
+                        itemsIndexed(docWorkHrs.workingHours) { index, item ->
+                            DoctorWorkingHours(
+                                hours = item,
+                                selected = selectedIndex == index,
+                                onClick = {selectedIndex = index}
+                            )
                         }
                     }
                     Spacer(Modifier.height(10.dp))
                     Text(
-                        text = "Schedule",
+                        text = "Date",
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(Modifier.height(5.dp))
-                    DateScreen()
+                    DateScreen(
+                        selectedDate = selectedDate,
+                        onDateSelected = {selectedDate = it }
+                    )
                     Spacer(Modifier.height(10.dp))
                     Text(
                         text = "Review",
@@ -293,7 +290,20 @@ fun DoctorDetails(
                     )
                 }
                 Button(
-                    onClick = navigateToAppointment,
+                    onClick = {
+                        if (selectedHour.isBlank()) {
+                            errorMessage = "Please select a time"
+                            return@Button
+                        }
+                        if (selectedDate == null) {
+                            errorMessage = "Please select a date"
+                            return@Button
+                        }
+                        val encodeHour = Uri.encode(selectedHour)
+                        val encodeDate = Uri.encode(selectedDate.toString())
+                        Log.i("encodeDate", encodeDate)
+                        navigateToAppointment(encodeDate, encodeHour)
+                    },
                     modifier = Modifier.weight(2f),
                     colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.tertiaryContainer),
                     border = BorderStroke(2.dp, color = MaterialTheme.colorScheme.outlineVariant)

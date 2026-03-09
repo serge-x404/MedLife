@@ -1,11 +1,13 @@
 package com.example.medcare.navigation
 
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavArgs
+import androidx.navigation.NavArgument
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -40,8 +42,6 @@ import com.example.medcare.profile.NotificationScreen
 import com.example.medcare.profile.PrescriptionHistory
 import com.example.medcare.profile.ProfileScreen
 import com.example.medcare.profile.Transactions
-import com.example.medcare.profile.pharma.AdminCred
-import com.example.medcare.profile.pharma.RegisterPharma
 import com.example.medcare.registerScreen.DoctorConfirmation
 import com.example.medcare.registerScreen.RegisterScreen
 import com.example.medcare.servicesScreen.ServicesScreen
@@ -110,8 +110,9 @@ fun NavGraph(
     }
 }
 
-fun addHomeScreen(navHostController: NavHostController,
-                  navGraphBuilder: NavGraphBuilder,
+fun addHomeScreen(
+    navHostController: NavHostController,
+    navGraphBuilder: NavGraphBuilder,
 //                  isLoggedIn: Boolean,
 //                  isRegistered: Boolean
 ) {
@@ -169,10 +170,12 @@ fun addDoctorHomeScreen(navHostController: NavHostController, navGrahBuilder: Na
     }
 }
 
-fun addSplashScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder,
-                    isOnBoarded: Boolean,
-                    isLoggedIn: Boolean,
-                    isRegistered: Boolean) {
+fun addSplashScreen(
+    navHostController: NavHostController, navGraphBuilder: NavGraphBuilder,
+    isOnBoarded: Boolean,
+    isLoggedIn: Boolean,
+    isRegistered: Boolean
+) {
     navGraphBuilder.composable(
         route = NavRoute.Splash.path
     ) {
@@ -180,14 +183,11 @@ fun addSplashScreen(navHostController: NavHostController, navGraphBuilder: NavGr
             navigateToOnBoard = {
                 if (isOnBoarded && isLoggedIn) {
                     navHostController.navigate(NavRoute.Main.path)
-                }
-                else if (isOnBoarded && isRegistered) {
+                } else if (isOnBoarded && isRegistered) {
                     navHostController.navigate(NavRoute.Main.path)
-                }
-                else  if(isOnBoarded){
+                } else if (isOnBoarded) {
                     navHostController.navigate(NavRoute.AuthSplash.path)
-                }
-                else {
+                } else {
                     navHostController.navigate(NavRoute.Walkthrough.path)
                 }
             }
@@ -205,9 +205,10 @@ fun addWalkthroughScreen(
     navGraphBuilder.composable(
         route = NavRoute.Walkthrough.path
     ) {
-        HPager(navigateToAuthSplash = {
-            navHostController.navigate(NavRoute.AuthSplash.path)
-        },
+        HPager(
+            navigateToAuthSplash = {
+                navHostController.navigate(NavRoute.AuthSplash.path)
+            },
             sharedPreferences
         )
     }
@@ -297,9 +298,10 @@ fun addAuthSplash(navHostController: NavHostController, navGraphBuilder: NavGrap
     }
 }
 
-fun addRegisterScreen(navHostController: NavHostController,
-                      navGraphBuilder: NavGraphBuilder,
-                      sharedPreferences: SharedPreferences
+fun addRegisterScreen(
+    navHostController: NavHostController,
+    navGraphBuilder: NavGraphBuilder,
+    sharedPreferences: SharedPreferences
 ) {
     navGraphBuilder.composable(
         route = NavRoute.Register.path,
@@ -331,16 +333,19 @@ fun addDoctorRegisterConfirmationScreen(
     }
 }
 
-fun addLoginScreen(navHostController: NavHostController,
-                   navGraphBuilder: NavGraphBuilder,
-                   sharedPreferences: SharedPreferences) {
+fun addLoginScreen(
+    navHostController: NavHostController,
+    navGraphBuilder: NavGraphBuilder,
+    sharedPreferences: SharedPreferences
+) {
     navGraphBuilder.composable(
         route = NavRoute.Login.path
     ) {
         LoginScreen(
             navigateToHomeScreen = {
 //                userName,email ->
-                navHostController.navigate(NavRoute.Main.path) },
+                navHostController.navigate(NavRoute.Main.path)
+            },
             navigateToRegister = { navHostController.navigate(NavRoute.Register.path) },
             navigateToDoctorHome = { navHostController.navigate(NavRoute.DoctorMain.path) },
             sharedPreferences
@@ -499,7 +504,9 @@ fun addDocDtls(navHostController: NavHostController, navGraphBuilder: NavGraphBu
     ) {
         DoctorDetails(
             back = { navHostController.popBackStack() },
-            navigateToAppointment = { navHostController.navigate(NavRoute.Appointment.path) }
+            navigateToAppointment = { date, hours ->
+                navHostController.navigate(NavRoute.Appointment.path.plus("/${date}/${hours}"))
+            }
         )
     }
 }
@@ -507,13 +514,25 @@ fun addDocDtls(navHostController: NavHostController, navGraphBuilder: NavGraphBu
 
 fun addAppointmentScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = NavRoute.Appointment.path
+        route = NavRoute.Appointment.path.plus("/{date}/{hours}"),
+        arguments = listOf(
+            navArgument("date") {
+                type = NavType.StringType
+            },
+            navArgument("hours") {
+                type = NavType.StringType
+            }
+        )
     ) {
+        val appointmentDate = Uri.decode(it.arguments?.getString("date").toString())
+        val appointmentHours = Uri.decode(it.arguments?.getString("hours").toString())
         Confirmation(
             back = { navHostController.popBackStack() },
             navigateToAppointmentSuccess = {
                 navHostController.navigate(NavRoute.appointmentSuccess.path)
-            }
+            },
+            appointmentDate = appointmentDate,
+            appointmentHours = appointmentHours
         )
     }
 }
@@ -714,7 +733,13 @@ fun addClearNotiScreen(navHostController: NavHostController, navGraphBuilder: Na
     navGraphBuilder.composable(
         route = NavRoute.clearNoti.path
     ) {
-        EmptyNotifications()
+        EmptyNotifications(
+            navigateToHome = { navHostController.navigate(NavRoute.Main.path) {
+                popUpTo(NavRoute.Main.path) {
+                    inclusive = true
+                }
+            } }
+        )
     }
 }
 

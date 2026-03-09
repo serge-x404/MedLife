@@ -17,7 +17,7 @@ sealed class NavRoute(val path: String) {
     object Profile: NavRoute("profile")
     object ChatDoc: NavRoute("chatDoc")
     object DocDtls: NavRoute("docDtls")
-    object Appointment: NavRoute("appointment")
+    object Appointment: NavRoute("appointment/{date}/{hours}")
     object appointmentSuccess: NavRoute("appointmentSuccess")
     object Notifications: NavRoute("notifications")
     object Cart: NavRoute("cart")

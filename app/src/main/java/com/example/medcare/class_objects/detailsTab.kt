@@ -3,7 +3,7 @@ package com.example.medcare.class_objects
 import com.example.medcare.R
 
 object docWorkHrs {
-    val workingHours = listOf<String>("9:00 AM","10:00 AM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM")
+    val workingHours = listOf<String>("9:00","10:00", "13:00", "14:00", "15:00", "16:00")
 }
 
 object dates {

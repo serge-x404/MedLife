@@ -329,7 +329,7 @@ fun PatientRegister(
             Column {
                 Button(
                     onClick = {
-                        if (email.isBlank() || password.isBlank() || userName.isBlank()) {
+                        if (email.isBlank() || password.isBlank() || userName.isBlank() || gender.isBlank() || selectedDate.isBlank()) {
                             errorMessage = "Please fill in all fields"
                             return@Button
                         }
@@ -347,7 +347,10 @@ fun PatientRegister(
                                     val userMap = mapOf(
                                         "userName" to userName,
                                         "email" to email,
-                                        "password" to password
+                                        "password" to password,
+                                        "gender" to gender,
+                                        "dateOfBirth" to selectedDate,
+                                        "checkedNotification" to checked
                                     )
                                     db.child("users").child(uid).setValue(userMap)
                                         .addOnSuccessListener {

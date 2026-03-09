@@ -76,7 +76,9 @@ import kotlin.math.roundToInt
 @Composable
 fun Confirmation(
     back: () -> Unit,
-    navigateToAppointmentSuccess: () -> Unit
+    navigateToAppointmentSuccess: () -> Unit,
+    appointmentDate: String,
+    appointmentHours: String
 ) {
     var checked by remember { mutableStateOf(false) }
     Scaffold(
@@ -194,7 +196,7 @@ fun Confirmation(
                         )
                         Spacer(Modifier.height(2.dp))
                         Text(
-                            text = "Wednesday, 22 Feb 1.00PM",
+                            text = "$appointmentDate $appointmentHours",
                             style = MaterialTheme.typography.titleMedium
                         )
                         Spacer(Modifier.height(12.dp))

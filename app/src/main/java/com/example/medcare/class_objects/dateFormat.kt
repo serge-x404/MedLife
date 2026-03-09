@@ -2,6 +2,7 @@ package com.example.medcare.class_objects
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -98,6 +99,7 @@ fun CalendarScreen() {
     }
     DateGrid(
         currentMonth,
+        selectedDate = selectedDate,
         onDateSelected = { selectedDate = it }
     )
     Spacer(Modifier.height(20.dp))
@@ -116,10 +118,14 @@ fun CalendarGrid(month: YearMonth) {
 @Composable
 fun DateCard(
     date: LocalDate,
+    selected: Boolean,
     onClick: () -> Unit
 ) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
+        colors = if (selected) CardDefaults.cardColors(MaterialTheme.colorScheme.primary)
+            else CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer),
+        border = if (selected) BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+        else BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
         elevation = CardDefaults.elevatedCardElevation(2.dp),
         modifier = Modifier
             .size(70.dp)
@@ -138,14 +144,14 @@ fun DateCard(
                     Locale.getDefault()
                 ).uppercase(),
                 style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+//                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center
             )
             Spacer(Modifier.height(8.dp))
             Text(
                 text = date.dayOfMonth.toString(),
                 style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+//                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center
             )
         }
@@ -179,6 +185,7 @@ fun getDatesForMonth(
 @Composable
 fun DateGrid(
     month: YearMonth,
+    selectedDate: LocalDate?,
     onDateSelected: (LocalDate) -> Unit
 ) {
     val today = LocalDate.now()
@@ -188,6 +195,7 @@ fun DateGrid(
         items(dates) { item ->
             DateCard(
                 item,
+                selected = selectedDate == item,
                 onClick = { onDateSelected(item) }
             )
         }
@@ -226,13 +234,17 @@ fun dateFormat(date: LocalDate): String {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun DateScreen() {
+fun DateScreen(
+    selectedDate: LocalDate?,
+    onDateSelected: (LocalDate) -> Unit
+) {
     var baseMonth by remember { mutableStateOf(YearMonth.now()) }
     var currentMonth by remember { mutableStateOf(baseMonth) }
-    var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
+//    var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
 
     DateGrid(
         currentMonth,
-        onDateSelected = { selectedDate = it }
+        selectedDate = selectedDate,
+        onDateSelected = onDateSelected
     )
 }
