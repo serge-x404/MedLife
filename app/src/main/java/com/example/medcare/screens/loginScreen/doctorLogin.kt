@@ -193,9 +193,6 @@ fun DoctorLogin(
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier
-                        .clickable(
-                        enabled = true,
-                        onClick = { navigateToRegister() })
                         .fillMaxWidth(),
                 ) {
                     Text(
@@ -211,7 +208,12 @@ fun DoctorLogin(
                         style = MaterialTheme.typography.labelLarge.copy(
                             fontWeight = FontWeight.SemiBold
                         ),
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier
+                            .clickable(
+                                enabled = true,
+                                onClick = { navigateToRegister() }
+                            )
                     )
                 }
             }

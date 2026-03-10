@@ -5,6 +5,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,11 +38,13 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -87,9 +91,22 @@ fun PatientRegister(
     val maxDateMillis = calendar.timeInMillis
     var showDatePicker by remember { mutableStateOf(false) }
     var selectedDate by remember { mutableStateOf("") }
-    val datePickerState = rememberDatePickerState()
+    val datePickerState = rememberDatePickerState(
+        initialDisplayedMonthMillis = maxDateMillis,
+        selectableDates = object : SelectableDates{
+            override fun isSelectableDate(utcTimeMillis: Long): Boolean {
+                return utcTimeMillis <= maxDateMillis
+            }
+            override fun isSelectableYear(year: Int): Boolean {
+                return year <= currentYear -18
+            }
+        }
+    )
     var isLoading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf("") }
+
+    val interactionSource = remember { MutableInteractionSource() }
+    val isClicked by interactionSource.collectIsPressedAsState()
 
 //    LaunchedEffect(datePickerState.selectedDateMillis) {
 //        datePickerState.selectedDateMillis?.let {
@@ -99,15 +116,19 @@ fun PatientRegister(
 //        }
 //    }
 
+    LaunchedEffect(isClicked) {
+        if (isClicked) showDatePicker = true
+    }
+
     if (showDatePicker) {
         DatePickerDialog(
             onDismissRequest = { showDatePicker = false },
             confirmButton = {
                 TextButton(onClick = {
-                    datePickerState.selectedDateMillis?.let { selectedDate =
-                        _root_ide_package_.com.example.medcare.screens.registerScreen.convertMillisToDate(
-                            it
-                        )
+                    datePickerState.selectedDateMillis?.let {
+                        if (it <= maxDateMillis) {
+                            selectedDate = convertMillisToDate(it)
+                        }
                     }
                     showDatePicker = false
                 }) {
@@ -253,7 +274,7 @@ fun PatientRegister(
                         onDismissRequest = { expandedGender = !expandedGender },
                         modifier = Modifier.background(MaterialTheme.colorScheme.background)
                     ) {
-                        listOf("Male", "Female", "Others").forEach { it ->
+                        listOf("Male", "Female", "Others").forEach {
                             DropdownMenuItem(
                                 text = {
                                     Text(
@@ -291,6 +312,7 @@ fun PatientRegister(
                     modifier = Modifier
                         .fillMaxWidth(),
                     readOnly = true,
+                    interactionSource = interactionSource,
                     trailingIcon = {
                         IconButton(onClick = { showDatePicker = !showDatePicker }) {
                             Icon(
@@ -384,9 +406,6 @@ fun PatientRegister(
                 }
                 Row(
                     modifier = Modifier
-                        .clickable(
-                            enabled = true,
-                            onClick = navigateToLoginScreen)
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,
                 ) {
@@ -404,6 +423,11 @@ fun PatientRegister(
                             fontWeight = FontWeight.SemiBold
                         ),
                         color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier
+                            .clickable(
+                                enabled = true,
+                                onClick = navigateToLoginScreen
+                            )
                     )
                 }
             }

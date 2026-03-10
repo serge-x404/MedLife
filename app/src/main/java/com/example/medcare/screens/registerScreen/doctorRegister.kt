@@ -291,10 +291,6 @@ fun DoctorRegister(
                 }
                 Row(
                     modifier = Modifier
-                        .clickable(
-                            enabled = true,
-                            onClick = navigateToLoginScreen
-                        )
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,
                 ) {
@@ -312,6 +308,11 @@ fun DoctorRegister(
                             fontWeight = FontWeight.SemiBold
                         ),
                         color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier
+                            .clickable(
+                                enabled = true,
+                                onClick = navigateToLoginScreen
+                            )
                     )
                 }
             }

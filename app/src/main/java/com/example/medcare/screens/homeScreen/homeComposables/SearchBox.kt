@@ -39,6 +39,7 @@ fun SearchBox() {
                     )
                 )
             },
+            singleLine = true,
             textStyle = MaterialTheme.typography.titleSmall.copy(
                 fontWeight = FontWeight.Normal
             ),
