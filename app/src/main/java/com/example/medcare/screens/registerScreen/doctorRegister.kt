@@ -1,6 +1,9 @@
 package com.example.medcare.screens.registerScreen
 
 import android.content.SharedPreferences
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -22,6 +25,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -40,9 +44,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -50,9 +56,11 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
+import com.example.medcare.supabase.uploadDocument
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -72,11 +80,24 @@ fun DoctorRegister(
     var gender by remember { mutableStateOf("") }
     var expandedGender by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState()
-    val selectedDate = datePickerState.selectedDateMillis?.let {
-        convertMillisToDate(
-            it
-        )
-    }?:""
+    val selectedDate = datePickerState
+        .selectedDateMillis?.let { convertMillisToDate(it) } ?: ""
+
+
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+    var documentUri by remember { mutableStateOf<Uri?>(null) }
+    var documentName by remember { mutableStateOf("") }
+    val documentPicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri ->
+        uri?.let {
+            documentUri = it
+            documentName = it.lastPathSegment ?: "Document selected"
+        }
+    }
+
+
     Scaffold(
         contentWindowInsets = WindowInsets(0.dp)
     ) {
@@ -215,13 +236,21 @@ fun DoctorRegister(
                     style = MaterialTheme.typography.titleLarge
                 )
                 OutlinedTextField(
-                    value = selectedDate,
+                    value = documentName,
                     placeholder = { Text(
                         "Upload documents",
                         color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.titleSmall
                     ) },
                     onValueChange = {},
+                    trailingIcon = {
+                        IconButton(onClick = {documentPicker.launch("application/pdf")}) {
+                            Icon(
+                                imageVector = Icons.Default.Info,
+                                contentDescription = null
+                            )
+                        }
+                    },
                     readOnly = true,
                     modifier = Modifier.fillMaxWidth(),
                 )
@@ -241,6 +270,10 @@ fun DoctorRegister(
                             errorMessage = "Please fill in all fields"
                             return@Button
                         }
+                        if (documentUri == null) {
+                            errorMessage = "Please upload your document"
+                            return@Button
+                        }
                         if (password.length < 8) {
                             errorMessage = "Password length must be at least of 8 characters"
                             return@Button
@@ -252,6 +285,34 @@ fun DoctorRegister(
                                 if (task.isSuccessful) {
                                     val db = FirebaseDatabase.getInstance().reference
                                     val uid = auth.currentUser!!.uid
+                                    scope.launch {
+                                        uploadDocument(
+                                            uri = documentUri!!,
+                                            context = context,
+                                            uid = uid,
+                                            onSuccess = {documentUrl ->
+                                                val userMap = mapOf(
+                                                    "doctorEmail" to email,
+                                                    "doctorPassword" to password,
+                                                    "doctorUserName" to userName,
+                                                    "doctorGender" to gender,
+                                                    "doctorDocuments" to documentUrl
+                                                )
+                                                db.child("doctors").child(uid).setValue(userMap)
+                                                    .addOnSuccessListener {
+                                                        navigateToConfirmationScreen()
+                                                        sharedPreferences.edit(commit = true) {
+                                                            putBoolean("isRegistered", true)
+                                                        }
+                                                    }
+                                                    .addOnFailureListener { e -> errorMessage = e.message ?: "Failed to register" }
+                                            },
+                                            onFailure = {
+                                                isLoading = false
+                                                errorMessage = it
+                                            }
+                                        )
+                                    }
                                     val userMap = mapOf(
                                         "doctorEmail" to email,
                                         "doctorPassword" to password,
