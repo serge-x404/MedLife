@@ -1,6 +1,5 @@
 package com.example.medcare.rtdb
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
@@ -9,13 +8,14 @@ class RTDB {
     val db = FirebaseDatabase.getInstance().reference
     val uid = auth.currentUser?.uid ?: ""
 
-    fun FetchUserInfo(onResult: (String, String) -> Unit) {
+    fun FetchUserInfo(onResult: (String, String, String) -> Unit) {
         db.child("users").child(uid).get()
             .addOnSuccessListener { snapshot ->
                 val userName = snapshot.child("userName").value as? String ?: ""
                 val email = snapshot.child("email").value as? String ?: ""
-                onResult(userName, email)
-                Log.i("userNameFetch", "${userName}")
+                val gender = snapshot.child("gender").value as? String ?: ""
+                onResult(userName, email, gender)
+//                Log.i("userNameFetch", userName)
             }
     }
 
