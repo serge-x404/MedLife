@@ -57,11 +57,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medcare.R
+import com.example.medcare.rtdb.RTDB
 import com.example.medcare.screens.class_objects.DateScreen
-import com.example.medcare.screens.layoutsFile.Reviews
-import com.example.medcare.screens.layoutsFile.DoctorWorkingHours
 import com.example.medcare.screens.class_objects.docWorkHrs
 import com.example.medcare.screens.class_objects.review
+import com.example.medcare.screens.layoutsFile.DoctorWorkingHours
+import com.example.medcare.screens.layoutsFile.Reviews
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -76,6 +79,9 @@ fun DoctorDetails(
     var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
     val selectedHour = if (selectedIndex != -1) _root_ide_package_.com.example.medcare.screens.class_objects.docWorkHrs.workingHours[selectedIndex] else ""
     var errorMessage by remember { mutableStateOf("") }
+    val auth = FirebaseAuth.getInstance()
+    val db = FirebaseDatabase.getInstance().reference
+    val rtdb = RTDB()
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -226,8 +232,8 @@ fun DoctorDetails(
                         verticalArrangement = Arrangement.spacedBy(10.dp),
                         horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        itemsIndexed(_root_ide_package_.com.example.medcare.screens.class_objects.docWorkHrs.workingHours) { index, item ->
-                            _root_ide_package_.com.example.medcare.screens.layoutsFile.DoctorWorkingHours(
+                        itemsIndexed(docWorkHrs.workingHours) { index, item ->
+                            DoctorWorkingHours(
                                 hours = item,
                                 selected = selectedIndex == index,
                                 onClick = { selectedIndex = index }
@@ -241,7 +247,7 @@ fun DoctorDetails(
                         color = MaterialTheme.colorScheme.onBackground
                     )
                     Spacer(Modifier.height(5.dp))
-                    _root_ide_package_.com.example.medcare.screens.class_objects.DateScreen(
+                    DateScreen(
                         selectedDate = selectedDate,
                         onDateSelected = { selectedDate = it }
                     )
@@ -253,10 +259,11 @@ fun DoctorDetails(
                     )
                     Spacer(Modifier.height(4.dp))
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        items(_root_ide_package_.com.example.medcare.screens.class_objects.review.reviews) { item ->
-                            _root_ide_package_.com.example.medcare.screens.layoutsFile.Reviews(item)
+                        items(review.reviews) { item ->
+                            Reviews(item)
                         }
                     }
+                    Spacer(Modifier.height(30.dp))
                 }
             }
             Spacer(Modifier.height(50.dp))

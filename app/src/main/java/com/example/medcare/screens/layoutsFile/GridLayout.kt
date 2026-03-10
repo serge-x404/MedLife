@@ -1,6 +1,7 @@
 package com.example.medcare.screens.layoutsFile
 
 import android.widget.Toast
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,6 +25,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,11 +44,10 @@ import androidx.navigation.NavHostController
 import com.example.medcare.screens.class_objects.Categories
 import com.example.medcare.screens.class_objects.DateDay
 import com.example.medcare.screens.class_objects.ReviewContents
-import com.example.medcare.screens.servicesScreen.chatDoc.doctorsSyntax
 
 @Composable
-fun gridViewLayout(
-    categories: com.example.medcare.screens.class_objects.Categories,
+fun GridViewLayout(
+    categories: Categories,
     navHostController: NavHostController? = null
 ) {
     val context = LocalContext.current
@@ -168,7 +172,7 @@ fun DoctorWorkingHours(
 }
 
 @Composable
-fun selectionDate(dateDay: com.example.medcare.screens.class_objects.DateDay) {
+fun selectionDate(dateDay: DateDay) {
     Card(
         onClick = {},
         modifier = Modifier
@@ -192,11 +196,16 @@ fun selectionDate(dateDay: com.example.medcare.screens.class_objects.DateDay) {
 }
 
 @Composable
-fun Reviews(reviewContents: com.example.medcare.screens.class_objects.ReviewContents) {
+fun Reviews(reviewContents: ReviewContents) {
+    var expanded by remember { mutableStateOf(false) }
     Card(
-        onClick = {},
+        onClick = {
+            expanded = !expanded
+        },
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.secondaryContainer),
-        modifier = Modifier.size(height = 165.dp, width = 250.dp)
+        modifier = Modifier
+            .width(250.dp)
+            .animateContentSize()
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -226,7 +235,10 @@ fun Reviews(reviewContents: com.example.medcare.screens.class_objects.ReviewCont
                 text = reviewContents.body,
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                maxLines = if (!expanded) 1 else 10,
+                modifier = Modifier
+                    .animateContentSize()
             )
         }
     }

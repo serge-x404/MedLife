@@ -1,6 +1,7 @@
 package com.example.medcare.screens.servicesScreen.chatDoc
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
@@ -24,14 +25,12 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -41,16 +40,12 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.SwipeToDismissBoxState
-import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,17 +53,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.example.medcare.R
+import com.example.medcare.rtdb.RTDB
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlin.math.roundToInt
 
 @SuppressLint("InvalidColorHexValue")
@@ -81,6 +75,15 @@ fun Confirmation(
     appointmentHours: String
 ) {
     var checked by remember { mutableStateOf(false) }
+    var name by remember { mutableStateOf("") }
+    val rtdb = RTDB()
+
+    LaunchedEffect(Unit) {
+        rtdb.FetchUserName {
+            name = it
+        }
+    }
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(title = {
@@ -141,7 +144,12 @@ fun Confirmation(
                         Column(
                             modifier = Modifier
                                 .background(MaterialTheme.colorScheme.surfaceContainer)
-                                .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant))
+                                .border(
+                                    BorderStroke(
+                                        1.dp,
+                                        MaterialTheme.colorScheme.outlineVariant
+                                    )
+                                )
                                 .padding(8.dp)
                         ) {
                             Text(
@@ -158,7 +166,12 @@ fun Confirmation(
                         Column(
                             modifier = Modifier
                                 .background(MaterialTheme.colorScheme.surfaceContainer)
-                                .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant))
+                                .border(
+                                    BorderStroke(
+                                        1.dp,
+                                        MaterialTheme.colorScheme.outlineVariant
+                                    )
+                                )
                                 .padding(8.dp)
                         ) {
                             Text(
@@ -261,11 +274,18 @@ fun Confirmation(
                     }
                 }
             }
-            Box(modifier = Modifier.fillMaxSize()
+            Box(modifier = Modifier
+                .fillMaxSize()
                 .padding(vertical = 16.dp),
                 contentAlignment = Alignment.BottomCenter
             ) {
-                _root_ide_package_.com.example.medcare.screens.servicesScreen.chatDoc.SwipeToConfirmButton(
+                SwipeToConfirmButton(
+                    appointmentData = AppointmentData(
+                        name,
+                        "",
+                        appointmentHours,
+                        appointmentDate
+                    ),
                     navigateToAppointmentSuccess
                 )
             }
@@ -307,6 +327,7 @@ fun Confirmation(
 
 @Composable
 fun SwipeToConfirmButton(
+    appointmentData: AppointmentData,
     navigateToAppointmentSuccess: () -> Unit
 ) {
     Box {
@@ -321,6 +342,12 @@ fun SwipeToConfirmButton(
         var offsetX by remember { mutableStateOf(0f) }
         var confirmed by remember { mutableStateOf(false) }
 
+
+        val auth = FirebaseAuth.getInstance()
+        val db = FirebaseDatabase.getInstance().getReference("appointments")
+        val uid = auth.currentUser?.uid ?: ""
+        val context = LocalContext.current
+
         val animatedOffset by animateFloatAsState(
             targetValue = offsetX,
             animationSpec = spring(
@@ -329,6 +356,29 @@ fun SwipeToConfirmButton(
             ),
             label = "SwipeOffset"
         )
+
+        LaunchedEffect(confirmed) {
+            if(confirmed) {
+                Log.i("MYTAG", "swipe completed: $confirmed")
+                db.child(uid)
+                    .push()
+                    .setValue(appointmentData)
+                    .addOnSuccessListener {
+                        Toast
+                            .makeText(
+                                context,
+                                "Appointment booked",
+                                Toast.LENGTH_SHORT
+                            )
+                            .show()
+                        navigateToAppointmentSuccess()
+                    }
+                    .addOnFailureListener {
+                        Log.i("MYTAG", "error: ${it.message}")
+                    }
+            }
+        }
+
 
         Box(
             modifier = Modifier
@@ -349,7 +399,6 @@ fun SwipeToConfirmButton(
                 style = MaterialTheme.typography.labelLarge
             )
 
-            val context = LocalContext.current
 
             Box(
                 modifier = Modifier
@@ -370,15 +419,8 @@ fun SwipeToConfirmButton(
                             if (offsetX > maxOffsetPx * 0.85f) {
                                 offsetX = maxOffsetPx
                                 confirmed = true
-                                Toast
-                                    .makeText(
-                                        context,
-                                        "Appointment booked",
-                                        Toast.LENGTH_SHORT
-                                    )
-                                    .show()
 
-                                navigateToAppointmentSuccess()
+
                             } else {
                                 offsetX = 0f
                             }

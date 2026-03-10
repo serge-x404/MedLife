@@ -30,10 +30,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
@@ -86,7 +84,7 @@ fun CalendarScreen() {
     var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
 
     Column {
-        _root_ide_package_.com.example.medcare.screens.class_objects.CalendarHeader(
+        CalendarHeader(
             month = currentMonth,
             onPreviousMonth = {
                 if (canGoBack) {
@@ -98,19 +96,19 @@ fun CalendarScreen() {
             }
         )
     }
-    _root_ide_package_.com.example.medcare.screens.class_objects.DateGrid(
+    DateGrid(
         currentMonth,
         selectedDate = selectedDate,
         onDateSelected = { selectedDate = it }
     )
     Spacer(Modifier.height(20.dp))
-    _root_ide_package_.com.example.medcare.screens.class_objects.DateDisplay(selectedDate)
+    DateDisplay(selectedDate)
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CalendarGrid(month: YearMonth) {
-    val daysInMonth = month.format(
+    month.format(
         DateTimeFormatter.ofPattern("MMMM yyyy")
     )
 }
@@ -191,11 +189,11 @@ fun DateGrid(
 ) {
     val today = LocalDate.now()
     val dates =
-        _root_ide_package_.com.example.medcare.screens.class_objects.getDatesForMonth(month, today)
+        getDatesForMonth(month, today)
 
     LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         items(dates) { item ->
-            _root_ide_package_.com.example.medcare.screens.class_objects.DateCard(
+            DateCard(
                 item,
                 selected = selectedDate == item,
                 onClick = { onDateSelected(item) }
@@ -208,7 +206,7 @@ fun DateGrid(
 @Composable
 fun DateDisplay(selectedDate: LocalDate?) {
     val selectedDate = selectedDate?.let {
-        _root_ide_package_.com.example.medcare.screens.class_objects.dateFormat(
+        dateFormat(
             it
         )
     }?.format(
@@ -248,7 +246,7 @@ fun DateScreen(
     var currentMonth by remember { mutableStateOf(baseMonth) }
 //    var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
 
-    _root_ide_package_.com.example.medcare.screens.class_objects.DateGrid(
+    DateGrid(
         currentMonth,
         selectedDate = selectedDate,
         onDateSelected = onDateSelected

@@ -3,43 +3,6 @@ package com.example.medcare.screens.class_objects
 import com.example.medcare.R
 import com.example.medcare.screens.navigation.NavRoute
 
-object gridData {
-    val servicesList = listOf(
-        _root_ide_package_.com.example.medcare.screens.class_objects.Categories(
-            "All",
-            R.drawable.all
-        ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Categories(
-            "General Practitioner",
-            R.drawable.general
-        ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Categories(
-            "Dentistry",
-            R.drawable.dentist
-        ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Categories(
-            "Gynecology",
-            R.drawable.gyanec
-        ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Categories(
-            "Ophthalmology",
-            R.drawable.eye
-        ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Categories(
-            "Neurology",
-            R.drawable.neuro
-        ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Categories(
-            "Otorhinolaryngology",
-            R.drawable.ear
-        ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Categories(
-            "Pulmonologist",
-            R.drawable.lungs
-        ),
-    )
-}
-
 data class Categories(
     val name: String, val icon: Int, val route: String? = null
 )
@@ -59,35 +22,35 @@ object lazyRow {
 
 object serviceGridData {
     val serviceImages = listOf(
-        _root_ide_package_.com.example.medcare.screens.class_objects.Categories(
+        Categories(
             "Chat Doctor",
             R.drawable.chat_services,
-            _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.ChatDoc.path
+            NavRoute.ChatDoc.path
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Categories(
+        Categories(
             "Hospitals",
             R.drawable.hospital_new,
-            _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.hospital.path
+            NavRoute.hospital.path
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Categories(
+        Categories(
             "Emergency Calls",
             R.drawable.phone_call,
             null
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Categories(
+        Categories(
             "Article",
             R.drawable.article_new,
-            _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.articleHome.path
+            NavRoute.articleHome.path
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Categories(
+        Categories(
             "Medication Reminder",
             R.drawable.pill,
-            _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.medReminder.path
+            NavRoute.medReminder.path
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Categories(
+        Categories(
             "Specialization",
             R.drawable.stethoscope,
-            _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.specialist.path
+            NavRoute.specialist.path
         ),
     )
 }
@@ -107,23 +70,23 @@ data class Hospi(
 )
 object hospitals {
     val images = listOf(
-        _root_ide_package_.com.example.medcare.screens.class_objects.Hospi(
+        Hospi(
             R.drawable.rscm,
             "Cipto Mangunkusumo Hospital (RSCM)"
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Hospi(
+        Hospi(
             R.drawable.mitra,
             "Mitra Keluarga Hospital"
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Hospi(
+        Hospi(
             R.drawable.rscm,
             "Cipto Mangunkusumo Hospital (RSCM)"
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Hospi(
+        Hospi(
             R.drawable.mitra,
             "Mitra Keluarga Hospital"
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Hospi(
+        Hospi(
             R.drawable.rscm,
             "Cipto Mangunkusumo Hospital (RSCM)"
         ),

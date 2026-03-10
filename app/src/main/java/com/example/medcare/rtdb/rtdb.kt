@@ -26,4 +26,12 @@ class RTDB {
                 onResult(doctorUserName)
             }
     }
+
+    fun FetchUserName(onResult: (String) -> Unit) {
+        db.child("users").child(uid).get()
+            .addOnSuccessListener { snapshot ->
+                val userName = snapshot.child("userName").value as? String ?: ""
+                onResult(userName)
+            }
+    }
 }

@@ -26,6 +26,7 @@ import com.example.medcare.screens.healthShop.cart.FindingPharmacy
 import com.example.medcare.screens.history.HistoryScreen
 import com.example.medcare.screens.homeScreen.DoctorHomeScreen
 import com.example.medcare.screens.homeScreen.HomeScreen
+import com.example.medcare.screens.homeScreen.homeUtils.ConsultDocComposable
 import com.example.medcare.screens.hospitals.HospitalDetails
 import com.example.medcare.screens.hospitals.HospitalMain
 import com.example.medcare.screens.hospitals.Map
@@ -65,166 +66,47 @@ fun NavGraph(
     val isOnBoarded = sharedPreferences.getBoolean("isOnBoarded", false)
 
     NavHost(navHostController, startDestination = NavRoute.Splash.path) {
-        addHomeScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addDoctorHomeScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addSplashScreen(
-            navHostController,
-            this,
-            isOnBoarded,
-            isLoggedIn,
-            isRegistered
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addWalkthroughScreen(
-            navHostController,
-            this,
-            sharedPreferences
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addRegisterScreen(
-            navHostController,
-            this,
-            sharedPreferences
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addDoctorRegisterConfirmationScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addLoginScreen(
-            navHostController,
-            this,
-            sharedPreferences
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addOTPScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addProfileScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addHistoryScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addServicesScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addAuthSplash(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addChatDocScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addNotificationsScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addClearNotiScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addCartScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addFindPharmaScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addEmptyCartScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addHealthShop(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addMedGrid(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addMedDesc(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addDocDtls(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addAppointmentScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addAppointmentSuccessScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addHospiDetailsScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addHospitalScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addHospiLocScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addMedReminderScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addMedicineScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addSpecialistScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addArticleHome(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addReadArticleScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addArticleGridScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addPrescriptionHistScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addHealthHistScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addTransactionScreen(
-            navHostController,
-            this
-        )
-        _root_ide_package_.com.example.medcare.screens.navigation.addAccSettScreen(
-            navHostController,
-            this
-        )
+        addHomeScreen(navHostController, this)
+        addConsultDocComposableScreen(navHostController, this)
+        addDoctorHomeScreen(navHostController, this)
+        addSplashScreen(navHostController, this, isOnBoarded, isLoggedIn, isRegistered)
+        addWalkthroughScreen(navHostController, this, sharedPreferences)
+        addRegisterScreen(navHostController, this, sharedPreferences)
+        addDoctorRegisterConfirmationScreen(navHostController, this)
+        addLoginScreen(navHostController, this, sharedPreferences)
+        addOTPScreen(navHostController, this)
+        addProfileScreen(navHostController, this)
+        addHistoryScreen(navHostController, this)
+        addServicesScreen(navHostController, this)
+        addAuthSplash(navHostController, this)
+        addChatDocScreen(navHostController, this)
+        addNotificationsScreen(navHostController, this)
+        addClearNotiScreen(navHostController, this)
+        addCartScreen(navHostController, this)
+        addFindPharmaScreen(navHostController, this)
+        addEmptyCartScreen(navHostController, this)
+        addHealthShop(navHostController, this)
+        addMedGrid(navHostController, this)
+        addMedDesc(navHostController, this)
+        addDocDtls(navHostController, this)
+        addAppointmentScreen(navHostController, this)
+        addAppointmentSuccessScreen(navHostController, this)
+        addHospiDetailsScreen(navHostController, this)
+        addHospitalScreen(navHostController, this)
+        addHospiLocScreen(navHostController, this)
+        addMedReminderScreen(navHostController, this)
+        addMedicineScreen(navHostController, this)
+        addSpecialistScreen(navHostController, this)
+        addArticleHome(navHostController, this)
+        addReadArticleScreen(navHostController, this)
+        addArticleGridScreen(navHostController, this)
+        addPrescriptionHistScreen(navHostController, this)
+        addHealthHistScreen(navHostController, this)
+        addTransactionScreen(navHostController, this)
+        addAccSettScreen(navHostController, this)
 //        addPharmacyPortalScreen(navHostController,this)
 //        addPharmaRegisterScreen(navHostController,this)
-        _root_ide_package_.com.example.medcare.screens.navigation.addSavedReminder(
-            navHostController,
-            this
-        )
+        addSavedReminder(navHostController, this)
     }
 }
 
@@ -235,7 +117,7 @@ fun addHomeScreen(
 //                  isRegistered: Boolean
 ) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Main.path,
+        route = NavRoute.Main.path,
 //        arguments = listOf(
 //            navArgument("userName") {
 //                type = NavType.StringType
@@ -249,12 +131,12 @@ fun addHomeScreen(
 //            }
 //        )
     ) {
-        _root_ide_package_.com.example.medcare.screens.homeScreen.HomeScreen(
+        HomeScreen(
             navigateToChatDoc = {
                 navHostController.navigate(NavRoute.ChatDoc.path)
             },
             navigateToProfile = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Profile.path) {
+                navHostController.navigate(NavRoute.Profile.path) {
                     popUpTo(NavRoute.Main.path) {
                         inclusive = true
                     }
@@ -281,34 +163,42 @@ fun addHomeScreen(
     }
 }
 
+fun addConsultDocComposableScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
+    navGraphBuilder.composable(NavRoute.ConsultDocComposable.path) {
+        ConsultDocComposable(
+            navigateToChatDoc = { navHostController.navigate(NavRoute.ChatDoc.path) }
+        )
+    }
+}
 
-fun addDoctorHomeScreen(navHostController: NavHostController, navGrahBuilder: NavGraphBuilder) {
-    navGrahBuilder.composable(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.DoctorMain.path) {
-        _root_ide_package_.com.example.medcare.screens.homeScreen.DoctorHomeScreen()
+
+fun addDoctorHomeScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
+    navGraphBuilder.composable(NavRoute.DoctorMain.path) {
+        DoctorHomeScreen()
     }
 }
 
 fun addSplashScreen(
-    navHostController: NavHostController, navGraphBuilder: NavGraphBuilder,
+    navHostController: NavHostController,
+    navGraphBuilder: NavGraphBuilder,
     isOnBoarded: Boolean,
     isLoggedIn: Boolean,
     isRegistered: Boolean
 ) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Splash.path
+        route = NavRoute.Splash.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.splashScreen.Splashscreen(
-            navigateToOnBoard = {
-                if (isOnBoarded && isLoggedIn) {
-                    navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Main.path)
-                } else if (isOnBoarded && isRegistered) {
-                    navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Main.path)
-                } else if (isOnBoarded) {
-                    navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.AuthSplash.path)
-                } else {
-                    navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Walkthrough.path)
-                }
+        Splashscreen(navigateToOnBoard = {
+            if (isOnBoarded && isLoggedIn) {
+                navHostController.navigate(NavRoute.Main.path)
+            } else if (isOnBoarded && isRegistered) {
+                navHostController.navigate(NavRoute.Main.path)
+            } else if (isOnBoarded) {
+                navHostController.navigate(NavRoute.AuthSplash.path)
+            } else {
+                navHostController.navigate(NavRoute.Walkthrough.path)
             }
+        }
 //            navigateToHome = {
 //                navHostController.navigate(NavRoute.Main.path)
 //            }
@@ -321,55 +211,50 @@ fun addWalkthroughScreen(
     sharedPreferences: SharedPreferences,
 ) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Walkthrough.path
+        route = NavRoute.Walkthrough.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.splashScreen.HPager(
+        HPager(
             navigateToAuthSplash = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.AuthSplash.path)
-            },
-            sharedPreferences
+                navHostController.navigate(NavRoute.AuthSplash.path)
+            }, sharedPreferences
         )
     }
 }
 
 fun addProfileScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Profile.path,
-        arguments = listOf(
-            navArgument("userName") {
-                type = NavType.StringType
-                nullable = true
-                defaultValue = null
-            },
-            navArgument("email") {
-                type = NavType.StringType
-                nullable = true
-                defaultValue = null
-            }
-        )
+        route = NavRoute.Profile.path, arguments = listOf(navArgument("userName") {
+            type = NavType.StringType
+            nullable = true
+            defaultValue = null
+        }, navArgument("email") {
+            type = NavType.StringType
+            nullable = true
+            defaultValue = null
+        })
     ) {
-        _root_ide_package_.com.example.medcare.screens.profile.ProfileScreen(
+        ProfileScreen(
             back = { navHostController.popBackStack() },
             navigateToPresHist = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.presHist.path)
+                navHostController.navigate(NavRoute.presHist.path)
             },
             navigateToHealthHist = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.healthHist.path)
+                navHostController.navigate(NavRoute.healthHist.path)
             },
             navigateToTransactions = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.transactions.path)
+                navHostController.navigate(NavRoute.transactions.path)
             },
             navigateToAccSettings = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.accSett.path)
+                navHostController.navigate(NavRoute.accSett.path)
             },
             navigateToNotifications = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Notifications.path)
+                navHostController.navigate(NavRoute.Notifications.path)
             },
 //            navigateToPharmaAdmin = {
 //                navHostController.navigate(NavRoute.pharmaPortal.path)
 //            },
             navigateToAuthSplash = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.AuthSplash.path) {
+                navHostController.navigate(NavRoute.AuthSplash.path) {
                     popUpTo(navHostController.graph.findStartDestination().id) {
                         inclusive = true
                     }
@@ -383,11 +268,10 @@ fun addProfileScreen(navHostController: NavHostController, navGraphBuilder: NavG
 
 fun addServicesScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Services.path
+        route = NavRoute.Services.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.servicesScreen.ServicesScreen(
-            back = { navHostController.popBackStack() },
-            navHostController
+        ServicesScreen(
+            back = { navHostController.popBackStack() }, navHostController
         )
     }
 }
@@ -395,24 +279,22 @@ fun addServicesScreen(navHostController: NavHostController, navGraphBuilder: Nav
 @RequiresApi(Build.VERSION_CODES.O)
 fun addHistoryScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.History.path
+        route = NavRoute.History.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.history.HistoryScreen(
+        HistoryScreen(
             back = { navHostController.popBackStack() },
-            navigateToChatDoc = { navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.ChatDoc.path) }
-        )
+            navigateToChatDoc = { navHostController.navigate(NavRoute.ChatDoc.path) })
     }
 }
 
 fun addAuthSplash(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.AuthSplash.path
+        route = NavRoute.AuthSplash.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.splashScreen.AuthSplashScreen(
+        AuthSplashScreen(
 //            navigateToHome = {navHostController.navigate(NavRoute.Main.path.plus("?&userName&email"))},
-            navigateToRegister = { navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Register.path) },
-            navigateToLogin = { navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Login.path) }
-        )
+            navigateToRegister = { navHostController.navigate(NavRoute.Register.path) },
+            navigateToLogin = { navHostController.navigate(NavRoute.Login.path) })
     }
 }
 
@@ -422,32 +304,28 @@ fun addRegisterScreen(
     sharedPreferences: SharedPreferences
 ) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Register.path,
+        route = NavRoute.Register.path,
     ) {
-        _root_ide_package_.com.example.medcare.screens.registerScreen.RegisterScreen(
+        RegisterScreen(
             navigateToLoginScreen = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Login.path)
-            },
-            navigateToHomeScreen = {
+            navHostController.navigate(NavRoute.Login.path)
+        }, navigateToHomeScreen = {
 //                userName, email ->
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Main.path)
-            },
-            navigateToConfirmationScreen = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.doctorRegisterConfirmation.path)
-            },
-            sharedPreferences
+            navHostController.navigate(NavRoute.Main.path)
+        }, navigateToConfirmationScreen = {
+            navHostController.navigate(NavRoute.doctorRegisterConfirmation.path)
+        }, sharedPreferences
         )
     }
 }
 
 fun addDoctorRegisterConfirmationScreen(
-    navHostController: NavHostController,
-    navGraphBuilder: NavGraphBuilder
+    navHostController: NavHostController, navGraphBuilder: NavGraphBuilder
 ) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.doctorRegisterConfirmation.path
+        route = NavRoute.doctorRegisterConfirmation.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.registerScreen.DoctorConfirmation()
+        DoctorConfirmation()
     }
 }
 
@@ -457,15 +335,15 @@ fun addLoginScreen(
     sharedPreferences: SharedPreferences
 ) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Login.path
+        route = NavRoute.Login.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.loginScreen.LoginScreen(
+        LoginScreen(
             navigateToHomeScreen = {
 //                userName,email ->
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Main.path)
-            },
-            navigateToRegister = { navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Register.path) },
-            navigateToDoctorHome = { navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.DoctorMain.path) },
+            navHostController.navigate(NavRoute.Main.path)
+        },
+            navigateToRegister = { navHostController.navigate(NavRoute.Register.path) },
+            navigateToDoctorHome = { navHostController.navigate(NavRoute.DoctorMain.path) },
             sharedPreferences
         )
     }
@@ -473,135 +351,110 @@ fun addLoginScreen(
 
 fun addOTPScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.OTP.path
+        route = NavRoute.OTP.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.splashScreen.OtpPhone()
+        OtpPhone()
     }
 }
 
 fun addChatDocScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.ChatDoc.path
+        route = NavRoute.ChatDoc.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.servicesScreen.chatDoc.ChatDoctorScreen(
-            back = { navHostController.popBackStack() },
-            navigateToDocDtls = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.DocDtls.path)
-            }
-        )
+        ChatDoctorScreen(back = { navHostController.popBackStack() }, navigateToDocDtls = {
+            navHostController.navigate(NavRoute.DocDtls.path)
+        })
     }
 }
 
 fun addNotificationsScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Notifications.path
+        route = NavRoute.Notifications.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.profile.NotificationScreen(
+        NotificationScreen(
             back = { navHostController.popBackStack() },
             navigateToClearNotifications = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.clearNoti.path)
-            }
-        )
+                navHostController.navigate(NavRoute.clearNoti.path)
+            })
     }
 }
 
 fun addCartScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Cart.path
+        route = NavRoute.Cart.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.healthShop.cart.Cart(
-            back = { navHostController.popBackStack() },
-            navigateToFindingPharma = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.findingPharma.path)
-            }
-        )
+        Cart(back = { navHostController.popBackStack() }, navigateToFindingPharma = {
+            navHostController.navigate(NavRoute.findingPharma.path)
+        })
     }
 }
 
 fun addHealthShop(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.HealthShop.path
+        route = NavRoute.HealthShop.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.healthShop.Home.ShoppingHomePage(
-            back = { navHostController.popBackStack() },
-            navigateToMedGrid = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.medGrid.path)
-            },
-            navigateToMedDesc = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.medDesc.path)
-            },
-            navigateToCart = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Cart.path)
-            }
-        )
+        ShoppingHomePage(back = { navHostController.popBackStack() }, navigateToMedGrid = {
+            navHostController.navigate(NavRoute.medGrid.path)
+        }, navigateToMedDesc = {
+            navHostController.navigate(NavRoute.medDesc.path)
+        }, navigateToCart = {
+            navHostController.navigate(NavRoute.Cart.path)
+        })
     }
 }
 
 fun addMedGrid(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.medGrid.path
+        route = NavRoute.medGrid.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.healthShop.MedicineGrid(
-            back = { navHostController.popBackStack() },
-            navigateToMedDesc = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.medDesc.path)
-            },
-            navigateToCart = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Cart.path)
-            }
-        )
+        MedicineGrid(back = { navHostController.popBackStack() }, navigateToMedDesc = {
+            navHostController.navigate(NavRoute.medDesc.path)
+        }, navigateToCart = {
+            navHostController.navigate(NavRoute.Cart.path)
+        })
     }
 }
 
 fun addMedDesc(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.medDesc.path
+        route = NavRoute.medDesc.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.healthShop.MedicineDescription(
-            back = { navHostController.popBackStack() },
-            navigateToCart = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Cart.path)
-            }
-        )
+        MedicineDescription(back = { navHostController.popBackStack() }, navigateToCart = {
+            navHostController.navigate(NavRoute.Cart.path)
+        })
     }
 }
 
 fun addHospitalScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.hospital.path
+        route = NavRoute.hospital.path
     ) {
 
-        _root_ide_package_.com.example.medcare.screens.hospitals.HospitalMain(
-            back = { navHostController.popBackStack() },
-            navigateToDetail = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.hospiDtls.path)
-            },
-            navigateToMap = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.hospiMap.path)
-            }
-        )
+        HospitalMain(back = { navHostController.popBackStack() }, navigateToDetail = {
+            navHostController.navigate(NavRoute.hospiDtls.path)
+        }, navigateToMap = {
+            navHostController.navigate(NavRoute.hospiMap.path)
+        })
     }
 }
 
 fun addHospiDetailsScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.hospiDtls.path
+        route = NavRoute.hospiDtls.path
     ) {
-        val item =
-            _root_ide_package_.com.example.medcare.screens.class_objects.HospitalData.data.first()
-        _root_ide_package_.com.example.medcare.screens.hospitals.HospitalDetails(
-            item,
-            navigateToMap = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.hospiMap.path)
+        val item = HospitalData.data.first()
+        HospitalDetails(
+            item, navigateToMap = {
+                navHostController.navigate(NavRoute.hospiMap.path)
             })
     }
 }
 
 fun addHospiLocScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.hospiMap.path
+        route = NavRoute.hospiMap.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.hospitals.Map()
+        Map()
     }
 }
 
@@ -619,170 +472,143 @@ fun addHospiLocScreen(navHostController: NavHostController, navGraphBuilder: Nav
 @RequiresApi(Build.VERSION_CODES.O)
 fun addDocDtls(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.DocDtls.path
+        route = NavRoute.DocDtls.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.servicesScreen.chatDoc.DoctorDetails(
+        DoctorDetails(
             back = { navHostController.popBackStack() },
             navigateToAppointment = { date, hours ->
                 navHostController.navigate(
-                    _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Appointment.path.plus(
+                    NavRoute.Appointment.path.plus(
                         "/${date}/${hours}"
                     )
                 )
-            }
-        )
+            })
     }
 }
 
 
 fun addAppointmentScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Appointment.path.plus(
+        route = NavRoute.Appointment.path.plus(
             "/{date}/{hours}"
-        ),
-        arguments = listOf(
-            navArgument("date") {
-                type = NavType.StringType
-            },
-            navArgument("hours") {
-                type = NavType.StringType
-            }
-        )
+        ), arguments = listOf(navArgument("date") {
+            type = NavType.StringType
+        }, navArgument("hours") {
+            type = NavType.StringType
+        })
     ) {
         val appointmentDate = Uri.decode(it.arguments?.getString("date").toString())
         val appointmentHours = Uri.decode(it.arguments?.getString("hours").toString())
-        _root_ide_package_.com.example.medcare.screens.servicesScreen.chatDoc.Confirmation(
-            back = { navHostController.popBackStack() },
-            navigateToAppointmentSuccess = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.appointmentSuccess.path)
-            },
-            appointmentDate = appointmentDate,
-            appointmentHours = appointmentHours
+        Confirmation(
+            back = { navHostController.popBackStack() }, navigateToAppointmentSuccess = {
+            navHostController.navigate(NavRoute.appointmentSuccess.path)
+        }, appointmentDate = appointmentDate, appointmentHours = appointmentHours
         )
     }
 }
 
 fun addAppointmentSuccessScreen(
-    navHostController: NavHostController,
-    navGraphBuilder: NavGraphBuilder
+    navHostController: NavHostController, navGraphBuilder: NavGraphBuilder
 ) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.appointmentSuccess.path
+        route = NavRoute.appointmentSuccess.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.servicesScreen.chatDoc.AppointmentSuccess(
+        AppointmentSuccess(
             navigateToHistory = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.History.path) {
-                    popUpTo(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.Services.path) {
+                navHostController.navigate(NavRoute.History.path) {
+                    popUpTo(NavRoute.Services.path) {
                         inclusive = true
                     }
                 }
-            }
-        )
+            })
     }
 }
 
 fun addMedReminderScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.medReminder.path
+        route = NavRoute.medReminder.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.medicationReminder.MedicationHome(
-            back = { navHostController.popBackStack() },
-            navigateToAddMed = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.addMed.path)
-            }
-        )
+        MedicationHome(back = { navHostController.popBackStack() }, navigateToAddMed = {
+            navHostController.navigate(NavRoute.addMed.path)
+        })
     }
 }
 
 fun addMedicineScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.addMed.path
+        route = NavRoute.addMed.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.medicationReminder.MedicationReminder(
+        MedicationReminder(
             back = { navHostController.popBackStack() },
             navigateToSavedReminder = { medName, dosage, timings ->
                 navHostController.navigate(
-                    _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.savedReminder.path.plus(
+                    NavRoute.savedReminder.path.plus(
                         "/$medName/$dosage/$timings"
                     )
                 )
-            }
-        )
+            })
     }
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun addSavedReminder(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.savedReminder.path.plus(
+        route = NavRoute.savedReminder.path.plus(
             "/{medName}/{dosage}/{timings}"
-        ),
-        arguments = listOf(
-            navArgument("medName") {
-                type = NavType.StringType
-            },
-            navArgument("dosage") {
-                type = NavType.StringType
-            },
-            navArgument("timings") {
-                type = NavType.StringType
-            }
-        )
+        ), arguments = listOf(navArgument("medName") {
+            type = NavType.StringType
+        }, navArgument("dosage") {
+            type = NavType.StringType
+        }, navArgument("timings") {
+            type = NavType.StringType
+        })
     ) {
         val medName: String = it.arguments?.getString("medName").toString()
         val dosage: String = it.arguments?.getString("dosage").toString()
         val timings: String = it.arguments?.getString("timings").toString()
-        _root_ide_package_.com.example.medcare.screens.medicationReminder.ReminderFilled(
-            medName, dosage, timings,
-            back = { navHostController.popBackStack() }
-        )
+        ReminderFilled(
+            medName, dosage, timings, back = { navHostController.popBackStack() })
     }
 }
 
 fun addSpecialistScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.specialist.path
+        route = NavRoute.specialist.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.specialization.Specialist(
-            back = { navHostController.popBackStack() }
-        )
+        Specialist(
+            back = { navHostController.popBackStack() })
     }
 }
 
 fun addArticleHome(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.articleHome.path
+        route = NavRoute.articleHome.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.article.ArticleList(
-            back = { navHostController.popBackStack() },
-            navigateToArticle = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.articleRead.path)
-            },
-            navigateToArticleGrid = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.articleGrid.path)
-            }
-        )
+        ArticleList(back = { navHostController.popBackStack() }, navigateToArticle = {
+            navHostController.navigate(NavRoute.articleRead.path)
+        }, navigateToArticleGrid = {
+            navHostController.navigate(NavRoute.articleGrid.path)
+        })
     }
 }
 
 fun addReadArticleScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.articleRead.path
+        route = NavRoute.articleRead.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.article.DisplayArticle(
-            back = { navHostController.popBackStack() }
-        )
+        DisplayArticle(
+            back = { navHostController.popBackStack() })
     }
 }
 
 fun addArticleGridScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.articleGrid.path
+        route = NavRoute.articleGrid.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.article.ArticlePage(
+        ArticlePage(
             back = { navHostController.popBackStack() },
             navigateToArticle = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.articleRead.path)
+                navHostController.navigate(NavRoute.articleRead.path)
             },
         )
     }
@@ -790,13 +616,12 @@ fun addArticleGridScreen(navHostController: NavHostController, navGraphBuilder: 
 
 fun addFindPharmaScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.findingPharma.path
+        route = NavRoute.findingPharma.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.healthShop.cart.FindingPharmacy(
+        FindingPharmacy(
             navigateToEmptyCart = {
-                navHostController.navigate(_root_ide_package_.com.example.medcare.screens.navigation.NavRoute.emptyCart.path)
-            }
-        )
+                navHostController.navigate(NavRoute.emptyCart.path)
+            })
     }
 }
 
@@ -804,29 +629,24 @@ fun addEmptyCartScreen(navHostController: NavHostController, navGraphBuilder: Na
     navGraphBuilder.composable(
         route = NavRoute.emptyCart.path
     ) {
-        EmptyCart(
-            back = { navHostController.popBackStack() },
-            navigateToHealthShop = {
-                navHostController.navigate(NavRoute.HealthShop.path) {
-                    popUpTo(NavRoute.HealthShop.path) {
-                        inclusive = true
-                    }
+        EmptyCart(back = { navHostController.popBackStack() }, navigateToHealthShop = {
+            navHostController.navigate(NavRoute.HealthShop.path) {
+                popUpTo(NavRoute.HealthShop.path) {
+                    inclusive = true
                 }
             }
-        )
+        })
     }
 }
 
 fun addPrescriptionHistScreen(
-    navHostController: NavHostController,
-    navGraphBuilder: NavGraphBuilder
+    navHostController: NavHostController, navGraphBuilder: NavGraphBuilder
 ) {
     navGraphBuilder.composable(
         route = NavRoute.presHist.path
     ) {
         PrescriptionHistory(
-            back = { navHostController.popBackStack() }
-        )
+            back = { navHostController.popBackStack() })
     }
 }
 
@@ -835,18 +655,16 @@ fun addHealthHistScreen(navHostController: NavHostController, navGraphBuilder: N
         NavRoute.healthHist.path
     ) {
         HealthHistory(
-            back = { navHostController.popBackStack() }
-        )
+            back = { navHostController.popBackStack() })
     }
 }
 
 fun addTransactionScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = _root_ide_package_.com.example.medcare.screens.navigation.NavRoute.transactions.path
+        route = NavRoute.transactions.path
     ) {
-        _root_ide_package_.com.example.medcare.screens.profile.Transactions(
-            back = { navHostController.popBackStack() }
-        )
+        Transactions(
+            back = { navHostController.popBackStack() })
     }
 }
 
@@ -855,8 +673,7 @@ fun addAccSettScreen(navHostController: NavHostController, navGraphBuilder: NavG
         route = NavRoute.accSett.path
     ) {
         AccountSettings(
-            back = { navHostController.popBackStack() }
-        )
+            back = { navHostController.popBackStack() })
     }
 }
 
@@ -871,8 +688,7 @@ fun addClearNotiScreen(navHostController: NavHostController, navGraphBuilder: Na
                         inclusive = true
                     }
                 }
-            }
-        )
+            })
     }
 }
 
