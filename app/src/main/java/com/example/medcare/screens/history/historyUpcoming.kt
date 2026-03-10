@@ -52,9 +52,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medcare.R
-import com.example.medcare.screens.class_objects.DateScreen
-import com.example.medcare.screens.class_objects.docWorkHrs
-import com.example.medcare.screens.layoutsFile.DoctorWorkingHours
 import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -62,8 +59,8 @@ import java.time.LocalDate
 fun UpcomingAppointment(isCompleted: Boolean, navigateToChatDoc: () -> Unit) {
     LazyVerticalGrid(GridCells.Fixed(1),
         modifier = Modifier.height(800.dp)) {
-        items(_root_ide_package_.com.example.medcare.screens.history.Appointment.AppointmentList) { item ->
-            _root_ide_package_.com.example.medcare.screens.history.CardLayoutUpcoming(
+        items(Appointment.AppointmentList) { item ->
+            CardLayoutUpcoming(
                 item,
                 isCompleted,
                 navigateToChatDoc
@@ -76,7 +73,7 @@ fun UpcomingAppointment(isCompleted: Boolean, navigateToChatDoc: () -> Unit) {
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CardLayoutUpcoming(appointmentCard: com.example.medcare.screens.history.AppointmentCard, isCompleted: Boolean, navigateToChatDoc: () -> Unit) {
+fun CardLayoutUpcoming(appointmentCard: AppointmentCard, isCompleted: Boolean, navigateToChatDoc: () -> Unit) {
     var notifiToggle by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
     var showNotificationState by remember { mutableStateOf(false) }
@@ -84,7 +81,7 @@ fun CardLayoutUpcoming(appointmentCard: com.example.medcare.screens.history.Appo
     var addReview by remember { mutableStateOf(false) }
     var selectedIndex by remember { mutableStateOf(-1) }
     var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
-    val selectedHour = if (selectedIndex != -1) _root_ide_package_.com.example.medcare.screens.class_objects.docWorkHrs.workingHours[selectedIndex] else ""
+    if (selectedIndex != -1) com.example.medcare.screens.class_objects.docWorkHrs.workingHours[selectedIndex] else ""
 
     if (addReview) {
         ModalBottomSheet(
@@ -155,7 +152,7 @@ fun CardLayoutUpcoming(appointmentCard: com.example.medcare.screens.history.Appo
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    itemsIndexed(_root_ide_package_.com.example.medcare.screens.class_objects.docWorkHrs.workingHours) { index, item ->
+                    itemsIndexed(com.example.medcare.screens.class_objects.docWorkHrs.workingHours) { index, item ->
                         _root_ide_package_.com.example.medcare.screens.layoutsFile.DoctorWorkingHours(
                             hours = item,
                             selected = selectedIndex == index,
@@ -367,28 +364,28 @@ data class AppointmentCard(
 
 object Appointment {
     val AppointmentList = listOf(
-        _root_ide_package_.com.example.medcare.screens.history.AppointmentCard(
+        AppointmentCard(
             "Dr. Rajesh Patel",
             R.drawable.dr_rajesh,
             "General Surgery",
             "Wednesday, 29 Feb, 04:00 PM",
             "Bella Vista Surgery Clinic, Via Garibaldi 10, Milan, Italy"
         ),
-        _root_ide_package_.com.example.medcare.screens.history.AppointmentCard(
+        AppointmentCard(
             "Dr. Luca Rossi",
             R.drawable.dr_luca,
             "Cardiology Specialist",
             "Wednesday, 22 Feb, 04:00 PM",
             "Rossi Cardiology Clinic Via Garibaldi 15, Milan, Italy"
         ),
-        _root_ide_package_.com.example.medcare.screens.history.AppointmentCard(
+        AppointmentCard(
             "Dr. Rajesh Patel",
             R.drawable.dr_rajesh,
             "General Surgery",
             "Wednesday, 29 Feb, 04:00 PM",
             "Bella Vista Surgery Clinic, Via Garibaldi 10, Milan, Italy"
         ),
-        _root_ide_package_.com.example.medcare.screens.history.AppointmentCard(
+        AppointmentCard(
             "Dr. Luca Rossi",
             R.drawable.dr_luca,
             "Cardiology Specialist",

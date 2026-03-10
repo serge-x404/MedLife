@@ -18,7 +18,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
 fun BottomNavigation(navController: NavController) {
-    val navItems = listOf(_root_ide_package_.com.example.medcare.screens.navigation.NavItems.Home, _root_ide_package_.com.example.medcare.screens.navigation.NavItems.Services, _root_ide_package_.com.example.medcare.screens.navigation.NavItems.History, _root_ide_package_.com.example.medcare.screens.navigation.NavItems.Profile)
+    val navItems = listOf(NavItems.Home, NavItems.Services, NavItems.History, NavItems.Profile)
 
     val backStackEntry by navController.currentBackStackEntryAsState()
 

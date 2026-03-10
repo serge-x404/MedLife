@@ -2,16 +2,12 @@ package com.example.medcare.screens.history
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SecondaryTabRow
@@ -25,9 +21,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.Modifier.Companion
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -55,7 +48,7 @@ fun HistoryLogic(navigateToChatDoc: () -> Unit) {
                 },
                 selectedTabIndex = storeHistoryIndex,
                 tabs = {
-                    _root_ide_package_.com.example.medcare.screens.history.HistoryTabs.entries.forEachIndexed {
+                    HistoryTabs.entries.forEachIndexed {
 
                             index, tabs ->
                         Tab(
@@ -76,14 +69,8 @@ fun HistoryLogic(navigateToChatDoc: () -> Unit) {
                 }
             )
             when (storeHistoryIndex) {
-                0 -> _root_ide_package_.com.example.medcare.screens.history.UpcomingAppointment(
-                    isCompleted,
-                    navigateToChatDoc
-                )
-                else -> _root_ide_package_.com.example.medcare.screens.history.UpcomingAppointment(
-                    isCompleted,
-                    navigateToChatDoc
-                )
+                0 -> UpcomingAppointment(isCompleted, navigateToChatDoc)
+                else -> UpcomingAppointment(isCompleted, navigateToChatDoc)
             }
         }
     }

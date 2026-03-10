@@ -282,7 +282,6 @@ fun addHistoryScreen(navHostController: NavHostController, navGraphBuilder: NavG
         route = NavRoute.History.path
     ) {
         HistoryScreen(
-            back = { navHostController.popBackStack() },
             navigateToChatDoc = { navHostController.navigate(NavRoute.ChatDoc.path) })
     }
 }
@@ -500,7 +499,8 @@ fun addAppointmentScreen(navHostController: NavHostController, navGraphBuilder: 
         val appointmentDate = Uri.decode(it.arguments?.getString("date").toString())
         val appointmentHours = Uri.decode(it.arguments?.getString("hours").toString())
         Confirmation(
-            back = { navHostController.popBackStack() }, navigateToAppointmentSuccess = {
+            back = { navHostController.popBackStack() },
+            navigateToAppointmentSuccess = {
             navHostController.navigate(NavRoute.appointmentSuccess.path)
         }, appointmentDate = appointmentDate, appointmentHours = appointmentHours
         )
@@ -516,7 +516,7 @@ fun addAppointmentSuccessScreen(
         AppointmentSuccess(
             navigateToHistory = {
                 navHostController.navigate(NavRoute.History.path) {
-                    popUpTo(NavRoute.Services.path) {
+                    popUpTo(NavRoute.Main.path) {
                         inclusive = true
                     }
                 }
