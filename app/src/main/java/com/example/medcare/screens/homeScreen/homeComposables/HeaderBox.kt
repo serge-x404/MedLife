@@ -1,4 +1,4 @@
-package com.example.medcare.screens.homeScreen.homeUtils
+package com.example.medcare.screens.homeScreen.homeComposables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

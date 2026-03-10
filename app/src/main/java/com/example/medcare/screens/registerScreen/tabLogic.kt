@@ -40,7 +40,7 @@ fun TabLogic(
                 selectedTabIndex = storeIndex, tabs = {
                     val context = LocalContext.current
 
-                    _root_ide_package_.com.example.medcare.screens.registerScreen.Tabs.entries.forEachIndexed { index, tabs ->
+                    Tabs.entries.forEachIndexed { index, tabs ->
                         Tab(
                             selected = storeIndex == index,
                             onClick = {
@@ -58,12 +58,12 @@ fun TabLogic(
                 }
             )
             when (storeIndex) {
-                0 -> _root_ide_package_.com.example.medcare.screens.registerScreen.PatientRegister(
+                0 -> PatientRegister(
                     navigateToLoginScreen,
                     navigateToHomeScreen,
                     sharedPreferences
                 )
-                else -> _root_ide_package_.com.example.medcare.screens.registerScreen.DoctorRegister(
+                else -> DoctorRegister(
                     navigateToLoginScreen,
                     navigateToHomeScreen,
                     navigateToConfirmationScreen,

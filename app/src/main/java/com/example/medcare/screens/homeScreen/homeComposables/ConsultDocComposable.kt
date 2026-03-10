@@ -1,4 +1,4 @@
-package com.example.medcare.screens.homeScreen.homeUtils
+package com.example.medcare.screens.homeScreen.homeComposables
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -20,9 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ConsultDocComposable(
-    navigateToChatDoc: () -> Unit
-) {
+fun ConsultDocComposable(navigateToChatDoc: () -> Unit ) {
     Button(
         onClick = { navigateToChatDoc() },
         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest),

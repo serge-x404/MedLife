@@ -50,11 +50,12 @@ import com.example.medcare.screens.class_objects.Hot
 import com.example.medcare.screens.class_objects.bestSellingProducts
 import com.example.medcare.screens.class_objects.hospitals
 import com.example.medcare.screens.class_objects.lazyRow
-import com.example.medcare.screens.homeScreen.homeUtils.CardServicesHomeScreen
-import com.example.medcare.screens.homeScreen.homeUtils.ConsultDocComposable
-import com.example.medcare.screens.homeScreen.homeUtils.HeaderBox
-import com.example.medcare.screens.homeScreen.homeUtils.SearchBox
-import com.example.medcare.screens.homeScreen.homeUtils.categoriesHomeScreen
+import com.example.medcare.screens.homeScreen.homeComposables.CardServicesHomeScreen
+import com.example.medcare.screens.homeScreen.homeComposables.ConsultDocComposable
+import com.example.medcare.screens.homeScreen.homeComposables.HeaderBox
+import com.example.medcare.screens.homeScreen.homeComposables.SearchBox
+import com.example.medcare.screens.homeScreen.homeComposables.Title
+import com.example.medcare.screens.homeScreen.homeComposables.categoriesHomeScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -132,12 +133,11 @@ fun HomeScreen(
                 Spacer(Modifier.height(30.dp))
                 ConsultDocComposable( navigateToChatDoc )
                 Spacer(Modifier.height(30.dp))
-                Text(
-                    text = "Chat Doctor",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.padding(start = 30.dp)
-                )
+
+
+                Title("Chat Doctor")
+
+
                 Spacer(Modifier.height(5.dp))
                 LazyRow(
                     modifier = Modifier.padding(start = 26.dp),
@@ -160,12 +160,11 @@ fun HomeScreen(
                     }
                 }
                 Spacer(Modifier.height(30.dp))
-                Text(
-                    "Best Selling Products",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.padding(start = 30.dp)
-                )
+
+
+                Title("Best Selling Products")
+
+
                 Spacer(Modifier.height(5.dp))
                 LazyRow(
                     modifier = Modifier.padding(start = 26.dp),
@@ -185,12 +184,11 @@ fun HomeScreen(
                     }
                 }
                 Spacer(Modifier.height(30.dp))
-                Text(
-                    "Nearby Hospitals",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.padding(start = 30.dp)
-                )
+
+
+                Title("Nearby Hospitals")
+
+
                 Spacer(Modifier.height(5.dp))
                 LazyRow(
                     modifier = Modifier.padding(start = 26.dp),
@@ -245,12 +243,11 @@ fun HomeScreen(
                     }
                 }
                 Spacer(Modifier.height(30.dp))
-                Text(
-                    "Health Article",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.padding(start = 30.dp)
-                )
+
+
+                Title("Health Article")
+
+
                 Spacer(Modifier.height(10.dp))
                 LazyColumn(
                     modifier = Modifier

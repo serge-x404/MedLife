@@ -26,7 +26,6 @@ import com.example.medcare.screens.healthShop.cart.FindingPharmacy
 import com.example.medcare.screens.history.HistoryScreen
 import com.example.medcare.screens.homeScreen.DoctorHomeScreen
 import com.example.medcare.screens.homeScreen.HomeScreen
-import com.example.medcare.screens.homeScreen.homeUtils.ConsultDocComposable
 import com.example.medcare.screens.hospitals.HospitalDetails
 import com.example.medcare.screens.hospitals.HospitalMain
 import com.example.medcare.screens.hospitals.Map
@@ -67,7 +66,7 @@ fun NavGraph(
 
     NavHost(navHostController, startDestination = NavRoute.Splash.path) {
         addHomeScreen(navHostController, this)
-        addConsultDocComposableScreen(navHostController, this)
+//        addConsultDocComposableScreen(navHostController, this)
         addDoctorHomeScreen(navHostController, this)
         addSplashScreen(navHostController, this, isOnBoarded, isLoggedIn, isRegistered)
         addWalkthroughScreen(navHostController, this, sharedPreferences)
@@ -163,13 +162,13 @@ fun addHomeScreen(
     }
 }
 
-fun addConsultDocComposableScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
-    navGraphBuilder.composable(NavRoute.ConsultDocComposable.path) {
-        ConsultDocComposable(
-            navigateToChatDoc = { navHostController.navigate(NavRoute.ChatDoc.path) }
-        )
-    }
-}
+//fun addConsultDocComposableScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
+//    navGraphBuilder.composable(NavRoute.ConsultDocComposable.path) {
+//        ConsultDocComposable(
+//            navigateToChatDoc = { navHostController.navigate(NavRoute.ChatDoc.path) }
+//        )
+//    }
+//}
 
 
 fun addDoctorHomeScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -18,24 +17,17 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.medcare.screens.class_objects.Hot
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,19 +40,10 @@ fun ArticleList(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = {},
-                        placeholder = { Text("Search Article",
-                            fontSize = 18.sp,
-                            textAlign = TextAlign.Center) },
-                        leadingIcon = {
-                            Icon(
-                                imageVector = Icons.Default.Search,
-                                contentDescription = null,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
+                    Text(
+                        "Article",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 },
                 navigationIcon = {
@@ -90,8 +73,8 @@ fun ArticleList(
                 )
                 Spacer(Modifier.height(8.dp))
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    items(_root_ide_package_.com.example.medcare.screens.class_objects.Hot.hotArticle) { item ->
-                        _root_ide_package_.com.example.medcare.screens.article.ArticleLayout(
+                    items(com.example.medcare.screens.class_objects.Hot.hotArticle) { item ->
+                        ArticleLayout(
                             item,
                             navigateToArticle
                         )
@@ -105,8 +88,8 @@ fun ArticleList(
                 )
                 Spacer(Modifier.height(8.dp))
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    items(_root_ide_package_.com.example.medcare.screens.class_objects.Hot.hotTopic) { item ->
-                        _root_ide_package_.com.example.medcare.screens.article.TopicLayout(item)
+                    items(com.example.medcare.screens.class_objects.Hot.hotTopic) { item ->
+                        TopicLayout(item)
                     }
                 }
                 Spacer(Modifier.height(16.dp))
@@ -132,9 +115,9 @@ fun ArticleList(
                 LazyVerticalGrid(GridCells.Fixed(1),
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     modifier = Modifier.height(1000.dp)) {
-                    items(_root_ide_package_.com.example.medcare.screens.class_objects.Hot.latestArticle) {
+                    items(com.example.medcare.screens.class_objects.Hot.latestArticle) {
                         item ->
-                        _root_ide_package_.com.example.medcare.screens.article.LatestArticle(
+                        LatestArticle(
                             item,
                             navigateToArticle
                         )

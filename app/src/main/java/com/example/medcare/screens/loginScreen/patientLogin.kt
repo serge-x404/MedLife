@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
@@ -36,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -192,11 +194,12 @@ fun PatientLogin(
                 }
                 Spacer(Modifier.height(4.dp))
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    modifier = Modifier.clickable(
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .clickable(
                         enabled = true,
-                        onClick = { navigateToRegister() }
-                    )
+                        onClick = { navigateToRegister() })
+                        .fillMaxWidth()
                 ) {
                     Text(
                         text = "Don't have a MedCare account?",
@@ -204,10 +207,13 @@ fun PatientLogin(
                         color = MaterialTheme.colorScheme.onBackground,
                         textAlign = TextAlign.Center
                     )
+                    Spacer(Modifier.width(4.dp))
                     Text(
                         text = "Sign up",
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.labelLarge,
+                        style = MaterialTheme.typography.labelLarge.copy(
+                            fontWeight = FontWeight.SemiBold
+                        ),
                         color = MaterialTheme.colorScheme.onBackground
                     )
                 }

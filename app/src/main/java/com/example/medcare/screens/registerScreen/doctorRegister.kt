@@ -15,23 +15,26 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.DatePicker
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,16 +43,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Popup
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
@@ -65,10 +64,8 @@ fun DoctorRegister(
 ) {
     var userName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
-    var checked by remember { mutableStateOf(false) }
     var password by remember { mutableStateOf("") }
     var passwordVisibility by remember { mutableStateOf(false) }
-    var showDatePicker by remember { mutableStateOf(false) }
     val auth = Firebase.auth
     var errorMessage by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }
@@ -76,7 +73,7 @@ fun DoctorRegister(
     var expandedGender by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState()
     val selectedDate = datePickerState.selectedDateMillis?.let {
-        _root_ide_package_.com.example.medcare.screens.registerScreen.convertMillisToDate(
+        convertMillisToDate(
             it
         )
     }?:""
@@ -92,6 +89,7 @@ fun DoctorRegister(
                     .border(2.dp, MaterialTheme.colorScheme.outlineVariant)
                     .fillMaxSize()
                     .padding(horizontal = 12.dp)
+                    .verticalScroll(rememberScrollState())
             ) {
                 Spacer(Modifier.height(10.dp))
                 Text(
@@ -111,7 +109,7 @@ fun DoctorRegister(
                     onValueChange = {email = it},
                     textStyle = MaterialTheme.typography.titleSmall,
                     colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     modifier = Modifier.fillMaxWidth(),
                 )
                 Spacer(Modifier.height(5.dp))
@@ -193,7 +191,7 @@ fun DoctorRegister(
                         onDismissRequest = {expandedGender = !expandedGender},
                         modifier = Modifier.background(MaterialTheme.colorScheme.background)
                     ) {
-                        listOf("Male", "Female", "Others").forEach { it ->
+                        listOf("Male", "Female", "Others").forEach {
                             DropdownMenuItem(
                                 text = {
                                     Text(
@@ -223,32 +221,12 @@ fun DoctorRegister(
                         color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.titleSmall
                     ) },
-                    modifier = Modifier.fillMaxWidth(),
                     onValueChange = {},
-//                    readOnly = true,
-//                    trailingIcon = {
-//                        IconButton(onClick = {showDatePicker = !showDatePicker}) {
-//                            Icon(
-//                                imageVector = Icons.Default.DateRange,
-//                                contentDescription = null
-//                            )
-//                            if (showDatePicker) {
-//                                Popup(
-//                                    onDismissRequest = { showDatePicker = false },
-//                                    alignment = Alignment.Center
-//                                ) {
-//                                    Box {
-//                                        DatePicker(
-//                                            state = datePickerState,
-//                                            showModeToggle = false
-//                                        )
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
+                    readOnly = true,
+                    modifier = Modifier.fillMaxWidth(),
                 )
             }
+            Spacer(Modifier.height(60.dp))
         }
         Box(
             modifier = Modifier
@@ -316,8 +294,9 @@ fun DoctorRegister(
                         .clickable(
                             enabled = true,
                             onClick = navigateToLoginScreen
-                        ),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        )
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
                 ) {
                     Text(
                         text = "Already have an account?",
@@ -325,10 +304,13 @@ fun DoctorRegister(
                         color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.labelLarge
                     )
+                    Spacer(Modifier.width(4.dp))
                     Text(
                         text = "Click here to login",
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.labelLarge,
+                        style = MaterialTheme.typography.labelLarge.copy(
+                            fontWeight = FontWeight.SemiBold
+                        ),
                         color = MaterialTheme.colorScheme.onBackground,
                     )
                 }

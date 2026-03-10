@@ -1,4 +1,4 @@
-package com.example.medcare.screens.homeScreen.homeUtils
+package com.example.medcare.screens.homeScreen.homeComposables
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
