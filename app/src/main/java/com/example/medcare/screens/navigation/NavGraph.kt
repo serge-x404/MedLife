@@ -323,7 +323,9 @@ fun addDoctorRegisterConfirmationScreen(
     navGraphBuilder.composable(
         route = NavRoute.doctorRegisterConfirmation.path
     ) {
-        DoctorConfirmation()
+        DoctorConfirmation(
+            navigateToLoginScreen = {navHostController.navigate(NavRoute.Login.path)}
+        )
     }
 }
 

@@ -62,6 +62,14 @@ fun DoctorLogin(
     val db = FirebaseDatabase.getInstance().reference
 
 
+    if (errorMessage.isNotEmpty()) {
+        Text(
+            errorMessage,
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+    }
+
     Scaffold(
         contentWindowInsets = WindowInsets(0.dp)
     ) { innerPadding ->
