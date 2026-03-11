@@ -174,12 +174,17 @@ fun PatientLogin(
                                             if (snapshot.exists()) {
                                                 navigateToHomeScreen()
                                                 sharedPreferences.edit(commit = true) {
-                                                    putBoolean("isLoggedIn", true)
+                                                    putBoolean("isPatientLoggedIn", true)
                                                 }
+                                            }
+                                            else {
+                                                auth.signOut()
+                                                errorMessage = "No such user exists"
                                             }
                                         }
                                 }
                                 else {
+                                    auth.signOut()
                                     errorMessage = task.exception?.message ?: "Login failed"
                                 }
                             }

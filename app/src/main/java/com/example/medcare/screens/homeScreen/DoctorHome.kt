@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -16,16 +17,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.medcare.rtdb.RTDB
+import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun DoctorHomeScreen() {
+fun DoctorHomeScreen(
+    navigateToAuthSplash: () -> Unit
+) {
     var doctorName by remember { mutableStateOf("") }
     val rtdb = RTDB()
+    val auth = FirebaseAuth.getInstance()
     LaunchedEffect(Unit) {
         rtdb.FetchDoctorInfo { it ->
             doctorName = it
@@ -35,7 +39,7 @@ fun DoctorHomeScreen() {
         topBar = {
             TopAppBar(
                 title = { Text(
-                    "Hey $doctorName",
+                    "Hey doctorName",
                     style = MaterialTheme.typography.headlineLarge,
                     color = MaterialTheme.colorScheme.onBackground
                 ) },
@@ -43,16 +47,26 @@ fun DoctorHomeScreen() {
             )
         }
     ) {
-        Modifier.padding(it)
         Column(modifier = Modifier
+            .padding(it)
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surfaceContainerHighest)
         ) {
             Text(
                 "Chats",
                 color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.displayLarge
+                style = MaterialTheme.typography.displayMedium
             )
+
+            Button(
+                onClick = {
+                    auth.signOut()
+                    navigateToAuthSplash()
+                },
+                modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+            ) {
+                Text("Sign out")
+            }
         }
     }
 }

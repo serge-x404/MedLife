@@ -58,17 +58,17 @@ import com.example.medcare.screens.splashScreen.Splashscreen
 fun NavGraph(
     navHostController: NavHostController,
     sharedPreferences: SharedPreferences,
-    isLoggedIn: Boolean,
-    isRegistered: Boolean,
     modifier: Modifier
 ) {
     val isOnBoarded = sharedPreferences.getBoolean("isOnBoarded", false)
+    val isPatientLoggedIn = sharedPreferences.getBoolean("isPatientLoggedIn", false)
+    val isDoctorLoggedIn = sharedPreferences.getBoolean("isDoctorLoggedIn", false)
+    val isRegistered = sharedPreferences.getBoolean("isRegistered", false)
 
     NavHost(navHostController, startDestination = NavRoute.Splash.path) {
         addHomeScreen(navHostController, this)
-//        addConsultDocComposableScreen(navHostController, this)
         addDoctorHomeScreen(navHostController, this)
-        addSplashScreen(navHostController, this, isOnBoarded, isLoggedIn, isRegistered)
+        addSplashScreen(navHostController, this, isOnBoarded, isPatientLoggedIn, isDoctorLoggedIn,isRegistered)
         addWalkthroughScreen(navHostController, this, sharedPreferences)
         addRegisterScreen(navHostController, this, sharedPreferences)
         addDoctorRegisterConfirmationScreen(navHostController, this)
@@ -173,7 +173,13 @@ fun addHomeScreen(
 
 fun addDoctorHomeScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(NavRoute.DoctorMain.path) {
-        DoctorHomeScreen()
+        DoctorHomeScreen(
+            navigateToAuthSplash = { navHostController.navigate(NavRoute.AuthSplash.path){
+                popUpTo(navHostController.graph.findStartDestination().id) {
+                    inclusive = true
+                }
+            } }
+        )
     }
 }
 
@@ -181,20 +187,27 @@ fun addSplashScreen(
     navHostController: NavHostController,
     navGraphBuilder: NavGraphBuilder,
     isOnBoarded: Boolean,
-    isLoggedIn: Boolean,
+    isPatientLoggedIn: Boolean,
+    isDoctorLoggedIn: Boolean,
     isRegistered: Boolean
 ) {
     navGraphBuilder.composable(
         route = NavRoute.Splash.path
     ) {
         Splashscreen(navigateToOnBoard = {
-            if (isOnBoarded && isLoggedIn) {
+            if (isOnBoarded && isPatientLoggedIn) {
                 navHostController.navigate(NavRoute.Main.path)
-            } else if (isOnBoarded && isRegistered) {
+            }
+            else if (isOnBoarded && isDoctorLoggedIn) {
+                navHostController.navigate(NavRoute.DoctorMain.path)
+            }
+            else if (isOnBoarded && isRegistered) {
                 navHostController.navigate(NavRoute.Main.path)
-            } else if (isOnBoarded) {
+            }
+            else if (isOnBoarded) {
                 navHostController.navigate(NavRoute.AuthSplash.path)
-            } else {
+            }
+            else {
                 navHostController.navigate(NavRoute.Walkthrough.path)
             }
         }

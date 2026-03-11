@@ -79,6 +79,7 @@ fun DoctorRegister(
     var isLoading by remember { mutableStateOf(false) }
     var gender by remember { mutableStateOf("") }
     var expandedGender by remember { mutableStateOf(false) }
+    var isVerified by remember { mutableStateOf("false") }
     val datePickerState = rememberDatePickerState()
     val selectedDate = datePickerState
         .selectedDateMillis?.let { convertMillisToDate(it) } ?: ""
@@ -304,7 +305,8 @@ fun DoctorRegister(
                                                     "doctorPassword" to password,
                                                     "doctorUserName" to userName,
                                                     "doctorGender" to gender,
-                                                    "doctorDocuments" to documentUrl
+                                                    "doctorDocuments" to documentUrl,
+                                                    "doctorVerified" to isVerified
                                                 )
                                                 db.child("doctors").child(uid).setValue(userMap)
                                                     .addOnSuccessListener {

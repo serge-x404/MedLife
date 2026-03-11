@@ -62,8 +62,6 @@ class MainActivity : ComponentActivity() {
 
                     NavGraph(
                         navController, sharedPreferences,
-                        isLoggedIn = auth.currentUser != null,
-                        isRegistered = auth.currentUser != null,
                         Modifier.padding(it)
                     )
                 }

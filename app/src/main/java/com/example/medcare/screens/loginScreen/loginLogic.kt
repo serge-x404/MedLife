@@ -4,7 +4,6 @@ import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
@@ -34,14 +33,14 @@ fun LoginLogic(
     sharedPreferences: SharedPreferences
 ) {
     var storeLoginIndex by remember { mutableIntStateOf(0) }
-    Scaffold(contentWindowInsets = WindowInsets(0.dp)) { it ->
+    Scaffold(contentWindowInsets = WindowInsets(0.dp)) {
         Column(modifier = Modifier.padding(it)) {
             SecondaryTabRow(
                 selectedTabIndex = storeLoginIndex, tabs = {
                     val context = LocalContext.current
 
 
-                    _root_ide_package_.com.example.medcare.screens.registerScreen.Tabs.entries.forEachIndexed { index, tabs ->
+                    Tabs.entries.forEachIndexed { index, tabs ->
                         Tab(
                             selected = storeLoginIndex == index,
                             onClick = {
@@ -61,12 +60,12 @@ fun LoginLogic(
                 }
             )
             when(storeLoginIndex) {
-                0 -> _root_ide_package_.com.example.medcare.screens.loginScreen.PatientLogin(
+                0 -> PatientLogin(
                     navigateToHomeScreen,
                     navigateToRegister,
                     sharedPreferences
                 )
-                else -> _root_ide_package_.com.example.medcare.screens.loginScreen.DoctorLogin(
+                else -> DoctorLogin(
                     navigateToRegister,
                     navigateToDoctorHome,
                     sharedPreferences

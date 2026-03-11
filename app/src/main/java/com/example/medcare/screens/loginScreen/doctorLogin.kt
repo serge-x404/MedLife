@@ -43,6 +43,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.content.edit
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
@@ -172,10 +173,29 @@ fun DoctorLogin(
                                     val uid = auth.currentUser!!.uid
                                     db.child("doctors").child(uid).get()
                                         .addOnSuccessListener { snapshot ->
-                                            if (snapshot.exists()) navigateToDoctorHome()
+                                            if (snapshot.exists()) {
+                                                val isVerified = snapshot
+                                                    .child("doctorVerified").value as? Boolean ?: false
+
+                                                if (isVerified) {
+                                                    sharedPreferences.edit(commit = true) {
+                                                        putBoolean("isDoctorLoggedIn", true)
+                                                    }
+                                                    navigateToDoctorHome()
+                                                }
+                                                else {
+                                                    auth.signOut()
+                                                    errorMessage = "Your account is not verified yet"
+                                                }
+                                            }
+                                            else {
+                                                auth.signOut()
+                                                errorMessage = "This account is not registered as doctor"
+                                            }
                                         }
                                 }
                                 else {
+                                    auth.signOut()
                                     errorMessage = task.exception?.message ?: "Login failed"
                                 }
                             }

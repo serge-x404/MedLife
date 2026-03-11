@@ -37,7 +37,7 @@ fun RegisterScreen(
             },
             colors = TopAppBarDefaults.topAppBarColors(MaterialTheme.colorScheme.surfaceContainerHighest)
         ) }
-    ) { it ->
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -54,7 +54,7 @@ fun RegisterScreen(
                     modifier = Modifier
                         .padding(horizontal = 12.dp)
                 )
-                _root_ide_package_.com.example.medcare.screens.registerScreen.TabLogic(
+                TabLogic(
                     navigateToLoginScreen,
                     navigateToHomeScreen,
                     navigateToConfirmationScreen,
