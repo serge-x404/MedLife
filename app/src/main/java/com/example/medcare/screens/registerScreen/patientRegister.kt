@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -51,7 +52,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -107,6 +111,10 @@ fun PatientRegister(
 
     val interactionSource = remember { MutableInteractionSource() }
     val isClicked by interactionSource.collectIsPressedAsState()
+
+
+    val passwordFocus = remember { FocusRequester() }
+    val fullNameFocus = remember { FocusRequester() }
 
 //    LaunchedEffect(datePickerState.selectedDateMillis) {
 //        datePickerState.selectedDateMillis?.let {
@@ -183,8 +191,15 @@ fun PatientRegister(
                         )
                     },
                     onValueChange = { email = it },
-                    maxLines = 1,
+                    singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next,
+                        keyboardType = KeyboardType.Email
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onNext = {passwordFocus.requestFocus()}
+                    ),
                     textStyle = MaterialTheme.typography.titleSmall,
                     colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
@@ -217,8 +232,14 @@ fun PatientRegister(
                             )
                         }
                     },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next,
+                        keyboardType = KeyboardType.Password),
+                    keyboardActions = KeyboardActions(
+                        onNext = {fullNameFocus.requestFocus()}
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                        .focusRequester(passwordFocus),
                     textStyle = MaterialTheme.typography.titleSmall,
                     colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
@@ -238,7 +259,12 @@ fun PatientRegister(
                         )
                     },
                     onValueChange = { userName = it },
-                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth()
+                        .focusRequester(fullNameFocus),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text
+                    ),
                     textStyle = MaterialTheme.typography.titleSmall,
                     colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
