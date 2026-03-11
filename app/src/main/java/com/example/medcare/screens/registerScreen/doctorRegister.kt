@@ -313,20 +313,6 @@ fun DoctorRegister(
                                             }
                                         )
                                     }
-                                    val userMap = mapOf(
-                                        "doctorEmail" to email,
-                                        "doctorPassword" to password,
-                                        "doctorUserName" to userName,
-                                        "doctorGender" to gender
-                                    )
-                                    db.child("doctors").child(uid).setValue(userMap)
-                                        .addOnSuccessListener {
-                                            navigateToConfirmationScreen()
-                                            sharedPreferences.edit(commit = true) {
-                                                putBoolean("isRegistered", true)
-                                            }
-                                        }
-                                        .addOnFailureListener { e -> errorMessage = e.message ?: "Failed to register" }
                                 }
                                 else {
                                     errorMessage = task.exception?.message ?: "Registration failed"
