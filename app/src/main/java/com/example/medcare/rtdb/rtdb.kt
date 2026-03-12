@@ -8,13 +8,14 @@ class RTDB {
     val db = FirebaseDatabase.getInstance().reference
     val uid = auth.currentUser?.uid ?: ""
 
-    fun FetchUserInfo(onResult: (String, String, String) -> Unit) {
+    fun FetchUserInfo(onResult: (String, String, String, String) -> Unit) {
         db.child("users").child(uid).get()
             .addOnSuccessListener { snapshot ->
                 val userName = snapshot.child("userName").value as? String ?: ""
                 val email = snapshot.child("email").value as? String ?: ""
                 val gender = snapshot.child("gender").value as? String ?: ""
-                onResult(userName, email, gender)
+                val dateOfBirth = snapshot.child("dateOfBirth").value as? String ?: ""
+                onResult(userName, email,gender, dateOfBirth)
 //                Log.i("userNameFetch", userName)
             }
     }

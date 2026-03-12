@@ -102,7 +102,7 @@ fun CardLayoutCompleted(appointmentCard: com.example.medcare.screens.history.App
                 TextField(
                     value = "",
                     onValueChange = {},
-                    placeholder = {Text(text = "Write your review")},
+                    placeholder = {Text(text = "Write your Review")},
                     modifier = Modifier.height(100.dp)
                         .fillMaxWidth()
                 )

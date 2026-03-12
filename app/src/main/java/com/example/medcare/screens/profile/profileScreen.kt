@@ -1,6 +1,7 @@
 package com.example.medcare.screens.profile
 
-import android.widget.Toast
+import android.content.SharedPreferences
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -18,7 +19,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -28,7 +31,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -43,6 +45,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.edit
 import com.example.medcare.R
 import com.example.medcare.rtdb.RTDB
 import com.google.firebase.auth.FirebaseAuth
@@ -58,6 +61,7 @@ fun ProfileScreen(
 //    navigateToPharmaAdmin: () -> Unit,
     back: () -> Unit,
     navigateToAuthSplash: () -> Unit,
+    sharedPreferences: SharedPreferences
 //    userName: String,
 //    email: String
 ) {
@@ -67,11 +71,14 @@ fun ProfileScreen(
     var userName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("") }
+    var dateOfBirth by remember { mutableStateOf("") }
+    var expanded by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
-        rtdb.FetchUserInfo { uName, eMail, genderUser ->
+        rtdb.FetchUserInfo { uName, eMail, genderUser,dobUser ->
             userName = uName
             email = eMail
             gender = genderUser
+            dateOfBirth = dobUser
         }
     }
     Scaffold(
@@ -98,7 +105,13 @@ fun ProfileScreen(
                 .padding(horizontal = 12.dp)
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())) {
-                Card(modifier = Modifier.fillMaxWidth(),
+                Card(modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(
+                        enabled = true,
+                        onClick = {expanded = !expanded }
+                    )
+                    .animateContentSize(),
                     colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest),
                     border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
                 ) {
@@ -134,20 +147,36 @@ fun ProfileScreen(
                                     color = MaterialTheme.colorScheme.onBackground
                                 )
                             }
-//                            Row {
-//                                Icon(
-//                                    imageVector = Icons.Default.Phone,
-//                                    contentDescription = null,
-//                                    tint = MaterialTheme.colorScheme.onBackground,
-//                                    modifier = Modifier.size(20.dp)
-//                                )
-//                                Spacer(Modifier.width(6.dp))
-//                                Text(
-//                                    "phoneNumber",
-//                                    style = MaterialTheme.typography.labelLarge,
-//                                    color = MaterialTheme.colorScheme.onBackground
-//                                )
-//                            }
+                            if (expanded) {
+                                Row {
+                                    Icon(
+                                        imageVector = Icons.Default.Person,
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.onBackground,
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                    Spacer(Modifier.width(6.dp))
+                                    Text(
+                                        gender,
+                                        style = MaterialTheme.typography.labelLarge,
+                                        color = MaterialTheme.colorScheme.onBackground
+                                    )
+                                }
+                                Row {
+                                    Icon(
+                                        imageVector = Icons.Default.DateRange,
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.onBackground,
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                    Spacer(Modifier.width(6.dp))
+                                    Text(
+                                        dateOfBirth,
+                                        style = MaterialTheme.typography.labelLarge,
+                                        color = MaterialTheme.colorScheme.onBackground
+                                    )
+                                }
+                            }
                         }
                     }
                 }
@@ -300,30 +329,34 @@ fun ProfileScreen(
                             color = MaterialTheme.colorScheme.onBackground
                         )
                     }
-                    Row(verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(12.dp)
-                            .fillMaxWidth()) {
-                        Image(
-                            painter = painterResource(R.drawable.moon),
-                            contentDescription = null,
-                            modifier = Modifier.size(30.dp),
-                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
-                        )
-                        Spacer(Modifier.width(8.dp))
-                        Text(
-                            "Dark Mode",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onBackground,
-                            modifier = Modifier.weight(1f)
-                        )
-                        val context = LocalContext.current
-                        Switch(checked = checkDarkTheme,
-                            onCheckedChange = {
-                                checkDarkTheme = it
-                                Toast.makeText(context, "Available soon", Toast.LENGTH_SHORT).show()
-                            }
-                        )
-                    }
+
+                    // Removed Dark Mode Toggle
+
+
+//                    Row(verticalAlignment = Alignment.CenterVertically,
+//                        modifier = Modifier.padding(12.dp)
+//                            .fillMaxWidth()) {
+//                        Image(
+//                            painter = painterResource(R.drawable.moon),
+//                            contentDescription = null,
+//                            modifier = Modifier.size(30.dp),
+//                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+//                        )
+//                        Spacer(Modifier.width(8.dp))
+//                        Text(
+//                            "Dark Mode",
+//                            style = MaterialTheme.typography.titleMedium,
+//                            color = MaterialTheme.colorScheme.onBackground,
+//                            modifier = Modifier.weight(1f)
+//                        )
+//                        val context = LocalContext.current
+//                        Switch(checked = checkDarkTheme,
+//                            onCheckedChange = {
+//                                checkDarkTheme = it
+//                                Toast.makeText(context, "Available soon", Toast.LENGTH_SHORT).show()
+//                            }
+//                        )
+//                    }
                 }
 
                 // Remove Pharmacy portal
@@ -368,6 +401,10 @@ fun ProfileScreen(
                 Button(onClick = {
                     auth.signOut()
                     navigateToAuthSplash()
+                    sharedPreferences.edit(commit = true){
+                        putBoolean("isPatientLoggedIn",false)
+                        putBoolean("isPatient",false)
+                    }
                 },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(4.dp),

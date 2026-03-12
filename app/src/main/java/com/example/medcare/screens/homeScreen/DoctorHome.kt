@@ -1,5 +1,6 @@
 package com.example.medcare.screens.homeScreen
 
+import android.content.SharedPreferences
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,13 +20,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.core.content.edit
 import com.example.medcare.rtdb.RTDB
 import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DoctorHomeScreen(
-    navigateToAuthSplash: () -> Unit
+    navigateToAuthSplash: () -> Unit,
+    sharedPreferences: SharedPreferences
 ) {
     var doctorName by remember { mutableStateOf("") }
     val rtdb = RTDB()
@@ -39,7 +42,7 @@ fun DoctorHomeScreen(
         topBar = {
             TopAppBar(
                 title = { Text(
-                    "Hey doctorName",
+                    "Hey $doctorName",
                     style = MaterialTheme.typography.headlineLarge,
                     color = MaterialTheme.colorScheme.onBackground
                 ) },
@@ -62,6 +65,10 @@ fun DoctorHomeScreen(
                 onClick = {
                     auth.signOut()
                     navigateToAuthSplash()
+                    sharedPreferences.edit(commit = true){
+                        putBoolean("isDoctorLoggedIn",false)
+                        putBoolean("isDoctor",false)
+                    }
                 },
                 modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
             ) {

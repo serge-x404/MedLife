@@ -64,17 +64,19 @@ fun NavGraph(
     val isPatientLoggedIn = sharedPreferences.getBoolean("isPatientLoggedIn", false)
     val isDoctorLoggedIn = sharedPreferences.getBoolean("isDoctorLoggedIn", false)
     val isRegistered = sharedPreferences.getBoolean("isRegistered", false)
+    val isPatient = sharedPreferences.getBoolean("isPatient", false)
+    val isDoctor = sharedPreferences.getBoolean("isDoctor", false)
 
     NavHost(navHostController, startDestination = NavRoute.Splash.path) {
         addHomeScreen(navHostController, this)
-        addDoctorHomeScreen(navHostController, this)
-        addSplashScreen(navHostController, this, isOnBoarded, isPatientLoggedIn, isDoctorLoggedIn,isRegistered)
+        addDoctorHomeScreen(navHostController, this, sharedPreferences)
+        addSplashScreen(navHostController, this, isOnBoarded, isPatientLoggedIn, isDoctorLoggedIn,isRegistered, isPatient, isDoctor)
         addWalkthroughScreen(navHostController, this, sharedPreferences)
         addRegisterScreen(navHostController, this, sharedPreferences)
         addDoctorRegisterConfirmationScreen(navHostController, this)
         addLoginScreen(navHostController, this, sharedPreferences)
         addOTPScreen(navHostController, this)
-        addProfileScreen(navHostController, this)
+        addProfileScreen(navHostController, this, sharedPreferences)
         addHistoryScreen(navHostController, this)
         addServicesScreen(navHostController, this)
         addAuthSplash(navHostController, this)
@@ -171,14 +173,21 @@ fun addHomeScreen(
 //}
 
 
-fun addDoctorHomeScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
+fun addDoctorHomeScreen(
+    navHostController: NavHostController,
+    navGraphBuilder: NavGraphBuilder,
+    sharedPreferences: SharedPreferences
+) {
     navGraphBuilder.composable(NavRoute.DoctorMain.path) {
         DoctorHomeScreen(
-            navigateToAuthSplash = { navHostController.navigate(NavRoute.AuthSplash.path){
-                popUpTo(navHostController.graph.findStartDestination().id) {
-                    inclusive = true
+            navigateToAuthSplash = {
+                navHostController.navigate(NavRoute.AuthSplash.path) {
+                    popUpTo(navHostController.graph.findStartDestination().id) {
+                        inclusive = true
+                    }
                 }
-            } }
+            },
+            sharedPreferences = sharedPreferences
         )
     }
 }
@@ -189,21 +198,23 @@ fun addSplashScreen(
     isOnBoarded: Boolean,
     isPatientLoggedIn: Boolean,
     isDoctorLoggedIn: Boolean,
-    isRegistered: Boolean
+    isRegistered: Boolean,
+    isPatient: Boolean,
+    isDoctor: Boolean
 ) {
     navGraphBuilder.composable(
         route = NavRoute.Splash.path
     ) {
         Splashscreen(navigateToOnBoard = {
-            if (isOnBoarded && isPatientLoggedIn) {
+            if (isOnBoarded && isPatientLoggedIn && isPatient) {
                 navHostController.navigate(NavRoute.Main.path)
             }
-            else if (isOnBoarded && isDoctorLoggedIn) {
+            else if (isOnBoarded && isDoctorLoggedIn && isDoctor) {
                 navHostController.navigate(NavRoute.DoctorMain.path)
             }
-            else if (isOnBoarded && isRegistered) {
-                navHostController.navigate(NavRoute.Main.path)
-            }
+//            else if (isOnBoarded && isRegistered) {
+//                navHostController.navigate(NavRoute.Main.path)
+//            }
             else if (isOnBoarded) {
                 navHostController.navigate(NavRoute.AuthSplash.path)
             }
@@ -233,7 +244,11 @@ fun addWalkthroughScreen(
     }
 }
 
-fun addProfileScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
+fun addProfileScreen(
+    navHostController: NavHostController,
+    navGraphBuilder: NavGraphBuilder,
+    sharedPreferences: SharedPreferences
+) {
     navGraphBuilder.composable(
         route = NavRoute.Profile.path, arguments = listOf(navArgument("userName") {
             type = NavType.StringType
@@ -272,6 +287,7 @@ fun addProfileScreen(navHostController: NavHostController, navGraphBuilder: NavG
                     }
                 }
             },
+            sharedPreferences = sharedPreferences
 //            userName = it.arguments?.getString("userName").toString(),
 //            email = it.arguments?.getString("email").toString(),
         )

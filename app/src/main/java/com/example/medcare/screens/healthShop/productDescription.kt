@@ -34,16 +34,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medcare.R
+import com.example.medcare.screens.class_objects.Review
 import com.example.medcare.screens.class_objects.pharmaImages
-import com.example.medcare.screens.class_objects.review
 import com.example.medcare.screens.layoutsFile.Reviews
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -319,8 +317,8 @@ fun MedicineDescription(
                     )
                     Spacer(Modifier.height(5.dp))
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        items(_root_ide_package_.com.example.medcare.screens.class_objects.review.reviews) { item ->
-                            _root_ide_package_.com.example.medcare.screens.layoutsFile.Reviews(item)
+                        items(Review.reviews) { item ->
+                            Reviews(item)
                         }
                     }
                     Spacer(Modifier.height(15.dp))
@@ -328,8 +326,8 @@ fun MedicineDescription(
                     Spacer(Modifier.height(5.dp))
                     LazyRow(modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                        items(_root_ide_package_.com.example.medcare.screens.class_objects.pharmaImages.hotSales) { item ->
-                            _root_ide_package_.com.example.medcare.screens.healthShop.HotSalesGrid(
+                        items(pharmaImages.hotSales) { item ->
+                            HotSalesGrid(
                                 item,
                                 {},
                                 navigateToCart
@@ -490,7 +488,7 @@ fun MedicineDescription(
 //        Text(text = "Review", fontSize = 16.sp, fontWeight = FontWeight.Bold)
 //        Spacer(Modifier.height(5.dp))
 //        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-//            items(review.reviews) { item ->
+//            items(Review.reviews) { item ->
 //                Reviews(item)
 //            }
 //        }

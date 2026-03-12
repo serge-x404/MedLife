@@ -8,11 +8,11 @@ object docWorkHrs {
 
 object dates {
     val dates = listOf(
-        _root_ide_package_.com.example.medcare.screens.class_objects.DateDay("Wed", "22"),
-        _root_ide_package_.com.example.medcare.screens.class_objects.DateDay("Thu", "23"),
-        _root_ide_package_.com.example.medcare.screens.class_objects.DateDay("Fri", "24"),
-        _root_ide_package_.com.example.medcare.screens.class_objects.DateDay("Sat", "25"),
-        _root_ide_package_.com.example.medcare.screens.class_objects.DateDay("Sun", "26"),
+        DateDay("Wed", "22"),
+        DateDay("Thu", "23"),
+        DateDay("Fri", "24"),
+        DateDay("Sat", "25"),
+        DateDay("Sun", "26"),
     )
 }
 
@@ -24,19 +24,19 @@ data class DateDay(
 data class ReviewContents(
     val image: Int,
     val name: String,
-    val timeperiod: String,
+    val timePeriod: String,
     val body: String
 )
 
-object review {
+object Review {
     val reviews = listOf(
-        _root_ide_package_.com.example.medcare.screens.class_objects.ReviewContents(
+        ReviewContents(
             R.drawable.sofia,
             "Emily Johnson",
             "1 day ago",
             "My consultation with Dr. Luca Rossi was excellent. He's knowledgeable, attentive, and provided"
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.ReviewContents(
+        ReviewContents(
             R.drawable.john,
             "Daniel Mark",
             "8 days ago",

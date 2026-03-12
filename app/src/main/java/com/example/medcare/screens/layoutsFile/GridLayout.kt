@@ -224,7 +224,7 @@ fun Reviews(reviewContents: ReviewContents) {
                         color = MaterialTheme.colorScheme.onSecondaryContainer
                     )
                     Text(
-                        text = reviewContents.timeperiod,
+                        text = reviewContents.timePeriod,
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSecondaryContainer
                     )

@@ -60,7 +60,7 @@ import com.example.medcare.R
 import com.example.medcare.rtdb.RTDB
 import com.example.medcare.screens.class_objects.DateScreen
 import com.example.medcare.screens.class_objects.docWorkHrs
-import com.example.medcare.screens.class_objects.review
+import com.example.medcare.screens.class_objects.Review
 import com.example.medcare.screens.layoutsFile.DoctorWorkingHours
 import com.example.medcare.screens.layoutsFile.Reviews
 import com.google.firebase.auth.FirebaseAuth
@@ -259,7 +259,7 @@ fun DoctorDetails(
                     )
                     Spacer(Modifier.height(4.dp))
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        items(review.reviews) { item ->
+                        items(Review.reviews) { item ->
                             Reviews(item)
                         }
                     }

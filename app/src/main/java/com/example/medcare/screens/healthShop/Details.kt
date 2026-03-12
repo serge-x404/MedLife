@@ -31,8 +31,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.medcare.screens.class_objects.review
-import com.example.medcare.screens.layoutsFile.Reviews
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true,
@@ -192,7 +190,7 @@ fun Details() {
                 Text(text = "Review", fontSize = 16.sp, fontWeight = FontWeight.Bold)
                 Spacer(Modifier.height(5.dp))
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    items(_root_ide_package_.com.example.medcare.screens.class_objects.review.reviews) { item ->
+                    items(_root_ide_package_.com.example.medcare.screens.class_objects.Review.reviews) { item ->
                         _root_ide_package_.com.example.medcare.screens.layoutsFile.Reviews(item)
                     }
                 }

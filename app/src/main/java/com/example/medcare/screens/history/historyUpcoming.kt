@@ -119,7 +119,7 @@ fun CardLayoutUpcoming(appointmentCard: AppointmentCard, isCompleted: Boolean, n
                 TextField(
                     value = "",
                     onValueChange = {},
-                    placeholder = { Text(text = "Write your review") },
+                    placeholder = { Text(text = "Write your Review") },
                     modifier = Modifier
                         .height(100.dp)
                         .fillMaxWidth()

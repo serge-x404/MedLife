@@ -195,6 +195,7 @@ fun DoctorLogin(
                                                 if (isVerified) {
                                                     sharedPreferences.edit(commit = true) {
                                                         putBoolean("isDoctorLoggedIn", true)
+                                                        putBoolean("isDoctor", true)
                                                     }
                                                     navigateToDoctorHome()
                                                 }

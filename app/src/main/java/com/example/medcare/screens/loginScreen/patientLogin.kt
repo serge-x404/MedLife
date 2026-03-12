@@ -193,6 +193,7 @@ fun PatientLogin(
                                                 navigateToHomeScreen()
                                                 sharedPreferences.edit(commit = true) {
                                                     putBoolean("isPatientLoggedIn", true)
+                                                    putBoolean("isPatient", true)
                                                 }
                                             }
                                             else {

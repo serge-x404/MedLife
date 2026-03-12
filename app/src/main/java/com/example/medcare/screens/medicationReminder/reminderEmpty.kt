@@ -27,10 +27,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -104,8 +100,8 @@ fun ReminderEmpty() {
                     }
                     Spacer(Modifier.height(10.dp))
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        items(_root_ide_package_.com.example.medcare.screens.class_objects.dates.dates) { item ->
-                            _root_ide_package_.com.example.medcare.screens.medicationReminder.MedicationLayout(
+                        items(dates.dates) { item ->
+                            MedicationLayout(
                                 item
                             )
                         }
