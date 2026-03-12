@@ -34,7 +34,7 @@ fun DoctorHomeScreen(
     val rtdb = RTDB()
     val auth = FirebaseAuth.getInstance()
     LaunchedEffect(Unit) {
-        rtdb.FetchDoctorInfo { it ->
+        rtdb.FetchDoctorUserName { it ->
             doctorName = it
         }
     }

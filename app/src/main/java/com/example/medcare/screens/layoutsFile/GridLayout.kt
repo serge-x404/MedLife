@@ -32,7 +32,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -42,7 +41,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.medcare.screens.class_objects.Categories
-import com.example.medcare.screens.class_objects.DateDay
 import com.example.medcare.screens.class_objects.ReviewContents
 
 @Composable
@@ -64,7 +62,7 @@ fun GridViewLayout(
             .padding(8.dp)
             .size(96.dp),
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest),
-        elevation = CardDefaults.elevatedCardElevation(4.dp)
+        elevation = CardDefaults.elevatedCardElevation(2.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -90,7 +88,7 @@ fun GridViewLayout(
 }
 
 @Composable
-fun doctorsListGrid(
+fun DoctorsListGrid(
     doctorsSyntax: com.example.medcare.screens.servicesScreen.chatDoc.doctorsSyntax,
     navigateToDocDtls: () -> Unit
 ) {
@@ -171,29 +169,32 @@ fun DoctorWorkingHours(
     }
 }
 
-@Composable
-fun selectionDate(dateDay: DateDay) {
-    Card(
-        onClick = {},
-        modifier = Modifier
-            .size(60.dp),
-        colors = CardDefaults.cardColors(Color.White),
-        border = BorderStroke(width = 1.dp, color = Color(0xFFE3E3E3))
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Text(
-                text = dateDay.day
-            )
-            Text(
-                text = dateDay.date
-            )
-        }
-    }
-}
+
+    // Static date selection
+
+//@Composable
+//fun selectionDate(dateDay: DateDay) {
+//    Card(
+//        onClick = {},
+//        modifier = Modifier
+//            .size(60.dp),
+//        colors = CardDefaults.cardColors(Color.White),
+//        border = BorderStroke(width = 1.dp, color = Color(0xFFE3E3E3))
+//    ) {
+//        Column(
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//            verticalArrangement = Arrangement.Center,
+//            modifier = Modifier.fillMaxSize()
+//        ) {
+//            Text(
+//                text = dateDay.day
+//            )
+//            Text(
+//                text = dateDay.date
+//            )
+//        }
+//    }
+//}
 
 @Composable
 fun Reviews(reviewContents: ReviewContents) {

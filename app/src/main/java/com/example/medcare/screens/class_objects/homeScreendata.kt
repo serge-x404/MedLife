@@ -23,8 +23,13 @@ object lazyRow {
 object serviceGridData {
     val serviceImages = listOf(
         Categories(
-            "Chat Doctor",
-            R.drawable.chat_services,
+            "Article",
+            R.drawable.article_new,
+            NavRoute.articleHome.path
+        ),
+        Categories(
+            "Consult Doctor",
+            R.drawable.stethoscope,
             NavRoute.ChatDoc.path
         ),
         Categories(
@@ -32,30 +37,25 @@ object serviceGridData {
             R.drawable.hospital_new,
             NavRoute.hospital.path
         ),
-        Categories(
-            "Emergency Calls",
-            R.drawable.phone_call,
-            null
-        ),
-        Categories(
-            "Article",
-            R.drawable.article_new,
-            NavRoute.articleHome.path
-        ),
+//        Categories(
+//            "Emergency Calls",
+//            R.drawable.phone_call,
+//            null
+//        ),
         Categories(
             "Medication Reminder",
             R.drawable.pill,
             NavRoute.medReminder.path
         ),
-        Categories(
-            "Specialization",
-            R.drawable.stethoscope,
-            NavRoute.specialist.path
-        ),
+//        Categories(
+//            "Specialization",
+//            R.drawable.stethoscope,
+//            NavRoute.specialist.path
+//        ),
     )
 }
 
-object bestSellingProducts {
+object BestSellingProducts {
     val data = listOf(
         R.drawable.vaccine_product,
         R.drawable.braces,

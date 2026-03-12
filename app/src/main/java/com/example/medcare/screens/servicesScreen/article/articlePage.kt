@@ -1,9 +1,8 @@
-package com.example.medcare.screens.servicesScreen
+package com.example.medcare.screens.servicesScreen.article
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -19,28 +18,26 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import com.example.medcare.screens.class_objects.serviceGridData
-import com.example.medcare.screens.layoutsFile.GridViewLayout
+import com.example.medcare.screens.class_objects.Hot
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ServicesScreen(
+fun ArticlePage(
     back: () -> Unit,
-    navHostController: NavHostController
+    navigateToArticle: () -> Unit
 ) {
     Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(title = {
+        topBar = { CenterAlignedTopAppBar(
+            title = {
                 Text(
-                    text = "Services",
+                    "Article",
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground
                 )
-            }, navigationIcon = {
+            },
+            navigationIcon = {
                 IconButton(onClick = back) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
@@ -48,29 +45,21 @@ fun ServicesScreen(
                         tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
-            })
-        }) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-        ) {
-            Box(Modifier.fillMaxSize()
-                .padding(12.dp)) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(2),
-                        modifier = Modifier.height(220.dp)
-                    ) {
-                        items(serviceGridData.serviceImages) { item ->
-                            GridViewLayout(
-                                item,
-                                navHostController
-                            )
-                        }
-                    }
+            }
+        ) }
+    ) { innerPadding ->
+        Column(modifier = Modifier.padding(innerPadding)) {
+            Spacer(Modifier.height(10.dp))
+            LazyVerticalGrid(GridCells.Fixed(1),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                modifier = Modifier.padding(horizontal = 12.dp)
+            ) {
+                items(Hot.latestArticle) {
+                        item ->
+                    LatestArticle(
+                        item,
+                        navigateToArticle
+                    )
                 }
             }
         }

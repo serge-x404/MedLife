@@ -8,6 +8,9 @@ class RTDB {
     val db = FirebaseDatabase.getInstance().reference
     val uid = auth.currentUser?.uid ?: ""
 
+
+    // Patient side
+
     fun FetchUserInfo(onResult: (String, String, String, String) -> Unit) {
         db.child("users").child(uid).get()
             .addOnSuccessListener { snapshot ->
@@ -19,15 +22,6 @@ class RTDB {
 //                Log.i("userNameFetch", userName)
             }
     }
-
-    fun FetchDoctorInfo(onResult: (String) -> Unit) {
-        db.child("doctors").child(uid).get()
-            .addOnSuccessListener { snapshot ->
-                val doctorUserName = snapshot.child("doctorUserName").value as? String ?: ""
-                onResult(doctorUserName)
-            }
-    }
-
     fun FetchUserName(onResult: (String) -> Unit) {
         db.child("users").child(uid).get()
             .addOnSuccessListener { snapshot ->
@@ -35,4 +29,16 @@ class RTDB {
                 onResult(userName)
             }
     }
+
+
+    // Doctor side
+
+    fun FetchDoctorUserName(onResult: (String) -> Unit) {
+        db.child("doctors").child(uid).get()
+            .addOnSuccessListener { snapshot ->
+                val doctorUserName = snapshot.child("doctorUserName").value as? String ?: ""
+                onResult(doctorUserName)
+            }
+    }
+
 }

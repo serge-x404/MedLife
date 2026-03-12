@@ -45,9 +45,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.medcare.R
 import com.example.medcare.rtdb.RTDB
-import com.example.medcare.screens.article.LatestArticle
 import com.example.medcare.screens.class_objects.Hot
-import com.example.medcare.screens.class_objects.bestSellingProducts
+import com.example.medcare.screens.class_objects.BestSellingProducts
 import com.example.medcare.screens.class_objects.hospitals
 import com.example.medcare.screens.class_objects.lazyRow
 import com.example.medcare.screens.homeScreen.homeComposables.CardServicesHomeScreen
@@ -56,6 +55,7 @@ import com.example.medcare.screens.homeScreen.homeComposables.HeaderBox
 import com.example.medcare.screens.homeScreen.homeComposables.SearchBox
 import com.example.medcare.screens.homeScreen.homeComposables.Title
 import com.example.medcare.screens.homeScreen.homeComposables.categoriesHomeScreen
+import com.example.medcare.screens.servicesScreen.article.LatestArticle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -170,7 +170,7 @@ fun HomeScreen(
                     modifier = Modifier.padding(start = 26.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(bestSellingProducts.data) {
+                    items(BestSellingProducts.data) {
                         Image(
                             painter = painterResource(id = it),
                             contentDescription = null,
@@ -286,7 +286,7 @@ fun HomeScreen(
 //            modifier = Modifier.padding(start = 26.dp),
 //            horizontalArrangement = Arrangement.spacedBy(8.dp)
 //        ) {
-//            items(bestSellingProducts.data) { it ->
+//            items(BestSellingProducts.data) { it ->
 //                Image(
 //                    painter = painterResource(id = it),
 //                    contentDescription = null

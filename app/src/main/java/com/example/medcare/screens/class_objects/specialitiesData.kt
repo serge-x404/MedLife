@@ -1,7 +1,6 @@
 package com.example.medcare.screens.class_objects
 
 import com.example.medcare.R
-import com.example.medcare.screens.specialization.Specialist
 
 object speciality {
     val specialityData = listOf(

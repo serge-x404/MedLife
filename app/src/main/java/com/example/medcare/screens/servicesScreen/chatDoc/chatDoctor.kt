@@ -36,7 +36,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.medcare.R
-import com.example.medcare.screens.layoutsFile.doctorsListGrid
+import com.example.medcare.screens.layoutsFile.DoctorsListGrid
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -101,7 +101,7 @@ fun ChatDoctorScreen(
                         verticalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         items(DoctorsGrid.listOfDoctors) { image ->
-                            doctorsListGrid(
+                            DoctorsListGrid(
                                 image,
                                 navigateToDocDtls
                             )
