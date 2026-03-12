@@ -83,6 +83,8 @@ fun DoctorRegister(
     var isLoading by remember { mutableStateOf(false) }
     var gender by remember { mutableStateOf("") }
     var expandedGender by remember { mutableStateOf(false) }
+    var specialization by remember { mutableStateOf("") }
+    var expandedSpecialization by remember { mutableStateOf(false) }
     var isVerified by remember { mutableStateOf("false") }
     val datePickerState = rememberDatePickerState()
     val selectedDate = datePickerState
@@ -143,7 +145,7 @@ fun DoctorRegister(
                             color = MaterialTheme.colorScheme.onBackground
                         )
                     },
-                    onValueChange = {email = it},
+                    onValueChange = { email = it },
                     singleLine = true,
                     textStyle = MaterialTheme.typography.titleSmall,
                     colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
@@ -152,7 +154,7 @@ fun DoctorRegister(
                         keyboardType = KeyboardType.Text
                     ),
                     keyboardActions = KeyboardActions(
-                        onNext = {passwordFocus.requestFocus()}
+                        onNext = { passwordFocus.requestFocus() }
                     ),
                     modifier = Modifier.fillMaxWidth(),
                 )
@@ -164,21 +166,24 @@ fun DoctorRegister(
                 )
                 OutlinedTextField(
                     value = password,
-                    label = { Text(
-                        "Create a password",
-                        color = MaterialTheme.colorScheme.onBackground,
-                        style = MaterialTheme.typography.titleSmall
-                    ) },
-                    modifier = Modifier.fillMaxWidth()
+                    label = {
+                        Text(
+                            "Create a password",
+                            color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.titleSmall
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .focusRequester(passwordFocus),
-                    onValueChange = {password = it},
+                    onValueChange = { password = it },
                     singleLine = true,
                     visualTransformation = if (passwordVisibility) VisualTransformation.None
                     else PasswordVisualTransformation(),
                     trailingIcon = {
                         val icon = if (passwordVisibility) Icons.Default.Clear
                         else Icons.Default.Check
-                        IconButton(onClick = {passwordVisibility = !passwordVisibility}) {
+                        IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
                             Icon(
                                 imageVector = icon,
                                 contentDescription = null
@@ -190,7 +195,7 @@ fun DoctorRegister(
                         keyboardType = KeyboardType.Password
                     ),
                     keyboardActions = KeyboardActions(
-                        onNext = {fullNameFocus.requestFocus()}
+                        onNext = { fullNameFocus.requestFocus() }
                     ),
                     textStyle = MaterialTheme.typography.titleSmall,
                     colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
@@ -214,9 +219,10 @@ fun DoctorRegister(
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Text
                     ),
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .focusRequester(fullNameFocus),
-                    onValueChange = {userName = it},
+                    onValueChange = { userName = it },
                     textStyle = MaterialTheme.typography.titleSmall,
                     colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
                 )
@@ -226,8 +232,9 @@ fun DoctorRegister(
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.titleLarge
                 )
-                ExposedDropdownMenuBox(expanded = expandedGender,
-                    onExpandedChange = {expandedGender = !expandedGender}) {
+                ExposedDropdownMenuBox(
+                    expanded = expandedGender,
+                    onExpandedChange = { expandedGender = !expandedGender }) {
                     OutlinedTextField(
                         value = gender,
                         placeholder = {
@@ -241,12 +248,13 @@ fun DoctorRegister(
                         readOnly = true,
                         textStyle = MaterialTheme.typography.titleSmall,
                         colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
                             .menuAnchor()
                     )
                     ExposedDropdownMenu(
                         expanded = expandedGender,
-                        onDismissRequest = {expandedGender = !expandedGender},
+                        onDismissRequest = { expandedGender = !expandedGender },
                         modifier = Modifier.background(MaterialTheme.colorScheme.background)
                     ) {
                         listOf("Male", "Female", "Others").forEach {
@@ -268,20 +276,79 @@ fun DoctorRegister(
                 }
                 Spacer(Modifier.height(5.dp))
                 Text(
+                    text = "Specialization",
+                    color = MaterialTheme.colorScheme.onBackground,
+                    style = MaterialTheme.typography.titleLarge
+                )
+                ExposedDropdownMenuBox(
+                    expanded = expandedSpecialization,
+                    onExpandedChange = { expandedSpecialization = !expandedSpecialization }
+                ) {
+                    OutlinedTextField(
+                        value = specialization,
+                        placeholder = {
+                            Text(
+                                "Your area of specialization",
+                                color = MaterialTheme.colorScheme.onBackground,
+                                style = MaterialTheme.typography.titleSmall
+                            )
+                        },
+                        onValueChange = { specialization = it },
+                        readOnly = true,
+                        textStyle = MaterialTheme.typography.titleSmall,
+                        colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .menuAnchor(),
+                    )
+                    ExposedDropdownMenu(
+                        expanded = expandedSpecialization,
+                        onDismissRequest = {expandedSpecialization = !expandedSpecialization},
+                        modifier = Modifier.background(MaterialTheme.colorScheme.background)
+                    ) {
+                        listOf(
+                            "General Practitioner",
+                            "Dentistry",
+                            "Gynecology",
+                            "Ophthalmology",
+                            "Neurology",
+                            "Otorhinolaryngology",
+                            "Pulmonologist"
+                        ).forEach { it ->
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                    it,
+                                    style = MaterialTheme.typography.titleSmall,
+                                    color = MaterialTheme.colorScheme.onBackground
+                                    )
+                                },
+                                onClick = {
+                                    specialization = it
+                                    expandedSpecialization = false
+                                }
+                            )
+                        }
+                    }
+                }
+                Spacer(Modifier.height(5.dp))
+                Text(
                     text = "Upload documents",
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.titleLarge
                 )
                 OutlinedTextField(
                     value = documentName,
-                    placeholder = { Text(
-                        "Upload documents",
-                        color = MaterialTheme.colorScheme.onBackground,
-                        style = MaterialTheme.typography.titleSmall
-                    ) },
+                    placeholder = {
+                        Text(
+                            "Upload documents",
+                            color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.titleSmall
+                        )
+                    },
                     onValueChange = {},
                     trailingIcon = {
-                        IconButton(onClick = {documentPicker.launch("application/pdf")}) {
+                        IconButton(onClick = { documentPicker.launch("application/pdf") }) {
                             Icon(
                                 imageVector = Icons.Default.Info,
                                 contentDescription = null
@@ -303,7 +370,7 @@ fun DoctorRegister(
             Column {
                 Button(
                     onClick = {
-                        if (email.isBlank() || password.isBlank() || userName.isBlank() || gender.isBlank()) {
+                        if (email.isBlank() || password.isBlank() || userName.isBlank() || gender.isBlank() || specialization.isBlank()) {
                             errorMessage = "Please fill in all fields"
                             return@Button
                         }
@@ -327,12 +394,13 @@ fun DoctorRegister(
                                             uri = documentUri!!,
                                             context = context,
                                             uid = uid,
-                                            onSuccess = {documentUrl ->
+                                            onSuccess = { documentUrl ->
                                                 val userMap = mapOf(
                                                     "doctorEmail" to email,
                                                     "doctorPassword" to password,
                                                     "doctorUserName" to userName,
                                                     "doctorGender" to gender,
+                                                    "doctorSpecialization" to specialization,
                                                     "doctorDocuments" to documentUrl,
                                                     "doctorVerified" to isVerified
                                                 )
@@ -343,7 +411,10 @@ fun DoctorRegister(
                                                             putBoolean("isRegistered", true)
                                                         }
                                                     }
-                                                    .addOnFailureListener { e -> errorMessage = e.message ?: "Failed to register" }
+                                                    .addOnFailureListener { e ->
+                                                        errorMessage =
+                                                            e.message ?: "Failed to register"
+                                                    }
                                             },
                                             onFailure = {
                                                 isLoading = false
@@ -351,8 +422,7 @@ fun DoctorRegister(
                                             }
                                         )
                                     }
-                                }
-                                else {
+                                } else {
                                     errorMessage = task.exception?.message ?: "Registration failed"
                                 }
                             }
@@ -365,8 +435,7 @@ fun DoctorRegister(
                         CircularProgressIndicator(
                             color = MaterialTheme.colorScheme.onTertiary
                         )
-                    }
-                    else {
+                    } else {
                         Text(
                             text = "Register",
                             style = MaterialTheme.typography.titleMedium,

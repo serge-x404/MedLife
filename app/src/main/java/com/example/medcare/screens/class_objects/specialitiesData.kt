@@ -4,71 +4,71 @@ import com.example.medcare.R
 
 object speciality {
     val specialityData = listOf(
-        _root_ide_package_.com.example.medcare.screens.class_objects.Specialities(
+        Specialities(
             R.drawable.all,
             "All"
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Specialities(
+        Specialities(
             R.drawable.general,
             "General Practitioner"
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Specialities(
+        Specialities(
             R.drawable.dentist,
             "Dentistry"
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Specialities(
+        Specialities(
             R.drawable.gyanec,
             "Gynecology"
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Specialities(
+        Specialities(
             R.drawable.eye,
             "Ophthalmology"
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Specialities(
+        Specialities(
             R.drawable.neuro,
             "Neurology"
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Specialities(
+        Specialities(
             R.drawable.ear,
             "Otorhinolaryngology"
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Specialities(
+        Specialities(
             R.drawable.lungs,
             "Pulmonologist"
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Specialities(
+        Specialities(
             R.drawable.pedia,
             "Pediatrician"
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Specialities(
+        Specialities(
             R.drawable.brain,
             "Neurology"
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Specialities(
+        Specialities(
             R.drawable.heart,
             "Psychiatrist"
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Specialities(
+        Specialities(
             R.drawable.bioheart,
             "Cardiology"
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Specialities(
+        Specialities(
             R.drawable.intest,
-            "Gastoenterologi"
+            "Gastroenterology"
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Specialities(
+        Specialities(
             R.drawable.virus,
             "Virus"
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Specialities(
+        Specialities(
             R.drawable.ortho,
             "Orthopaedic"
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Specialities(
+        Specialities(
             R.drawable.endocrin,
             "Endocrine"
         ),
-        _root_ide_package_.com.example.medcare.screens.class_objects.Specialities(
+        Specialities(
             R.drawable.derma,
             "Dermatology"
         ),
