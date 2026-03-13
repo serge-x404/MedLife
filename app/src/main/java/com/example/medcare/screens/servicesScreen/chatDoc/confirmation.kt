@@ -71,12 +71,21 @@ import kotlin.math.roundToInt
 fun Confirmation(
     back: () -> Unit,
     navigateToAppointmentSuccess: () -> Unit,
+    doctorName: String,
+    doctorSpecialization: String,
+    doctorGender: String,
     appointmentDate: String,
     appointmentHours: String
 ) {
     var checked by remember { mutableStateOf(false) }
     var name by remember { mutableStateOf("") }
     val rtdb = RTDB()
+
+    val image = when (doctorGender) {
+        "Male" -> R.drawable.dr_rajesh
+        "Female" -> R.drawable.dr_anna
+        else -> R.drawable.profile
+    }
 
     LaunchedEffect(Unit) {
         rtdb.FetchUserName {
@@ -117,7 +126,7 @@ fun Confirmation(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Image(
-                            painter = painterResource(R.drawable.dr_luca),
+                            painter = painterResource(image),
                             contentDescription = null,
                             Modifier
                                 .size(80.dp)
@@ -125,11 +134,11 @@ fun Confirmation(
                         )
                         Column {
                             Text(
-                                text = "Dr. Luca Rossi",
+                                text = doctorName,
                                 style = MaterialTheme.typography.titleLarge
                             )
                             Text(
-                                text = "Cardiology Specialist",
+                                text = doctorSpecialization,
                                 style = MaterialTheme.typography.labelLarge
                             )
                         }
@@ -282,7 +291,7 @@ fun Confirmation(
                 SwipeToConfirmButton(
                     appointmentData = AppointmentData(
                         name,
-                        "",
+                        doctorName = doctorName,
                         appointmentHours,
                         appointmentDate
                     ),

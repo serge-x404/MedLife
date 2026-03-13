@@ -1,5 +1,6 @@
 package com.example.medcare.screens.layoutsFile
 
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
@@ -16,6 +17,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
@@ -25,6 +29,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,6 +45,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.medcare.R
+import com.example.medcare.rtdb.DoctorDetailsDTO
+import com.example.medcare.rtdb.RTDB
 import com.example.medcare.screens.class_objects.Categories
 import com.example.medcare.screens.class_objects.ReviewContents
 
@@ -89,54 +97,81 @@ fun GridViewLayout(
 
 @Composable
 fun DoctorsListGrid(
-    doctorsSyntax: com.example.medcare.screens.servicesScreen.chatDoc.doctorsSyntax,
-    navigateToDocDtls: () -> Unit
+    navigateToDocDtls: (String, String, String) -> Unit
 ) {
-    Card(
-        onClick = { navigateToDocDtls() },
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer),
-        elevation = CardDefaults.elevatedCardElevation(2.dp)
+    var rtdb = RTDB()
+    var doctorList by remember { mutableStateOf(emptyList<DoctorDetailsDTO>()) }
+
+    LaunchedEffect(Unit) {
+        rtdb.FetchDoctorInfo {
+            doctorList = it
+        }
+    }
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(1),
+        modifier = Modifier
+            .padding(start = 8.dp, end = 8.dp)
+            .height(960.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp)
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Image(
-                painter = painterResource(doctorsSyntax.image),
-                contentDescription = null,
-                Modifier
-                    .size(90.dp)
-                    .padding(start = 4.dp, end = 4.dp)
-            )
-            Spacer(Modifier.width(6.dp))
-            Column(modifier = Modifier.weight(.1f)) {
-                Text(
-                    text = doctorsSyntax.name,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Text(
-                    text = doctorsSyntax.speciality,
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Text(
-                    text = doctorsSyntax.availability,
-                    color = MaterialTheme.colorScheme.onTertiaryContainer,
-                    fontWeight = FontWeight.Normal,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(12.dp))
-                        .background(MaterialTheme.colorScheme.tertiaryContainer)
-                        .padding(horizontal = 8.dp, vertical = 4.dp)
-                )
+        items(doctorList) {
+            Card(
+                onClick = {
+                    val docName = Uri.encode(it.doctorUserName)
+                    val docSpeciality = Uri.encode(it.doctorSpecialization)
+                    val docGender = Uri.encode(it.doctorGender)
+                    navigateToDocDtls(docName, docSpeciality, docGender)
+                },
+                colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer),
+                elevation = CardDefaults.elevatedCardElevation(2.dp)
+            ) {
+                val image = when (it.doctorGender) {
+                    "Male" -> R.drawable.dr_rajesh
+                    "Female" -> R.drawable.dr_anna
+                    else ->  R.drawable.profile
+                }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Image(
+                        painter = painterResource(image),
+                        contentDescription = null,
+                        Modifier
+                            .size(90.dp)
+                            .padding(start = 4.dp, end = 4.dp)
+                    )
+                    Spacer(Modifier.width(6.dp))
+                    Column(modifier = Modifier.weight(.1f)) {
+                        Text(
+                            text = it.doctorUserName,
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Text(
+                            text = it.doctorSpecialization,
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Text(
+                            text = "Available",
+                            color = MaterialTheme.colorScheme.onTertiaryContainer,
+                            fontWeight = FontWeight.Normal,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(MaterialTheme.colorScheme.tertiaryContainer)
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                        )
+                    }
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.tertiary,
+                        modifier = Modifier.padding(end = 12.dp)
+                    )
+                }
             }
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.tertiary,
-                modifier = Modifier.padding(end = 12.dp)
-            )
         }
     }
 }

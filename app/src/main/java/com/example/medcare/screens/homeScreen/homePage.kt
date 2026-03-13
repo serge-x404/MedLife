@@ -40,17 +40,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.medcare.R
 import com.example.medcare.rtdb.RTDB
-import com.example.medcare.screens.class_objects.Hot
 import com.example.medcare.screens.class_objects.BestSellingProducts
+import com.example.medcare.screens.class_objects.Hot
 import com.example.medcare.screens.class_objects.hospitals
-import com.example.medcare.screens.class_objects.lazyRow
 import com.example.medcare.screens.homeScreen.homeComposables.CardServicesHomeScreen
 import com.example.medcare.screens.homeScreen.homeComposables.ConsultDocComposable
+import com.example.medcare.screens.homeScreen.homeComposables.DoctorData
 import com.example.medcare.screens.homeScreen.homeComposables.HeaderBox
 import com.example.medcare.screens.homeScreen.homeComposables.SearchBox
 import com.example.medcare.screens.homeScreen.homeComposables.Title
@@ -106,7 +105,8 @@ fun HomeScreen(
                         tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
-            })
+            }
+        )
     }) { innerPadding ->
         Column(
             modifier = Modifier.padding(innerPadding)
@@ -139,26 +139,30 @@ fun HomeScreen(
 
 
                 Spacer(Modifier.height(5.dp))
-                LazyRow(
-                    modifier = Modifier.padding(start = 26.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(lazyRow.doctors) { image ->
-                        Image(
-                            painter = painterResource(id = image),
-                            contentDescription = null,
-                            contentScale = ContentScale.FillBounds,
-                            modifier = Modifier
-                                .size(150.dp)
-                                .clickable(
-                                    enabled = true,
-                                    onClick = {
-                                        navigateToChatDoc()
-                                    }
-                                )
-                        )
-                    }
+                Column(modifier = Modifier.padding(start = 20.dp)) {
+                    DoctorData(navigateToChatDoc)
                 }
+
+//                LazyRow(
+//                    modifier = Modifier.padding(start = 26.dp),
+//                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+//                ) {
+//                    items(lazyRow.doctors) { image ->
+//                        Image(
+//                            painter = painterResource(id = image),
+//                            contentDescription = null,
+//                            contentScale = ContentScale.FillBounds,
+//                            modifier = Modifier
+//                                .size(150.dp)
+//                                .clickable(
+//                                    enabled = true,
+//                                    onClick = {
+//                                        navigateToChatDoc()
+//                                    }
+//                                )
+//                        )
+//                    }
+//                }
                 Spacer(Modifier.height(30.dp))
 
 

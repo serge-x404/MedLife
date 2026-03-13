@@ -41,14 +41,20 @@ class RTDB {
             }
     }
 
-    fun FetchDoctorInfo(onResult: (String, String, String) -> Unit) {
-        db.child("doctors").child(uid).get()
+    fun FetchDoctorInfo(onResult: (List<DoctorDetailsDTO>) -> Unit) {
+        db.child("doctors").get()
             .addOnSuccessListener { snapshot ->
-                val doctorUserName = snapshot.child("doctorUserName").value as? String ?: ""
-                val doctorGender = snapshot.child("doctorGender").value as? String ?: ""
-                val doctorSpeciality = snapshot.child("doctorSpecialization").value as? String ?: ""
-                onResult(doctorUserName, doctorGender, doctorSpeciality)
+                val doctorList = snapshot.children.mapNotNull {
+                    it.getValue(DoctorDetailsDTO::class.java)
+                }
+                onResult(doctorList)
             }
     }
 
 }
+
+data class DoctorDetailsDTO (
+    val doctorUserName: String = "",
+    val doctorGender: String = "",
+    val doctorSpecialization: String = ""
+)

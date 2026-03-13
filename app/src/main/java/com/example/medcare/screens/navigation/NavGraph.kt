@@ -13,26 +13,17 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.medcare.screens.servicesScreen.article.ArticleList
-import com.example.medcare.screens.servicesScreen.article.ArticlePage
-import com.example.medcare.screens.servicesScreen.article.DisplayArticle
 import com.example.medcare.screens.class_objects.HospitalData
+import com.example.medcare.screens.history.HistoryScreen
+import com.example.medcare.screens.homeScreen.DoctorHomeScreen
+import com.example.medcare.screens.homeScreen.HomeScreen
 import com.example.medcare.screens.homeScreen.healthShop.Home.ShoppingHomePage
 import com.example.medcare.screens.homeScreen.healthShop.MedicineDescription
 import com.example.medcare.screens.homeScreen.healthShop.MedicineGrid
 import com.example.medcare.screens.homeScreen.healthShop.cart.Cart
 import com.example.medcare.screens.homeScreen.healthShop.cart.EmptyCart
 import com.example.medcare.screens.homeScreen.healthShop.cart.FindingPharmacy
-import com.example.medcare.screens.history.HistoryScreen
-import com.example.medcare.screens.homeScreen.DoctorHomeScreen
-import com.example.medcare.screens.homeScreen.HomeScreen
-import com.example.medcare.screens.servicesScreen.hospitals.HospitalDetails
-import com.example.medcare.screens.servicesScreen.hospitals.HospitalMain
-import com.example.medcare.screens.servicesScreen.hospitals.Map
 import com.example.medcare.screens.loginScreen.LoginScreen
-import com.example.medcare.screens.servicesScreen.medicationReminder.MedicationHome
-import com.example.medcare.screens.servicesScreen.medicationReminder.MedicationReminder
-import com.example.medcare.screens.servicesScreen.medicationReminder.ReminderFilled
 import com.example.medcare.screens.profile.AccountSettings
 import com.example.medcare.screens.profile.EmptyNotifications
 import com.example.medcare.screens.profile.HealthHistory
@@ -43,10 +34,19 @@ import com.example.medcare.screens.profile.Transactions
 import com.example.medcare.screens.registerScreen.DoctorConfirmation
 import com.example.medcare.screens.registerScreen.RegisterScreen
 import com.example.medcare.screens.servicesScreen.ServicesScreen
+import com.example.medcare.screens.servicesScreen.article.ArticleList
+import com.example.medcare.screens.servicesScreen.article.ArticlePage
+import com.example.medcare.screens.servicesScreen.article.DisplayArticle
 import com.example.medcare.screens.servicesScreen.chatDoc.AppointmentSuccess
-import com.example.medcare.screens.servicesScreen.chatDoc.ChatDoctorScreen
 import com.example.medcare.screens.servicesScreen.chatDoc.Confirmation
+import com.example.medcare.screens.servicesScreen.chatDoc.ConsultDoctorScreen
 import com.example.medcare.screens.servicesScreen.chatDoc.DoctorDetails
+import com.example.medcare.screens.servicesScreen.hospitals.HospitalDetails
+import com.example.medcare.screens.servicesScreen.hospitals.HospitalMain
+import com.example.medcare.screens.servicesScreen.hospitals.Map
+import com.example.medcare.screens.servicesScreen.medicationReminder.MedicationHome
+import com.example.medcare.screens.servicesScreen.medicationReminder.MedicationReminder
+import com.example.medcare.screens.servicesScreen.medicationReminder.ReminderFilled
 import com.example.medcare.screens.servicesScreen.specialization.Specialist
 import com.example.medcare.screens.splashScreen.AuthSplashScreen
 import com.example.medcare.screens.splashScreen.HPager
@@ -390,8 +390,9 @@ fun addChatDocScreen(navHostController: NavHostController, navGraphBuilder: NavG
     navGraphBuilder.composable(
         route = NavRoute.ChatDoc.path
     ) {
-        ChatDoctorScreen(back = { navHostController.popBackStack() }, navigateToDocDtls = {
-            navHostController.navigate(NavRoute.DocDtls.path)
+        ConsultDoctorScreen(back = { navHostController.popBackStack() },
+            navigateToDocDtls = { doctorName, spec, gender ->
+            navHostController.navigate(NavRoute.DocDtls.path.plus("&name=$doctorName&specialization=$spec&gender=$gender"))
         })
     }
 }
@@ -501,17 +502,38 @@ fun addHospiLocScreen(navHostController: NavHostController, navGraphBuilder: Nav
 @RequiresApi(Build.VERSION_CODES.O)
 fun addDocDtls(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = NavRoute.DocDtls.path
+        route = NavRoute.DocDtls.path,
+        arguments = listOf(
+            navArgument("name") {
+                type = NavType.StringType
+                defaultValue = ""
+            },
+            navArgument("specialization") {
+                type = NavType.StringType
+                defaultValue = ""
+            },
+            navArgument("gender") {
+                type = NavType.StringType
+                defaultValue = ""
+            }
+        )
     ) {
+        val doctorName = Uri.decode(it.arguments?.getString("name") ?: "")
+        val doctorSpecialization = Uri.decode(it.arguments?.getString("specialization") ?: "")
+        val doctorGender = Uri.decode(it.arguments?.getString("gender") ?: "")
         DoctorDetails(
             back = { navHostController.popBackStack() },
-            navigateToAppointment = { date, hours ->
+            navigateToAppointment = { doctorName, doctorSpecialization, doctorGender, date, hours ->
                 navHostController.navigate(
                     NavRoute.Appointment.path.plus(
-                        "/${date}/${hours}"
+                        "/${doctorName}/${doctorSpecialization}/${doctorGender}/${date}/${hours}"
                     )
                 )
-            })
+            },
+            name = doctorName,
+            specialization = doctorSpecialization,
+            gender = doctorGender
+        )
     }
 }
 
@@ -519,20 +541,37 @@ fun addDocDtls(navHostController: NavHostController, navGraphBuilder: NavGraphBu
 fun addAppointmentScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
         route = NavRoute.Appointment.path.plus(
-            "/{date}/{hours}"
-        ), arguments = listOf(navArgument("date") {
+            "/{doctorName}/{doctorSpecialization}/{doctorGender}/{date}/{hours}"
+        ), arguments = listOf(
+            navArgument("doctorName") {
+                type = NavType.StringType
+            },
+            navArgument("doctorSpecialization") {
+                type = NavType.StringType
+            },
+            navArgument("doctorGender") {
+                type = NavType.StringType
+            },
+            navArgument("date") {
             type = NavType.StringType
         }, navArgument("hours") {
             type = NavType.StringType
         })
     ) {
+        val doctorName = it.arguments?.getString("doctorName").toString()
+        val doctorSpecialization = it.arguments?.getString("doctorSpecialization").toString()
+        val doctorGender = it.arguments?.getString("doctorGender").toString()
         val appointmentDate = Uri.decode(it.arguments?.getString("date").toString())
         val appointmentHours = Uri.decode(it.arguments?.getString("hours").toString())
         Confirmation(
             back = { navHostController.popBackStack() },
-            navigateToAppointmentSuccess = {
-            navHostController.navigate(NavRoute.appointmentSuccess.path)
-        }, appointmentDate = appointmentDate, appointmentHours = appointmentHours
+            navigateToAppointmentSuccess =
+                { navHostController.navigate(NavRoute.appointmentSuccess.path) },
+            doctorName = doctorName,
+            doctorSpecialization = doctorSpecialization,
+            doctorGender = doctorGender,
+            appointmentDate = appointmentDate,
+            appointmentHours = appointmentHours
         )
     }
 }

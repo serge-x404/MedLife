@@ -57,14 +57,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medcare.R
-import com.example.medcare.rtdb.RTDB
 import com.example.medcare.screens.class_objects.DateScreen
-import com.example.medcare.screens.class_objects.docWorkHrs
 import com.example.medcare.screens.class_objects.Review
+import com.example.medcare.screens.class_objects.docWorkHrs
 import com.example.medcare.screens.layoutsFile.DoctorWorkingHours
 import com.example.medcare.screens.layoutsFile.Reviews
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -72,16 +69,21 @@ import java.time.LocalDate
 @Composable
 fun DoctorDetails(
     back: () -> Unit,
-    navigateToAppointment: (String, String) -> Unit
+    navigateToAppointment: (String, String, String,String, String) -> Unit,
+    name: String,
+    specialization: String,
+    gender: String
 ) {
-    var expanded by remember { mutableStateOf(false) }
     var selectedIndex by remember { mutableStateOf(-1) }
     var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
-    val selectedHour = if (selectedIndex != -1) _root_ide_package_.com.example.medcare.screens.class_objects.docWorkHrs.workingHours[selectedIndex] else ""
+    val selectedHour = if (selectedIndex != -1) docWorkHrs.workingHours[selectedIndex] else ""
     var errorMessage by remember { mutableStateOf("") }
-    val auth = FirebaseAuth.getInstance()
-    val db = FirebaseDatabase.getInstance().reference
-    val rtdb = RTDB()
+
+    val image = when (gender) {
+        "Male" -> R.drawable.dr_rajesh
+        "Female" -> R.drawable.dr_anna
+        else -> R.drawable.profile
+    }
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -129,19 +131,19 @@ fun DoctorDetails(
                         ) {
                         Spacer(Modifier.height(10.dp))
                         Image(
-                            painter = painterResource(R.drawable.dr_luca),
+                            painter = painterResource(image),
                             contentDescription = null,
                             modifier = Modifier
                                 .size(100.dp)
                                 .clip(CircleShape)
                         )
                         Text(
-                            text = "Dr. Luca Rossi",
+                            text = name,
                             style = MaterialTheme.typography.titleMedium,
                             fontSize = 16.sp
                         )
                         Text(
-                            text = "Cardiology Specialist",
+                            text = specialization,
                             style = MaterialTheme.typography.labelMedium
                         )
                         Spacer(Modifier.height(5.dp))
@@ -306,10 +308,13 @@ fun DoctorDetails(
                             errorMessage = "Please select a date"
                             return@Button
                         }
+                        val doctorName = name
+                        val doctorSpecialization = specialization
+                        val doctorGender = gender
                         val encodeHour = Uri.encode(selectedHour)
                         val encodeDate = Uri.encode(selectedDate.toString())
                         Log.i("encodeDate", encodeDate)
-                        navigateToAppointment(encodeDate, encodeHour)
+                        navigateToAppointment(doctorName,doctorSpecialization,doctorGender,encodeDate, encodeHour)
                     },
                     modifier = Modifier.weight(2f),
                     colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.tertiaryContainer),
