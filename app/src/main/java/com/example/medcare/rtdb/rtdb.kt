@@ -1,7 +1,12 @@
 package com.example.medcare.rtdb
 
+import android.util.Log
+import com.example.medcare.screens.servicesScreen.chatDoc.AppointmentData
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class RTDB {
     val auth = FirebaseAuth.getInstance()
@@ -11,7 +16,7 @@ class RTDB {
 
     // Patient side
 
-    fun FetchUserInfo(onResult: (String, String, String, String) -> Unit) {
+    fun fetchUserInfo(onResult: (String, String, String, String) -> Unit) {
         db.child("users").child(uid).get()
             .addOnSuccessListener { snapshot ->
                 val userName = snapshot.child("userName").value as? String ?: ""
@@ -22,7 +27,7 @@ class RTDB {
 //                Log.i("userNameFetch", userName)
             }
     }
-    fun FetchUserName(onResult: (String) -> Unit) {
+    fun fetchUserName(onResult: (String) -> Unit) {
         db.child("users").child(uid).get()
             .addOnSuccessListener { snapshot ->
                 val userName = snapshot.child("userName").value as? String ?: ""
@@ -33,7 +38,7 @@ class RTDB {
 
     // Doctor side
 
-    fun FetchDoctorUserName(onResult: (String) -> Unit) {
+    fun fetchDoctorUserName(onResult: (String) -> Unit) {
         db.child("doctors").child(uid).get()
             .addOnSuccessListener { snapshot ->
                 val doctorUserName = snapshot.child("doctorUserName").value as? String ?: ""
@@ -41,7 +46,7 @@ class RTDB {
             }
     }
 
-    fun FetchDoctorInfo(onResult: (List<DoctorDetailsDTO>) -> Unit) {
+    fun fetchDoctorInfo(onResult: (List<DoctorDetailsDTO>) -> Unit) {
         db.child("doctors").get()
             .addOnSuccessListener { snapshot ->
                 val doctorList = snapshot.children.mapNotNull {
@@ -49,6 +54,22 @@ class RTDB {
                 }
                 onResult(doctorList)
             }
+    }
+
+    fun fetchAppointments(onResult: (List<AppointmentData>) -> Unit): ValueEventListener {
+        val listener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val list = snapshot.children.mapNotNull {
+                    it.getValue(AppointmentData::class.java)
+                }
+                onResult(list)
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("fetchAppointments", "Error: ${error.message}")
+            }
+        }
+        db.child("appointments").child(uid).addValueEventListener(listener)
+        return listener
     }
 
 }

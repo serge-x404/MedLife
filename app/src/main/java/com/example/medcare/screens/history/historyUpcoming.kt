@@ -6,19 +6,21 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
@@ -44,7 +46,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
@@ -52,20 +53,54 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medcare.R
+import com.example.medcare.screens.class_objects.DateScreen
+import com.example.medcare.screens.class_objects.docWorkHrs
+import com.example.medcare.screens.layoutsFile.DoctorWorkingHours
+import com.example.medcare.screens.servicesScreen.chatDoc.AppointmentData
+import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun UpcomingAppointment(isCompleted: Boolean, navigateToChatDoc: () -> Unit) {
-    LazyVerticalGrid(GridCells.Fixed(1),
-        modifier = Modifier.height(800.dp)) {
-        items(Appointment.AppointmentList) { item ->
-            CardLayoutUpcoming(
-                item,
-                isCompleted,
-                navigateToChatDoc
+fun UpcomingAppointment(currentList: List<AppointmentData>, navigateToChatDoc: () -> Unit) {
+
+    if (currentList.isEmpty()) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                "No appointments",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
+    }
+    else {
+        LazyColumn() {
+            items(currentList) {
+                CardLayoutHistory(
+                    it,
+                    isUpcoming(it.selectedDate),
+                    navigateToChatDoc
+                )
+            }
+        }
+    }
+}
+
+
+fun formatDate(dateString: String): String {
+    return  try {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val dateFormat = inputFormat.parse(dateString)
+        outputFormat.format(dateFormat!!)
+    }
+    catch (e: Exception) {
+        dateString
     }
 }
 
@@ -73,15 +108,15 @@ fun UpcomingAppointment(isCompleted: Boolean, navigateToChatDoc: () -> Unit) {
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CardLayoutUpcoming(appointmentCard: AppointmentCard, isCompleted: Boolean, navigateToChatDoc: () -> Unit) {
-    var notifiToggle by remember { mutableStateOf(false) }
+fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navigateToChatDoc: () -> Unit) {
+    var notificationToggle by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
     var showNotificationState by remember { mutableStateOf(false) }
     var showBottomSheet by remember { mutableStateOf(false) }
     var addReview by remember { mutableStateOf(false) }
     var selectedIndex by remember { mutableStateOf(-1) }
     var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
-    if (selectedIndex != -1) com.example.medcare.screens.class_objects.docWorkHrs.workingHours[selectedIndex] else ""
+    if (selectedIndex != -1) docWorkHrs.workingHours[selectedIndex] else ""
 
     if (addReview) {
         ModalBottomSheet(
@@ -152,8 +187,8 @@ fun CardLayoutUpcoming(appointmentCard: AppointmentCard, isCompleted: Boolean, n
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    itemsIndexed(com.example.medcare.screens.class_objects.docWorkHrs.workingHours) { index, item ->
-                        _root_ide_package_.com.example.medcare.screens.layoutsFile.DoctorWorkingHours(
+                    itemsIndexed(docWorkHrs.workingHours) { index, item ->
+                        DoctorWorkingHours(
                             hours = item,
                             selected = selectedIndex == index,
                             onClick = { selectedIndex = index }
@@ -167,7 +202,7 @@ fun CardLayoutUpcoming(appointmentCard: AppointmentCard, isCompleted: Boolean, n
                     color = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(Modifier.height(5.dp))
-                _root_ide_package_.com.example.medcare.screens.class_objects.DateScreen(
+                DateScreen(
                     selectedDate = selectedDate,
                     onDateSelected = { selectedDate = it }
                 )
@@ -185,7 +220,10 @@ fun CardLayoutUpcoming(appointmentCard: AppointmentCard, isCompleted: Boolean, n
                     .padding(40.dp)
                     .fillMaxWidth()
                     .border(
-                        border = BorderStroke(width = 2.dp, MaterialTheme.colorScheme.outlineVariant),
+                        border = BorderStroke(
+                            width = 2.dp,
+                            MaterialTheme.colorScheme.outlineVariant
+                        ),
                         shape = RoundedCornerShape(4.dp)
                     )
                     .padding(horizontal = 12.dp),
@@ -197,15 +235,14 @@ fun CardLayoutUpcoming(appointmentCard: AppointmentCard, isCompleted: Boolean, n
                     modifier = Modifier.weight(1f)
                 )
                 Switch(
-                    checked = notifiToggle,
-                    onCheckedChange = { notifiToggle = it },
+                    checked = notificationToggle,
+                    onCheckedChange = { notificationToggle = it },
                     colors = SwitchDefaults.colors(checkedTrackColor = MaterialTheme.colorScheme.tertiary)
                 )
             }
         }
     }
     Card(
-        onClick = {},
         Modifier
             .fillMaxWidth()
             .padding(horizontal = 15.dp, vertical = 10.dp),
@@ -220,47 +257,42 @@ fun CardLayoutUpcoming(appointmentCard: AppointmentCard, isCompleted: Boolean, n
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = appointmentCard.doctorName,
+                        text = " Dr. ${appointmentData.doctorName}",
                         style = MaterialTheme.typography.titleMedium,
                         fontSize = 18.sp
                     )
                     Text(
-                        text = appointmentCard.speciality,
+                        text = "appointmentCard.speciality",
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onBackground,
                     )
                 }
-                Image(
-                    painterResource(appointmentCard.image),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(60.dp)
-                        .clip(CircleShape)
-                )
             }
             Spacer(Modifier.height(20.dp))
             HorizontalDivider()
             Spacer(Modifier.height(30.dp))
-            Row {
-                Column {
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp)
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = "Date & Time",
                         style = MaterialTheme.typography.labelMedium
                     )
                     Text(
-                        text = appointmentCard.dateAndTime,
+                        text = "${formatDate(appointmentData.selectedDate)} ${appointmentData.selectedHour}",
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.onBackground
                     )
                 }
-                Spacer(Modifier.width(20.dp))
                 Column {
                     Text(
                         text = "Location",
                         style = MaterialTheme.typography.labelMedium
                     )
                     Text(
-                        text = appointmentCard.address,
+                        text = "${appointmentData.doctorName}'s clinic",
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.onBackground
                     )
@@ -268,8 +300,8 @@ fun CardLayoutUpcoming(appointmentCard: AppointmentCard, isCompleted: Boolean, n
             }
             Spacer(Modifier.height(60.dp))
 
-            // row starts here
-            if (!isCompleted) {
+
+            if (isUpcoming) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
@@ -295,7 +327,7 @@ fun CardLayoutUpcoming(appointmentCard: AppointmentCard, isCompleted: Boolean, n
                             )
                             Spacer(Modifier.width(2.dp))
                             Text(
-                                text = if (notifiToggle)"On" else "Off",
+                                text = if (notificationToggle)"On" else "Off",
                                 textDecoration = TextDecoration.Underline,
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.onBackground
@@ -316,7 +348,8 @@ fun CardLayoutUpcoming(appointmentCard: AppointmentCard, isCompleted: Boolean, n
                         )
                     }
                 }
-            } else {
+            }
+            else {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
@@ -352,45 +385,4 @@ fun CardLayoutUpcoming(appointmentCard: AppointmentCard, isCompleted: Boolean, n
             }
         }
     }
-}
-
-data class AppointmentCard(
-    val doctorName: String,
-    val image: Int,
-    val speciality: String,
-    val dateAndTime: String,
-    val address: String
-)
-
-object Appointment {
-    val AppointmentList = listOf(
-        AppointmentCard(
-            "Dr. Rajesh Patel",
-            R.drawable.dr_rajesh,
-            "General Surgery",
-            "Wednesday, 29 Feb, 04:00 PM",
-            "Bella Vista Surgery Clinic, Via Garibaldi 10, Milan, Italy"
-        ),
-        AppointmentCard(
-            "Dr. Luca Rossi",
-            R.drawable.dr_luca,
-            "Cardiology Specialist",
-            "Wednesday, 22 Feb, 04:00 PM",
-            "Rossi Cardiology Clinic Via Garibaldi 15, Milan, Italy"
-        ),
-        AppointmentCard(
-            "Dr. Rajesh Patel",
-            R.drawable.dr_rajesh,
-            "General Surgery",
-            "Wednesday, 29 Feb, 04:00 PM",
-            "Bella Vista Surgery Clinic, Via Garibaldi 10, Milan, Italy"
-        ),
-        AppointmentCard(
-            "Dr. Luca Rossi",
-            R.drawable.dr_luca,
-            "Cardiology Specialist",
-            "Wednesday, 22 Feb, 04:00 PM",
-            "Rossi Cardiology Clinic Via Garibaldi 15, Milan, Italy"
-        )
-    )
 }

@@ -70,7 +70,7 @@ fun HomeScreen(
     val rtdb = RTDB()
     var userName by remember { mutableStateOf("") }
     LaunchedEffect(Unit) {
-        rtdb.FetchUserName {
+        rtdb.fetchUserName {
             userName = it
         }
         Log.i("userNameFetch", "userName: ${userName}")

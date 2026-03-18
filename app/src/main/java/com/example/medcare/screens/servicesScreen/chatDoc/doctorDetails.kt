@@ -214,7 +214,7 @@ fun DoctorDetails(
                         Row(verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.padding(8.dp)) {
                             Text(
-                                text = "Rossi Cardiology Clinic",
+                                text = "$name's $specialization Clinic",
                                 style = MaterialTheme.typography.labelLarge,
                                 color = MaterialTheme.colorScheme.onSurface,
                                 textAlign = TextAlign.Center

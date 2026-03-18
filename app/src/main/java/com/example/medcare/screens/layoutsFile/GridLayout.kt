@@ -103,7 +103,7 @@ fun DoctorsListGrid(
     var doctorList by remember { mutableStateOf(emptyList<DoctorDetailsDTO>()) }
 
     LaunchedEffect(Unit) {
-        rtdb.FetchDoctorInfo {
+        rtdb.fetchDoctorInfo {
             doctorList = it
         }
     }

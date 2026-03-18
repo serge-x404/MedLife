@@ -38,7 +38,7 @@ fun DoctorData(
     var doctorList by remember { mutableStateOf(emptyList<DoctorDetailsDTO>()) }
 
     LaunchedEffect(Unit) {
-        rtdb.FetchDoctorInfo { doctorList = it }
+        rtdb.fetchDoctorInfo { doctorList = it }
     }
 
     LazyRow(

@@ -1,9 +1,6 @@
 package com.example.medcare.screens.history
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,12 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
@@ -30,7 +22,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -39,29 +30,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-@Preview(
-    showSystemUi = true, showBackground = true
-)
-@Composable
-fun CompletedAppointment() {
-    LazyVerticalGrid(GridCells.Fixed(1)) {
-        items(_root_ide_package_.com.example.medcare.screens.history.Appointment.AppointmentList) { item ->
-            _root_ide_package_.com.example.medcare.screens.history.CardLayoutCompleted(item)
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CardLayoutCompleted(appointmentCard: com.example.medcare.screens.history.AppointmentCard) {
+fun CardLayoutCompleted() {
     val sheetState = rememberModalBottomSheetState()
     var addReview by remember { mutableStateOf(false) }
 
@@ -126,25 +103,18 @@ fun CardLayoutCompleted(appointmentCard: com.example.medcare.screens.history.App
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = appointmentCard.doctorName,
+                            text = "appointmentCard.doctorName",
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold
                         )
                         Spacer(Modifier.height(5.dp))
                         Text(
-                            text = appointmentCard.speciality,
+                            text = "appointmentCard.speciality",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Normal,
                             color = Color(0xFF4D4D4D),
                         )
                     }
-                    Image(
-                        painterResource(appointmentCard.image),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .size(60.dp)
-                            .clip(CircleShape)
-                    )
                 }
                 Spacer(Modifier.height(20.dp))
                 HorizontalDivider()
@@ -156,7 +126,7 @@ fun CardLayoutCompleted(appointmentCard: com.example.medcare.screens.history.App
                         )
                         Spacer(Modifier.height(2.dp))
                         Text(
-                            text = appointmentCard.dateAndTime,
+                            text = "appointmentCard.dateAndTime",
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color(0xFF26408B)
@@ -169,7 +139,7 @@ fun CardLayoutCompleted(appointmentCard: com.example.medcare.screens.history.App
                         )
                         Spacer(Modifier.height(2.dp))
                         Text(
-                            text = appointmentCard.address,
+                            text = "appointmentCard.address",
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color(0xFF26408B)

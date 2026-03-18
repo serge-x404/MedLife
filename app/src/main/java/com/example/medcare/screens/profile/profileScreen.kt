@@ -74,7 +74,7 @@ fun ProfileScreen(
     var dateOfBirth by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
-        rtdb.FetchUserInfo { uName, eMail, genderUser,dobUser ->
+        rtdb.fetchUserInfo { uName, eMail, genderUser, dobUser ->
             userName = uName
             email = eMail
             gender = genderUser
