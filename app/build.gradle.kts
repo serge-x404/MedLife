@@ -11,13 +11,11 @@ val localProperties = Properties()
 localProperties.load(rootProject.file("local.properties").inputStream())
 
 android {
-    namespace = "com.example.medcare"
-    compileSdk {
-        version = release(36)
-    }
+    namespace = "com.serge.medlife"
+    compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.medcare"
+        applicationId = "com.serge.medlife"
         minSdk = 25
         targetSdk = 36
         versionCode = 2

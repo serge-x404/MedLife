@@ -1,0 +1,102 @@
+package com.serge.medlife.screens.history
+
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SecondaryTabRow
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.serge.medlife.rtdb.RTDB
+import com.serge.medlife.screens.servicesScreen.chatDoc.AppointmentData
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+
+@RequiresApi(Build.VERSION_CODES.O)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HistoryLogic(navigateToChatDoc: () -> Unit) {
+
+    var storeHistoryIndex by remember { mutableIntStateOf(0) }
+    var appointmentList by remember { mutableStateOf<List<AppointmentData>>(emptyList()) }
+    val upcomingList = appointmentList.filter { isUpcoming(it.selectedDate) }
+    val completedList = appointmentList.filter{ !isUpcoming(it.selectedDate) }
+    val rtdb = remember { RTDB() }
+
+    DisposableEffect(Unit) {
+        val listener = rtdb.fetchAppointments {
+            appointmentList = it
+        }
+        onDispose {
+            rtdb.db.child("appointments").child(rtdb.uid)
+                .removeEventListener(listener)
+        }
+    }
+
+    Scaffold(
+        contentWindowInsets = WindowInsets(0.dp)
+    ) {
+        Column(modifier = Modifier.padding(it)) {
+            SecondaryTabRow(
+                indicator = {
+                    TabRowDefaults.SecondaryIndicator(
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        modifier = Modifier.tabIndicatorOffset(
+                            storeHistoryIndex,
+                            matchContentSize = false
+                        )
+                    )
+                },
+                selectedTabIndex = storeHistoryIndex,
+                tabs = {
+                    HistoryTabs.entries.forEachIndexed {
+
+                            index, tabs ->
+                        Tab(
+                            selected = storeHistoryIndex == index,
+                            onClick = {
+                                storeHistoryIndex = index
+                            }, text = {
+                                Text(
+                                    tabs.name
+                                )
+                            }
+                        )
+                    }
+
+                }
+            )
+            when (storeHistoryIndex) {
+                0 -> UpcomingAppointment(upcomingList, navigateToChatDoc)
+                else -> UpcomingAppointment(completedList, navigateToChatDoc)
+            }
+        }
+    }
+}
+
+
+fun isUpcoming(dateString: String): Boolean {
+    return try {
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val appointmentDate = formatter.parse(dateString)
+        appointmentDate != null && appointmentDate.after(Date())
+    }
+    catch (e: Exception) {
+        false
+    }
+}
