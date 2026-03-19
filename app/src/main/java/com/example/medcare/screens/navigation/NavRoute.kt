@@ -42,7 +42,5 @@ sealed class NavRoute(val path: String) {
     object transactions: NavRoute("transactions")
     object accSett: NavRoute("accSett")
     object clearNoti: NavRoute("clearNoti")
-    object pharmaPortal: NavRoute("pharmaPortal")
-    object pharmaRegister: NavRoute("pharmaRegister")
     object doctorRegisterConfirmation: NavRoute("doctorRegisterConfirmation")
 }

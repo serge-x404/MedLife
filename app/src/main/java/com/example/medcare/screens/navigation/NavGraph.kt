@@ -585,7 +585,7 @@ fun addAppointmentSuccessScreen(
         AppointmentSuccess(
             navigateToHistory = {
                 navHostController.navigate(NavRoute.History.path) {
-                    popUpTo(NavRoute.Main.path) {
+                    popUpTo(NavRoute.Services.path) {
                         inclusive = true
                     }
                 }
