@@ -81,7 +81,7 @@ fun PatientLogin(
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
             Column(modifier = Modifier
-                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                .background(MaterialTheme.colorScheme.surface)
                 .border(2.dp, MaterialTheme.colorScheme.outlineVariant)
                 .padding(horizontal = 12.dp)
                 .fillMaxSize()
@@ -209,19 +209,19 @@ fun PatientLogin(
                             }
                     },
                     Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary),
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                     border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
                 ) {
                     if (isLoading) {
                         CircularProgressIndicator(
-                            color = MaterialTheme.colorScheme.onTertiary
+                            color = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                     else {
                         Text(
                             text = "Login",
                             style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onTertiary
+                            color = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 }

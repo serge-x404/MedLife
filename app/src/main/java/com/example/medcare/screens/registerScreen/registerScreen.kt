@@ -32,10 +32,10 @@ fun RegisterScreen(
                 Text(
                     "Complete Personal Identification",
                     style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             },
-            colors = TopAppBarDefaults.topAppBarColors(MaterialTheme.colorScheme.surfaceContainerHighest)
+            colors = TopAppBarDefaults.topAppBarColors(MaterialTheme.colorScheme.surface)
         ) }
     ) {
         Box(
@@ -45,16 +45,16 @@ fun RegisterScreen(
         ) {
             Column(
                 modifier = Modifier.fillMaxSize()
-                    .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                    .background(MaterialTheme.colorScheme.surface)
             ) {
                 Text(
                     text = "You can connect with all healthcare facilities you've previously visited.",
                     style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier
                         .padding(horizontal = 12.dp)
                 )
-                TabLogic(
+                RegisterLogic(
                     navigateToLoginScreen,
                     navigateToHomeScreen,
                     navigateToConfirmationScreen,

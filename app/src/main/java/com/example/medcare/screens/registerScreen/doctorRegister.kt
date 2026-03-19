@@ -124,7 +124,7 @@ fun DoctorRegister(
         ) {
             Column(
                 modifier = Modifier
-                    .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                    .background(MaterialTheme.colorScheme.surface)
                     .border(2.dp, MaterialTheme.colorScheme.outlineVariant)
                     .fillMaxSize()
                     .padding(horizontal = 12.dp)
@@ -428,18 +428,18 @@ fun DoctorRegister(
                             }
                     },
                     Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
                 ) {
                     if (isLoading) {
                         CircularProgressIndicator(
-                            color = MaterialTheme.colorScheme.onTertiary
+                            color = MaterialTheme.colorScheme.onPrimary
                         )
                     } else {
                         Text(
                             text = "Register",
                             style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onTertiary
+                            color = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 }

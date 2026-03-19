@@ -3,7 +3,6 @@ package com.example.medcare.screens.loginScreen
 import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
@@ -52,9 +51,7 @@ fun LoginLogic(
                                     tabs.name
                                 )
                             },
-                            modifier = Modifier
-                                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
-                                .border(2.dp, MaterialTheme.colorScheme.surfaceContainerHighest)
+                            modifier = Modifier.background(MaterialTheme.colorScheme.surface)
                         )
                     }
                 }

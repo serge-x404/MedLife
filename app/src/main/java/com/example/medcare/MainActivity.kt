@@ -16,9 +16,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.medcare.screens.navigation.BottomNavigation
 import com.example.medcare.screens.navigation.NavGraph
 import com.example.medcare.screens.navigation.NavRoute
-import com.example.medcare.ui.theme.MedlifeTheme
+import com.example.medcare.ui.theme.MedLifeTheme
 import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.initialize
 
 class MainActivity : ComponentActivity() {
@@ -29,11 +28,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         Firebase.initialize(this)
-        val auth = FirebaseAuth.getInstance()
         setContent {
             val sharedPreferences =
-                applicationContext.getSharedPreferences("medlife", MODE_PRIVATE)
-            MedlifeTheme {
+                applicationContext.getSharedPreferences("medLife", MODE_PRIVATE)
+            MedLifeTheme {
                 val navController = rememberNavController()
 
                 val currentBackStack by navController.currentBackStackEntryAsState()

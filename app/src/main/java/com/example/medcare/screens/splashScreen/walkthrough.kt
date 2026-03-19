@@ -17,17 +17,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 
 @Composable
-fun walkthrough(onBoardingPage: com.example.medcare.screens.splashScreen.OnBoardingPage) {
+fun Walkthrough(onBoardingPage: OnBoardingPage) {
     Column(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.surfaceContainerHighest)
@@ -65,11 +61,11 @@ fun walkthrough(onBoardingPage: com.example.medcare.screens.splashScreen.OnBoard
 }
 
 @Composable
-fun dotIndiactor(current: Int) {
+fun DotIndiactor(current: Int) {
     Row {
         repeat(3) { index ->
-            val isSelected = if (current == index) MaterialTheme.colorScheme.secondary
-            else MaterialTheme.colorScheme.primary
+            val isSelected = if (current == index) MaterialTheme.colorScheme.primary
+            else MaterialTheme.colorScheme.inversePrimary
             Surface(
                 color = isSelected,
                 modifier = Modifier

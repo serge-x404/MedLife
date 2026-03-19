@@ -90,45 +90,4 @@ fun DoctorData(
             }
         }
     }
-
-//    if (doctorList.isNotEmpty()) {
-//        Card(
-//            modifier = Modifier
-//                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
-//        ) {
-//            val image = when (doctorList.doctorGender ?: "") {
-//                "Male" -> R.drawable.doctormale
-//                "Female" -> R.drawable.doctorfemale
-//                else -> R.drawable.profile
-//            }
-//            Image(
-//                painter = painterResource(image),
-//                contentDescription = null,
-//                modifier = Modifier
-//                    .size(140.dp),
-//                contentScale = ContentScale.FillHeight
-//            )
-//            Box {
-//                Column(
-//                    horizontalAlignment = Alignment.CenterHorizontally,
-//                    verticalArrangement = Arrangement.Bottom,
-//                    modifier = Modifier
-//                        .width(120.dp)
-//                ) {
-//                    Text(
-//                        doctorList.first().doctorUserName ?: "",
-//                        style = MaterialTheme.typography.labelLarge,
-//                        color = MaterialTheme.colorScheme.onBackground,
-//                        textAlign = TextAlign.Center
-//                    )
-//                    Text(
-//                        doctorList.first().doctorSpecialization ?: "",
-//                        style = MaterialTheme.typography.labelSmall,
-//                        color = MaterialTheme.colorScheme.onBackground,
-//                        textAlign = TextAlign.Center
-//                    )
-//                }
-//            }
-//        }
-//    }
 }

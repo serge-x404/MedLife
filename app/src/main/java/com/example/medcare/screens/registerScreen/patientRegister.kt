@@ -170,7 +170,7 @@ fun PatientRegister(
         Column(modifier = Modifier.padding(innerPadding)) {
             Column(
                 Modifier
-                    .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                    .background(MaterialTheme.colorScheme.surface)
                     .border(2.dp, MaterialTheme.colorScheme.outlineVariant)
                     .padding(horizontal = 12.dp)
                     .fillMaxSize()
@@ -415,12 +415,12 @@ fun PatientRegister(
                             }
                     },
                     Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
                 ) {
                     if (isLoading) {
                         CircularProgressIndicator(
-                            color = MaterialTheme.colorScheme.onTertiary
+                            color = MaterialTheme.colorScheme.onPrimary
                         )
                     } else {
                         Text(

@@ -358,39 +358,6 @@ fun ProfileScreen(
 //                        )
 //                    }
                 }
-
-                // Remove Pharmacy portal
-
-//                Text(
-//                    "Pharmacy Portal",
-//                    style = MaterialTheme.typography.titleLarge,
-//                    color = MaterialTheme.colorScheme.onBackground
-//                )
-//                Card(modifier = Modifier.fillMaxWidth(),
-//                    colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest)) {
-//                    Row(modifier = Modifier.padding( 12.dp)
-//                        .fillMaxWidth()
-//                        .clickable(
-//                            onClick = {
-//                                navigateToPharmaAdmin()
-//                            }
-//                        ),
-//                        verticalAlignment = Alignment.CenterVertically
-//                    ) {
-//                        Image(
-//                            painter = painterResource(R.drawable.pharma_admin),
-//                            contentDescription = null,
-//                            modifier = Modifier.size(30.dp),
-//                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
-//                        )
-//                        Spacer(Modifier.width(8.dp))
-//                        Text(
-//                            text = "Admin Login",
-//                            style = MaterialTheme.typography.titleMedium,
-//                            color = MaterialTheme.colorScheme.onBackground
-//                        )
-//                    }
-//                }
                 Spacer(Modifier.height(20.dp))
                 Text(
                     "Danger Zone",

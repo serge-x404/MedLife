@@ -25,7 +25,7 @@ enum class Tabs { PATIENT, DOCTOR }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TabLogic(
+fun RegisterLogic(
     navigateToLoginScreen: () -> Unit,
     navigateToHomeScreen: () -> Unit,
     navigateToConfirmationScreen: () -> Unit,
@@ -52,7 +52,7 @@ fun TabLogic(
                                     tabs.name
                                 )
                             },
-                            modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                            modifier = Modifier.background(MaterialTheme.colorScheme.surface)
                         )
                     }
                 }

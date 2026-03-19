@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -127,6 +128,8 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
             sheetState = sheetState
         ) {
             Column(modifier = Modifier.padding(horizontal = 12.dp)) {
+                var rating by remember { mutableStateOf(0) }
+                var review by remember { mutableStateOf("") }
                 Text(
                     "Review",
                     style = MaterialTheme.typography.titleLarge,
@@ -140,13 +143,16 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
                 )
                 Spacer(Modifier.height(8.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    repeat(5, action = {
+                    repeat(5) { index ->
                         Icon(
                             imageVector = Icons.Default.Star,
                             contentDescription = null,
-                            tint = Color(0xFFFFA740)
+                            tint = if (index < rating) Color(0xFFFFA740) else Color.Gray,
+                            modifier = Modifier
+                                .size(32.dp)
+                                .clickable{ rating = index + 1}
                         )
-                    })
+                    }
                 }
                 Spacer(Modifier.height(10.dp))
                 Text(
@@ -155,13 +161,31 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
                     color = MaterialTheme.colorScheme.onBackground
                 )
                 TextField(
-                    value = "",
-                    onValueChange = {},
-                    placeholder = { Text(text = "Write your Review") },
+                    value = review,
+                    onValueChange = {review = it},
+                    placeholder = {
+                        Text(
+                            "Write your Review",
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                    },
                     modifier = Modifier
-                        .height(100.dp)
+                        .height(80.dp)
                         .fillMaxWidth()
                 )
+
+                Spacer(Modifier.height(20.dp))
+
+                Button(
+                    {},
+                    modifier = Modifier
+                        .align(Alignment.End)
+                ) {
+                    Text(
+                        "Submit"
+                    )
+                }
             }
         }
     }

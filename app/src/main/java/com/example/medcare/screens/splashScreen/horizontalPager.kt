@@ -27,7 +27,7 @@ fun HPager(
     navigateToAuthSplash: () -> Unit,
     sharedPreferences: SharedPreferences
 ) {
-    val pages = _root_ide_package_.com.example.medcare.screens.splashScreen.OnBoardContent.pages
+    val pages = OnBoardContent.pages
     val pagerState = rememberPagerState(
         initialPage = 0, pageCount = { pages.count() })
     Column(
@@ -40,13 +40,13 @@ fun HPager(
             Modifier.weight(0.75f)
                 .background(MaterialTheme.colorScheme.surfaceContainerHighest)
         ) { index ->
-            _root_ide_package_.com.example.medcare.screens.splashScreen.walkthrough(pages[index])
+            Walkthrough(pages[index])
         }
 
         val isLast = pagerState.currentPage == pages.lastIndex
 
         val scope = rememberCoroutineScope()
-        _root_ide_package_.com.example.medcare.screens.splashScreen.dotIndiactor(pagerState.currentPage)
+        DotIndiactor(pagerState.currentPage)
         Button(
             onClick = {
                 scope.launch {
@@ -63,15 +63,15 @@ fun HPager(
                     }
                 }
             },
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
-            border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
             modifier = Modifier.fillMaxWidth()
                 .padding(bottom = 36.dp)
         ) {
             Text(
                 text = if(isLast) "Continue" else "Next",
                 style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onTertiary
+                color = MaterialTheme.colorScheme.onPrimary
             )
         }
     }

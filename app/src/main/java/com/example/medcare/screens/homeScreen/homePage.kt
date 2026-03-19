@@ -211,7 +211,7 @@ fun HomeScreen(
                                     1.dp, color = MaterialTheme.colorScheme.outline,
                                     shape = RoundedCornerShape(4.dp)
                                 )
-                                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                                .background(MaterialTheme.colorScheme.surfaceContainer)
                         ) {
 //                    Surface(shape = CircleShape,
 //                        modifier = Modifier
