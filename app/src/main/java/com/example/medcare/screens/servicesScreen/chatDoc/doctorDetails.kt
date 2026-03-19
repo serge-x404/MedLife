@@ -229,10 +229,10 @@ fun DoctorDetails(
                     )
                     Spacer(Modifier.height(10.dp))
                     LazyVerticalGrid(
-                        GridCells.Fixed(4),
+                        GridCells.Fixed(3),
                         modifier = Modifier.height(80.dp),
                         verticalArrangement = Arrangement.spacedBy(10.dp),
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         itemsIndexed(docWorkHrs.workingHours) { index, item ->
                             DoctorWorkingHours(

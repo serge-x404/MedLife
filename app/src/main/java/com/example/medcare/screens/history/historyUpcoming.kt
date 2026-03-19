@@ -53,6 +53,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.medcare.R
+import com.example.medcare.rtdb.RTDB
 import com.example.medcare.screens.class_objects.DateScreen
 import com.example.medcare.screens.class_objects.docWorkHrs
 import com.example.medcare.screens.layoutsFile.DoctorWorkingHours
@@ -79,7 +80,7 @@ fun UpcomingAppointment(currentList: List<AppointmentData>, navigateToChatDoc: (
         }
     }
     else {
-        LazyColumn() {
+        LazyColumn {
             items(currentList) {
                 CardLayoutHistory(
                     it,
@@ -117,6 +118,8 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
     var selectedIndex by remember { mutableStateOf(-1) }
     var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
     if (selectedIndex != -1) docWorkHrs.workingHours[selectedIndex] else ""
+
+    val rtdb = RTDB()
 
     if (addReview) {
         ModalBottomSheet(
@@ -168,7 +171,7 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
             onDismissRequest = { showBottomSheet = false },
             sheetState = sheetState
         ) {
-            Column(modifier = Modifier.padding(horizontal = 15.dp)) {
+            Column(modifier = Modifier.padding( horizontal = 16.dp)) {
                 Text(
                     text = "Reschedule Appointment",
                     style = MaterialTheme.typography.titleLarge,
@@ -182,10 +185,10 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
                 )
                 Spacer(Modifier.height(10.dp))
                 LazyVerticalGrid(
-                    GridCells.Fixed(4),
+                    GridCells.Fixed(3),
                     modifier = Modifier.height(80.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     itemsIndexed(docWorkHrs.workingHours) { index, item ->
                         DoctorWorkingHours(
@@ -206,6 +209,34 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
                     selectedDate = selectedDate,
                     onDateSelected = { selectedDate = it }
                 )
+
+                Spacer(Modifier.height(20.dp))
+
+                Button(
+                    onClick = {
+                        val newDate = selectedDate?.toString() ?: ""
+                        val newHour = if (selectedIndex != -1) docWorkHrs.workingHours[selectedIndex] else ""
+
+                        if (newHour.isBlank() || newDate.isBlank()) return@Button
+
+                        rtdb.updateAppointment(
+                            key = appointmentData.key,
+                            newDate = newDate,
+                            newHour = newHour,
+                            onSuccess = {showBottomSheet = false}
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondaryContainer),
+                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
+                ) {
+                    Text(
+                        "Reschedule",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onTertiaryContainer
+                    )
+                }
             }
         }
     }
@@ -261,14 +292,9 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
                         style = MaterialTheme.typography.titleMedium,
                         fontSize = 18.sp
                     )
-                    Text(
-                        text = "appointmentCard.speciality",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onBackground,
-                    )
                 }
             }
-            Spacer(Modifier.height(20.dp))
+            Spacer(Modifier.height(10.dp))
             HorizontalDivider()
             Spacer(Modifier.height(30.dp))
             Row(modifier = Modifier

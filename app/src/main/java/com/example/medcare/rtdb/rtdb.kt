@@ -60,7 +60,7 @@ class RTDB {
         val listener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val list = snapshot.children.mapNotNull {
-                    it.getValue(AppointmentData::class.java)
+                    it.getValue(AppointmentData::class.java)?.copy(key = it.key ?: "")
                 }
                 onResult(list)
             }
@@ -70,6 +70,23 @@ class RTDB {
         }
         db.child("appointments").child(uid).addValueEventListener(listener)
         return listener
+    }
+
+    fun updateAppointment(
+        key: String,
+        newDate: String,
+        newHour: String,
+        onSuccess: () -> Unit
+    ) {
+        val updates = mapOf(
+            "selectedDate" to newDate,
+            "selectedHour" to newHour
+        )
+
+        db.child("appointments").child(uid).child(key)
+            .updateChildren(updates)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { e -> error(e) }
     }
 
 }

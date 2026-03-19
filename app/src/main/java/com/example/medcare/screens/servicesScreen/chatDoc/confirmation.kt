@@ -290,6 +290,7 @@ fun Confirmation(
             ) {
                 SwipeToConfirmButton(
                     appointmentData = AppointmentData(
+                        "",
                         name,
                         doctorName = doctorName,
                         appointmentHours,
