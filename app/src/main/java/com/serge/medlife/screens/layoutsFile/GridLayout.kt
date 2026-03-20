@@ -44,27 +44,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
+import com.serge.medlife.R
 import com.serge.medlife.rtdb.DoctorDetailsDTO
 import com.serge.medlife.rtdb.RTDB
 import com.serge.medlife.screens.class_objects.Categories
 import com.serge.medlife.screens.class_objects.ReviewContents
-import com.serge.medlife.R
 
 @Composable
 fun GridViewLayout(
     categories: Categories,
-    navHostController: NavHostController? = null
+    onNavigate: (String) -> Unit
 ) {
     val context = LocalContext.current
     Card(
         onClick = {
             Toast.makeText(context,categories.name, Toast.LENGTH_SHORT).show()
-            navHostController?.let {
-                categories.route?.let {route ->
-                    navHostController.navigate(route)
-                }
-            }
+            categories.route?.let { onNavigate(it) }
         },
         modifier = Modifier
             .padding(8.dp)

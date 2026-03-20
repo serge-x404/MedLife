@@ -67,7 +67,7 @@ fun ServicesScreen(
                         items(serviceGridData.serviceImages) { item ->
                             GridViewLayout(
                                 item,
-                                navHostController
+                                { route -> }
                             )
                         }
                     }

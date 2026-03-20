@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
                 val navItems =
                     listOf(
                         NavRoute.Main.path,
-                        NavRoute.Services.path,
+                        NavRoute.ServicesNew.path,
                         NavRoute.History.path,
                         NavRoute.Profile.path
                     )

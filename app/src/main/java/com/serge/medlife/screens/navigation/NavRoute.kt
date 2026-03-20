@@ -11,6 +11,7 @@ sealed class NavRoute(val path: String) {
 
     object DoctorMain: NavRoute("doctorMain")
     object Services : NavRoute("services")
+    object ServicesNew: NavRoute("newServices")
     object OnBoard : NavRoute("onBoard")
     object Walkthrough: NavRoute("Walkthrough")
     object History: NavRoute("history")
