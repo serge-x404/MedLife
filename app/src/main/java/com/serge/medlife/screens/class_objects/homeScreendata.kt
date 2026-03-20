@@ -7,19 +7,6 @@ data class Categories(
     val name: String, val icon: Int, val route: String? = null
 )
 
-object lazyRow {
-    val doctors = listOf(
-        R.drawable.heart_specialist,
-        R.drawable.doctor_dentist,
-        R.drawable.heart_specialist,
-        R.drawable.doctor_dentist,
-        R.drawable.heart_specialist,
-        R.drawable.doctor_dentist,
-        R.drawable.heart_specialist,
-        R.drawable.doctor_dentist
-    )
-}
-
 object serviceGridData {
     val serviceImages = listOf(
         Categories(
@@ -45,7 +32,11 @@ object serviceGridData {
         Categories(
             "Medication Reminder",
             R.drawable.pill,
-            NavRoute.medReminder.path
+            NavRoute.savedReminder.path.plus(
+                """
+                    /""/""/""
+                """.trimIndent()
+            )
         ),
 //        Categories(
 //            "Specialization",

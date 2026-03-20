@@ -94,7 +94,7 @@ fun GridViewLayout(
 fun DoctorsListGrid(
     navigateToDocDtls: (String, String, String) -> Unit
 ) {
-    var rtdb = RTDB()
+    val rtdb = RTDB()
     var doctorList by remember { mutableStateOf(emptyList<DoctorDetailsDTO>()) }
 
     LaunchedEffect(Unit) {

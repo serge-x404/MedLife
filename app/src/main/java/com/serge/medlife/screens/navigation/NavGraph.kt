@@ -589,7 +589,8 @@ fun addAppointmentSuccessScreen(
                         inclusive = true
                     }
                 }
-            })
+            }
+        )
     }
 }
 
@@ -636,7 +637,8 @@ fun addSavedReminder(navHostController: NavHostController, navGraphBuilder: NavG
         val dosage: String = it.arguments?.getString("dosage").toString()
         val timings: String = it.arguments?.getString("timings").toString()
         ReminderFilled(
-            medName, dosage, timings, back = { navHostController.popBackStack() })
+            medName, dosage, timings, back = { navHostController.navigate(NavRoute.addMed.path) }
+        )
     }
 }
 

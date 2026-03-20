@@ -84,13 +84,13 @@ fun BottomNavigation(navController: NavController) {
                         items(serviceGridData.serviceImages) { item ->
                             GridViewLayout(
                                 item,
-                                {
+                                onNavigate = {
                                     scope.launch {
                                         sheetState.hide()
                                         showModalBottomSheet = false
-                                        navController.navigate(it) {
-                                            launchSingleTop = true
-                                        }
+                                    }
+                                    navController.navigate(it) {
+                                        launchSingleTop = true
                                     }
                                 }
                             )

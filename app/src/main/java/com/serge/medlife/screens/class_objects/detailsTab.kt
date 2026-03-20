@@ -3,23 +3,9 @@ package com.serge.medlife.screens.class_objects
 import com.serge.medlife.R
 
 object docWorkHrs {
-    val workingHours = listOf<String>("9:00","10:00", "13:00", "14:00", "15:00", "16:00")
+    val workingHours = listOf("9:00","10:00", "13:00", "14:00", "15:00", "16:00")
 }
 
-object dates {
-    val dates = listOf(
-        DateDay("Wed", "22"),
-        DateDay("Thu", "23"),
-        DateDay("Fri", "24"),
-        DateDay("Sat", "25"),
-        DateDay("Sun", "26"),
-    )
-}
-
-data class DateDay(
-    val day: String,
-    val date: String
-)
 
 data class ReviewContents(
     val image: Int,
