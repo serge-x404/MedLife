@@ -71,12 +71,12 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     // Firebase dependencies
-    implementation(platform("com.google.firebase:firebase-bom:34.9.0"))
-    implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.firebase:firebase-database")
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.database)
 
 
     // Supabase dependencies
-    implementation("io.github.jan-tennert.supabase:storage-kt:2.1.4")
-    implementation("io.ktor:ktor-client-android:2.3.7")
+    implementation("io.github.jan-tennert.supabase:storage-kt:3.4.1")
+    implementation("io.ktor:ktor-client-android:3.4.1")
 }

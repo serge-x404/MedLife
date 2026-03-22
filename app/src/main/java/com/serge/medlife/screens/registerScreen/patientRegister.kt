@@ -79,7 +79,9 @@ fun PatientRegister(
     val auth = FirebaseAuth.getInstance()
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
     var passwordVisibility by remember { mutableStateOf(false) }
+    var confirmPasswordVisibility by remember { mutableStateOf(false) }
     var userName by remember { mutableStateOf("") }
     var checked by remember { mutableStateOf(false) }
     var gender by remember { mutableStateOf("") }
@@ -114,6 +116,7 @@ fun PatientRegister(
 
 
     val passwordFocus = remember { FocusRequester() }
+    val confirmPasswordFocus = remember { FocusRequester() }
     val fullNameFocus = remember { FocusRequester() }
 
 //    LaunchedEffect(datePickerState.selectedDateMillis) {
@@ -236,10 +239,50 @@ fun PatientRegister(
                         imeAction = ImeAction.Next,
                         keyboardType = KeyboardType.Password),
                     keyboardActions = KeyboardActions(
-                        onNext = {fullNameFocus.requestFocus()}
+                        onNext = {confirmPasswordFocus.requestFocus()}
                     ),
                     modifier = Modifier.fillMaxWidth()
                         .focusRequester(passwordFocus),
+                    textStyle = MaterialTheme.typography.titleSmall,
+                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
+                )
+                Spacer(Modifier.height(5.dp))
+                Text(
+                    text = "Confirm Password",
+                    color = MaterialTheme.colorScheme.onBackground,
+                    style = MaterialTheme.typography.titleLarge
+                )
+                OutlinedTextField(
+                    value = confirmPassword,
+                    label = {
+                        Text(
+                            "Re-enter your password",
+                            color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.titleSmall
+                        )
+                    },
+                    onValueChange = { confirmPassword = it },
+                    singleLine = true,
+                    visualTransformation = if (confirmPasswordVisibility) VisualTransformation.None
+                    else PasswordVisualTransformation(),
+                    trailingIcon = {
+                        val icon = if (confirmPasswordVisibility) Icons.Filled.Clear
+                        else Icons.Filled.Check
+                        IconButton(onClick = { confirmPasswordVisibility = !confirmPasswordVisibility }) {
+                            Icon(
+                                imageVector = icon,
+                                contentDescription = null
+                            )
+                        }
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next,
+                        keyboardType = KeyboardType.Password),
+                    keyboardActions = KeyboardActions(
+                        onNext = {fullNameFocus.requestFocus()}
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                        .focusRequester(confirmPasswordFocus),
                     textStyle = MaterialTheme.typography.titleSmall,
                     colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
@@ -382,6 +425,10 @@ fun PatientRegister(
                         }
                         if (password.length < 8) {
                             errorMessage = "Length of password must be at least of 8 characters"
+                            return@Button
+                        }
+                        if (password != confirmPassword) {
+                            errorMessage = "Password and confirm password does not match"
                             return@Button
                         }
                         isLoading = true

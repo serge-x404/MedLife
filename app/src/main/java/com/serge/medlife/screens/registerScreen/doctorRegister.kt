@@ -77,7 +77,9 @@ fun DoctorRegister(
     var userName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
     var passwordVisibility by remember { mutableStateOf(false) }
+    var confirmPasswordVisibility by remember { mutableStateOf(false) }
     val auth = Firebase.auth
     var errorMessage by remember { mutableStateOf("") }
     var isLoading by remember { mutableStateOf(false) }
@@ -92,6 +94,7 @@ fun DoctorRegister(
 
 
     val passwordFocus = remember { FocusRequester() }
+    val confirmPasswordFocus = remember { FocusRequester() }
     val fullNameFocus = remember { FocusRequester() }
 
     val scope = rememberCoroutineScope()
@@ -184,6 +187,48 @@ fun DoctorRegister(
                         val icon = if (passwordVisibility) Icons.Default.Clear
                         else Icons.Default.Check
                         IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
+                            Icon(
+                                imageVector = icon,
+                                contentDescription = null
+                            )
+                        }
+                    },
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next,
+                        keyboardType = KeyboardType.Password
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onNext = { confirmPasswordFocus.requestFocus() }
+                    ),
+                    textStyle = MaterialTheme.typography.titleSmall,
+                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
+                )
+                Spacer(Modifier.height(5.dp))
+                Text(
+                    text = "Confirm Password",
+                    color = MaterialTheme.colorScheme.onBackground,
+                    style = MaterialTheme.typography.titleLarge
+                )
+                OutlinedTextField(
+                    value = confirmPassword,
+                    label = {
+                        Text(
+                            "Create a password",
+                            color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.titleSmall
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .focusRequester(confirmPasswordFocus),
+                    onValueChange = { confirmPassword = it },
+                    singleLine = true,
+                    visualTransformation = if (confirmPasswordVisibility) VisualTransformation.None
+                    else PasswordVisualTransformation(),
+                    trailingIcon = {
+                        val icon = if (confirmPasswordVisibility) Icons.Default.Clear
+                        else Icons.Default.Check
+                        IconButton(onClick = { confirmPasswordVisibility = !confirmPasswordVisibility }) {
                             Icon(
                                 imageVector = icon,
                                 contentDescription = null
@@ -380,6 +425,10 @@ fun DoctorRegister(
                         }
                         if (password.length < 8) {
                             errorMessage = "Password length must be at least of 8 characters"
+                            return@Button
+                        }
+                        if (password != confirmPassword) {
+                            errorMessage = "Password and confirm password does not match"
                             return@Button
                         }
                         isLoading = true
