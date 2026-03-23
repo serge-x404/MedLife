@@ -42,9 +42,6 @@ import com.serge.medlife.screens.class_objects.CalendarScreen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReminderFilled(
-    medName: String,
-    dosage: String,
-    timings: String,
     back: () -> Unit
 ) {
     Scaffold(
@@ -79,69 +76,45 @@ fun ReminderFilled(
 
                     CalendarScreen()
                     Spacer(Modifier.height(20.dp))
-                    if(medName == "") {
-                        Column(
-                            modifier = Modifier.fillMaxWidth()
-                                .padding(top = 100.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center
+                    Column(Modifier.padding(horizontal = 12.dp)) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Start,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(MaterialTheme.colorScheme.surfaceContainer)
+                                .border(
+                                    1.dp,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    shape = RoundedCornerShape(6.dp)
+                                )
+                                .padding(10.dp)
                         ) {
                             Image(
-                                painter = painterResource(R.drawable.reminder_med),
+                                painter = painterResource(R.drawable.paracetamol),
                                 contentDescription = null,
-                                modifier = Modifier.size(160.dp)
+                                modifier = Modifier.size(34.dp)
                             )
-                            Spacer(Modifier.height(8.dp))
-                            Text(
-                                "No medication scheduled for today",
-                                style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.onBackground
-                            )
-                            Spacer(Modifier.height(4.dp))
-                            Text(
-                                "Click add medicine below to add a schedule",
-                                style = MaterialTheme.typography.labelLarge,
-                                color = MaterialTheme.colorScheme.onBackground
-                            )
-                        }
-                    }
-                    else {
-                        Column(Modifier.padding(horizontal = 12.dp)) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Start,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .background(MaterialTheme.colorScheme.surfaceContainer)
-                                    .border(1.dp, color = MaterialTheme.colorScheme.onSurfaceVariant, shape = RoundedCornerShape(6.dp))
-                                    .padding(10.dp)
-                            ) {
-                                Image(
-                                    painter = painterResource(R.drawable.paracetamol),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(34.dp)
+                            Spacer(Modifier.width(10.dp))
+                            Column {
+                                Text(
+                                    "medName",
+                                    style = MaterialTheme.typography.titleSmall,
+                                    color = MaterialTheme.colorScheme.onSurface
                                 )
-                                Spacer(Modifier.width(10.dp))
-                                Column {
+                                Spacer(Modifier.height(4.dp))
+                                Row {
                                     Text(
-                                        medName,
-                                        style = MaterialTheme.typography.titleSmall,
+                                        "dosage",
+                                        style = MaterialTheme.typography.labelMedium,
                                         color = MaterialTheme.colorScheme.onSurface
                                     )
-                                    Spacer(Modifier.height(4.dp))
-                                    Row {
-                                        Text(
-                                            dosage,
-                                            style = MaterialTheme.typography.labelMedium,
-                                            color = MaterialTheme.colorScheme.onSurface
-                                        )
-                                        Spacer(Modifier.width(4.dp))
-                                        Text(
-                                            timings,
-                                            style = MaterialTheme.typography.labelMedium,
-                                            color = MaterialTheme.colorScheme.onSurface
-                                        )
-                                    }
+                                    Spacer(Modifier.width(4.dp))
+                                    Text(
+                                        "timings",
+                                        style = MaterialTheme.typography.labelMedium,
+                                        color = MaterialTheme.colorScheme.onSurface
+                                    )
                                 }
                             }
                         }

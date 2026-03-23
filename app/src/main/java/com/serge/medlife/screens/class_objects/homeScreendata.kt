@@ -33,9 +33,7 @@ object serviceGridData {
             "Medication Reminder",
             R.drawable.pill,
             NavRoute.savedReminder.path.plus(
-                """
-                    /""/""/""
-                """.trimIndent()
+                """ """.trimIndent()
             )
         ),
 //        Categories(

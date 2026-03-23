@@ -610,34 +610,34 @@ fun addMedicineScreen(navHostController: NavHostController, navGraphBuilder: Nav
     ) {
         MedicationReminder(
             back = { navHostController.popBackStack() },
-            navigateToSavedReminder = { medName, dosage, timings ->
-                navHostController.navigate(
-                    NavRoute.savedReminder.path.plus(
-                        "/$medName/$dosage/$timings"
-                    )
-                )
-            })
+            navigateToSavedReminder = {
+                navHostController.navigate(NavRoute.savedReminder.path)
+            }
+        )
     }
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun addSavedReminder(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = NavRoute.savedReminder.path.plus(
-            "/{medName}/{dosage}/{timings}"
-        ), arguments = listOf(navArgument("medName") {
-            type = NavType.StringType
-        }, navArgument("dosage") {
-            type = NavType.StringType
-        }, navArgument("timings") {
-            type = NavType.StringType
-        })
+        route = NavRoute.savedReminder.path,
+//         arguments = listOf(
+//             navArgument("medName") {
+//                 type = NavType.StringType
+//                 defaultValue = ""
+//             },
+//             navArgument("dosage") {
+//                 type = NavType.StringType
+//                 defaultValue = ""
+//             },
+//             navArgument("timings") {
+//                 type = NavType.StringType
+//                 defaultValue = ""
+//             }
+//         )
     ) {
-        val medName: String = it.arguments?.getString("medName").toString()
-        val dosage: String = it.arguments?.getString("dosage").toString()
-        val timings: String = it.arguments?.getString("timings").toString()
         ReminderFilled(
-            medName, dosage, timings, back = { navHostController.navigate(NavRoute.addMed.path) }
+            back = { navHostController.navigate(NavRoute.addMed.path) }
         )
     }
 }

@@ -36,6 +36,7 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -295,7 +296,7 @@ fun DoctorRegister(
                         colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .menuAnchor()
+                            .menuAnchor(MenuAnchorType.PrimaryNotEditable,true),
                     )
                     ExposedDropdownMenu(
                         expanded = expandedGender,
@@ -344,7 +345,7 @@ fun DoctorRegister(
                         colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
                         modifier = Modifier
                             .fillMaxWidth()
-                            .menuAnchor(),
+                            .menuAnchor(MenuAnchorType.PrimaryNotEditable,true),
                     )
                     ExposedDropdownMenu(
                         expanded = expandedSpecialization,

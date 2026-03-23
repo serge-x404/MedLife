@@ -37,6 +37,7 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SelectableDates
@@ -333,7 +334,7 @@ fun PatientRegister(
                         onValueChange = { gender = it },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .menuAnchor(),
+                            .menuAnchor(MenuAnchorType.PrimaryNotEditable,true),
                         readOnly = true,
                         textStyle = MaterialTheme.typography.titleSmall,
                         colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
