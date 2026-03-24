@@ -54,13 +54,16 @@ fun BottomNavigation(navController: NavController) {
         ModalBottomSheet(
             onDismissRequest = {
                 showModalBottomSheet = false
-                navController.navigate(NavRoute.Main.path) {
-                    launchSingleTop = true
-                    restoreState = true
-                    popUpTo(navController.graph.findStartDestination().id) {
-                        saveState = true
-                    }
-                }
+
+                // Temporary removal of Services ModalSheet redirect to Home
+
+//                navController.navigate(NavRoute.Main.path) {
+//                    launchSingleTop = true
+//                    restoreState = true
+//                    popUpTo(navController.graph.findStartDestination().id) {
+//                        saveState = true
+//                    }
+//                }
             },
             sheetState = sheetState,
             modifier = Modifier

@@ -598,9 +598,10 @@ fun addMedReminderScreen(navHostController: NavHostController, navGraphBuilder: 
     navGraphBuilder.composable(
         route = NavRoute.medReminder.path
     ) {
-        MedicationHome(back = { navHostController.popBackStack() }, navigateToAddMed = {
-            navHostController.navigate(NavRoute.addMed.path)
-        })
+        MedicationHome(
+            back = { navHostController.popBackStack()},
+            navigateToAddMed = { navHostController.navigate(NavRoute.addMed.path) }
+        )
     }
 }
 
@@ -609,7 +610,6 @@ fun addMedicineScreen(navHostController: NavHostController, navGraphBuilder: Nav
         route = NavRoute.addMed.path
     ) {
         MedicationReminder(
-            back = { navHostController.popBackStack() },
             navigateToSavedReminder = {
                 navHostController.navigate(NavRoute.savedReminder.path)
             }
@@ -637,7 +637,13 @@ fun addSavedReminder(navHostController: NavHostController, navGraphBuilder: NavG
 //         )
     ) {
         ReminderFilled(
-            back = { navHostController.navigate(NavRoute.addMed.path) }
+            back = {
+                navHostController.navigate(NavRoute.Main.path) {
+                    popUpTo(NavRoute.Main.path) {
+                        inclusive = false
+                    }
+                }
+            }
         )
     }
 }
