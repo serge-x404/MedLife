@@ -16,12 +16,19 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.serge.medlife.R
+import com.serge.medlife.network.NoInternet
+import com.serge.medlife.network.isInternetAvailable
 
 
 @Composable
@@ -30,98 +37,80 @@ fun AuthSplashScreen(
     navigateToLogin: () -> Unit
 //    navigateToHome: () -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
+    val context = LocalContext.current
+    val networkObserver = remember { isInternetAvailable(context) }
 
-        // Remove Language Button
+    var isConnected by remember { mutableStateOf(networkObserver) }
 
-//        Box(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(vertical = 30.dp)
-//                .padding(horizontal = 12.dp)
-//        ) {
-//            val context = LocalContext.current
-//            Button(
-//                onClick = {
-//                    Toast.makeText(
-//                        context,
-//                        "App language will be available soon",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                    navigateToLogin()
-//                },
-//                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.inverseSurface),
-//                border = BorderStroke(
-//                    width = 1.dp,
-//                    color = MaterialTheme.colorScheme.outlineVariant
-//                ),
-//                modifier = Modifier.align(Alignment.TopEnd)
-//            ) {
-//                Text(
-//                    text = "English",
-//                    color = MaterialTheme.colorScheme.inverseOnSurface,
-//                    style = MaterialTheme.typography.labelMedium
-//                )
-//            }
-//        }
+    if (!isConnected) {
+        NoInternet(
+            onRetry = { isConnected = networkObserver }
+        )
+    }
+    else {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.surface)
-                .padding(horizontal = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Bottom
         ) {
-            Image(
-                painter = painterResource(R.drawable.asclepius),
-                contentDescription = null,
-                Modifier.size(150.dp),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
-            )
-            Spacer(Modifier.height(8.dp))
-            Text(
-                "MedLife",
-                color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.displayLarge
-            )
-            Spacer(Modifier.height(1.dp))
-            Text(
-                text = "We're here to keep you healthy",
-                color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.labelLarge
-            )
-            Spacer(Modifier.height(150.dp))
-            Column(Modifier.padding(vertical = 20.dp)) {
-                Button(
-                    onClick = {
-                        navigateToLogin()
-                    },
-                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primaryContainer),
-                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = "Login",
-                        color = MaterialTheme.colorScheme.onPrimaryContainer,
-                        style = MaterialTheme.typography.labelLarge
-                    )
-                }
-                Button(
-                    onClick = {
-                        navigateToRegister()
-                    },
-                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
-                    border = BorderStroke(width = 2.dp, MaterialTheme.colorScheme.outlineVariant),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = "Register",
-                        color = MaterialTheme.colorScheme.onPrimary,
-                        style = MaterialTheme.typography.labelLarge
-                    )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.surface)
+                    .padding(horizontal = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Bottom
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.asclepius),
+                    contentDescription = null,
+                    Modifier.size(150.dp),
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+                )
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    "MedLife",
+                    color = MaterialTheme.colorScheme.onBackground,
+                    style = MaterialTheme.typography.displayLarge
+                )
+                Spacer(Modifier.height(1.dp))
+                Text(
+                    text = "We're here to keep you healthy",
+                    color = MaterialTheme.colorScheme.onBackground,
+                    style = MaterialTheme.typography.labelLarge
+                )
+                Spacer(Modifier.height(150.dp))
+                Column(Modifier.padding(vertical = 20.dp)) {
+                    Button(
+                        onClick = {
+                            navigateToLogin()
+                        },
+                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primaryContainer),
+                        border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "Login",
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                            style = MaterialTheme.typography.labelLarge
+                        )
+                    }
+                    Button(
+                        onClick = {
+                            navigateToRegister()
+                        },
+                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                        border = BorderStroke(
+                            width = 2.dp,
+                            MaterialTheme.colorScheme.outlineVariant
+                        ),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "Register",
+                            color = MaterialTheme.colorScheme.onPrimary,
+                            style = MaterialTheme.typography.labelLarge
+                        )
+                    }
                 }
             }
         }

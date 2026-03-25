@@ -26,11 +26,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.serge.medlife.network.NoInternet
+import com.serge.medlife.network.isInternetAvailable
 import com.serge.medlife.screens.class_objects.serviceGridData
 import com.serge.medlife.screens.layoutsFile.GridViewLayout
 import kotlinx.coroutines.launch
@@ -38,24 +41,36 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNavigation(navController: NavController) {
-    val navItems = listOf(NavItems.Home, NavItems.Services, NavItems.History, NavItems.Profile)
 
-    val backStackEntry by navController.currentBackStackEntryAsState()
+    val context = LocalContext.current
+    val networkObserver = remember { isInternetAvailable(context) }
 
-    val currentRoute = backStackEntry?.destination?.route
+    var isConnected by remember { mutableStateOf(networkObserver) }
 
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
-    )
-    val scope = rememberCoroutineScope()
-    var showModalBottomSheet by remember { mutableStateOf(false) }
+    if (!isConnected) {
+        NoInternet(
+            onRetry = { isConnected = networkObserver }
+        )
+    }
+    else {
+        val navItems = listOf(NavItems.Home, NavItems.Services, NavItems.History, NavItems.Profile)
 
-    if (showModalBottomSheet) {
-        ModalBottomSheet(
-            onDismissRequest = {
-                showModalBottomSheet = false
+        val backStackEntry by navController.currentBackStackEntryAsState()
 
-                // Temporary removal of Services ModalSheet redirect to Home
+        val currentRoute = backStackEntry?.destination?.route
+
+        val sheetState = rememberModalBottomSheetState(
+            skipPartiallyExpanded = true
+        )
+        val scope = rememberCoroutineScope()
+        var showModalBottomSheet by remember { mutableStateOf(false) }
+
+        if (showModalBottomSheet) {
+            ModalBottomSheet(
+                onDismissRequest = {
+                    showModalBottomSheet = false
+
+                    // Temporary removal of Services ModalSheet redirect to Home
 
 //                navController.navigate(NavRoute.Main.path) {
 //                    launchSingleTop = true
@@ -64,88 +79,89 @@ fun BottomNavigation(navController: NavController) {
 //                        saveState = true
 //                    }
 //                }
-            },
-            sheetState = sheetState,
-            modifier = Modifier
-                .wrapContentHeight()
-        ) {
-            Box {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        "Services",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(2),
-                        modifier = Modifier
-                            .padding(16.dp)
+                },
+                sheetState = sheetState,
+                modifier = Modifier
+                    .wrapContentHeight()
+            ) {
+                Box {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
                     ) {
-                        items(serviceGridData.serviceImages) { item ->
-                            GridViewLayout(
-                                item,
-                                onNavigate = {
-                                    scope.launch {
-                                        sheetState.hide()
-                                        showModalBottomSheet = false
+                        Text(
+                            "Services",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                        LazyVerticalGrid(
+                            columns = GridCells.Fixed(2),
+                            modifier = Modifier
+                                .padding(16.dp)
+                        ) {
+                            items(serviceGridData.serviceImages) { item ->
+                                GridViewLayout(
+                                    item,
+                                    onNavigate = {
+                                        scope.launch {
+                                            sheetState.hide()
+                                            showModalBottomSheet = false
+                                        }
+                                        navController.navigate(it) {
+                                            launchSingleTop = true
+                                        }
                                     }
-                                    navController.navigate(it) {
-                                        launchSingleTop = true
-                                    }
-                                }
-                            )
+                                )
+                            }
                         }
                     }
                 }
             }
+
         }
 
-    }
-
-    NavigationBar(
-        tonalElevation = 4.dp,
-        containerColor = MaterialTheme.colorScheme.surfaceContainer
-    ) {
-        navItems.forEachIndexed { index, items ->
-            val isSelected = currentRoute?.startsWith(items.path) == true
-            NavigationBarItem(
-                selected = isSelected,
-                onClick = {
-                    if (items == NavItems.Services) {
-                        showModalBottomSheet = true
-                    } else {
-                        showModalBottomSheet = false
-                        if (currentRoute != items.path) {
-                            navController.navigate(items.path) {
-                                launchSingleTop = true
-                                restoreState = true
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
+        NavigationBar(
+            tonalElevation = 4.dp,
+            containerColor = MaterialTheme.colorScheme.surfaceContainer
+        ) {
+            navItems.forEachIndexed { index, items ->
+                val isSelected = currentRoute?.startsWith(items.path) == true
+                NavigationBarItem(
+                    selected = isSelected,
+                    onClick = {
+                        if (items == NavItems.Services) {
+                            showModalBottomSheet = true
+                        } else {
+                            showModalBottomSheet = false
+                            if (currentRoute != items.path) {
+                                navController.navigate(items.path) {
+                                    launchSingleTop = true
+                                    restoreState = true
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
                                 }
                             }
                         }
-                    }
-                },
-                icon = {
-                    val icon = if (isSelected) items.selectedIcon else items.icon
+                    },
+                    icon = {
+                        val icon = if (isSelected) items.selectedIcon else items.icon
 
-                    Image(
-                        painter = painterResource(icon),
-                        contentDescription = null,
-                        modifier = Modifier.size(24.dp),
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
-                    )
-                },
-                label = {
-                    Text(
-                        items.label,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                }
-            )
+                        Image(
+                            painter = painterResource(icon),
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp),
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+                        )
+                    },
+                    label = {
+                        Text(
+                            items.label,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
+                )
+            }
         }
     }
 }

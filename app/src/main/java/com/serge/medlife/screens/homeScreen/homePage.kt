@@ -40,8 +40,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.serge.medlife.R
+import com.serge.medlife.network.NoInternet
+import com.serge.medlife.network.isInternetAvailable
+import com.serge.medlife.rtdb.DoctorDetailsDTO
 import com.serge.medlife.rtdb.RTDB
 import com.serge.medlife.screens.class_objects.BestSellingProducts
 import com.serge.medlife.screens.class_objects.Hot
@@ -54,7 +59,6 @@ import com.serge.medlife.screens.homeScreen.homeComposables.SearchBox
 import com.serge.medlife.screens.homeScreen.homeComposables.Title
 import com.serge.medlife.screens.homeScreen.homeComposables.categoriesHomeScreen
 import com.serge.medlife.screens.servicesScreen.article.LatestArticle
-import com.serge.medlife.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,81 +71,110 @@ fun HomeScreen(
     navigateToHospital: () -> Unit,
     navigateToArticle: () -> Unit
 ) {
-    val rtdb = RTDB()
-    var userName by remember { mutableStateOf("") }
-    LaunchedEffect(Unit) {
-        rtdb.fetchUserName {
-            userName = it
-        }
-        Log.i("userNameFetch", "userName: ${userName}")
-    }
-    Scaffold(topBar = {
-        TopAppBar(
-            title = {
-                Text(
-                    text = "Hi, $userName",
-                    color = MaterialTheme.colorScheme.onBackground,
-                    style = MaterialTheme.typography.headlineLarge
-                )
-            },
-            actions = {
-                IconButton(onClick = {
-                    navigateToCart()
-                }) {
-                    Icon(
-                        painter = painterResource(R.drawable.cart),
-                        contentDescription = "Cart",
-                        Modifier.size(26.dp),
-                        tint = MaterialTheme.colorScheme.onBackground
-                    )
-                }
-                IconButton(onClick = {
-                    navigateToNotifications()
-                }) {
-                    Icon(
-                        painter = painterResource(R.drawable.bell),
-                        contentDescription = "Bell",
-                        Modifier.size(26.dp),
-                        tint = MaterialTheme.colorScheme.onBackground
-                    )
-                }
-            }
+    val context = LocalContext.current
+    val networkObserver = remember { isInternetAvailable(context) }
+
+    var isConnected by remember { mutableStateOf(networkObserver) }
+
+    if (!isConnected) {
+        NoInternet(
+            onRetry = { isConnected = networkObserver }
         )
-    }) { innerPadding ->
-        Column(
-            modifier = Modifier.padding(innerPadding)
-        ) {
-            Column(
-                modifier = Modifier
-                    .verticalScroll(rememberScrollState())
-                    .fillMaxSize()
-            ) {
-                HeaderBox()
-                Spacer(Modifier.height(20.dp))
-                SearchBox()
-                Spacer(Modifier.height(20.dp))
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(4),
-                    modifier = Modifier
-                        .padding(horizontal = 12.dp)
-                        .height(220.dp),
-                ) {
-                    items(categoriesHomeScreen.servicesHomeScreen) { item ->
-                        CardServicesHomeScreen(item)
+    }
+    else {
+
+        val rtdb = RTDB()
+        var userName by remember { mutableStateOf("") }
+
+        var selectedCategory by remember { mutableStateOf("All") }
+        var doctorList by remember { mutableStateOf<List<DoctorDetailsDTO>>(emptyList()) }
+
+        LaunchedEffect(Unit) {
+            rtdb.fetchUserName {
+                userName = it
+                Log.i("fetchedData", "userName: ${userName}")
+            }
+            rtdb.fetchDoctorInfo {
+                doctorList = it
+                Log.i("fetchedData", "$doctorList")
+            }
+        }
+
+        val filteredDoctors = if (selectedCategory == "All") doctorList
+        else doctorList.filter { it.doctorSpecialization == selectedCategory }
+
+        Scaffold(topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "Hi, $userName",
+                        color = MaterialTheme.colorScheme.onBackground,
+                        style = MaterialTheme.typography.headlineLarge
+                    )
+                },
+                actions = {
+                    IconButton(onClick = {
+                        navigateToCart()
+                    }) {
+                        Icon(
+                            painter = painterResource(R.drawable.cart),
+                            contentDescription = "Cart",
+                            Modifier.size(26.dp),
+                            tint = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
+                    IconButton(onClick = {
+                        navigateToNotifications()
+                    }) {
+                        Icon(
+                            painter = painterResource(R.drawable.bell),
+                            contentDescription = "Bell",
+                            Modifier.size(26.dp),
+                            tint = MaterialTheme.colorScheme.onBackground
+                        )
                     }
                 }
-                Spacer(Modifier.height(30.dp))
-                ConsultDocComposable( navigateToChatDoc )
-                Spacer(Modifier.height(30.dp))
+            )
+        }) { innerPadding ->
+            Column(
+                modifier = Modifier.padding(innerPadding)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
+                        .fillMaxSize()
+                ) {
+                    HeaderBox()
+                    Spacer(Modifier.height(20.dp))
+                    SearchBox()
+                    Spacer(Modifier.height(20.dp))
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(4),
+                        modifier = Modifier
+                            .padding(horizontal = 12.dp)
+                            .height(220.dp),
+                    ) {
+                        items(categoriesHomeScreen.servicesHomeScreen) { item ->
+                            CardServicesHomeScreen(
+                                item,
+                                isSelected = selectedCategory == item.categoryTitle,
+                                onCategorySelected = { selectedCategory = it },
+                                navigateToChatDoc
+                            )
+                        }
+                    }
+                    Spacer(Modifier.height(30.dp))
+                    ConsultDocComposable(navigateToChatDoc)
+                    Spacer(Modifier.height(30.dp))
 
 
-                Title("Chat Doctor")
+                    Title("Chat Doctor")
 
 
-                Spacer(Modifier.height(5.dp))
-                Column(modifier = Modifier.padding(start = 20.dp)) {
-                    DoctorData(navigateToChatDoc)
-                }
+                    Spacer(Modifier.height(5.dp))
+                    Column(modifier = Modifier.padding(start = 20.dp)) {
+                        DoctorData(navigateToChatDoc)
+                    }
 
 //                LazyRow(
 //                    modifier = Modifier.padding(start = 26.dp),
@@ -163,107 +196,108 @@ fun HomeScreen(
 //                        )
 //                    }
 //                }
-                Spacer(Modifier.height(30.dp))
+                    Spacer(Modifier.height(30.dp))
 
 
-                Title("Best Selling Products")
+                    Title("Best Selling Products")
 
 
-                Spacer(Modifier.height(5.dp))
-                LazyRow(
-                    modifier = Modifier.padding(start = 26.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(BestSellingProducts.data) {
-                        Image(
-                            painter = painterResource(id = it),
-                            contentDescription = null,
-                            modifier = Modifier.clickable(
-                                enabled = true,
-                                onClick = {
-                                    navigateToHealthShop()
-                                }
-                            )
-                        )
-                    }
-                }
-                Spacer(Modifier.height(30.dp))
-
-
-                Title("Nearby Hospitals")
-
-
-                Spacer(Modifier.height(5.dp))
-                LazyRow(
-                    modifier = Modifier.padding(start = 26.dp),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(hospitals.images) {
-                        Box(
-                            modifier = Modifier
-                                .size(180.dp)
-                                .clickable(
+                    Spacer(Modifier.height(5.dp))
+                    LazyRow(
+                        modifier = Modifier.padding(start = 26.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(BestSellingProducts.data) {
+                            Image(
+                                painter = painterResource(id = it),
+                                contentDescription = null,
+                                modifier = Modifier.clickable(
                                     enabled = true,
                                     onClick = {
-                                        navigateToHospital()
-                                    })
-                                .border(
-                                    1.dp, color = MaterialTheme.colorScheme.outline,
-                                    shape = RoundedCornerShape(4.dp)
+                                        navigateToHealthShop()
+                                    }
                                 )
-                                .background(MaterialTheme.colorScheme.surfaceContainer)
-                        ) {
+                            )
+                        }
+                    }
+                    Spacer(Modifier.height(30.dp))
+
+
+                    Title("Nearby Hospitals")
+
+
+                    Spacer(Modifier.height(5.dp))
+                    LazyRow(
+                        modifier = Modifier.padding(start = 26.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        items(hospitals.images) {
+                            Box(
+                                modifier = Modifier
+                                    .size(180.dp)
+                                    .clickable(
+                                        enabled = true,
+                                        onClick = {
+                                            navigateToHospital()
+                                        })
+                                    .border(
+                                        1.dp, color = MaterialTheme.colorScheme.outline,
+                                        shape = RoundedCornerShape(4.dp)
+                                    )
+                                    .background(MaterialTheme.colorScheme.surfaceContainer)
+                            ) {
 //                    Surface(shape = CircleShape,
 //                        modifier = Modifier
 //                            .offset(x = 20.dp, (-10).dp)
 //                            .align(Alignment.TopEnd)
 //                            .size(60.dp)) {}
-                            Column(modifier = Modifier.padding(12.dp)) {
-                                Image(
-                                    painter = painterResource(it.img),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(60.dp)
-                                )
-                                Text(
-                                    it.name,
-                                    color = MaterialTheme.colorScheme.onBackground,
-                                    style = MaterialTheme.typography.labelLarge
-                                )
-                                Spacer(Modifier.height(8.dp))
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Text(
-                                        "See maps",
-                                        style = MaterialTheme.typography.bodyLarge,
-                                        color = MaterialTheme.colorScheme.onBackground
-                                    )
-                                    Icon(
-                                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                                Column(modifier = Modifier.padding(12.dp)) {
+                                    Image(
+                                        painter = painterResource(it.img),
                                         contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.onBackground
+                                        modifier = Modifier.size(60.dp)
                                     )
+                                    Text(
+                                        it.name,
+                                        color = MaterialTheme.colorScheme.onBackground,
+                                        style = MaterialTheme.typography.labelLarge
+                                    )
+                                    Spacer(Modifier.height(8.dp))
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Text(
+                                            "See maps",
+                                            style = MaterialTheme.typography.bodyLarge,
+                                            color = MaterialTheme.colorScheme.onBackground
+                                        )
+                                        Icon(
+                                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                                            contentDescription = null,
+                                            tint = MaterialTheme.colorScheme.onBackground
+                                        )
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                Spacer(Modifier.height(30.dp))
+                    Spacer(Modifier.height(30.dp))
 
 
-                Title("Health Article")
+                    Title("Health Article")
 
 
-                Spacer(Modifier.height(10.dp))
-                LazyColumn(
-                    modifier = Modifier
-                        .padding(horizontal = 26.dp)
-                        .height(1120.dp),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    items(Hot.latestArticle) { item ->
-                        LatestArticle(
-                            item,
-                            navigateToArticle
-                        )
+                    Spacer(Modifier.height(10.dp))
+                    LazyColumn(
+                        modifier = Modifier
+                            .padding(horizontal = 26.dp)
+                            .height(1120.dp),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        items(Hot.latestArticle) { item ->
+                            LatestArticle(
+                                item,
+                                navigateToArticle
+                            )
+                        }
                     }
                 }
             }

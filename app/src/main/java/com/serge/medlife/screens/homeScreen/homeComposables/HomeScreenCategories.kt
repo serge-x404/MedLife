@@ -21,20 +21,20 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.serge.medlife.R
+import com.serge.medlife.screens.navigation.NavRoute
 
 data class HomeScreenCategories(
     val categoryTitle: String,
     val categoryIcon: Int,
-    val route: String? = null
+    val route: String = NavRoute.ChatDoc.path
 )
 
 object categoriesHomeScreen {
     val servicesHomeScreen = listOf(
         HomeScreenCategories(
             "All",
-            R.drawable.all
+            R.drawable.all,
         ),
         HomeScreenCategories(
             "General Practitioner",
@@ -71,22 +71,22 @@ object categoriesHomeScreen {
 @Composable
 fun CardServicesHomeScreen(
     homeScreenCategories: HomeScreenCategories,
-    navHostController: NavHostController? = null
+    isSelected: Boolean,
+    onCategorySelected: (String) -> Unit,
+    navigateToChatDoc: () -> Unit
 ) {
     val context = LocalContext.current
     Card(
         onClick = {
             Toast.makeText(context, homeScreenCategories.categoryTitle, Toast.LENGTH_SHORT).show()
-            navHostController?.let {
-                homeScreenCategories.route?.let { route ->
-                    navHostController.navigate(route)
-                }
-            }
+            onCategorySelected(homeScreenCategories.categoryTitle)
+            navigateToChatDoc()
         },
         modifier = Modifier
             .padding(8.dp)
             .size(96.dp),
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest),
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest
+        ),
         elevation = CardDefaults.elevatedCardElevation(4.dp)
     ) {
         Column(

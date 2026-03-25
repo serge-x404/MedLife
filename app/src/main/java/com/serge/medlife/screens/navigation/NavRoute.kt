@@ -16,7 +16,9 @@ sealed class NavRoute(val path: String) {
     object Walkthrough: NavRoute("Walkthrough")
     object History: NavRoute("history")
     object Profile: NavRoute("profile")
-    object ChatDoc: NavRoute("chatDoc")
+    object ChatDoc: NavRoute("chatDoc") {
+        fun createRoute(category: String) = "chatDoc/$category"
+    }
     object DocDtls: NavRoute("docDtls?name={name}&specialization={specialization}&gender={gender}")
     object Appointment: NavRoute("appointment/{doctorName}/{doctorSpecialization}/{doctorGender}/{date}/{hours}")
     object appointmentSuccess: NavRoute("appointmentSuccess")
