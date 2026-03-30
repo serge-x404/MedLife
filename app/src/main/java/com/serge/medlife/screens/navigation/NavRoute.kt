@@ -32,6 +32,7 @@ sealed class NavRoute(val path: String) {
     object hospital: NavRoute("hospital")
     object hospiDtls: NavRoute("hospiDtls")
     object hospiLayout: NavRoute("hospiLayout")
+    object newHospitalMap: NavRoute("googleMap")
     object hospiMap: NavRoute("hospiMap")
     object medReminder: NavRoute("medReminder")
     object addMed: NavRoute("addMed")

@@ -34,9 +34,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.serge.medlife.R
 import com.serge.medlife.screens.class_objects.HospitalData
 import com.serge.medlife.screens.class_objects.ListHospital
-import com.serge.medlife.R
 
 @Preview(
     showBackground = true,
@@ -49,8 +49,9 @@ fun hospi() {
 
 
 @Composable
-fun HospitalDetails(hospital: ListHospital,
-                    navigateToMap: () -> Unit
+fun HospitalDetails(
+    hospital: ListHospital,
+    navigateToMap: () -> Unit
 ) {
     Scaffold() {
         Column(

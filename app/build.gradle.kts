@@ -26,6 +26,13 @@ android {
         // supabase
         buildConfigField("String", "SUPABASE_URL", "\"${localProperties["SUPABASE_URL"]}\"")
         buildConfigField("String", "SUPABASE_ANON_KEY", "\"${localProperties["SUPABASE_ANON_KEY"]}\"")
+
+        // maps
+        val localProps = Properties().apply {
+            load(rootProject.file("local.properties").inputStream())
+        }
+
+        manifestPlaceholders["mapsApiKey"] = localProps["MAPS_API_KEY"] as String ?: ""
     }
 
     buildTypes {
@@ -79,4 +86,11 @@ dependencies {
     // Supabase dependencies
     implementation("io.github.jan-tennert.supabase:storage-kt:3.4.1")
     implementation("io.ktor:ktor-client-android:3.4.1")
+
+    // Google Maps
+    implementation("com.google.maps.android:maps-compose:8.2.2")
+
+    // Icons Fix trial
+    implementation("androidx.compose.material:material-icons-core")
+    implementation("androidx.compose.material:material-icons-extended")
 }

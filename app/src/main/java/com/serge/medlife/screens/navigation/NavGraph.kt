@@ -43,6 +43,7 @@ import com.serge.medlife.screens.servicesScreen.chatDoc.ConsultDoctorScreen
 import com.serge.medlife.screens.servicesScreen.chatDoc.DoctorDetails
 import com.serge.medlife.screens.servicesScreen.hospitals.HospitalDetails
 import com.serge.medlife.screens.servicesScreen.hospitals.HospitalMain
+import com.serge.medlife.screens.servicesScreen.hospitals.HospitalMap
 import com.serge.medlife.screens.servicesScreen.hospitals.Map
 import com.serge.medlife.screens.servicesScreen.medicationReminder.MedicationHome
 import com.serge.medlife.screens.servicesScreen.medicationReminder.MedicationReminder
@@ -95,6 +96,7 @@ fun NavGraph(
         addHospiDetailsScreen(navHostController, this)
         addHospitalScreen(navHostController, this)
         addHospiLocScreen(navHostController, this)
+        addGoogleMapScreen(navHostController, this)
         addMedReminderScreen(navHostController, this)
         addMedicineScreen(navHostController, this)
         addSpecialistScreen(navHostController, this)
@@ -462,9 +464,11 @@ fun addHospitalScreen(navHostController: NavHostController, navGraphBuilder: Nav
 
         HospitalMain(back = { navHostController.popBackStack() }, navigateToDetail = {
             navHostController.navigate(NavRoute.hospiDtls.path)
-        }, navigateToMap = {
-            navHostController.navigate(NavRoute.hospiMap.path)
-        })
+        },
+            navigateToMap = {
+            navHostController.navigate(NavRoute.newHospitalMap.path)
+            }
+        )
     }
 }
 
@@ -475,8 +479,9 @@ fun addHospiDetailsScreen(navHostController: NavHostController, navGraphBuilder:
         val item = HospitalData.data.first()
         HospitalDetails(
             item, navigateToMap = {
-                navHostController.navigate(NavRoute.hospiMap.path)
-            })
+                navHostController.navigate(NavRoute.newHospitalMap.path)
+            }
+        )
     }
 }
 
@@ -498,6 +503,13 @@ fun addHospiLocScreen(navHostController: NavHostController, navGraphBuilder: Nav
 //    }
 //}
 
+fun addGoogleMapScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
+    navGraphBuilder.composable(
+        NavRoute.newHospitalMap.path
+    ) {
+        HospitalMap()
+    }
+}
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun addDocDtls(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
