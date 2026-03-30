@@ -7,14 +7,17 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberUpdatedMarkerState
+import kotlinx.coroutines.launch
 
 @Composable
 fun HospitalMap() {
@@ -27,6 +30,7 @@ fun HospitalMap() {
         modifier = Modifier
             .fillMaxSize()
     ) {
+        val scope = rememberCoroutineScope()
 
         var latLng by remember { mutableStateOf(LatLng(23.05,72.50)) }
         val markerState = rememberUpdatedMarkerState(latLng)
@@ -38,7 +42,19 @@ fun HospitalMap() {
             cameraPositionState = cameraPositionState,
             onMapClick = {
                 latLng = it
-            }
+                markerState.position = it
+
+                scope.launch {
+                    cameraPositionState.animate(
+                        CameraUpdateFactory.newLatLngZoom(it, 15f),
+                        800
+                    )
+                }
+
+            },
+            uiSettings = MapUiSettings(
+                compassEnabled = true
+            )
         ) {
             Marker(
                 state = markerState
