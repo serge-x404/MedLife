@@ -38,6 +38,7 @@ import com.serge.medlife.screens.servicesScreen.article.ArticleList
 import com.serge.medlife.screens.servicesScreen.article.ArticlePage
 import com.serge.medlife.screens.servicesScreen.article.DisplayArticle
 import com.serge.medlife.screens.servicesScreen.chatDoc.AppointmentSuccess
+import com.serge.medlife.screens.servicesScreen.chatDoc.ChatScreen
 import com.serge.medlife.screens.servicesScreen.chatDoc.Confirmation
 import com.serge.medlife.screens.servicesScreen.chatDoc.ConsultDoctorScreen
 import com.serge.medlife.screens.servicesScreen.chatDoc.DoctorDetails
@@ -80,6 +81,7 @@ fun NavGraph(
         addServicesScreen(navHostController, this)
         addAuthSplash(navHostController, this)
         addChatDocScreen(navHostController, this)
+        addChatScreen(navHostController, this)
         addNotificationsScreen(navHostController, this)
         addClearNotiScreen(navHostController, this)
         addCartScreen(navHostController, this)
@@ -389,6 +391,14 @@ fun addChatDocScreen(navHostController: NavHostController, navGraphBuilder: NavG
     }
 }
 
+fun addChatScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
+    navGraphBuilder.composable(
+        route = NavRoute.Chat.path
+    ) {
+        ChatScreen()
+    }
+}
+
 fun addNotificationsScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
         route = NavRoute.Notifications.path
@@ -524,6 +534,7 @@ fun addDocDtls(navHostController: NavHostController, navGraphBuilder: NavGraphBu
         val doctorSpecialization = Uri.decode(it.arguments?.getString("specialization") ?: "")
         val doctorGender = Uri.decode(it.arguments?.getString("gender") ?: "")
         DoctorDetails(
+            navigateToChat = { navHostController.navigate(NavRoute.Chat.path)},
             back = { navHostController.popBackStack() },
             navigateToAppointment = { doctorName, doctorSpecialization, doctorGender, date, hours ->
                 navHostController.navigate(

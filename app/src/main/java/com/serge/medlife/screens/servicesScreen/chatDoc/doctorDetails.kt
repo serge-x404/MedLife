@@ -56,18 +56,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.serge.medlife.R
 import com.serge.medlife.screens.class_objects.DateScreen
 import com.serge.medlife.screens.class_objects.Review
 import com.serge.medlife.screens.class_objects.docWorkHrs
 import com.serge.medlife.screens.layoutsFile.DoctorWorkingHours
 import com.serge.medlife.screens.layoutsFile.Reviews
-import com.serge.medlife.R
 import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DoctorDetails(
+    navigateToChat: () -> Unit,
     back: () -> Unit,
     navigateToAppointment: (String, String, String,String, String) -> Unit,
     name: String,
@@ -279,7 +280,9 @@ fun DoctorDetails(
                 modifier = Modifier.padding(horizontal = 16.dp)
             ) {
                 Button(
-                    onClick = {},
+                    onClick = {
+                        navigateToChat()
+                    },
                     modifier = Modifier.weight(1f),
                     colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.surfaceContainer),
                     border = BorderStroke(2.dp, color = MaterialTheme.colorScheme.outlineVariant)
