@@ -51,7 +51,6 @@ import com.serge.medlife.screens.servicesScreen.medicationReminder.ReminderFille
 import com.serge.medlife.screens.servicesScreen.specialization.Specialist
 import com.serge.medlife.screens.splashScreen.AuthSplashScreen
 import com.serge.medlife.screens.splashScreen.HPager
-import com.serge.medlife.screens.splashScreen.OtpPhone
 import com.serge.medlife.screens.splashScreen.Splashscreen
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -76,7 +75,6 @@ fun NavGraph(
         addRegisterScreen(navHostController, this, sharedPreferences)
         addDoctorRegisterConfirmationScreen(navHostController, this)
         addLoginScreen(navHostController, this, sharedPreferences)
-        addOTPScreen(navHostController, this)
         addProfileScreen(navHostController, this, sharedPreferences)
         addHistoryScreen(navHostController, this)
         addServicesScreen(navHostController, this)
@@ -377,14 +375,6 @@ fun addLoginScreen(
             navigateToDoctorHome = { navHostController.navigate(NavRoute.DoctorMain.path) },
             sharedPreferences
         )
-    }
-}
-
-fun addOTPScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
-    navGraphBuilder.composable(
-        route = NavRoute.OTP.path
-    ) {
-        OtpPhone()
     }
 }
 
