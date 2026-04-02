@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.firebase.Firebase
 import com.google.firebase.initialize
 import com.serge.medlife.screens.navigation.BottomNavigation
@@ -24,19 +23,14 @@ import com.serge.medlife.theme.MedLifeTheme
 
 class MainActivity : ComponentActivity() {
 
-    private lateinit var placesClient: PlacesClient
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        placesClient = Places.createClient(this)
-
         Firebase.initialize(this)
 
-        @Suppress("DEPRECATION")
-        Places.initialize(
+        Places.initializeWithNewPlacesApiEnabled(
             applicationContext,
             BuildConfig.MAPS_API_KEY
         )

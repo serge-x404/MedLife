@@ -3,6 +3,7 @@ package com.serge.medlife.screens.servicesScreen.hospitals
 import android.Manifest
 import android.content.Context
 import android.location.Location
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
@@ -15,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -22,7 +24,13 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.CircularBounds
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.SearchNearbyRequest
+import com.google.maps.android.compose.Circle
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
@@ -86,6 +94,19 @@ fun HospitalMap() {
             }
         }
 
+        var nearbyHospitals by remember { mutableStateOf<List<NearbyPlace>>(emptyList()) }
+
+        LaunchedEffect(currentLocation) {
+            currentLocation?.let {location ->
+                searchNearbyHospitals(
+                    context,
+                    LatLng(location.latitude, location.longitude),
+                    onResult = { nearbyHospitals = it },
+                    onError = {Log.e("NearbyHospital",it)}
+                )
+            }
+        }
+
         GoogleMap(
             onMapLoaded = {
                 mapLoaded = true
@@ -114,6 +135,29 @@ fun HospitalMap() {
                     state = MarkerState(location),
                     title = "Current Location",
                     snippet = "You are here"
+                )
+            }
+
+            nearbyHospitals.forEach {hospital ->
+                Marker(
+                    state = MarkerState(hospital.latLng),
+                    title = hospital.name,
+                    snippet = hospital.address,
+                    icon = BitmapDescriptorFactory.defaultMarker(
+                        BitmapDescriptorFactory.HUE_GREEN
+                    )
+                )
+            }
+
+            currentLocation?.let {
+                Circle(
+                    LatLng(it.latitude, it.longitude),
+                    false,
+                    Color.Blue.copy(
+                        alpha = 0.2f
+                    ),
+                    2000.0,
+                    strokeWidth = 4f
                 )
             }
         }
@@ -160,8 +204,41 @@ private fun fetchCurrentLocation(
 private fun searchNearbyHospitals(
     context: Context,
     location: LatLng,
-    onResult: () -> Unit
+    onResult: (List<NearbyPlace>) -> Unit,
+    onError: (String) -> Unit
 ) {
+    val placesClient = Places.createClient(context)
 
+    val request = SearchNearbyRequest.builder(
+        CircularBounds.newInstance(
+            LatLng(location.latitude, location.longitude),
+            2000.0
+        ),
+        listOf(
+            Place.Field.ID,
+            Place.Field.DISPLAY_NAME,
+            Place.Field.FORMATTED_ADDRESS,
+            Place.Field.LOCATION
+        )
+    )
+
+        .setIncludedPrimaryTypes(listOf("hospital"))
+        .setMaxResultCount(5)
+        .build()
+
+    placesClient.searchNearby(request)
+        .addOnSuccessListener { response ->
+            val places = response.places.map {place ->
+                NearbyPlace(
+                    name = place.displayName ?: "",
+                    address = place.formattedAddress ?: "",
+                    latLng = place.location ?: LatLng(0.0,0.0)
+                )
+            }
+            onResult(places)
+        }
+        .addOnFailureListener {e ->
+            onError(e.message ?: "Failed to fetch hospitals")
+        }
 }
 
