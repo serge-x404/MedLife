@@ -94,4 +94,7 @@ dependencies {
     // Icons Fix trial
     implementation("androidx.compose.material:material-icons-core")
     implementation("androidx.compose.material:material-icons-extended")
+
+    // Chat response Markdown
+    implementation("com.github.jeziellago:compose-markdown:0.5.0")
 }

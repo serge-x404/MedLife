@@ -33,8 +33,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import dev.jeziellago.compose.markdowntext.MarkdownText
 import kotlinx.coroutines.launch
 
 data class ChatMessage(
@@ -54,6 +56,7 @@ fun ChatScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(vertical = 12.dp)
     ) {
         LazyColumn(
             state = listState,
@@ -85,9 +88,15 @@ fun ChatScreen() {
             OutlinedTextField(
                 value = userInput,
                 onValueChange = {userInput = it},
-                placeholder = {Text("Ask me anything..")},
+                placeholder = {Text(
+                    "Ask me anything..",
+                    style = MaterialTheme.typography.labelLarge
+                )},
                 modifier = Modifier.weight(1f),
-                maxLines = 3,
+                textStyle = MaterialTheme.typography.bodyLarge.copy(
+                    fontWeight = FontWeight.SemiBold
+                ),
+                singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
                 keyboardActions = KeyboardActions(
                     onSend = {
@@ -156,12 +165,23 @@ fun ChatBubble(chat: ChatMessage) {
                 .padding(20.dp)
                 .widthIn(max = 280.dp)
         ) {
-            Text(
-                chat.message,
-                color = if (chat.isUser) MaterialTheme.colorScheme.onPrimary
-                        else MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.labelMedium
-            )
+            if (chat.isUser) {
+                Text(
+                    chat.message,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        fontWeight = FontWeight.SemiBold
+                    )
+                )
+            }
+            else {
+                @Suppress("DEPRECATION")
+                 MarkdownText(
+                     markdown = chat.message,
+                     color = MaterialTheme.colorScheme.onBackground,
+                     style = MaterialTheme.typography.bodyMedium
+                 )
+            }
         }
     }
 }
