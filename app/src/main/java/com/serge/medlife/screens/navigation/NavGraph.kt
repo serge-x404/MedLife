@@ -415,8 +415,9 @@ fun addCartScreen(navHostController: NavHostController, navGraphBuilder: NavGrap
     navGraphBuilder.composable(
         route = NavRoute.Cart.path
     ) {
-        Cart(back = { navHostController.popBackStack() }, navigateToFindingPharma = {
-            navHostController.navigate(NavRoute.findingPharma.path)
+        Cart(
+            back = { navHostController.popBackStack() },
+            navigateToFindingPharma = { navHostController.navigate(NavRoute.findingPharma.path)
         })
     }
 }

@@ -1,18 +1,23 @@
 [versions]
 agp = "9.1.0"
-coreKtx = "1.10.1"
+composeMarkdown = "0.5.0"
+coreKtx = "1.18.0"
 firebaseBom = "34.11.0"
 junit = "4.13.2"
-junitVersion = "1.1.5"
-espressoCore = "3.5.1"
-lifecycleRuntimeKtx = "2.6.1"
-activityCompose = "1.8.0"
-kotlin = "2.2.10"
-composeBom = "2024.09.00"
-navigationCompose = "2.9.6"
+junitVersion = "1.3.0"
+espressoCore = "3.7.0"
+ktorClientAndroid = "3.4.2"
+lifecycleRuntimeKtx = "2.10.0"
+activityCompose = "1.13.0"
+kotlin = "2.3.20"
+composeBom = "2026.03.01"
+mapsCompose = "8.2.2"
+navigationCompose = "2.9.7"
 firebaseDatabase = "22.0.1"
-uiTextGoogleFonts = "1.10.3"
-firebaseAnalytics = "23.0.0"
+places = "5.1.1"
+storageKt = "3.4.1"
+uiTextGoogleFonts = "1.10.6"
+firebaseAnalytics = "23.2.0"
 firebaseAuth = "24.0.1"
 credentials = "1.5.0"
 credentialsPlayServicesAuth = "1.5.0"
@@ -20,7 +25,10 @@ googleid = "1.2.0"
 firebaseAuthKtx = "24.0.1"
 
 [libraries]
+androidx-compose-material-icons-core = { module = "androidx.compose.material:material-icons-core" }
+androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+compose-markdown = { module = "com.github.jeziellago:compose-markdown", version.ref = "composeMarkdown" }
 firebase-ai = { module = "com.google.firebase:firebase-ai" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -45,6 +53,10 @@ androidx-credentials = { group = "androidx.credentials", name = "credentials", v
 androidx-credentials-play-services-auth = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "credentialsPlayServicesAuth" }
 googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleid" }
 firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
+ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktorClientAndroid" }
+maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "mapsCompose" }
+places = { module = "com.google.android.libraries.places:places", version.ref = "places" }
+storage-kt = { module = "io.github.jan-tennert.supabase:storage-kt", version.ref = "storageKt" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

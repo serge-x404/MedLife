@@ -32,7 +32,7 @@ android {
             load(rootProject.file("local.properties").inputStream())
         }
 
-        manifestPlaceholders["mapsApiKey"] = localProps["MAPS_API_KEY"] as String ?: ""
+        manifestPlaceholders["mapsApiKey"] = localProps["MAPS_API_KEY"] as String? ?: ""
     }
 
     buildTypes {
@@ -85,19 +85,19 @@ dependencies {
 
 
     // Supabase dependencies
-    implementation("io.github.jan-tennert.supabase:storage-kt:3.4.1")
-    implementation("io.ktor:ktor-client-android:3.4.1")
+    implementation(libs.storage.kt)
+    implementation(libs.ktor.client.android)
 
     // Google Maps
-    implementation("com.google.maps.android:maps-compose:8.2.2")
+    implementation(libs.maps.compose)
 
     // Icons Fix trial
-    implementation("androidx.compose.material:material-icons-core")
-    implementation("androidx.compose.material:material-icons-extended")
+    implementation(libs.androidx.compose.material.icons.core)
+    implementation(libs.androidx.compose.material.icons.extended)
 
     // Chat response Markdown
-    implementation("com.github.jeziellago:compose-markdown:0.5.0")
+    implementation(libs.compose.markdown)
 
     // Places API
-    implementation("com.google.android.libraries.places:places:5.1.1")
+    implementation(libs.places)
 }

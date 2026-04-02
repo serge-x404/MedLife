@@ -39,6 +39,8 @@ fun HospitalMap() {
         mutableStateOf(false)
     }
     val cameraPositionState = rememberCameraPositionState()
+
+    var initialized by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -65,6 +67,24 @@ fun HospitalMap() {
             locationPermissionLauncher
                 .launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
+        LaunchedEffect(mapLoaded, currentLocation) {
+            if (mapLoaded && currentLocation != null && !initialized) {
+                currentLocation?.let { myLocation ->
+                    cameraPositionState.animate(
+                        CameraUpdateFactory.newLatLngZoom(
+                            LatLng(myLocation.latitude, myLocation.longitude),
+                            15f
+                        )
+                    )
+                    initialized = true
+                } ?: cameraPositionState.animate(
+                    CameraUpdateFactory.newLatLngZoom(
+                        LatLng(23.05,72.50),
+                        15f
+                    )
+                )
+            }
+        }
 
         GoogleMap(
             onMapLoaded = {
@@ -84,10 +104,10 @@ fun HospitalMap() {
                 compassEnabled = true
             )
         ) {
-            currentLocation?.let {it ->
+            currentLocation?.let {myLocation ->
                 val location = LatLng(
-                    it.latitude,
-                    it.longitude
+                    myLocation.latitude,
+                    myLocation.longitude
                 )
 
                 Marker(
@@ -98,15 +118,6 @@ fun HospitalMap() {
             }
         }
 
-    }
-
-    LaunchedEffect(mapLoaded) {
-        cameraPositionState.animate(
-            CameraUpdateFactory.newLatLngZoom(
-                LatLng(23.05,72.50),
-                15f
-            )
-        )
     }
 }
 
