@@ -1,5 +1,10 @@
 package com.serge.medlife.screens.servicesScreen.hospitals
 
+import android.Manifest
+import android.content.Context
+import android.location.Location
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -10,17 +15,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
-import com.google.maps.android.compose.rememberUpdatedMarkerState
 import kotlinx.coroutines.launch
 
 @Composable
 fun HospitalMap() {
+
+    val context = LocalContext.current
 
     var mapLoaded by remember {
         mutableStateOf(false)
@@ -32,8 +45,26 @@ fun HospitalMap() {
     ) {
         val scope = rememberCoroutineScope()
 
-        var latLng by remember { mutableStateOf(LatLng(23.05,72.50)) }
-        val markerState = rememberUpdatedMarkerState(latLng)
+        var currentLocation by remember { mutableStateOf<Location?>(null) }
+
+        val locationPermissionLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.RequestPermission()
+        ) {permissionGranted ->
+            if (permissionGranted) {
+                fetchCurrentLocation(
+                    context,
+                    onLocationFetched = {location ->
+                        currentLocation = location
+                    }
+                )
+            }
+
+        }
+
+        LaunchedEffect(Unit) {
+            locationPermissionLauncher
+                .launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
 
         GoogleMap(
             onMapLoaded = {
@@ -41,9 +72,6 @@ fun HospitalMap() {
             },
             cameraPositionState = cameraPositionState,
             onMapClick = {
-                latLng = it
-                markerState.position = it
-
                 scope.launch {
                     cameraPositionState.animate(
                         CameraUpdateFactory.newLatLngZoom(it, 15f),
@@ -56,9 +84,18 @@ fun HospitalMap() {
                 compassEnabled = true
             )
         ) {
-            Marker(
-                state = markerState
-            )
+            currentLocation?.let {it ->
+                val location = LatLng(
+                    it.latitude,
+                    it.longitude
+                )
+
+                Marker(
+                    state = MarkerState(location),
+                    title = "Current Location",
+                    snippet = "You are here"
+                )
+            }
         }
 
     }
@@ -72,3 +109,40 @@ fun HospitalMap() {
         )
     }
 }
+
+private fun fetchCurrentLocation(
+    context: Context,
+    onLocationFetched: (Location) -> Unit
+) {
+    val fusedLocationClient = LocationServices
+        .getFusedLocationProviderClient(context)
+
+    val locationRequest = LocationRequest.Builder(
+        Priority.PRIORITY_HIGH_ACCURACY,
+        1000
+    ).apply {
+        setMinUpdateIntervalMillis(5000)
+        setWaitForAccurateLocation(true)
+    }.build()
+
+    val locationCallback = object: LocationCallback() {
+
+        override fun onLocationResult(locationResult: LocationResult) {
+            locationResult.lastLocation?.let {
+                currentLocation -> onLocationFetched(currentLocation)
+            }
+        }
+    }
+
+    try {
+        fusedLocationClient.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            null
+        )
+    }
+    catch (e: SecurityException) {
+        e.printStackTrace()
+    }
+}
+

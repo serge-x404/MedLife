@@ -97,4 +97,7 @@ dependencies {
 
     // Chat response Markdown
     implementation("com.github.jeziellago:compose-markdown:0.5.0")
+
+    // Places API
+    implementation("com.google.android.libraries.places:places:5.1.1")
 }
