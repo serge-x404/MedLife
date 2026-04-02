@@ -157,3 +157,11 @@ private fun fetchCurrentLocation(
     }
 }
 
+private fun searchNearbyHospitals(
+    context: Context,
+    location: LatLng,
+    onResult: () -> Unit
+) {
+
+}
+

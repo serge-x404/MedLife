@@ -27,6 +27,9 @@ android {
         buildConfigField("String", "SUPABASE_URL", "\"${localProperties["SUPABASE_URL"]}\"")
         buildConfigField("String", "SUPABASE_ANON_KEY", "\"${localProperties["SUPABASE_ANON_KEY"]}\"")
 
+        // Places
+        buildConfigField("String", "MAPS_API_KEY", "\"${localProperties["MAPS_API_KEY"]}\"")
+
         // maps
         val localProps = Properties().apply {
             load(rootProject.file("local.properties").inputStream())
@@ -100,4 +103,5 @@ dependencies {
 
     // Places API
     implementation(libs.places)
+    implementation("com.google.android.libraries.places:places:5.1.1")
 }
