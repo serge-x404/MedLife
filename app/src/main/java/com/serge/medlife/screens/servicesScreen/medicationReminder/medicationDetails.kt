@@ -144,12 +144,6 @@ fun MedicationReminder(
     )
     val context = LocalContext.current
 
-    if (errorMessage.isNotEmpty()) {
-        Text(
-            "Please fill all the details",
-            style = MaterialTheme.typography.titleMedium
-        )
-    }
 
 
     LaunchedEffect(isClicked) {
@@ -704,7 +698,7 @@ fun MedicationReminder(
                             selectedDate.isBlank() ||
                             consumption.isBlank()
                             ) {
-                            errorMessage = "Please fill all the required fields"
+                            Toast.makeText(context, "Please fill all fields",Toast.LENGTH_SHORT).show()
                             return@Button
                         }
                         isLoading = true

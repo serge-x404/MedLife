@@ -100,7 +100,10 @@ fun ProfileScreen(
             } }
         ) }
     ) { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding)) {
+        Column(modifier = Modifier
+            .padding(innerPadding)
+            .padding(bottom = 92.dp)
+        ) {
             Column(modifier = Modifier
                 .padding(horizontal = 12.dp)
                 .fillMaxWidth()
@@ -189,11 +192,13 @@ fun ProfileScreen(
                 Card(modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest)) {
                     Row(verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(12.dp)
-                            .fillMaxWidth()
+                        modifier = Modifier
                             .clickable(
                                 onClick = {navigateToPresHist()}
-                            )) {
+                            )
+                            .padding(12.dp)
+                            .fillMaxWidth()
+                    ) {
                         Image(
                             painter = painterResource(R.drawable.book),
                             contentDescription = null,
@@ -215,11 +220,13 @@ fun ProfileScreen(
                         }
                     }
                     Row(verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(12.dp)
-                            .fillMaxWidth()
+                        modifier = Modifier
                             .clickable(
                                 onClick = {navigateToHealthHist()}
-                            )) {
+                            )
+                            .padding(12.dp)
+                            .fillMaxWidth()
+                    ) {
                         Image(
                             painter = painterResource(R.drawable.heart),
                             contentDescription = null,
@@ -241,11 +248,13 @@ fun ProfileScreen(
                         }
                     }
                     Row(verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(12.dp)
-                            .fillMaxWidth()
+                        modifier = Modifier
                             .clickable(
                                 onClick = {navigateToTransactions()}
-                            )) {
+                            )
+                            .padding(12.dp)
+                            .fillMaxWidth()
+                    ) {
                         Image(
                             painter = painterResource(R.drawable.wallet),
                             contentDescription = null,
@@ -276,11 +285,13 @@ fun ProfileScreen(
                 Card(modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest)) {
                     Row(verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(12.dp)
-                            .fillMaxWidth()
+                        modifier = Modifier
                             .clickable(
                                 onClick = {navigateToAccSettings()}
-                            )) {
+                            )
+                            .padding(12.dp)
+                            .fillMaxWidth()
+                    ) {
                         Image(
                             painter = painterResource(R.drawable.gear),
                             contentDescription = null,
@@ -295,11 +306,13 @@ fun ProfileScreen(
                         )
                     }
                     Row(verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(12.dp)
-                            .fillMaxWidth()
+                        modifier = Modifier
                             .clickable(
-                            onClick = {navigateToNotifications()}
-                        )) {
+                                onClick = {navigateToNotifications()}
+                            )
+                            .padding(12.dp)
+                            .fillMaxWidth()
+                    ) {
                         Image(
                             painter = painterResource(R.drawable.bell),
                             contentDescription = null,
@@ -384,7 +397,7 @@ fun ProfileScreen(
                         color = MaterialTheme.colorScheme.onErrorContainer
                     )
                 }
-                Spacer(Modifier.height(100.dp))
+//                Spacer(Modifier.height(100.dp))
             }
         }
     }

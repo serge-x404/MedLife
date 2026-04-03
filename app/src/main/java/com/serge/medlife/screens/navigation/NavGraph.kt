@@ -46,7 +46,6 @@ import com.serge.medlife.screens.servicesScreen.hospitals.HospitalDetails
 import com.serge.medlife.screens.servicesScreen.hospitals.HospitalMain
 import com.serge.medlife.screens.servicesScreen.hospitals.HospitalMap
 import com.serge.medlife.screens.servicesScreen.hospitals.Map
-import com.serge.medlife.screens.servicesScreen.medicationReminder.MedicationHome
 import com.serge.medlife.screens.servicesScreen.medicationReminder.MedicationReminder
 import com.serge.medlife.screens.servicesScreen.medicationReminder.ReminderFilled
 import com.serge.medlife.screens.servicesScreen.specialization.Specialist
@@ -97,7 +96,6 @@ fun NavGraph(
         addHospitalScreen(navHostController, this)
         addHospiLocScreen(navHostController, this)
         addGoogleMapScreen(navHostController, this)
-        addMedReminderScreen(navHostController, this)
         addMedicineScreen(navHostController, this)
         addSpecialistScreen(navHostController, this)
         addArticleHome(navHostController, this)
@@ -107,8 +105,6 @@ fun NavGraph(
         addHealthHistScreen(navHostController, this)
         addTransactionScreen(navHostController, this)
         addAccSettScreen(navHostController, this)
-//        addPharmacyPortalScreen(navHostController,this)
-//        addPharmaRegisterScreen(navHostController,this)
         addSavedReminder(navHostController, this)
     }
 }
@@ -608,17 +604,6 @@ fun addAppointmentSuccessScreen(
                     }
                 }
             }
-        )
-    }
-}
-
-fun addMedReminderScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
-    navGraphBuilder.composable(
-        route = NavRoute.medReminder.path
-    ) {
-        MedicationHome(
-            back = { navHostController.popBackStack()},
-            navigateToAddMed = { navHostController.navigate(NavRoute.addMed.path) }
         )
     }
 }

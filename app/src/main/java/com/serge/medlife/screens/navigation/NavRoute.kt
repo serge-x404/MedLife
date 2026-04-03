@@ -31,7 +31,6 @@ sealed class NavRoute(val path: String) {
     object hospiDtls: NavRoute("hospiDtls")
     object newHospitalMap: NavRoute("googleMap")
     object hospiMap: NavRoute("hospiMap")
-    object medReminder: NavRoute("medReminder")
     object addMed: NavRoute("addMed")
     object savedReminder: NavRoute("savedReminder")
     object specialist: NavRoute("specialist")
