@@ -102,6 +102,7 @@ fun formatDate(dateString: String): String {
         outputFormat.format(dateFormat!!)
     }
     catch (e: Exception) {
+        e.printStackTrace()
         dateString
     }
 }
@@ -348,9 +349,7 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
                     )
                 }
             }
-            Spacer(Modifier.height(60.dp))
-
-
+            Spacer(Modifier.height(30.dp))
             if (isUpcoming) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
