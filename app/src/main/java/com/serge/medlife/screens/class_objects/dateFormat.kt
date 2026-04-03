@@ -83,16 +83,18 @@ fun CalendarScreen() {
     val canGoBack = currentMonth.isAfter(baseMonth)
     var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
 
+    val today = LocalDate.now()
+    val maxMonth = YearMonth.from(today.plusWeeks(1))
+    val canGoForward = currentMonth.isBefore(maxMonth)
+
     Column {
         CalendarHeader(
             month = currentMonth,
             onPreviousMonth = {
-                if (canGoBack) {
-                    currentMonth = currentMonth.minusMonths(1)
-                }
+                if (canGoBack) currentMonth = currentMonth.minusMonths(1)
             },
             onNextMonth = {
-                currentMonth = currentMonth.plusMonths(1)
+                if (canGoForward) currentMonth = currentMonth.plusMonths(1)
             }
         )
     }
@@ -103,14 +105,6 @@ fun CalendarScreen() {
     )
     Spacer(Modifier.height(20.dp))
     DateDisplay(selectedDate)
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
-@Composable
-fun CalendarGrid(month: YearMonth) {
-    month.format(
-        DateTimeFormatter.ofPattern("MMMM yyyy")
-    )
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -169,7 +163,12 @@ fun getDatesForMonth(
         } else {
             month.atDay(1)
         }
-    val endDate = month.atEndOfMonth()
+    val endDate = minOf(
+        today.plusWeeks(1),
+        month.atEndOfMonth()
+    )
+
+    if (startDate.isAfter(endDate)) return emptyList()
 
     val displayDate = mutableListOf<LocalDate>()
     var current = startDate

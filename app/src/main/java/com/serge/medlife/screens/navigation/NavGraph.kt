@@ -395,7 +395,9 @@ fun addChatScreen(navHostController: NavHostController, navGraphBuilder: NavGrap
     navGraphBuilder.composable(
         route = NavRoute.Chat.path
     ) {
-        ChatScreen()
+        ChatScreen(
+            back = {navHostController.popBackStack()}
+        )
     }
 }
 

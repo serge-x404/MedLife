@@ -18,11 +18,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.Send
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -44,63 +48,109 @@ data class ChatMessage(
     val isUser: Boolean
 )
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChatScreen() {
+fun ChatScreen(
+    back: () -> Unit
+) {
     var userInput by remember { mutableStateOf("") }
     var chatList by remember { mutableStateOf<List<ChatMessage>>(emptyList()) }
     var isLoading by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val listState = rememberLazyListState()
 
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = 12.dp)
-    ) {
-        LazyColumn(
-            state = listState,
-            modifier = Modifier
-                .weight(1f)
-                .padding(horizontal = 12.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(chatList) {chat ->
-                ChatBubble(chat)
-            }
-        }
-
-        if (isLoading) {
-            Text(
-                "Typing...",
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onBackground,
-                modifier = Modifier.padding(16.dp)
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        "Chat",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = {back()}
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
+                }
             )
         }
-
-        Row(
+    ) {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(it)
+                .fillMaxSize()
+                .padding(vertical = 12.dp)
         ) {
-            OutlinedTextField(
-                value = userInput,
-                onValueChange = {userInput = it},
-                placeholder = {Text(
-                    "Ask me anything..",
-                    style = MaterialTheme.typography.labelLarge
-                )},
-                modifier = Modifier.weight(1f),
-                textStyle = MaterialTheme.typography.bodyLarge.copy(
-                    fontWeight = FontWeight.SemiBold
-                ),
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
-                keyboardActions = KeyboardActions(
-                    onSend = {
-                        if (userInput.isBlank()) return@KeyboardActions
+            LazyColumn(
+                state = listState,
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 12.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(chatList) { chat ->
+                    ChatBubble(chat)
+                }
+            }
+
+            if (isLoading) {
+                Text(
+                    "Typing...",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                OutlinedTextField(
+                    value = userInput,
+                    onValueChange = { userInput = it },
+                    placeholder = {
+                        Text(
+                            "Ask me anything..",
+                            style = MaterialTheme.typography.labelLarge
+                        )
+                    },
+                    modifier = Modifier.weight(1f),
+                    textStyle = MaterialTheme.typography.bodyLarge.copy(
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
+                    keyboardActions = KeyboardActions(
+                        onSend = {
+                            if (userInput.isBlank()) return@KeyboardActions
+                            val message = userInput
+                            userInput = ""
+                            chatList = chatList + ChatMessage(message, isUser = true)
+                            isLoading = true
+                            scope.launch {
+                                val response = GeminiClient.sendMessage(message)
+                                chatList = chatList + ChatMessage(response, isUser = false)
+                                isLoading = false
+                                listState.animateScrollToItem(chatList.size - 1)
+                            }
+                        }
+                    )
+                )
+                Spacer(Modifier.width(8.dp))
+                IconButton(
+                    onClick = {
+                        if (userInput.isBlank()) return@IconButton
                         val message = userInput
                         userInput = ""
                         chatList = chatList + ChatMessage(message, isUser = true)
@@ -109,32 +159,16 @@ fun ChatScreen() {
                             val response = GeminiClient.sendMessage(message)
                             chatList = chatList + ChatMessage(response, isUser = false)
                             isLoading = false
-                            listState.animateScrollToItem(chatList.size-1)
+                            listState.animateScrollToItem(chatList.size - 1)
                         }
                     }
-                )
-            )
-            Spacer(Modifier.width(8.dp))
-            IconButton(
-                onClick = {
-                    if (userInput.isBlank()) return@IconButton
-                    val message = userInput
-                    userInput = ""
-                    chatList = chatList + ChatMessage(message, isUser = true)
-                    isLoading = true
-                    scope.launch {
-                        val response = GeminiClient.sendMessage(message)
-                        chatList = chatList + ChatMessage(response, isUser = false)
-                        isLoading = false
-                        listState.animateScrollToItem(chatList.size-1)
-                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.Send,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
                 }
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.Send,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary
-                )
             }
         }
     }
@@ -173,14 +207,13 @@ fun ChatBubble(chat: ChatMessage) {
                         fontWeight = FontWeight.SemiBold
                     )
                 )
-            }
-            else {
+            } else {
                 @Suppress("DEPRECATION")
-                 MarkdownText(
-                     markdown = chat.message,
-                     color = MaterialTheme.colorScheme.onBackground,
-                     style = MaterialTheme.typography.bodyMedium
-                 )
+                MarkdownText(
+                    markdown = chat.message,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    style = MaterialTheme.typography.bodyMedium
+                )
             }
         }
     }
