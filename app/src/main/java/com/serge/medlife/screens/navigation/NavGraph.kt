@@ -317,7 +317,6 @@ fun addAuthSplash(navHostController: NavHostController, navGraphBuilder: NavGrap
         route = NavRoute.AuthSplash.path
     ) {
         AuthSplashScreen(
-//            navigateToHome = {navHostController.navigate(NavRoute.Main.path.plus("?&userName&email"))},
             navigateToRegister = { navHostController.navigate(NavRoute.Register.path) },
             navigateToLogin = { navHostController.navigate(NavRoute.Login.path) })
     }

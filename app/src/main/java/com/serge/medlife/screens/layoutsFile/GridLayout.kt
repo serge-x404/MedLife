@@ -25,6 +25,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -96,75 +97,106 @@ fun DoctorsListGrid(
 ) {
     val rtdb = RTDB()
     var doctorList by remember { mutableStateOf(emptyList<DoctorDetailsDTO>()) }
+    var isLoading by remember { mutableStateOf(true) }
 
     LaunchedEffect(Unit) {
         rtdb.fetchDoctorInfo {
             doctorList = it
+            isLoading = false
         }
     }
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(1),
-        modifier = Modifier
-            .padding(start = 8.dp, end = 8.dp)
-            .height(960.dp),
-        verticalArrangement = Arrangement.spacedBy(6.dp)
-    ) {
-        items(doctorList) {
-            Card(
-                onClick = {
-                    val docName = Uri.encode(it.doctorUserName)
-                    val docSpeciality = Uri.encode(it.doctorSpecialization)
-                    val docGender = Uri.encode(it.doctorGender)
-                    navigateToDocDtls(docName, docSpeciality, docGender)
-                },
-                colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer),
-                elevation = CardDefaults.elevatedCardElevation(2.dp)
-            ) {
-                val image = when (it.doctorGender) {
-                    "Male" -> R.drawable.dr_rajesh
-                    "Female" -> R.drawable.dr_anna
-                    else ->  R.drawable.profile
-                }
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
+
+    if (isLoading) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            CircularProgressIndicator(
+                color = MaterialTheme.colorScheme.primary
+            )
+        }
+    }
+    else if (doctorList.isEmpty()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                "No doctors found",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+        }
+    }
+    else {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(1),
+            modifier = Modifier
+                .padding(start = 8.dp, end = 8.dp)
+                .height(960.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp)
+        ) {
+            items(doctorList) {
+                Card(
+                    onClick = {
+                        val docName = Uri.encode(it.doctorUserName)
+                        val docSpeciality = Uri.encode(it.doctorSpecialization)
+                        val docGender = Uri.encode(it.doctorGender)
+                        navigateToDocDtls(docName, docSpeciality, docGender)
+                    },
+                    colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer),
+                    elevation = CardDefaults.elevatedCardElevation(2.dp)
                 ) {
-                    Image(
-                        painter = painterResource(image),
-                        contentDescription = null,
-                        Modifier
-                            .size(90.dp)
-                            .padding(start = 4.dp, end = 4.dp)
-                    )
-                    Spacer(Modifier.width(6.dp))
-                    Column(modifier = Modifier.weight(.1f)) {
-                        Text(
-                            text = it.doctorUserName,
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onSurface
+                    val image = when (it.doctorGender) {
+                        "Male" -> R.drawable.dr_rajesh
+                        "Female" -> R.drawable.dr_anna
+                        else -> R.drawable.profile
+                    }
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Image(
+                            painter = painterResource(image),
+                            contentDescription = null,
+                            Modifier
+                                .size(90.dp)
+                                .padding(start = 4.dp, end = 4.dp)
                         )
-                        Text(
-                            text = it.doctorSpecialization,
-                            style = MaterialTheme.typography.labelLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Text(
-                            text = "Available",
-                            color = MaterialTheme.colorScheme.onTertiaryContainer,
-                            fontWeight = FontWeight.Normal,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(12.dp))
-                                .background(MaterialTheme.colorScheme.tertiaryContainer)
-                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                        Spacer(Modifier.width(6.dp))
+                        Column(modifier = Modifier.weight(.1f)) {
+                            Text(
+                                text = it.doctorUserName,
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                            Text(
+                                text = it.doctorSpecialization,
+                                style = MaterialTheme.typography.labelLarge,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            Text(
+                                text = "Available",
+                                color = MaterialTheme.colorScheme.onTertiaryContainer,
+                                fontWeight = FontWeight.Normal,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .background(MaterialTheme.colorScheme.tertiaryContainer)
+                                    .padding(horizontal = 8.dp, vertical = 4.dp)
+                            )
+                        }
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.tertiary,
+                            modifier = Modifier.padding(end = 12.dp)
                         )
                     }
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.tertiary,
-                        modifier = Modifier.padding(end = 12.dp)
-                    )
                 }
             }
         }

@@ -33,10 +33,10 @@ fun SearchBox() {
             onValueChange = { searchText = it},
             placeholder = {
                 Text(
-                    "Find a doctor, medicine or health services",
+                    "Search",
                     style = MaterialTheme.typography.titleSmall.copy(
                         fontWeight = FontWeight.Normal
-                    )
+                    ),
                 )
             },
             singleLine = true,
@@ -54,7 +54,8 @@ fun SearchBox() {
                 keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .align(Alignment.Center)
-                .padding(horizontal = 30.dp),
+                .padding(horizontal = 30.dp)
+                .fillMaxWidth(),
         )
     }
 }

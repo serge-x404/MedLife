@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,6 +32,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -80,93 +82,105 @@ fun HomeScreen(
 
         var selectedCategory by remember { mutableStateOf("All") }
         var doctorList by remember { mutableStateOf<List<DoctorDetailsDTO>>(emptyList()) }
+        var isLoading by remember { mutableStateOf(true) }
 
         LaunchedEffect(Unit) {
             rtdb.fetchUserName {
                 userName = it
-                Log.i("fetchedData", "userName: ${userName}")
+                Log.i("fetchedData", "userName: $userName")
             }
             rtdb.fetchDoctorInfo {
                 doctorList = it
+                isLoading = false
                 Log.i("fetchedData", "$doctorList")
             }
         }
 
-        val filteredDoctors = if (selectedCategory == "All") doctorList
-        else doctorList.filter { it.doctorSpecialization == selectedCategory }
-
-        Scaffold(topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Hi, $userName",
-                        color = MaterialTheme.colorScheme.onBackground,
-                        style = MaterialTheme.typography.headlineLarge
-                    )
-                },
-                actions = {
-                    IconButton(onClick = {
-                        navigateToCart()
-                    }) {
-                        Icon(
-                            painter = painterResource(R.drawable.cart),
-                            contentDescription = "Cart",
-                            Modifier.size(26.dp),
-                            tint = MaterialTheme.colorScheme.onBackground
-                        )
-                    }
-                    IconButton(onClick = {
-                        navigateToNotifications()
-                    }) {
-                        Icon(
-                            painter = painterResource(R.drawable.bell),
-                            contentDescription = "Bell",
-                            Modifier.size(26.dp),
-                            tint = MaterialTheme.colorScheme.onBackground
-                        )
-                    }
-                }
-            )
-        }) { innerPadding ->
+        if (isLoading) {
             Column(
-                modifier = Modifier.padding(innerPadding)
+                modifier = Modifier
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
-                Column(
-                    modifier = Modifier
-                        .verticalScroll(rememberScrollState())
-                        .fillMaxSize()
-                ) {
-                    HeaderBox()
-                    Spacer(Modifier.height(20.dp))
-                    SearchBox()
-                    Spacer(Modifier.height(20.dp))
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(4),
-                        modifier = Modifier
-                            .padding(horizontal = 12.dp)
-                            .height(220.dp),
-                    ) {
-                        items(categoriesHomeScreen.servicesHomeScreen) { item ->
-                            CardServicesHomeScreen(
-                                item,
-                                isSelected = selectedCategory == item.categoryTitle,
-                                onCategorySelected = { selectedCategory = it },
-                                navigateToChatDoc
+                CircularProgressIndicator(
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+        }
+        else {
+            Scaffold(topBar = {
+                TopAppBar(
+                    title = {
+                        Text(
+                            text = "Hi, $userName",
+                            color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.headlineLarge
+                        )
+                    },
+                    actions = {
+                        IconButton(onClick = {
+                            navigateToCart()
+                        }) {
+                            Icon(
+                                painter = painterResource(R.drawable.cart),
+                                contentDescription = "Cart",
+                                Modifier.size(26.dp),
+                                tint = MaterialTheme.colorScheme.onBackground
+                            )
+                        }
+                        IconButton(onClick = {
+                            navigateToNotifications()
+                        }) {
+                            Icon(
+                                painter = painterResource(R.drawable.bell),
+                                contentDescription = "Bell",
+                                Modifier.size(26.dp),
+                                tint = MaterialTheme.colorScheme.onBackground
                             )
                         }
                     }
-                    Spacer(Modifier.height(30.dp))
-                    ConsultDocComposable(navigateToChatDoc)
-                    Spacer(Modifier.height(30.dp))
+                )
+            }) { innerPadding ->
+                Column(
+                    modifier = Modifier.padding(innerPadding)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .verticalScroll(rememberScrollState())
+                            .fillMaxSize()
+                    ) {
+                        HeaderBox()
+                        Spacer(Modifier.height(20.dp))
+                        SearchBox()
+                        Spacer(Modifier.height(20.dp))
+                        LazyVerticalGrid(
+                            columns = GridCells.Fixed(4),
+                            modifier = Modifier
+                                .padding(horizontal = 12.dp)
+                                .height(220.dp),
+                        ) {
+                            items(categoriesHomeScreen.servicesHomeScreen) { item ->
+                                CardServicesHomeScreen(
+                                    item,
+                                    isSelected = selectedCategory == item.categoryTitle,
+                                    onCategorySelected = { selectedCategory = it },
+                                    navigateToChatDoc
+                                )
+                            }
+                        }
+                        Spacer(Modifier.height(30.dp))
+                        ConsultDocComposable(navigateToChatDoc)
+                        Spacer(Modifier.height(30.dp))
 
 
-                    Title("Chat Doctor")
+                        Title("Chat Doctor")
 
 
-                    Spacer(Modifier.height(5.dp))
-                    Column(modifier = Modifier.padding(start = 20.dp)) {
-                        DoctorData(navigateToChatDoc)
-                    }
+                        Spacer(Modifier.height(5.dp))
+                        Column(modifier = Modifier.padding(start = 20.dp)) {
+                            DoctorData(navigateToChatDoc)
+                        }
 
 //                LazyRow(
 //                    modifier = Modifier.padding(start = 26.dp),
@@ -188,50 +202,51 @@ fun HomeScreen(
 //                        )
 //                    }
 //                }
-                    Spacer(Modifier.height(30.dp))
+                        Spacer(Modifier.height(30.dp))
 
 
-                    Title("Best Selling Products")
+                        Title("Best Selling Products")
 
 
-                    Spacer(Modifier.height(5.dp))
-                    LazyRow(
-                        modifier = Modifier.padding(start = 26.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        items(BestSellingProducts.data) {
-                            Image(
-                                painter = painterResource(id = it),
-                                contentDescription = null,
-                                modifier = Modifier.clickable(
-                                    enabled = true,
-                                    onClick = {
-                                        navigateToHealthShop()
-                                    }
+                        Spacer(Modifier.height(5.dp))
+                        LazyRow(
+                            modifier = Modifier.padding(start = 26.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            items(BestSellingProducts.data) {
+                                Image(
+                                    painter = painterResource(id = it),
+                                    contentDescription = null,
+                                    modifier = Modifier.clickable(
+                                        enabled = true,
+                                        onClick = {
+                                            navigateToHealthShop()
+                                        }
+                                    )
                                 )
-                            )
+                            }
                         }
-                    }
-                    Spacer(Modifier.height(30.dp))
-                    NearbyHospitalComposable(navigateToHospital)
-                    Spacer(Modifier.height(30.dp))
+                        Spacer(Modifier.height(30.dp))
+                        NearbyHospitalComposable(navigateToHospital)
+                        Spacer(Modifier.height(30.dp))
 
 
-                    Title("Health Article")
+                        Title("Health Article")
 
 
-                    Spacer(Modifier.height(10.dp))
-                    LazyColumn(
-                        modifier = Modifier
-                            .padding(horizontal = 26.dp)
-                            .height(1120.dp),
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
-                    ) {
-                        items(Hot.latestArticle) { item ->
-                            LatestArticle(
-                                item,
-                                navigateToArticle
-                            )
+                        Spacer(Modifier.height(10.dp))
+                        LazyColumn(
+                            modifier = Modifier
+                                .padding(horizontal = 26.dp)
+                                .height(1120.dp),
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            items(Hot.latestArticle) { item ->
+                                LatestArticle(
+                                    item,
+                                    navigateToArticle
+                                )
+                            }
                         }
                     }
                 }

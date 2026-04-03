@@ -35,7 +35,6 @@ import com.serge.medlife.network.isInternetAvailable
 fun AuthSplashScreen(
     navigateToRegister: () -> Unit,
     navigateToLogin: () -> Unit
-//    navigateToHome: () -> Unit,
 ) {
     val context = LocalContext.current
     val networkObserver = remember { isInternetAvailable(context) }
@@ -72,7 +71,6 @@ fun AuthSplashScreen(
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.displayLarge
                 )
-                Spacer(Modifier.height(1.dp))
                 Text(
                     text = "We're here to keep you healthy",
                     color = MaterialTheme.colorScheme.onBackground,
