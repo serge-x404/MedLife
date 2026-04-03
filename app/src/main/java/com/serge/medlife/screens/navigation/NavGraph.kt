@@ -155,7 +155,7 @@ fun addHomeScreen(
                 navHostController.navigate(NavRoute.HealthShop.path)
             },
             navigateToHospital = {
-                navHostController.navigate(NavRoute.hospital.path)
+                navHostController.navigate(NavRoute.newHospitalMap.path)
             },
             navigateToArticle = {
                 navHostController.navigate(NavRoute.articleRead.path)
@@ -508,7 +508,9 @@ fun addGoogleMapScreen(navHostController: NavHostController, navGraphBuilder: Na
     navGraphBuilder.composable(
         NavRoute.newHospitalMap.path
     ) {
-        HospitalMap()
+        HospitalMap(
+            back = {navHostController.popBackStack()}
+        )
     }
 }
 

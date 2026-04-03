@@ -22,7 +22,7 @@ object serviceGridData {
         Categories(
             "Hospitals",
             R.drawable.hospital_new,
-            NavRoute.hospital.path
+            NavRoute.newHospitalMap.path
         ),
 //        Categories(
 //            "Emergency Calls",
