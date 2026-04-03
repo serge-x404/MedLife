@@ -661,6 +661,9 @@ fun addSavedReminder(navHostController: NavHostController, navGraphBuilder: NavG
                         inclusive = false
                     }
                 }
+            },
+            navigateToAddMed = {
+                navHostController.navigate(NavRoute.addMed.path)
             }
         )
     }

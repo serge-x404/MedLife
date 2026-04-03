@@ -42,7 +42,8 @@ import com.serge.medlife.screens.class_objects.CalendarScreen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReminderFilled(
-    back: () -> Unit
+    back: () -> Unit,
+    navigateToAddMed: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -121,7 +122,7 @@ fun ReminderFilled(
                     }
                 }
                 Button(
-                    onClick = back,
+                    onClick = navigateToAddMed,
                     modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.BottomCenter),

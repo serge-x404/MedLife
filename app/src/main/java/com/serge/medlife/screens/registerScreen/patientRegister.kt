@@ -19,8 +19,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
@@ -33,17 +35,16 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -178,6 +179,7 @@ fun PatientRegister(
                     .border(2.dp, MaterialTheme.colorScheme.outlineVariant)
                     .padding(horizontal = 12.dp)
                     .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
             ) {
                 Spacer(Modifier.height(10.dp))
                 Text(
@@ -205,7 +207,6 @@ fun PatientRegister(
                         onNext = {passwordFocus.requestFocus()}
                     ),
                     textStyle = MaterialTheme.typography.titleSmall,
-                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
                 Spacer(Modifier.height(5.dp))
                 Text(
@@ -245,7 +246,6 @@ fun PatientRegister(
                     modifier = Modifier.fillMaxWidth()
                         .focusRequester(passwordFocus),
                     textStyle = MaterialTheme.typography.titleSmall,
-                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
                 Spacer(Modifier.height(5.dp))
                 Text(
@@ -285,7 +285,6 @@ fun PatientRegister(
                     modifier = Modifier.fillMaxWidth()
                         .focusRequester(confirmPasswordFocus),
                     textStyle = MaterialTheme.typography.titleSmall,
-                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
                 Spacer(Modifier.height(5.dp))
                 Text(
@@ -310,7 +309,6 @@ fun PatientRegister(
                         keyboardType = KeyboardType.Text
                     ),
                     textStyle = MaterialTheme.typography.titleSmall,
-                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
                 Spacer(Modifier.height(5.dp))
                 Text(
@@ -334,10 +332,9 @@ fun PatientRegister(
                         onValueChange = { gender = it },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .menuAnchor(MenuAnchorType.PrimaryNotEditable,true),
+                            .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable,true),
                         readOnly = true,
                         textStyle = MaterialTheme.typography.titleSmall,
-                        colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                     )
                     ExposedDropdownMenu(
                         expanded = expandedGender,
@@ -378,7 +375,6 @@ fun PatientRegister(
                     },
                     onValueChange = {},
                     textStyle = MaterialTheme.typography.titleSmall,
-                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
                     modifier = Modifier
                         .fillMaxWidth(),
                     readOnly = true,
@@ -409,125 +405,107 @@ fun PatientRegister(
                         color = MaterialTheme.colorScheme.onBackground,
                     )
                 }
-            }
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 12.dp, vertical = 20.dp),
-            contentAlignment = Alignment.BottomCenter
-        ) {
-            Column {
-                Button(
-                    onClick = {
-                        if (email.isBlank() || password.isBlank() || userName.isBlank() || gender.isBlank() || selectedDate.isBlank()) {
-                            errorMessage = "Please fill in all fields"
-                            return@Button
-                        }
-                        if (password.length < 8) {
-                            errorMessage = "Length of password must be at least of 8 characters"
-                            return@Button
-                        }
-                        if (password != confirmPassword) {
-                            errorMessage = "Password and confirm password does not match"
-                            return@Button
-                        }
-                        isLoading = true
-                        auth.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener { task ->
-                                isLoading = false
-                                if (task.isSuccessful) {
-                                    val db = FirebaseDatabase.getInstance().reference
-                                    val uid = auth.currentUser!!.uid
-                                    val userMap = mapOf(
-                                        "userName" to userName,
-                                        "email" to email,
-                                        "password" to password,
-                                        "gender" to gender,
-                                        "dateOfBirth" to selectedDate,
-                                        "checkedNotification" to checked
-                                    )
-                                    db.child("users").child(uid).setValue(userMap)
-                                        .addOnSuccessListener {
-                                            navigateToHomeScreen()
-                                            sharedPreferences.edit(commit = true) {
-                                                putBoolean("isRegistered", true)
-                                            }
-                                        }
-                                        .addOnFailureListener { e ->
-                                            errorMessage = e.message ?: "Failed to save data"
-                                        }
-                                } else {
-                                    errorMessage = task.exception?.message ?: "Registration failed"
-                                }
-                            }
-                    },
-                    Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
-                ) {
-                    if (isLoading) {
-                        CircularProgressIndicator(
-                            color = MaterialTheme.colorScheme.onPrimary
-                        )
-                    } else {
-                        Text(
-                            text = "Register",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onTertiary
-                        )
-                    }
-                }
-                Row(
+                Box(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
+                        .fillMaxSize()
+                        .padding(horizontal = 12.dp, vertical = 20.dp),
+                    contentAlignment = Alignment.BottomCenter
                 ) {
-                    Text(
-                        text = "Already have an account?",
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        style = MaterialTheme.typography.labelLarge
-                    )
-                    Spacer(Modifier.width(4.dp))
-                    Text(
-                        text = "Click here to login",
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.labelLarge.copy(
-                            fontWeight = FontWeight.SemiBold
-                        ),
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier
-                            .clickable(
-                                enabled = true,
-                                onClick = navigateToLoginScreen
+                    Column {
+                        Button(
+                            onClick = {
+                                if (email.isBlank() || password.isBlank() || userName.isBlank() || gender.isBlank() || selectedDate.isBlank()) {
+                                    errorMessage = "Please fill in all fields"
+                                    return@Button
+                                }
+                                if (password.length < 8) {
+                                    errorMessage = "Length of password must be at least of 8 characters"
+                                    return@Button
+                                }
+                                if (password != confirmPassword) {
+                                    errorMessage = "Password and confirm password does not match"
+                                    return@Button
+                                }
+                                isLoading = true
+                                auth.createUserWithEmailAndPassword(email, password)
+                                    .addOnCompleteListener { task ->
+                                        isLoading = false
+                                        if (task.isSuccessful) {
+                                            val db = FirebaseDatabase.getInstance().reference
+                                            val uid = auth.currentUser!!.uid
+                                            val userMap = mapOf(
+                                                "userName" to userName,
+                                                "email" to email,
+                                                "password" to password,
+                                                "gender" to gender,
+                                                "dateOfBirth" to selectedDate,
+                                                "checkedNotification" to checked
+                                            )
+                                            db.child("users").child(uid).setValue(userMap)
+                                                .addOnSuccessListener {
+                                                    navigateToHomeScreen()
+                                                    sharedPreferences.edit(commit = true) {
+                                                        putBoolean("isRegistered", true)
+                                                    }
+                                                }
+                                                .addOnFailureListener { e ->
+                                                    errorMessage = e.message ?: "Failed to save data"
+                                                }
+                                        } else {
+                                            errorMessage = task.exception?.message ?: "Registration failed"
+                                        }
+                                    }
+                            },
+                            Modifier.fillMaxWidth(),
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                            border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
+                        ) {
+                            if (isLoading) {
+                                CircularProgressIndicator(
+                                    color = MaterialTheme.colorScheme.onPrimary
+                                )
+                            } else {
+                                Text(
+                                    text = "Register",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = MaterialTheme.colorScheme.onTertiary
+                                )
+                            }
+                        }
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                        ) {
+                            Text(
+                                text = "Already have an account?",
+                                textAlign = TextAlign.Center,
+                                color = MaterialTheme.colorScheme.onBackground,
+                                style = MaterialTheme.typography.labelLarge
                             )
-                    )
+                            Spacer(Modifier.width(4.dp))
+                            Text(
+                                text = "Click here to login",
+                                textAlign = TextAlign.Center,
+                                style = MaterialTheme.typography.labelLarge.copy(
+                                    fontWeight = FontWeight.SemiBold
+                                ),
+                                color = MaterialTheme.colorScheme.onBackground,
+                                modifier = Modifier
+                                    .clickable(
+                                        enabled = true,
+                                        onClick = navigateToLoginScreen
+                                    )
+                            )
+                        }
+                    }
                 }
             }
         }
     }
 }
 
-//@Composable
 fun convertMillisToDate(millis: Long): String {
     val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return formatter.format(Date(millis))
 }
-
-
-//@Composable
-//fun PasswordField(
-//    value: String,
-//    onValueChange: (String) -> Unit
-//) {
-//    var visible by remember { mutableStateOf(false) }
-//
-//    OutlinedTextField(
-//        value = value,
-//        onValueChange = onValueChange,
-//        singleLine = true,
-////        visualTransformation = if (visible) visualTransformation.None
-////        else passwordVisualTransformation
-//    )
-//}

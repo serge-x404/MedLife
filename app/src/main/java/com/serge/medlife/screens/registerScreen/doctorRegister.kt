@@ -8,6 +8,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,9 +42,9 @@ import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -111,12 +113,21 @@ fun DoctorRegister(
         }
     }
 
+    val interactionSource = remember { MutableInteractionSource() }
+    val isClicked by interactionSource.collectIsPressedAsState()
+
     if (errorMessage.isNotEmpty()) {
         Text(
             errorMessage,
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onBackground
         )
+    }
+
+    LaunchedEffect(isClicked) {
+        if (isClicked) {
+            documentPicker.launch("application/pdf")
+        }
     }
 
 
@@ -152,7 +163,6 @@ fun DoctorRegister(
                     onValueChange = { email = it },
                     singleLine = true,
                     textStyle = MaterialTheme.typography.titleSmall,
-                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Next,
                         keyboardType = KeyboardType.Text
@@ -202,7 +212,6 @@ fun DoctorRegister(
                         onNext = { confirmPasswordFocus.requestFocus() }
                     ),
                     textStyle = MaterialTheme.typography.titleSmall,
-                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
                 )
                 Spacer(Modifier.height(5.dp))
                 Text(
@@ -244,7 +253,6 @@ fun DoctorRegister(
                         onNext = { fullNameFocus.requestFocus() }
                     ),
                     textStyle = MaterialTheme.typography.titleSmall,
-                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
                 )
                 Spacer(Modifier.height(5.dp))
                 Text(
@@ -270,7 +278,6 @@ fun DoctorRegister(
                         .focusRequester(fullNameFocus),
                     onValueChange = { userName = it },
                     textStyle = MaterialTheme.typography.titleSmall,
-                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
                 )
                 Spacer(Modifier.height(5.dp))
                 Text(
@@ -293,7 +300,6 @@ fun DoctorRegister(
                         onValueChange = { gender = it },
                         readOnly = true,
                         textStyle = MaterialTheme.typography.titleSmall,
-                        colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
                         modifier = Modifier
                             .fillMaxWidth()
                             .menuAnchor(MenuAnchorType.PrimaryNotEditable,true),
@@ -342,7 +348,6 @@ fun DoctorRegister(
                         onValueChange = { specialization = it },
                         readOnly = true,
                         textStyle = MaterialTheme.typography.titleSmall,
-                        colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground),
                         modifier = Modifier
                             .fillMaxWidth()
                             .menuAnchor(MenuAnchorType.PrimaryNotEditable,true),
@@ -401,123 +406,124 @@ fun DoctorRegister(
                             )
                         }
                     },
+                    interactionSource = interactionSource,
                     readOnly = true,
                     modifier = Modifier.fillMaxWidth(),
                 )
-            }
-            Spacer(Modifier.height(60.dp))
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 12.dp, vertical = 20.dp),
-            contentAlignment = Alignment.BottomCenter
-        ) {
-            Column {
-                Button(
-                    onClick = {
-                        if (email.isBlank() || password.isBlank() || userName.isBlank() || gender.isBlank() || specialization.isBlank()) {
-                            errorMessage = "Please fill in all fields"
-                            return@Button
-                        }
-                        if (documentUri == null) {
-                            errorMessage = "Please upload your document"
-                            return@Button
-                        }
-                        if (password.length < 8) {
-                            errorMessage = "Password length must be at least of 8 characters"
-                            return@Button
-                        }
-                        if (password != confirmPassword) {
-                            errorMessage = "Password and confirm password does not match"
-                            return@Button
-                        }
-                        isLoading = true
-                        auth.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener { task ->
-                                isLoading = false
-                                if (task.isSuccessful) {
-                                    val db = FirebaseDatabase.getInstance().reference
-                                    val uid = auth.currentUser!!.uid
-                                    scope.launch {
-                                        uploadDocument(
-                                            uri = documentUri!!,
-                                            context = context,
-                                            uid = uid,
-                                            onSuccess = { documentUrl ->
-                                                val userMap = mapOf(
-                                                    "doctorEmail" to email,
-                                                    "doctorPassword" to password,
-                                                    "doctorUserName" to userName,
-                                                    "doctorGender" to gender,
-                                                    "doctorSpecialization" to specialization,
-                                                    "doctorDocuments" to documentUrl,
-                                                    "doctorVerified" to isVerified
-                                                )
-                                                db.child("doctors").child(uid).setValue(userMap)
-                                                    .addOnSuccessListener {
-                                                        navigateToConfirmationScreen()
-                                                        sharedPreferences.edit(commit = true) {
-                                                            putBoolean("isRegistered", true)
-                                                        }
-                                                    }
-                                                    .addOnFailureListener { e ->
-                                                        errorMessage =
-                                                            e.message ?: "Failed to register"
-                                                    }
-                                            },
-                                            onFailure = {
-                                                isLoading = false
-                                                errorMessage = it
-                                            }
-                                        )
-                                    }
-                                } else {
-                                    errorMessage = task.exception?.message ?: "Registration failed"
-                                }
-                            }
-                    },
-                    Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
-                ) {
-                    if (isLoading) {
-                        CircularProgressIndicator(
-                            color = MaterialTheme.colorScheme.onPrimary
-                        )
-                    } else {
-                        Text(
-                            text = "Register",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onPrimary
-                        )
-                    }
-                }
-                Row(
+
+                Box(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
+                        .fillMaxSize()
+                        .padding(horizontal = 12.dp, vertical = 20.dp),
+                    contentAlignment = Alignment.BottomCenter
                 ) {
-                    Text(
-                        text = "Already have an account?",
-                        textAlign = TextAlign.Center,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        style = MaterialTheme.typography.labelLarge
-                    )
-                    Spacer(Modifier.width(4.dp))
-                    Text(
-                        text = "Click here to login",
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.labelLarge.copy(
-                            fontWeight = FontWeight.SemiBold
-                        ),
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier
-                            .clickable(
-                                enabled = true,
-                                onClick = navigateToLoginScreen
+                    Column {
+                        Button(
+                            onClick = {
+                                if (email.isBlank() || password.isBlank() || userName.isBlank() || gender.isBlank() || specialization.isBlank()) {
+                                    errorMessage = "Please fill in all fields"
+                                    return@Button
+                                }
+                                if (documentUri == null) {
+                                    errorMessage = "Please upload your document"
+                                    return@Button
+                                }
+                                if (password.length < 8) {
+                                    errorMessage = "Password length must be at least of 8 characters"
+                                    return@Button
+                                }
+                                if (password != confirmPassword) {
+                                    errorMessage = "Password and confirm password does not match"
+                                    return@Button
+                                }
+                                isLoading = true
+                                auth.createUserWithEmailAndPassword(email, password)
+                                    .addOnCompleteListener { task ->
+                                        isLoading = false
+                                        if (task.isSuccessful) {
+                                            val db = FirebaseDatabase.getInstance().reference
+                                            val uid = auth.currentUser!!.uid
+                                            scope.launch {
+                                                uploadDocument(
+                                                    uri = documentUri!!,
+                                                    context = context,
+                                                    uid = uid,
+                                                    onSuccess = { documentUrl ->
+                                                        val userMap = mapOf(
+                                                            "doctorEmail" to email,
+                                                            "doctorPassword" to password,
+                                                            "doctorUserName" to userName,
+                                                            "doctorGender" to gender,
+                                                            "doctorSpecialization" to specialization,
+                                                            "doctorDocuments" to documentUrl,
+                                                            "doctorVerified" to isVerified
+                                                        )
+                                                        db.child("doctors").child(uid).setValue(userMap)
+                                                            .addOnSuccessListener {
+                                                                navigateToConfirmationScreen()
+                                                                sharedPreferences.edit(commit = true) {
+                                                                    putBoolean("isRegistered", true)
+                                                                }
+                                                            }
+                                                            .addOnFailureListener { e ->
+                                                                errorMessage =
+                                                                    e.message ?: "Failed to register"
+                                                            }
+                                                    },
+                                                    onFailure = {
+                                                        isLoading = false
+                                                        errorMessage = it
+                                                    }
+                                                )
+                                            }
+                                        } else {
+                                            errorMessage = task.exception?.message ?: "Registration failed"
+                                        }
+                                    }
+                            },
+                            Modifier.fillMaxWidth(),
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                            border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
+                        ) {
+                            if (isLoading) {
+                                CircularProgressIndicator(
+                                    color = MaterialTheme.colorScheme.onPrimary
+                                )
+                            } else {
+                                Text(
+                                    text = "Register",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = MaterialTheme.colorScheme.onPrimary
+                                )
+                            }
+                        }
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                        ) {
+                            Text(
+                                text = "Already have an account?",
+                                textAlign = TextAlign.Center,
+                                color = MaterialTheme.colorScheme.onBackground,
+                                style = MaterialTheme.typography.labelLarge
                             )
-                    )
+                            Spacer(Modifier.width(4.dp))
+                            Text(
+                                text = "Click here to login",
+                                textAlign = TextAlign.Center,
+                                style = MaterialTheme.typography.labelLarge.copy(
+                                    fontWeight = FontWeight.SemiBold
+                                ),
+                                color = MaterialTheme.colorScheme.onBackground,
+                                modifier = Modifier
+                                    .clickable(
+                                        enabled = true,
+                                        onClick = navigateToLoginScreen
+                                    )
+                            )
+                        }
+                    }
                 }
             }
         }

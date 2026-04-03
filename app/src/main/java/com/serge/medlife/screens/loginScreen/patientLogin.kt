@@ -31,7 +31,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -117,7 +116,6 @@ fun PatientLogin(
                         onNext = { focusRequester.requestFocus() }
                     ),
                     textStyle = MaterialTheme.typography.titleSmall,
-                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
                 Spacer(Modifier.height(10.dp))
                 Text(
@@ -153,7 +151,6 @@ fun PatientLogin(
                         imeAction = ImeAction.Done
                     ),
                     textStyle = MaterialTheme.typography.titleSmall,
-                    colors = TextFieldDefaults.colors(MaterialTheme.colorScheme.onBackground)
                 )
                 Spacer(Modifier.height(10.dp))
                 Text(
