@@ -7,6 +7,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.serge.medlife.screens.servicesScreen.chatDoc.AppointmentData
+import com.serge.medlife.screens.servicesScreen.medicationReminder.MedicationData
 
 class RTDB {
     val auth = FirebaseAuth.getInstance()
@@ -87,6 +88,30 @@ class RTDB {
             .updateChildren(updates)
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { e -> error(e) }
+    }
+
+    fun fetchMedication(onResult: (List<MedicationData>) -> Unit): ValueEventListener {
+        db.child("reminders").child(uid)
+            val listener = object: ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    Log.i("RTDB", "Raw snapshot: ${snapshot.value}")
+                    val list = snapshot.children.mapNotNull {child ->
+                        Log.i("RTDB", "Child key: ${child.key}")
+                        Log.i("RTDB", "Child value: ${child.value}")
+                        child.getValue(MedicationData::class.java)?.copy(
+                            key = child.key ?: ""
+                        )
+                    }
+                    Log.i("RTDB", "List size: ${list.size}")
+                    onResult(list)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("fetchMedications", error.message)
+                }
+            }
+        db.child("reminders").child(uid).addValueEventListener(listener)
+        return listener
     }
 
 }

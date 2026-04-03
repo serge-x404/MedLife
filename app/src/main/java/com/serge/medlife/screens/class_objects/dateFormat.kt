@@ -77,11 +77,14 @@ fun CalendarHeader(
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun CalendarScreen() {
+fun CalendarScreen(
+    selectedDate: LocalDate?,
+    onDateSelected: (LocalDate) -> Unit
+) {
     var baseMonth by remember { mutableStateOf(YearMonth.now()) }
     var currentMonth by remember { mutableStateOf(baseMonth) }
     val canGoBack = currentMonth.isAfter(baseMonth)
-    var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
+    val selectedDate = selectedDate
 
     val today = LocalDate.now()
     val maxMonth = YearMonth.from(today.plusWeeks(1))
@@ -101,7 +104,7 @@ fun CalendarScreen() {
     DateGrid(
         currentMonth,
         selectedDate = selectedDate,
-        onDateSelected = { selectedDate = it }
+        onDateSelected = { onDateSelected(it) }
     )
     Spacer(Modifier.height(20.dp))
     DateDisplay(selectedDate)

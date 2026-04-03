@@ -2,9 +2,12 @@ package com.serge.medlife.screens.history
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -19,6 +22,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.serge.medlife.rtdb.RTDB
@@ -35,19 +39,20 @@ fun HistoryLogic(navigateToChatDoc: () -> Unit) {
     var storeHistoryIndex by remember { mutableIntStateOf(0) }
     var appointmentList by remember { mutableStateOf<List<AppointmentData>>(emptyList()) }
     val upcomingList = appointmentList.filter { isUpcoming(it.selectedDate) }
-    val completedList = appointmentList.filter{ !isUpcoming(it.selectedDate) }
+    val completedList = appointmentList.filter { !isUpcoming(it.selectedDate) }
     val rtdb = remember { RTDB() }
+    var isLoading by remember { mutableStateOf(true) }
 
     DisposableEffect(Unit) {
         val listener = rtdb.fetchAppointments {
             appointmentList = it
+            isLoading = false
         }
         onDispose {
             rtdb.db.child("appointments").child(rtdb.uid)
                 .removeEventListener(listener)
         }
     }
-
     Scaffold(
         contentWindowInsets = WindowInsets(0.dp)
     ) {
@@ -81,9 +86,22 @@ fun HistoryLogic(navigateToChatDoc: () -> Unit) {
 
                 }
             )
-            when (storeHistoryIndex) {
-                0 -> UpcomingAppointment(upcomingList, navigateToChatDoc)
-                else -> UpcomingAppointment(completedList, navigateToChatDoc)
+            if (isLoading) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    CircularProgressIndicator(
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+            } else {
+                when (storeHistoryIndex) {
+                    0 -> UpcomingAppointment(upcomingList, navigateToChatDoc)
+                    else -> UpcomingAppointment(completedList, navigateToChatDoc)
+                }
             }
         }
     }
@@ -95,8 +113,7 @@ fun isUpcoming(dateString: String): Boolean {
         val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val appointmentDate = formatter.parse(dateString)
         appointmentDate != null && appointmentDate.after(Date())
-    }
-    catch (e: Exception) {
+    } catch (e: Exception) {
         false
     }
 }

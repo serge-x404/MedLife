@@ -1,6 +1,7 @@
 package com.serge.medlife.screens.servicesScreen.medicationReminder
 
 data class MedicationData(
+    val key: String = "",
     val medName: String = "",
     val dosage: String = "",
     val timePeriod: String = "",
