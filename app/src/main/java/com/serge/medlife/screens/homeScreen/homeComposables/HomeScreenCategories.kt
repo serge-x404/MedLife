@@ -50,7 +50,7 @@ object categoriesHomeScreen {
         ),
         HomeScreenCategories(
             "Ophthalmology",
-            R.drawable.eye
+            R.drawable.eye1
         ),
         HomeScreenCategories(
             "Neurology",

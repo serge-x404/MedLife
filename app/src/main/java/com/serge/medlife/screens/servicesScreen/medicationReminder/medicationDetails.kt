@@ -36,10 +36,10 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SelectableDates
@@ -239,7 +239,7 @@ fun MedicationReminder(
                                         shape = RoundedCornerShape(4.dp)
                                     )
                                     .padding(10.dp)
-                                    .menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
+                                    .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, true),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
@@ -302,7 +302,7 @@ fun MedicationReminder(
                                         shape = RoundedCornerShape(4.dp)
                                     )
                                     .padding(10.dp)
-                                    .menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
+                                    .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, true),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
@@ -354,7 +354,7 @@ fun MedicationReminder(
                         ) {
                             Row(
                                 modifier = Modifier
-                                    .menuAnchor(MenuAnchorType.PrimaryNotEditable, true)
+                                    .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, true)
                                     .border(
                                         1.dp,
                                         color = MaterialTheme.colorScheme.surfaceTint,
@@ -417,7 +417,7 @@ fun MedicationReminder(
                         ) {
                             Row(
                                 modifier = Modifier
-                                    .menuAnchor(MenuAnchorType.PrimaryNotEditable, true)
+                                    .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, true)
                                     .border(
                                         1.dp,
                                         color = MaterialTheme.colorScheme.surfaceTint,
@@ -502,7 +502,7 @@ fun MedicationReminder(
                         ) {
                             Row(
                                 modifier = Modifier
-                                    .menuAnchor(MenuAnchorType.PrimaryNotEditable, true)
+                                    .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, true)
                                     .border(
                                         1.dp,
                                         color = MaterialTheme.colorScheme.surfaceTint,
@@ -587,7 +587,7 @@ fun MedicationReminder(
                         ) {
                             Row(
                                 modifier = Modifier
-                                    .menuAnchor(MenuAnchorType.PrimaryNotEditable, true)
+                                    .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable, true)
                                     .border(
                                         1.dp,
                                         color = MaterialTheme.colorScheme.surfaceTint,

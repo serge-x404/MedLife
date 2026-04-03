@@ -20,25 +20,24 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -55,6 +54,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -66,6 +66,7 @@ import androidx.core.content.edit
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.database.FirebaseDatabase
+import com.serge.medlife.R
 import com.serge.medlife.supabase.uploadDocument
 import kotlinx.coroutines.launch
 
@@ -182,7 +183,7 @@ fun DoctorRegister(
                     value = password,
                     label = {
                         Text(
-                            "Create a password",
+                            "Re-enter your password",
                             color = MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.titleSmall
                         )
@@ -195,12 +196,13 @@ fun DoctorRegister(
                     visualTransformation = if (passwordVisibility) VisualTransformation.None
                     else PasswordVisualTransformation(),
                     trailingIcon = {
-                        val icon = if (passwordVisibility) Icons.Default.Clear
-                        else Icons.Default.Check
+                        val icon = if (passwordVisibility) R.drawable.eye_closed
+                        else R.drawable.eye1
                         IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
                             Icon(
-                                imageVector = icon,
-                                contentDescription = null
+                                painter = painterResource(icon),
+                                contentDescription = null,
+                                modifier = Modifier.size(24.dp)
                             )
                         }
                     },
@@ -236,12 +238,13 @@ fun DoctorRegister(
                     visualTransformation = if (confirmPasswordVisibility) VisualTransformation.None
                     else PasswordVisualTransformation(),
                     trailingIcon = {
-                        val icon = if (confirmPasswordVisibility) Icons.Default.Clear
-                        else Icons.Default.Check
+                        val icon = if (confirmPasswordVisibility) R.drawable.eye_closed
+                        else R.drawable.eye1
                         IconButton(onClick = { confirmPasswordVisibility = !confirmPasswordVisibility }) {
                             Icon(
-                                imageVector = icon,
-                                contentDescription = null
+                                painter = painterResource(icon),
+                                contentDescription = null,
+                                modifier = Modifier.size(24.dp)
                             )
                         }
                     },
@@ -302,7 +305,7 @@ fun DoctorRegister(
                         textStyle = MaterialTheme.typography.titleSmall,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .menuAnchor(MenuAnchorType.PrimaryNotEditable,true),
+                            .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable,true),
                     )
                     ExposedDropdownMenu(
                         expanded = expandedGender,
@@ -350,7 +353,7 @@ fun DoctorRegister(
                         textStyle = MaterialTheme.typography.titleSmall,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .menuAnchor(MenuAnchorType.PrimaryNotEditable,true),
+                            .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable,true),
                     )
                     ExposedDropdownMenu(
                         expanded = expandedSpecialization,

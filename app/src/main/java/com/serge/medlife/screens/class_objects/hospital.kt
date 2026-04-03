@@ -61,7 +61,7 @@ object HospitalData {
             "Gynecology"
         ),
         Specialities(
-            R.drawable.eye,
+            R.drawable.eye1,
             "Ophthalmology"
         ),
         Specialities(
