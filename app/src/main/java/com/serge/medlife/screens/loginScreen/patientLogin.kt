@@ -22,6 +22,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -45,6 +46,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.core.content.edit
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -66,6 +68,38 @@ fun PatientLogin(
 
     val auth = FirebaseAuth.getInstance()
     val db = FirebaseDatabase.getInstance().reference
+
+    var showDialog by remember { mutableStateOf(false) }
+
+    if (showDialog) {
+        Dialog(
+            onDismissRequest = {showDialog = false}
+        ) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        "For issues related to login mail to\n" +
+                                "kpdev1124@gmail.com",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                    Button(
+                        onClick = {showDialog = false},
+                        modifier = Modifier.align(Alignment.End)
+                    ) {
+                        Text("Close")
+                    }
+                }
+            }
+        }
+    }
 
     if (errorMessage.isNotEmpty()) {
         Text(
@@ -160,7 +194,7 @@ fun PatientLogin(
                     color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.clickable(
                         enabled = true,
-                        onClick = {}
+                        onClick = {showDialog = !showDialog}
                     )
                 )
             }
