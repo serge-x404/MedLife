@@ -20,9 +20,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ConsultDocComposable(navigateToChatDoc: (String) -> Unit ) {
+fun PharmacyComposable(navigateToHealthShop: () -> Unit ) {
     Button(
-        onClick = { navigateToChatDoc("All") },
+        onClick = { navigateToHealthShop() },
         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest),
         border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outline),
         modifier = Modifier
@@ -37,12 +37,12 @@ fun ConsultDocComposable(navigateToChatDoc: (String) -> Unit ) {
             modifier = Modifier.weight(0.1f)
         ) {
             Text(
-                text = "Consult with a specialist",
+                text = "Pharmacy",
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.titleMedium
             )
             Text(
-                text = "Promote health via chat or call",
+                text = "Look for the medicines",
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.labelSmall
             )

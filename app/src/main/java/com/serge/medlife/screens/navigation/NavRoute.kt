@@ -1,5 +1,7 @@
 package com.serge.medlife.screens.navigation
 
+import android.net.Uri
+
 sealed class NavRoute(val path: String) {
     object Splash : NavRoute("splash")
     object AuthSplash : NavRoute("authSplash")
@@ -13,8 +15,8 @@ sealed class NavRoute(val path: String) {
     object Walkthrough: NavRoute("Walkthrough")
     object History: NavRoute("history")
     object Profile: NavRoute("profile")
-    object ChatDoc: NavRoute("chatDoc") {
-        fun createRoute(category: String) = "chatDoc/$category"
+    object ChatDoc: NavRoute("chatDoc?category={category}") {
+        fun createRoute(category: String) = "chatDoc?category=${Uri.encode(category)}"
     }
     object Chat: NavRoute("chat")
     object DocDtls: NavRoute("docDtls?name={name}&specialization={specialization}&gender={gender}")

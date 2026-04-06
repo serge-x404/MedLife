@@ -1,8 +1,6 @@
 package com.serge.medlife.screens.homeScreen
 
 import android.util.Log
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -42,28 +39,27 @@ import com.serge.medlife.network.NoInternet
 import com.serge.medlife.network.isInternetAvailable
 import com.serge.medlife.rtdb.DoctorDetailsDTO
 import com.serge.medlife.rtdb.RTDB
-import com.serge.medlife.screens.class_objects.BestSellingProducts
 import com.serge.medlife.screens.class_objects.Hot
 import com.serge.medlife.screens.homeScreen.homeComposables.CardServicesHomeScreen
+import com.serge.medlife.screens.homeScreen.homeComposables.CategoriesHomeScreen
 import com.serge.medlife.screens.homeScreen.homeComposables.ConsultDocComposable
-import com.serge.medlife.screens.homeScreen.homeComposables.DoctorData
 import com.serge.medlife.screens.homeScreen.homeComposables.HeaderBox
 import com.serge.medlife.screens.homeScreen.homeComposables.NearbyHospitalComposable
-import com.serge.medlife.screens.homeScreen.homeComposables.SearchBox
+import com.serge.medlife.screens.homeScreen.homeComposables.PharmacyComposable
 import com.serge.medlife.screens.homeScreen.homeComposables.Title
-import com.serge.medlife.screens.homeScreen.homeComposables.categoriesHomeScreen
 import com.serge.medlife.screens.servicesScreen.article.LatestArticle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    navigateToChatDoc: () -> Unit,
+    navigateToChatDoc: (String) -> Unit,
     navigateToProfile: () -> Unit,
     navigateToNotifications: () -> Unit,
     navigateToCart: () -> Unit,
     navigateToHealthShop: () -> Unit,
     navigateToHospital: () -> Unit,
-    navigateToArticle: () -> Unit
+    navigateToArticle: () -> Unit,
+    navigateToCategoryDoc: (String) -> Unit
 ) {
     val context = LocalContext.current
     val networkObserver = remember { isInternetAvailable(context) }
@@ -152,80 +148,29 @@ fun HomeScreen(
                     ) {
                         HeaderBox()
                         Spacer(Modifier.height(20.dp))
-                        SearchBox()
-                        Spacer(Modifier.height(20.dp))
                         LazyVerticalGrid(
                             columns = GridCells.Fixed(4),
                             modifier = Modifier
                                 .padding(horizontal = 12.dp)
                                 .height(220.dp),
                         ) {
-                            items(categoriesHomeScreen.servicesHomeScreen) { item ->
+                            items(CategoriesHomeScreen.servicesHomeScreen) { item ->
                                 CardServicesHomeScreen(
                                     item,
-                                    isSelected = selectedCategory == item.categoryTitle,
                                     onCategorySelected = { selectedCategory = it },
-                                    navigateToChatDoc
+                                    navigateToCategoryDoc
                                 )
                             }
                         }
+
                         Spacer(Modifier.height(30.dp))
-                        ConsultDocComposable(navigateToChatDoc)
+                        ConsultDocComposable { navigateToChatDoc("All") }
+
                         Spacer(Modifier.height(30.dp))
-
-
-                        Title("Chat Doctor")
-
-
+                        PharmacyComposable(navigateToHealthShop)
                         Spacer(Modifier.height(5.dp))
-                        Column(modifier = Modifier.padding(start = 20.dp)) {
-                            DoctorData(navigateToChatDoc)
-                        }
-
-//                LazyRow(
-//                    modifier = Modifier.padding(start = 26.dp),
-//                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-//                ) {
-//                    items(lazyRow.doctors) { image ->
-//                        Image(
-//                            painter = painterResource(id = image),
-//                            contentDescription = null,
-//                            contentScale = ContentScale.FillBounds,
-//                            modifier = Modifier
-//                                .size(150.dp)
-//                                .clickable(
-//                                    enabled = true,
-//                                    onClick = {
-//                                        navigateToChatDoc()
-//                                    }
-//                                )
-//                        )
-//                    }
-//                }
-                        Spacer(Modifier.height(30.dp))
 
 
-                        Title("Best Selling Products")
-
-
-                        Spacer(Modifier.height(5.dp))
-                        LazyRow(
-                            modifier = Modifier.padding(start = 26.dp),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            items(BestSellingProducts.data) {
-                                Image(
-                                    painter = painterResource(id = it),
-                                    contentDescription = null,
-                                    modifier = Modifier.clickable(
-                                        enabled = true,
-                                        onClick = {
-                                            navigateToHealthShop()
-                                        }
-                                    )
-                                )
-                            }
-                        }
                         Spacer(Modifier.height(30.dp))
                         NearbyHospitalComposable(navigateToHospital)
                         Spacer(Modifier.height(30.dp))
@@ -254,95 +199,3 @@ fun HomeScreen(
         }
     }
 }
-
-
-//@Preview(
-//    showBackground = true,
-//    showSystemUi = true
-//)
-//@Composable
-//fun Test0() {
-//    Column {
-//        Text(
-//            "Best Selling Products",
-//            fontSize = 16.sp,
-//            fontWeight = FontWeight.Bold,
-//            modifier = Modifier.padding(start = 30.dp)
-//        )
-//        Spacer(Modifier.height(5.dp))
-//        LazyRow(
-//            modifier = Modifier.padding(start = 26.dp),
-//            horizontalArrangement = Arrangement.spacedBy(8.dp)
-//        ) {
-//            items(BestSellingProducts.data) { it ->
-//                Image(
-//                    painter = painterResource(id = it),
-//                    contentDescription = null
-//                )
-//            }
-//        }
-//        Spacer(Modifier.height(30.dp))
-//        Text(
-//            "Nearby Hospitals",
-//            fontSize = 16.sp,
-//            fontWeight = FontWeight.Bold,
-//            modifier = Modifier.padding(start = 30.dp)
-//        )
-//        Spacer(Modifier.height(5.dp))
-//        LazyRow(
-//            modifier = Modifier.padding(start = 26.dp),
-//            horizontalArrangement = Arrangement.spacedBy(12.dp)
-//        ) {
-//            items(hospitals.images) {
-//                Box(modifier = Modifier.size(180.dp)
-//                    .clickable(enabled = true,
-//                        onClick = {})
-//                    .border(1.dp, color = Color(0xFFC2E7D9), shape = RoundedCornerShape(4.dp))
-//                ) {
-////                    Surface(shape = CircleShape,
-////                        modifier = Modifier
-////                            .offset(x = 20.dp, (-10).dp)
-////                            .align(Alignment.TopEnd)
-////                            .size(60.dp)) {}
-//                    Column(modifier = Modifier.padding(12.dp)) {
-//                        Image(
-//                            painter = painterResource(it.img),
-//                            contentDescription = null,
-//                            modifier = Modifier.size(60.dp)
-//                        )
-//                        Text(
-//                            it.name,
-//                            color = Color(0xFF26408B),
-//                            fontSize = 16.sp,
-//                            fontWeight = FontWeight.W400
-//                        )
-//                        Spacer(Modifier.height(8.dp))
-//                        Row(verticalAlignment = Alignment.CenterVertically) {
-//                            Text("See maps",
-//                                color = Color(0xFF8F8F8F)
-//                            )
-//                            Icon(
-//                                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-//                                contentDescription = null,
-//                                tint = Color(0xFF8F8F8F)
-//                            )
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        Spacer(Modifier.height(30.dp))
-//        Text("Health Article",
-//            fontSize = 16.sp,
-//            fontWeight = FontWeight.Bold,
-//            modifier = Modifier.padding(start = 30.dp)
-//        )
-//        Spacer(Modifier.height(10.dp))
-//        LazyColumn(modifier = Modifier.padding(horizontal = 26.dp)
-//            .height(310.dp)) {
-//            items(Hot.latestArticle) {
-//                    item -> LatestArticle(item)
-//            }
-//        }
-//    }
-//}

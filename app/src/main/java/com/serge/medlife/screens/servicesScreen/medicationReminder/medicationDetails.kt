@@ -23,6 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -39,6 +40,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -71,7 +73,8 @@ import java.util.Calendar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MedicationReminder(
-    navigateToSavedReminder: () -> Unit
+    navigateToSavedReminder: () -> Unit,
+    back: () -> Unit
 ) {
     var expandedMedName by remember { mutableStateOf(false) }
     var medName by remember { mutableStateOf("") }
@@ -144,6 +147,14 @@ fun MedicationReminder(
     )
     val context = LocalContext.current
 
+    if (errorMessage.isNotEmpty()) {
+        Text(
+            errorMessage,
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+    }
+
 
 
     LaunchedEffect(isClicked) {
@@ -185,6 +196,16 @@ fun MedicationReminder(
                         color = MaterialTheme.colorScheme.onBackground
                     )
                 },
+                navigationIcon = {
+                    IconButton(
+                        onClick = {back()}
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                            contentDescription = null
+                        )
+                    }
+                }
             )
         }
     ) { innerPadding ->

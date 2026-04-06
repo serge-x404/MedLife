@@ -1,6 +1,7 @@
 package com.serge.medlife.screens.layoutsFile
 
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
@@ -59,7 +60,7 @@ fun GridViewLayout(
     val context = LocalContext.current
     Card(
         onClick = {
-            Toast.makeText(context,categories.name, Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, categories.name, Toast.LENGTH_SHORT).show()
             categories.route?.let { onNavigate(it) }
         },
         modifier = Modifier
@@ -71,7 +72,8 @@ fun GridViewLayout(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
                 .padding(10.dp)
         ) {
             Image(
@@ -93,8 +95,10 @@ fun GridViewLayout(
 
 @Composable
 fun DoctorsListGrid(
+    category: String = "All",
     navigateToDocDtls: (String, String, String) -> Unit
 ) {
+    Log.d("Category", "Category: $category")
     val rtdb = RTDB()
     var doctorList by remember { mutableStateOf(emptyList<DoctorDetailsDTO>()) }
     var isLoading by remember { mutableStateOf(true) }
@@ -105,6 +109,13 @@ fun DoctorsListGrid(
             isLoading = false
         }
     }
+
+    val filteredList = if (category == "All" || category.isEmpty()) doctorList
+    else doctorList.filter { it.doctorSpecialization == category }
+
+    Log.d("Filter", "Category: $category")
+    Log.d("Filter", "DoctorList size: ${doctorList.size}")
+    Log.d("Filter", "FilteredList size: ${filteredList.size}")
 
     if (isLoading) {
         Column(
@@ -117,30 +128,15 @@ fun DoctorsListGrid(
                 color = MaterialTheme.colorScheme.primary
             )
         }
-    }
-    else if (doctorList.isEmpty()) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                "No doctors found",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-        }
-    }
-    else {
+    }  else {
         LazyVerticalGrid(
             columns = GridCells.Fixed(1),
             modifier = Modifier
                 .padding(start = 8.dp, end = 8.dp)
-                .height(960.dp),
-            verticalArrangement = Arrangement.spacedBy(6.dp)
+                .height((filteredList.size * 102).dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(doctorList) {
+            items(filteredList) {
                 Card(
                     onClick = {
                         val docName = Uri.encode(it.doctorUserName)
@@ -214,10 +210,9 @@ fun DoctorWorkingHours(
         onClick = onClick,
         colors = if (selected) CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)
         else CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
-        border = if (selected){
+        border = if (selected) {
             BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outlineVariant)
-        }
-        else BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outline),
+        } else BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outline),
         shape = CardDefaults.shape,
         modifier = Modifier.size(height = 30.dp, width = 100.dp)
     ) {
@@ -232,7 +227,7 @@ fun DoctorWorkingHours(
 }
 
 
-    // Static date selection
+// Static date selection
 
 //@Composable
 //fun selectionDate(dateDay: DateDay) {

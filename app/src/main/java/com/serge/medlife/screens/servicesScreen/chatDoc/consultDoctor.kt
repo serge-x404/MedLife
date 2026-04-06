@@ -39,6 +39,7 @@ import com.serge.medlife.screens.layoutsFile.DoctorsListGrid
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConsultDoctorScreen(
+    category: String = "All",
     back: () -> Unit,
     navigateToDocDtls: (String, String, String) -> Unit
 ) {
@@ -99,7 +100,10 @@ fun ConsultDoctorScreen(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
-                        DoctorsListGrid(navigateToDocDtls)
+                        DoctorsListGrid(
+                            category,
+                            navigateToDocDtls
+                        )
                     }
                 }
             }

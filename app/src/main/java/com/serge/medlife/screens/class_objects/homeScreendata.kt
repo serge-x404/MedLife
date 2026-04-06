@@ -17,7 +17,7 @@ object serviceGridData {
         Categories(
             "Consult Doctor",
             R.drawable.stethoscope,
-            NavRoute.ChatDoc.path
+            NavRoute.ChatDoc.createRoute("All")
         ),
         Categories(
             "Hospitals",

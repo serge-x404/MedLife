@@ -3,6 +3,7 @@ package com.serge.medlife.screens.navigation
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,12 +18,12 @@ import com.serge.medlife.screens.class_objects.HospitalData
 import com.serge.medlife.screens.history.HistoryScreen
 import com.serge.medlife.screens.homeScreen.DoctorHomeScreen
 import com.serge.medlife.screens.homeScreen.HomeScreen
-import com.serge.medlife.screens.homeScreen.healthShop.Home.ShoppingHomePage
 import com.serge.medlife.screens.homeScreen.healthShop.MedicineDescription
 import com.serge.medlife.screens.homeScreen.healthShop.MedicineGrid
 import com.serge.medlife.screens.homeScreen.healthShop.cart.Cart
 import com.serge.medlife.screens.homeScreen.healthShop.cart.EmptyCart
 import com.serge.medlife.screens.homeScreen.healthShop.cart.FindingPharmacy
+import com.serge.medlife.screens.homeScreen.healthShop.home.ShoppingHomePage
 import com.serge.medlife.screens.loginScreen.LoginScreen
 import com.serge.medlife.screens.profile.AccountSettings
 import com.serge.medlife.screens.profile.EmptyNotifications
@@ -131,8 +132,8 @@ fun addHomeScreen(
 //        )
     ) {
         HomeScreen(
-            navigateToChatDoc = {
-                navHostController.navigate(NavRoute.ChatDoc.path)
+            navigateToChatDoc = {category ->
+                navHostController.navigate(NavRoute.ChatDoc.createRoute(category))
             },
             navigateToProfile = {
                 navHostController.navigate(NavRoute.Profile.path) {
@@ -156,6 +157,10 @@ fun addHomeScreen(
             navigateToArticle = {
                 navHostController.navigate(NavRoute.articleRead.path)
             },
+            navigateToCategoryDoc = { category ->
+                Log.d("NavGraph", "Category received: $category")
+                navHostController.navigate(NavRoute.ChatDoc.createRoute(category))
+            }
 //            userName = it.arguments?.getString("userName").toString(),
 //            email = it.arguments?.getString("email").toString()
         )
@@ -377,9 +382,21 @@ fun addLoginScreen(
 
 fun addChatDocScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
     navGraphBuilder.composable(
-        route = NavRoute.ChatDoc.path
-    ) {
-        ConsultDoctorScreen(back = { navHostController.popBackStack() },
+        route = NavRoute.ChatDoc.path,
+        arguments = listOf(
+            navArgument("category") {
+                type = NavType.StringType
+                defaultValue = "All"
+            }
+        )
+    ) {backStackEntry ->
+        val category = Uri.decode(
+            backStackEntry.arguments?.getString("category") ?: "All"
+        )
+        Log.d("NavGraph", "Category received: $category")
+        ConsultDoctorScreen(
+            category = category,
+            back = { navHostController.popBackStack() },
             navigateToDocDtls = { doctorName, spec, gender ->
             navHostController.navigate(NavRoute.DocDtls.path.plus("&name=$doctorName&specialization=$spec&gender=$gender"))
         })
@@ -614,6 +631,9 @@ fun addMedicineScreen(navHostController: NavHostController, navGraphBuilder: Nav
         MedicationReminder(
             navigateToSavedReminder = {
                 navHostController.navigate(NavRoute.savedReminder.path)
+            },
+            back = {
+                navHostController.popBackStack()
             }
         )
     }

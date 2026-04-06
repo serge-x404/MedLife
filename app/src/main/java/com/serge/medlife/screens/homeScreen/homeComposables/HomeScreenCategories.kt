@@ -1,5 +1,6 @@
 package com.serge.medlife.screens.homeScreen.homeComposables
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +21,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.serge.medlife.R
 import com.serge.medlife.screens.navigation.NavRoute
@@ -30,7 +32,7 @@ data class HomeScreenCategories(
     val route: String = NavRoute.ChatDoc.path
 )
 
-object categoriesHomeScreen {
+object CategoriesHomeScreen {
     val servicesHomeScreen = listOf(
         HomeScreenCategories(
             "All",
@@ -50,7 +52,7 @@ object categoriesHomeScreen {
         ),
         HomeScreenCategories(
             "Ophthalmology",
-            R.drawable.eye1
+            R.drawable.eye
         ),
         HomeScreenCategories(
             "Neurology",
@@ -71,16 +73,16 @@ object categoriesHomeScreen {
 @Composable
 fun CardServicesHomeScreen(
     homeScreenCategories: HomeScreenCategories,
-    isSelected: Boolean,
     onCategorySelected: (String) -> Unit,
-    navigateToChatDoc: () -> Unit
+    navigateToCategoryDoc: (String) -> Unit
 ) {
     val context = LocalContext.current
     Card(
         onClick = {
+            Log.d("Category","Clicked: ${homeScreenCategories.categoryTitle}")
             Toast.makeText(context, homeScreenCategories.categoryTitle, Toast.LENGTH_SHORT).show()
             onCategorySelected(homeScreenCategories.categoryTitle)
-            navigateToChatDoc()
+            navigateToCategoryDoc(homeScreenCategories.categoryTitle)
         },
         modifier = Modifier
             .padding(8.dp)
@@ -94,7 +96,7 @@ fun CardServicesHomeScreen(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(10.dp)
+                .padding(12.dp)
         ) {
             Image(
                 painter = painterResource(homeScreenCategories.categoryIcon),
@@ -107,7 +109,9 @@ fun CardServicesHomeScreen(
                 text = homeScreenCategories.categoryTitle,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
     }
