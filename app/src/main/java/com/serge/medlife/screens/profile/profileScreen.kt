@@ -42,9 +42,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.core.content.edit
 import com.google.firebase.auth.FirebaseAuth
 import com.serge.medlife.R
@@ -65,7 +65,7 @@ fun ProfileScreen(
 //    userName: String,
 //    email: String
 ) {
-    var checkDarkTheme by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
     val rtdb = RTDB()
     val auth = FirebaseAuth.getInstance()
     var userName by remember { mutableStateOf("") }
@@ -81,6 +81,72 @@ fun ProfileScreen(
             dateOfBirth = dobUser
         }
     }
+
+    if (showDialog) {
+        Dialog(
+            onDismissRequest = {showDialog = false}
+        ) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(vertical = 16.dp, horizontal = 8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        "Logout",
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
+                    Text(
+                        "Are you sure you want to logout?",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        Button(
+                            onClick = { showDialog = false },
+                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primaryContainer),
+                            border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
+                        ) {
+                            Text(
+                                "Cancel",
+                                style = MaterialTheme.typography.labelLarge,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        }
+                        Button(
+                            onClick = {
+                                auth.signOut()
+                                navigateToAuthSplash()
+                                sharedPreferences.edit(commit = true){
+                                    putBoolean("isPatientLoggedIn",false)
+                                    putBoolean("isPatient",false)
+                                }
+                            },
+                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.errorContainer),
+                            border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
+                        ) {
+                            Text(
+                                "Logout",
+                                style = MaterialTheme.typography.labelLarge,
+                                color = MaterialTheme.colorScheme.onErrorContainer
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     Scaffold(
         topBar = { TopAppBar(
             title = {
@@ -112,7 +178,7 @@ fun ProfileScreen(
                     .fillMaxWidth()
                     .clickable(
                         enabled = true,
-                        onClick = {expanded = !expanded }
+                        onClick = { expanded = !expanded }
                     )
                     .animateContentSize(),
                     colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest),
@@ -194,7 +260,7 @@ fun ProfileScreen(
                     Row(verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .clickable(
-                                onClick = {navigateToPresHist()}
+                                onClick = { navigateToPresHist() }
                             )
                             .padding(12.dp)
                             .fillMaxWidth()
@@ -222,7 +288,7 @@ fun ProfileScreen(
                     Row(verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .clickable(
-                                onClick = {navigateToHealthHist()}
+                                onClick = { navigateToHealthHist() }
                             )
                             .padding(12.dp)
                             .fillMaxWidth()
@@ -250,7 +316,7 @@ fun ProfileScreen(
                     Row(verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .clickable(
-                                onClick = {navigateToTransactions()}
+                                onClick = { navigateToTransactions() }
                             )
                             .padding(12.dp)
                             .fillMaxWidth()
@@ -287,7 +353,7 @@ fun ProfileScreen(
                     Row(verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .clickable(
-                                onClick = {navigateToAccSettings()}
+                                onClick = { navigateToAccSettings() }
                             )
                             .padding(12.dp)
                             .fillMaxWidth()
@@ -308,7 +374,7 @@ fun ProfileScreen(
                     Row(verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .clickable(
-                                onClick = {navigateToNotifications()}
+                                onClick = { navigateToNotifications() }
                             )
                             .padding(12.dp)
                             .fillMaxWidth()
@@ -327,7 +393,8 @@ fun ProfileScreen(
                         )
                     }
                     Row(verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(12.dp)
+                        modifier = Modifier
+                            .padding(12.dp)
                             .fillMaxWidth()) {
                         Image(
                             painter = painterResource(R.drawable.docs),
@@ -377,20 +444,13 @@ fun ProfileScreen(
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground
                 )
-                val context = LocalContext.current
-                Button(onClick = {
-                    auth.signOut()
-                    navigateToAuthSplash()
-                    sharedPreferences.edit(commit = true){
-                        putBoolean("isPatientLoggedIn",false)
-                        putBoolean("isPatient",false)
-                    }
-                },
+                Button(
+                    onClick = { showDialog = !showDialog},
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(4.dp),
                     colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.errorContainer),
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.onErrorContainer)
-                    ) {
+                ) {
                     Text(
                         "Log Out",
                         style = MaterialTheme.typography.titleMedium,
