@@ -1,6 +1,7 @@
 package com.serge.medlife.screens.homeScreen
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,11 +12,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PowerSettingsNew
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -38,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.core.content.edit
 import com.serge.medlife.rtdb.RTDB
+import com.serge.medlife.screens.history.isUpcoming
 import com.serge.medlife.screens.servicesScreen.chatDoc.AppointmentData
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,6 +53,9 @@ fun DoctorHomeScreen(
 ) {
     var doctorName by remember { mutableStateOf("") }
     var scheduledAppointments by remember { mutableStateOf<List<AppointmentData>>(emptyList()) }
+    val pendingAppointments = scheduledAppointments.filter {
+        isUpcoming(it.selectedDate) && it.doctorName == doctorName
+    }
     var isLoading by remember { mutableStateOf(true) }
     var showDialog by remember { mutableStateOf(false) }
 
@@ -59,13 +67,14 @@ fun DoctorHomeScreen(
     }
 
     DisposableEffect(Unit) {
-        val listener = rtdb.fetchAppointments { appointmentData ->
+        val listener = rtdb.fetchAppointmentsDoctor { appointmentData ->
             scheduledAppointments = appointmentData
+            Log.d("appointmentData",scheduledAppointments.toString())
             isLoading = false
         }
         onDispose {
             rtdb.fetchAppointments {
-                rtdb.db.child("appointments").child(rtdb.uid)
+                rtdb.db.child("appointments")
                     .removeEventListener(listener)
             }
         }
@@ -179,7 +188,7 @@ fun DoctorHomeScreen(
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.surfaceContainerHighest)
             ) {
-                if (scheduledAppointments.isEmpty()) {
+                if (pendingAppointments.isEmpty()) {
                     Column(
                         modifier = Modifier
                             .fillMaxSize(),
@@ -187,18 +196,42 @@ fun DoctorHomeScreen(
                         verticalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            "No upcoming appointments",
+                            "No appointments",
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
                 else {
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    ) {
-                        Text("")
+                    LazyColumn {
+                        items(pendingAppointments) {appointment ->
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 12.dp, vertical = 6.dp),
+                                elevation = CardDefaults.cardElevation(4.dp)
+                            ) {
+                                Column(
+                                    modifier = Modifier.padding(16.dp)
+                                ) {
+                                    Text(
+                                        "Patient: ${appointment.userName}",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        color = MaterialTheme.colorScheme.onBackground
+                                    )
+                                    Text(
+                                        "Date: ${appointment.selectedDate}",
+                                        style = MaterialTheme.typography.labelMedium,
+                                        color = MaterialTheme.colorScheme.onBackground
+                                    )
+                                    Text(
+                                        "Date: ${appointment.selectedHour}",
+                                        style = MaterialTheme.typography.labelMedium,
+                                        color = MaterialTheme.colorScheme.onBackground
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
             }

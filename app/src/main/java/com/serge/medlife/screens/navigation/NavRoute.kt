@@ -7,7 +7,6 @@ sealed class NavRoute(val path: String) {
     object AuthSplash : NavRoute("authSplash")
     object Register : NavRoute("register_screen")
     object Login : NavRoute("login")
-    object ContactSupport: NavRoute("contactSupport")
     object Main : NavRoute("main")
 
     object DoctorMain: NavRoute("doctorMain")

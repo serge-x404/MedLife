@@ -114,6 +114,33 @@ class RTDB {
         return listener
     }
 
+    fun fetchAppointmentsDoctor(onResult: (List<AppointmentData>) -> Unit): ValueEventListener {
+        db.child("appointments")
+        val listener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val list = mutableListOf<AppointmentData>()
+
+                for (userSnapshot in snapshot.children) {
+                    for (appointmentSnapshots in userSnapshot.children) {
+                        val appointment = appointmentSnapshots
+                            .getValue(AppointmentData::class.java)?.copy(key = appointmentSnapshots.key ?: "")
+
+                        if (appointment != null) {
+                            list.add(appointment)
+                        }
+                    }
+                }
+                onResult(list)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("fetchingError", error.message)
+            }
+        }
+        db.child("appointments")
+            .addValueEventListener(listener)
+        return listener
+    }
 }
 
 data class DoctorDetailsDTO (
