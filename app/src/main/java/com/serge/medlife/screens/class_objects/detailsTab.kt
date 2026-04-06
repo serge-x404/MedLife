@@ -2,7 +2,7 @@ package com.serge.medlife.screens.class_objects
 
 import com.serge.medlife.R
 
-object docWorkHrs {
+object DocWorkHrs {
     val workingHours = listOf("9:00","10:00", "13:00", "14:00", "15:00", "16:00")
 }
 

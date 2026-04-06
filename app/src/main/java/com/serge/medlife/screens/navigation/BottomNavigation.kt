@@ -34,7 +34,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.serge.medlife.network.NoInternet
 import com.serge.medlife.network.isInternetAvailable
-import com.serge.medlife.screens.class_objects.serviceGridData
+import com.serge.medlife.screens.class_objects.ServiceGridData
 import com.serge.medlife.screens.layoutsFile.GridViewLayout
 import kotlinx.coroutines.launch
 
@@ -99,7 +99,7 @@ fun BottomNavigation(navController: NavController) {
                             modifier = Modifier
                                 .padding(16.dp)
                         ) {
-                            items(serviceGridData.serviceImages) { item ->
+                            items(ServiceGridData.serviceImages) { item ->
                                 GridViewLayout(
                                     item,
                                     onNavigate = {

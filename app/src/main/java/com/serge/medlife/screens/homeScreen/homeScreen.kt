@@ -157,7 +157,6 @@ fun HomeScreen(
                             items(CategoriesHomeScreen.servicesHomeScreen) { item ->
                                 CardServicesHomeScreen(
                                     item,
-                                    onCategorySelected = { selectedCategory = it },
                                     navigateToCategoryDoc
                                 )
                             }

@@ -73,7 +73,6 @@ object CategoriesHomeScreen {
 @Composable
 fun CardServicesHomeScreen(
     homeScreenCategories: HomeScreenCategories,
-    onCategorySelected: (String) -> Unit,
     navigateToCategoryDoc: (String) -> Unit
 ) {
     val context = LocalContext.current
@@ -81,7 +80,6 @@ fun CardServicesHomeScreen(
         onClick = {
             Log.d("Category","Clicked: ${homeScreenCategories.categoryTitle}")
             Toast.makeText(context, homeScreenCategories.categoryTitle, Toast.LENGTH_SHORT).show()
-            onCategorySelected(homeScreenCategories.categoryTitle)
             navigateToCategoryDoc(homeScreenCategories.categoryTitle)
         },
         modifier = Modifier

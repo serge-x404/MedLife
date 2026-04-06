@@ -23,7 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.serge.medlife.screens.class_objects.serviceGridData
+import com.serge.medlife.screens.class_objects.ServiceGridData
 import com.serge.medlife.screens.layoutsFile.GridViewLayout
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -64,7 +64,7 @@ fun ServicesScreen(
                         columns = GridCells.Fixed(2),
                         modifier = Modifier.height(220.dp)
                     ) {
-                        items(serviceGridData.serviceImages) { item ->
+                        items(ServiceGridData.serviceImages) { item ->
                             GridViewLayout(
                                 item,
                                 { route -> }

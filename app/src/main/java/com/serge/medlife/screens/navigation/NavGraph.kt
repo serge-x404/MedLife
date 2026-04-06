@@ -49,7 +49,6 @@ import com.serge.medlife.screens.servicesScreen.hospitals.HospitalMap
 import com.serge.medlife.screens.servicesScreen.hospitals.Map
 import com.serge.medlife.screens.servicesScreen.medicationReminder.MedicationReminder
 import com.serge.medlife.screens.servicesScreen.medicationReminder.ReminderFilled
-import com.serge.medlife.screens.servicesScreen.specialization.Specialist
 import com.serge.medlife.screens.splashScreen.AuthSplashScreen
 import com.serge.medlife.screens.splashScreen.HPager
 import com.serge.medlife.screens.splashScreen.Splashscreen
@@ -98,7 +97,6 @@ fun NavGraph(
         addHospiLocScreen(navHostController, this)
         addGoogleMapScreen(navHostController, this)
         addMedicineScreen(navHostController, this)
-        addSpecialistScreen(navHostController, this)
         addArticleHome(navHostController, this)
         addReadArticleScreen(navHostController, this)
         addArticleGridScreen(navHostController, this)
@@ -112,24 +110,10 @@ fun NavGraph(
 
 fun addHomeScreen(
     navHostController: NavHostController,
-    navGraphBuilder: NavGraphBuilder,
-//                  isLoggedIn: Boolean,
-//                  isRegistered: Boolean
+    navGraphBuilder: NavGraphBuilder
 ) {
     navGraphBuilder.composable(
-        route = NavRoute.Main.path,
-//        arguments = listOf(
-//            navArgument("userName") {
-//                type = NavType.StringType
-//                nullable = true
-//                defaultValue = null
-//            },
-//            navArgument("email") {
-//                type = NavType.StringType
-//                nullable = true
-//                defaultValue = null
-//            }
-//        )
+        route = NavRoute.Main.path
     ) {
         HomeScreen(
             navigateToChatDoc = {category ->
@@ -161,8 +145,6 @@ fun addHomeScreen(
                 Log.d("NavGraph", "Category received: $category")
                 navHostController.navigate(NavRoute.ChatDoc.createRoute(category))
             }
-//            userName = it.arguments?.getString("userName").toString(),
-//            email = it.arguments?.getString("email").toString()
         )
     }
 }
@@ -670,15 +652,6 @@ fun addSavedReminder(navHostController: NavHostController, navGraphBuilder: NavG
                 navHostController.navigate(NavRoute.addMed.path)
             }
         )
-    }
-}
-
-fun addSpecialistScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
-    navGraphBuilder.composable(
-        route = NavRoute.specialist.path
-    ) {
-        Specialist(
-            back = { navHostController.popBackStack() })
     }
 }
 

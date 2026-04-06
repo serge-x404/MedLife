@@ -56,7 +56,7 @@ import androidx.compose.ui.unit.sp
 import com.serge.medlife.R
 import com.serge.medlife.rtdb.RTDB
 import com.serge.medlife.screens.class_objects.DateScreen
-import com.serge.medlife.screens.class_objects.docWorkHrs
+import com.serge.medlife.screens.class_objects.DocWorkHrs
 import com.serge.medlife.screens.layoutsFile.DoctorWorkingHours
 import com.serge.medlife.screens.servicesScreen.chatDoc.AppointmentData
 import java.text.SimpleDateFormat
@@ -119,7 +119,7 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
     var addReview by remember { mutableStateOf(false) }
     var selectedIndex by remember { mutableStateOf(-1) }
     var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
-    if (selectedIndex != -1) docWorkHrs.workingHours[selectedIndex] else ""
+    if (selectedIndex != -1) DocWorkHrs.workingHours[selectedIndex] else ""
 
     val rtdb = RTDB()
 
@@ -215,7 +215,7 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    itemsIndexed(docWorkHrs.workingHours) { index, item ->
+                    itemsIndexed(DocWorkHrs.workingHours) { index, item ->
                         DoctorWorkingHours(
                             hours = item,
                             selected = selectedIndex == index,
@@ -240,7 +240,7 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
                 Button(
                     onClick = {
                         val newDate = selectedDate?.toString() ?: ""
-                        val newHour = if (selectedIndex != -1) docWorkHrs.workingHours[selectedIndex] else ""
+                        val newHour = if (selectedIndex != -1) DocWorkHrs.workingHours[selectedIndex] else ""
 
                         if (newHour.isBlank() || newDate.isBlank()) return@Button
 

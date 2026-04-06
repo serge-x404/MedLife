@@ -59,7 +59,7 @@ import androidx.compose.ui.unit.sp
 import com.serge.medlife.R
 import com.serge.medlife.screens.class_objects.DateScreen
 import com.serge.medlife.screens.class_objects.Review
-import com.serge.medlife.screens.class_objects.docWorkHrs
+import com.serge.medlife.screens.class_objects.DocWorkHrs
 import com.serge.medlife.screens.layoutsFile.DoctorWorkingHours
 import com.serge.medlife.screens.layoutsFile.Reviews
 import java.time.LocalDate
@@ -77,7 +77,7 @@ fun DoctorDetails(
 ) {
     var selectedIndex by remember { mutableStateOf(-1) }
     var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
-    val selectedHour = if (selectedIndex != -1) docWorkHrs.workingHours[selectedIndex] else ""
+    val selectedHour = if (selectedIndex != -1) DocWorkHrs.workingHours[selectedIndex] else ""
     var errorMessage by remember { mutableStateOf("") }
 
     val image = when (gender) {
@@ -235,7 +235,7 @@ fun DoctorDetails(
                         verticalArrangement = Arrangement.spacedBy(10.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        itemsIndexed(docWorkHrs.workingHours) { index, item ->
+                        itemsIndexed(DocWorkHrs.workingHours) { index, item ->
                             DoctorWorkingHours(
                                 hours = item,
                                 selected = selectedIndex == index,
