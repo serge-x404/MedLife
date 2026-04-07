@@ -5,6 +5,7 @@ plugins {
 //    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.gms.google-services")
+    id("com.google.devtools.ksp") version "2.3.6"
 }
 
 val localProperties = Properties()
@@ -104,5 +105,12 @@ dependencies {
 
     // Places API
     implementation(libs.places)
-    implementation("com.google.android.libraries.places:places:5.1.1")
+    implementation(libs.places)
+
+    // ROOM database
+    implementation(libs.androidx.room.runtime)
+
+    // KSP
+    implementation(libs.dagger.compiler)
+    ksp(libs.dagger.compiler.v2511)
 }

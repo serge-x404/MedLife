@@ -115,22 +115,14 @@ fun HomeScreen(
                         )
                     },
                     actions = {
-                        IconButton(onClick = {
-                            navigateToCart()
-                        }) {
+                        IconButton(
+                            onClick = {
+                                navigateToCart()
+                            }
+                        ) {
                             Icon(
                                 painter = painterResource(R.drawable.cart),
                                 contentDescription = "Cart",
-                                Modifier.size(26.dp),
-                                tint = MaterialTheme.colorScheme.onBackground
-                            )
-                        }
-                        IconButton(onClick = {
-                            navigateToNotifications()
-                        }) {
-                            Icon(
-                                painter = painterResource(R.drawable.bell),
-                                contentDescription = "Bell",
                                 Modifier.size(26.dp),
                                 tint = MaterialTheme.colorScheme.onBackground
                             )
