@@ -7,7 +7,6 @@ import android.location.Location
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresPermission
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -53,7 +52,6 @@ import com.serge.medlife.theme.primaryDark
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-@RequiresPermission(value = Manifest.permission.ACCESS_FINE_LOCATION)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HospitalMap(

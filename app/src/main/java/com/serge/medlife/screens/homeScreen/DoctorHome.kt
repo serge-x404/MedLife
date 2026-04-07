@@ -6,16 +6,15 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PowerSettingsNew
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -38,8 +37,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.core.content.edit
 import com.serge.medlife.rtdb.RTDB
 import com.serge.medlife.screens.history.isUpcoming
@@ -81,68 +80,65 @@ fun DoctorHomeScreen(
     }
 
     if (showDialog) {
-        Dialog(
-            onDismissRequest = {showDialog = false}
-        ) {
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Column(
-                    modifier = Modifier
-                        .padding(vertical = 16.dp, horizontal = 8.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.Warning,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error
+                )
+            },
+            title = {
+                Text(
+                    "Logout",
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.onBackground,
+                )
+            },
+            text = {
+                Text(
+                    "Are you sure you want to log out?",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        rtdb.auth.signOut()
+                        navigateToAuthSplash()
+                        sharedPreferences.edit(commit = true) {
+                            putBoolean("isDoctorLoggedIn",false)
+                            putBoolean("isDoctor",false)
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.errorContainer),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
                 ) {
                     Text(
                         "Logout",
-                        style = MaterialTheme.typography.headlineSmall,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onErrorContainer,
+                        textAlign = TextAlign.Center
                     )
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = { showDialog = false },
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primaryContainer),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+                ) {
                     Text(
-                        "Are you sure you want to logout?",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onBackground
+                        "Cancel",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        textAlign = TextAlign.Center
                     )
-                    Spacer(Modifier.height(4.dp))
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceEvenly
-                    ) {
-                        Button(
-                            onClick = {showDialog = false},
-                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primaryContainer),
-                            border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
-                        ) {
-                            Text(
-                                "Cancel",
-                                style = MaterialTheme.typography.labelLarge,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
-                        }
-                        Button(
-                            onClick = {
-                                rtdb.auth.signOut()
-                                navigateToAuthSplash()
-                                sharedPreferences.edit(commit = true) {
-                                    putBoolean("isDoctorLoggedIn",false)
-                                    putBoolean("isDoctor",false)
-                                }
-                            },
-                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.errorContainer),
-                            border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
-                        ) {
-                            Text(
-                                "Logout",
-                                style = MaterialTheme.typography.labelLarge,
-                                color = MaterialTheme.colorScheme.onErrorContainer
-                            )
-                        }
-                    }
                 }
             }
-        }
+        )
     }
 
     if (isLoading) {
