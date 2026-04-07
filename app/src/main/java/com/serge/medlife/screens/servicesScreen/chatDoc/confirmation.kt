@@ -30,7 +30,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -83,8 +82,8 @@ fun Confirmation(
     val rtdb = RTDB()
 
     val image = when (doctorGender) {
-        "Male" -> R.drawable.dr_rajesh
-        "Female" -> R.drawable.dr_anna
+        "Male" -> R.drawable.maledoctor
+        "Female" -> R.drawable.femaledoctor
         else -> R.drawable.profile
     }
 
@@ -115,7 +114,7 @@ fun Confirmation(
         Column(Modifier.padding(innerPadding)) {
             Column(Modifier.padding(horizontal = 20.dp)) {
                 Card(
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
                     modifier = Modifier,
                     elevation = CardDefaults.elevatedCardElevation(2.dp)
                 ) {
@@ -135,7 +134,7 @@ fun Confirmation(
                         )
                         Column {
                             Text(
-                                text = doctorName,
+                                text = "Dr. $doctorName",
                                 style = MaterialTheme.typography.titleLarge
                             )
                             Text(
@@ -229,30 +228,14 @@ fun Confirmation(
                             color = MaterialTheme.colorScheme.secondary
                         )
                         Spacer(Modifier.height(2.dp))
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(
-                                text = "Rossi Cardiology Clinic\n" +
-                                        "Via Garibaldi 15, Milan, Italy",
-                                maxLines = 2,
-                                style = MaterialTheme.typography.titleMedium,
-                                modifier = Modifier.weight(1f)
-                            )
-                            Text(
-                                text = "See Maps",
-                                style = MaterialTheme.typography.labelLarge,
-                                color = MaterialTheme.colorScheme.primary
-                            )
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.surfaceTint
-                            )
-                        }
+                        Text(
+                            text = "$doctorName's $doctorSpecialization Clinic",
+                            style = MaterialTheme.typography.titleMedium
+                        )
                     }
                 }
                 Spacer(Modifier.height(20.dp))
                 Card(
-                    onClick = {checked = !checked},
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
                     border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outlineVariant),
                     modifier = Modifier.fillMaxWidth()

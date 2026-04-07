@@ -3,6 +3,7 @@ package com.serge.medlife.screens.servicesScreen.chatDoc
 import android.net.Uri
 import android.os.Build
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -28,7 +29,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -52,14 +52,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.serge.medlife.R
 import com.serge.medlife.screens.class_objects.DateScreen
-import com.serge.medlife.screens.class_objects.Review
 import com.serge.medlife.screens.class_objects.DocWorkHrs
+import com.serge.medlife.screens.class_objects.Review
 import com.serge.medlife.screens.layoutsFile.DoctorWorkingHours
 import com.serge.medlife.screens.layoutsFile.Reviews
 import java.time.LocalDate
@@ -75,14 +76,15 @@ fun DoctorDetails(
     specialization: String,
     gender: String
 ) {
+    val context = LocalContext.current
     var selectedIndex by remember { mutableStateOf(-1) }
     var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
     val selectedHour = if (selectedIndex != -1) DocWorkHrs.workingHours[selectedIndex] else ""
     var errorMessage by remember { mutableStateOf("") }
 
     val image = when (gender) {
-        "Male" -> R.drawable.dr_rajesh
-        "Female" -> R.drawable.dr_anna
+        "Male" -> R.drawable.maledoctor
+        "Female" -> R.drawable.femaledoctor
         else -> R.drawable.profile
     }
     Scaffold(
@@ -90,7 +92,7 @@ fun DoctorDetails(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = "Doctor Details",
+                        text = "Dr. $name",
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onBackground
                     )
@@ -104,14 +106,7 @@ fun DoctorDetails(
                         )
                     }
                 },
-                actions = {
-                    Icon(
-                        imageVector = Icons.Default.Share,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onBackground
-                    )
-                },
-                colors = TopAppBarDefaults.topAppBarColors(MaterialTheme.colorScheme.surfaceContainer),
+                colors = TopAppBarDefaults.topAppBarColors(MaterialTheme.colorScheme.surfaceContainerLow),
             )
         }
     ) { innerPadding ->
@@ -305,10 +300,12 @@ fun DoctorDetails(
                     onClick = {
                         if (selectedHour.isBlank()) {
                             errorMessage = "Please select a time"
+                            Toast.makeText(context,errorMessage, Toast.LENGTH_SHORT).show()
                             return@Button
                         }
                         if (selectedDate == null) {
                             errorMessage = "Please select a date"
+                            Toast.makeText(context,errorMessage, Toast.LENGTH_SHORT).show()
                             return@Button
                         }
                         val doctorName = name

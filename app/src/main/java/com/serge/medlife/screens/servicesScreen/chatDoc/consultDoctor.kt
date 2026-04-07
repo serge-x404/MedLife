@@ -59,7 +59,7 @@ fun ConsultDoctorScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 title = { Text(
-                    text = "Consult Doctor",
+                    text = category,
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground
                 ) },
@@ -122,12 +122,12 @@ fun ConsultDoctorScreen(
                                 val docGender = Uri.encode(it.doctorGender)
                                 navigateToDocDtls(docName, docSpeciality, docGender)
                             },
-                            colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer),
+                            colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerLow),
                             elevation = CardDefaults.elevatedCardElevation(2.dp)
                         ) {
                             val image = when (it.doctorGender) {
-                                "Male" -> R.drawable.dr_rajesh
-                                "Female" -> R.drawable.dr_anna
+                                "Male" -> R.drawable.maledoctor
+                                "Female" -> R.drawable.femaledoctor
                                 else -> R.drawable.profile
                             }
                             Row(
@@ -138,7 +138,7 @@ fun ConsultDoctorScreen(
                                     painter = painterResource(image),
                                     contentDescription = null,
                                     Modifier
-                                        .size(90.dp)
+                                        .size(86.dp)
                                         .padding(start = 4.dp, end = 4.dp)
                                 )
                                 Spacer(Modifier.width(6.dp))
