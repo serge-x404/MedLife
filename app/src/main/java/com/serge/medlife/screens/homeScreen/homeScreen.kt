@@ -8,11 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
@@ -39,15 +37,12 @@ import com.serge.medlife.network.NoInternet
 import com.serge.medlife.network.isInternetAvailable
 import com.serge.medlife.rtdb.DoctorDetailsDTO
 import com.serge.medlife.rtdb.RTDB
-import com.serge.medlife.screens.class_objects.Hot
 import com.serge.medlife.screens.homeScreen.homeComposables.CardServicesHomeScreen
 import com.serge.medlife.screens.homeScreen.homeComposables.CategoriesHomeScreen
 import com.serge.medlife.screens.homeScreen.homeComposables.ConsultDocComposable
 import com.serge.medlife.screens.homeScreen.homeComposables.HeaderBox
 import com.serge.medlife.screens.homeScreen.homeComposables.NearbyHospitalComposable
 import com.serge.medlife.screens.homeScreen.homeComposables.PharmacyComposable
-import com.serge.medlife.screens.homeScreen.homeComposables.Title
-import com.serge.medlife.screens.servicesScreen.article.LatestArticle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -131,7 +126,9 @@ fun HomeScreen(
                 )
             }) { innerPadding ->
                 Column(
-                    modifier = Modifier.padding(innerPadding)
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .padding(bottom = 86.dp)
                 ) {
                     Column(
                         modifier = Modifier
@@ -155,35 +152,18 @@ fun HomeScreen(
                         }
 
                         Spacer(Modifier.height(30.dp))
+
                         ConsultDocComposable { navigateToChatDoc("All") }
 
                         Spacer(Modifier.height(30.dp))
+
                         PharmacyComposable(navigateToHealthShop)
-                        Spacer(Modifier.height(5.dp))
-
 
                         Spacer(Modifier.height(30.dp))
+
                         NearbyHospitalComposable(navigateToHospital)
-                        Spacer(Modifier.height(30.dp))
 
-
-                        Title("Health Article")
-
-
-                        Spacer(Modifier.height(10.dp))
-                        LazyColumn(
-                            modifier = Modifier
-                                .padding(horizontal = 26.dp)
-                                .height(1120.dp),
-                            verticalArrangement = Arrangement.spacedBy(10.dp)
-                        ) {
-                            items(Hot.latestArticle) { item ->
-                                LatestArticle(
-                                    item,
-                                    navigateToArticle
-                                )
-                            }
-                        }
+                        Spacer(Modifier.height(6.dp))
                     }
                 }
             }

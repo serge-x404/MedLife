@@ -23,7 +23,7 @@ import com.serge.medlife.screens.homeScreen.healthShop.MedicineGrid
 import com.serge.medlife.screens.homeScreen.healthShop.cart.Cart
 import com.serge.medlife.screens.homeScreen.healthShop.cart.EmptyCart
 import com.serge.medlife.screens.homeScreen.healthShop.cart.FindingPharmacy
-import com.serge.medlife.screens.homeScreen.healthShop.home.ShoppingHomePage
+import com.serge.medlife.screens.homeScreen.healthShop.ShoppingHomePage
 import com.serge.medlife.screens.loginScreen.LoginScreen
 import com.serge.medlife.screens.profile.AccountSettings
 import com.serge.medlife.screens.profile.EmptyNotifications
