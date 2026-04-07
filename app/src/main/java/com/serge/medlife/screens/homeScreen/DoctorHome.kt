@@ -61,8 +61,8 @@ fun DoctorHomeScreen(
 
     val rtdb = RTDB()
     LaunchedEffect(Unit) {
-        rtdb.fetchDoctorUserName { it ->
-            doctorName = it
+        rtdb.fetchDoctorUserName { fetchedName ->
+            doctorName = fetchedName
         }
     }
 
@@ -163,7 +163,7 @@ fun DoctorHomeScreen(
                 TopAppBar(
                     title = {
                         Text(
-                            "Hey $doctorName",
+                            "Dr. $doctorName",
                             style = MaterialTheme.typography.headlineLarge,
                             color = MaterialTheme.colorScheme.onBackground
                         )

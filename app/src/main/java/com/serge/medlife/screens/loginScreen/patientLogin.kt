@@ -1,7 +1,6 @@
 package com.serge.medlife.screens.loginScreen
 
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -42,6 +41,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -144,7 +144,8 @@ fun PatientLogin(
                     onValueChange = { email = it},
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Next
+                        imeAction = ImeAction.Next,
+                        keyboardType = KeyboardType.Email
                     ),
                     keyboardActions = KeyboardActions(
                         onNext = { focusRequester.requestFocus() }
@@ -167,7 +168,8 @@ fun PatientLogin(
                         )
                     },
                     onValueChange = { password = it},
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .focusRequester(focusRequester),
                     visualTransformation = if (passwordVisibility) VisualTransformation.None
                     else PasswordVisualTransformation(),
@@ -183,7 +185,8 @@ fun PatientLogin(
                         }
                     },
                     keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Done
+                        imeAction = ImeAction.Done,
+                        keyboardType = KeyboardType.Password
                     ),
                     textStyle = MaterialTheme.typography.titleSmall,
                 )
@@ -216,7 +219,6 @@ fun PatientLogin(
                         auth.signInWithEmailAndPassword(email, password)
                             .addOnCompleteListener { task ->
                                 isLoading =false
-                                Log.i("login btn click", "$isLoading")
                                 if (task.isSuccessful) {
                                     val uid = auth.currentUser!!.uid
                                     db.child("users").child(uid).get()

@@ -186,7 +186,10 @@ fun DoctorLogin(
                         }
                     },
                     singleLine = true,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Done,
+                        keyboardType = KeyboardType.Password
+                    ),
                     textStyle = MaterialTheme.typography.titleSmall,
                 )
                 Spacer(Modifier.height(10.dp))

@@ -26,13 +26,13 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -148,13 +148,15 @@ fun ProfileScreen(
     }
 
     Scaffold(
-        topBar = { TopAppBar(
+        topBar = {
+            CenterAlignedTopAppBar(
             title = {
                 Text(
                     "My Profile",
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground
-            ) },
+                )
+            },
             navigationIcon = { IconButton(
                 onClick = back
             ) {
@@ -164,11 +166,12 @@ fun ProfileScreen(
                     tint = MaterialTheme.colorScheme.onBackground
                 )
             } }
-        ) }
+        )
+        }
     ) { innerPadding ->
         Column(modifier = Modifier
             .padding(innerPadding)
-            .padding(bottom = 92.dp)
+            .padding(bottom = 86.dp)
         ) {
             Column(modifier = Modifier
                 .padding(horizontal = 12.dp)

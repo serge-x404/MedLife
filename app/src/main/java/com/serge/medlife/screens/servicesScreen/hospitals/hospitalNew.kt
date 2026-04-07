@@ -1,11 +1,13 @@
 package com.serge.medlife.screens.servicesScreen.hospitals
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Location
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresPermission
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -27,6 +29,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.edit
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -48,7 +51,9 @@ import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.serge.medlife.theme.primaryDark
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
+@RequiresPermission(value = Manifest.permission.ACCESS_FINE_LOCATION)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HospitalMap(
@@ -88,6 +93,9 @@ fun HospitalMap(
         }
     )
     {
+        val pref = context.getSharedPreferences("medLife", Context.MODE_PRIVATE)
+
+        var isGranted = pref.getBoolean("location_permission", false)
         Box(
             modifier = Modifier
                 .padding(it)
@@ -97,25 +105,46 @@ fun HospitalMap(
 
             var currentLocation by remember { mutableStateOf<Location?>(null) }
 
+
             val locationPermissionLauncher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.RequestPermission()
             ) { permissionGranted ->
                 if (permissionGranted) {
-                    fetchCurrentLocation(
-                        context,
-                        onLocationFetched = { location ->
-                            currentLocation = location
-                        }
-                    )
+                    isGranted = true
+                    pref.edit(commit = true) {
+                        putBoolean("location_permission", true)
+                    }
+                    scope.launch {
+                        fetchCurrentLocation(
+                            context,
+                            onLocationFetched = { location ->
+                                currentLocation = location
+                                Log.d("LOCATION", currentLocation.toString())
+                            }
+                        )
+                    }
                 }
 
             }
 
-            LaunchedEffect(Unit) {
-                locationPermissionLauncher
-                    .launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            LaunchedEffect(isGranted) {
+                if(!isGranted) {
+                    locationPermissionLauncher
+                        .launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                }
+                else {
+                    Log.d("LOCATION", "call fetch")
+
+                    fetchCurrentLocation(
+                        context,
+                        onLocationFetched = { location ->
+                            currentLocation = location
+                            Log.d("LOCATION", currentLocation.toString())
+                        }
+                    )
+                }
             }
-            LaunchedEffect(mapLoaded, currentLocation) {
+            LaunchedEffect(mapLoaded, currentLocation, isGranted) {
                 if (mapLoaded && currentLocation != null && !initialized) {
                     currentLocation?.let { myLocation ->
                         cameraPositionState.animate(
@@ -163,7 +192,7 @@ fun HospitalMap(
 
                 },
                 properties = MapProperties(
-                    isMyLocationEnabled = true
+                    isMyLocationEnabled = if(isGranted) true else false
                 ),
                 uiSettings = MapUiSettings(
                     compassEnabled = true,
@@ -217,10 +246,13 @@ fun HospitalMap(
     }
 }
 
-    private fun fetchCurrentLocation(
+    @SuppressLint("MissingPermission")
+    private suspend fun fetchCurrentLocation(
         context: Context,
         onLocationFetched: (Location) -> Unit
     ) {
+        Log.d("LOCATION", "fused called")
+
         val fusedLocationClient = LocationServices
             .getFusedLocationProviderClient(context)
 
@@ -229,8 +261,18 @@ fun HospitalMap(
             1000
         ).apply {
             setMinUpdateIntervalMillis(5000)
-            setWaitForAccurateLocation(true)
+            setWaitForAccurateLocation(false)
         }.build()
+
+        val lastLocation = fusedLocationClient.lastLocation.await()
+        if(lastLocation != null) {
+            Log.d("LOCATION", "last $lastLocation")
+            onLocationFetched(lastLocation)
+        }
+        else {
+            Log.d("LOCATION", "last is null")
+
+        }
 
         val locationCallback = object : LocationCallback() {
 

@@ -47,6 +47,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -317,7 +318,7 @@ fun SwipeToConfirmButton(
         val density = LocalDensity.current
         val maxOffsetPx = with(density) { ((width) - thumbSize - 12.dp).toPx() }
 
-        var offsetX by remember { mutableStateOf(0f) }
+        var offsetX by remember { mutableFloatStateOf(0f) }
         var confirmed by remember { mutableStateOf(false) }
 
 

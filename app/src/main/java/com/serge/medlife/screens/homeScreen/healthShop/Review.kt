@@ -36,8 +36,6 @@ import com.serge.medlife.screens.class_objects.pharmaImages
 import com.serge.medlife.screens.layoutsFile.Reviews
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true,
-    showSystemUi = true)
 @Composable
 fun Review(
     back: () -> Unit,
