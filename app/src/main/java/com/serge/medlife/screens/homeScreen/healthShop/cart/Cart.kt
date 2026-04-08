@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,7 +25,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,7 +44,6 @@ import com.serge.medlife.viewmodel.CartViewModel
 @Composable
 fun Cart(
     back: () -> Unit,
-    navigateToFindingPharma: () -> Unit,
     navigateToHealthShop: () -> Unit,
     cartViewModel: CartViewModel = hiltViewModel()
 ) {
@@ -79,101 +78,113 @@ fun Cart(
                     .padding(horizontal = 16.dp)
                     .fillMaxSize()
             ) {
-                Column {
-                    HorizontalDivider()
-                    Spacer(Modifier.height(10.dp))
-                    Text(
-                        text = "Deliver to Amy",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                    Spacer(Modifier.height(10.dp))
-                    HorizontalDivider()
-                    Spacer(Modifier.height(20.dp))
-                    if (cartItems.isEmpty()) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center,
-                            modifier = Modifier.fillMaxSize()
+                if (cartItems.isEmpty()) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.empty_cart),
+                            contentDescription = null,
+                            modifier = Modifier.size(150.dp)
+                        )
+                        Spacer(Modifier.height(20.dp))
+                        Text(
+                            text = "Oops! Your shopping cart is still empty",
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
+                }
+                else {
+                    Column {
+                        LazyVerticalGrid(
+                            GridCells.Fixed(1),
+                            verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
-                            Image(
-                                painter = painterResource(R.drawable.empty_cart),
-                                contentDescription = null,
-                                modifier = Modifier.size(150.dp)
-                            )
-                            Spacer(Modifier.height(20.dp))
-                            Text(
-                                text = "Oops! Your shopping cart is still empty",
-                                style = MaterialTheme.typography.labelLarge,
-                                color = MaterialTheme.colorScheme.onBackground
-                            )
-                            Box(modifier = Modifier.fillMaxSize()
-                                .padding(16.dp)
-                            ) {
-                                Button(
-                                    onClick = {
-                                        navigateToHealthShop()
-                                    },
-                                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary),
-                                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant),
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .align(Alignment.BottomCenter)
-                                ) {
-                                    Text(
-                                        text = "Add Medicines",
-                                        style = MaterialTheme.typography.labelMedium,
-                                        color = MaterialTheme.colorScheme.onTertiary
-                                    )
-                                }
+                            items(cartItems) { item ->
+                                CartCard(item)
                             }
                         }
                     }
-                    LazyVerticalGrid(
-                        GridCells.Fixed(1),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        items(cartItems) { item ->
-                            CartCard(item)
-                        }
-                    }
-                    Spacer(Modifier.height(15.dp))
-                    Text(
-                        text = "Have a coupon code? Enter here",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                    Spacer(Modifier.height(5.dp))
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = {},
+                }
+                if (cartItems.isEmpty()) {
+                    Button(
+                        onClick = { navigateToHealthShop() },
+                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary),
+                        border = BorderStroke(
+                            2.dp,
+                            MaterialTheme.colorScheme.outlineVariant
+                        ),
                         modifier = Modifier
-                            .padding(8.dp)
-                            .fillMaxWidth(),
-                        placeholder = {
+                            .fillMaxWidth()
+                            .align(Alignment.BottomCenter)
+                    ) {
+                        Text(
+                            text = "Add Medicines",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onTertiary
+                        )
+                    }
+                }
+                else {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        verticalArrangement = Arrangement.Bottom
+                    ) {
+                        HorizontalDivider()
+                        Spacer(Modifier.height(8.dp))
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
                             Text(
-                                "2024CODE",
-                                style = MaterialTheme.typography.labelMedium,
+                                "Grand Total:",
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.onBackground,
+                                modifier = Modifier
+                                    .weight(1f)
+                            )
+                            Text(
+                                text = "${cartViewModel.totalAmount(cartItems)}",
+                                style = MaterialTheme.typography.titleSmall,
                                 color = MaterialTheme.colorScheme.onBackground
                             )
+
                         }
-                    )
-                }
-                Button(
-                    onClick = {
-                        navigateToFindingPharma()
-                    },
-                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondary),
-                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.BottomCenter)
-                ) {
-                    Text(
-                        text = "Continue",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onTertiary
-                    )
+                        HorizontalDivider()
+                        Spacer(Modifier.height(8.dp))
+                        Button(
+                            onClick = { navigateToHealthShop() },
+                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primaryContainer),
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+                            Text(
+                                text = "Add other medicines",
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        }
+                        Button(
+                            onClick = {
+                                cartViewModel.clearCart()
+                            },
+                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+                            Text(
+                                text = "Checkout",
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onPrimary
+                            )
+                        }
+                    }
                 }
             }
         }

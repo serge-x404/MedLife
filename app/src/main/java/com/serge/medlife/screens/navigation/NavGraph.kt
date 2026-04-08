@@ -18,11 +18,8 @@ import com.serge.medlife.screens.class_objects.HospitalData
 import com.serge.medlife.screens.history.HistoryScreen
 import com.serge.medlife.screens.homeScreen.DoctorHomeScreen
 import com.serge.medlife.screens.homeScreen.HomeScreen
-import com.serge.medlife.screens.homeScreen.healthShop.MedicineDescription
 import com.serge.medlife.screens.homeScreen.healthShop.ShoppingHomePage
 import com.serge.medlife.screens.homeScreen.healthShop.cart.Cart
-import com.serge.medlife.screens.homeScreen.healthShop.cart.EmptyCart
-import com.serge.medlife.screens.homeScreen.healthShop.cart.FindingPharmacy
 import com.serge.medlife.screens.loginScreen.LoginScreen
 import com.serge.medlife.screens.profile.AccountSettings
 import com.serge.medlife.screens.profile.EmptyNotifications
@@ -83,10 +80,7 @@ fun NavGraph(
         addNotificationsScreen(navHostController, this)
         addClearNotiScreen(navHostController, this)
         addCartScreen(navHostController, this)
-        addFindPharmaScreen(navHostController, this)
-        addEmptyCartScreen(navHostController, this)
         addHealthShop(navHostController, this)
-        addMedDesc(navHostController, this)
         addDocDtls(navHostController, this)
         addAppointmentScreen(navHostController, this)
         addAppointmentSuccessScreen(navHostController, this)
@@ -411,9 +405,6 @@ fun addCartScreen(navHostController: NavHostController, navGraphBuilder: NavGrap
     ) {
         Cart(
             back = { navHostController.popBackStack() },
-            navigateToFindingPharma = {
-                navHostController.navigate(NavRoute.findingPharma.path)
-            },
             navigateToHealthShop = {
                 navHostController.navigate(NavRoute.HealthShop.path)
             }
@@ -425,21 +416,12 @@ fun addHealthShop(navHostController: NavHostController, navGraphBuilder: NavGrap
     navGraphBuilder.composable(
         route = NavRoute.HealthShop.path
     ) {
-        ShoppingHomePage(back = { navHostController.popBackStack() }, navigateToMedDesc = {
-            navHostController.navigate(NavRoute.medDesc.path)
-        }, navigateToCart = {
+        ShoppingHomePage(
+            back = { navHostController.navigate(NavRoute.Main.path) },
+         navigateToCart = {
             navHostController.navigate(NavRoute.Cart.path)
-        })
-    }
-}
-
-fun addMedDesc(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
-    navGraphBuilder.composable(
-        route = NavRoute.medDesc.path
-    ) {
-        MedicineDescription(back = { navHostController.popBackStack() }, navigateToCart = {
-            navHostController.navigate(NavRoute.Cart.path)
-        })
+         }
+        )
     }
 }
 
@@ -675,31 +657,6 @@ fun addArticleGridScreen(navHostController: NavHostController, navGraphBuilder: 
                 navHostController.navigate(NavRoute.articleRead.path)
             },
         )
-    }
-}
-
-fun addFindPharmaScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
-    navGraphBuilder.composable(
-        route = NavRoute.findingPharma.path
-    ) {
-        FindingPharmacy(
-            navigateToEmptyCart = {
-                navHostController.navigate(NavRoute.emptyCart.path)
-            })
-    }
-}
-
-fun addEmptyCartScreen(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
-    navGraphBuilder.composable(
-        route = NavRoute.emptyCart.path
-    ) {
-        EmptyCart(back = { navHostController.popBackStack() }, navigateToHealthShop = {
-            navHostController.navigate(NavRoute.HealthShop.path) {
-                popUpTo(NavRoute.HealthShop.path) {
-                    inclusive = true
-                }
-            }
-        })
     }
 }
 
