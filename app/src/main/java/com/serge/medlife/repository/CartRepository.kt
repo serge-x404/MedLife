@@ -3,8 +3,9 @@ package com.serge.medlife.repository
 import com.serge.medlife.roomdb.CartDao
 import com.serge.medlife.roomdb.CartItems
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class CartRepository(
+class CartRepository @Inject constructor(
     private val cartDao: CartDao
 ) {
 

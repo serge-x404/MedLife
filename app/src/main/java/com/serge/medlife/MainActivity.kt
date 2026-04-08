@@ -20,7 +20,9 @@ import com.serge.medlife.screens.navigation.BottomNavigation
 import com.serge.medlife.screens.navigation.NavGraph
 import com.serge.medlife.screens.navigation.NavRoute
 import com.serge.medlife.theme.MedLifeTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)

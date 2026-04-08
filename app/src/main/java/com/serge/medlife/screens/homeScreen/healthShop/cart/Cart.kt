@@ -34,7 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.serge.medlife.R
 import com.serge.medlife.screens.homeScreen.healthShop.CartCard
 import com.serge.medlife.viewmodel.CartViewModel
@@ -45,9 +45,9 @@ import com.serge.medlife.viewmodel.CartViewModel
 fun Cart(
     back: () -> Unit,
     navigateToFindingPharma: () -> Unit,
-    navigateToHealthShop: () -> Unit
+    navigateToHealthShop: () -> Unit,
+    cartViewModel: CartViewModel = hiltViewModel()
 ) {
-    val cartViewModel: CartViewModel = viewModel()
     val cartItems by cartViewModel.allCartItems.collectAsState(emptyList())
     Scaffold(
         topBar = {

@@ -4,9 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.serge.medlife.repository.CartRepository
 import com.serge.medlife.roomdb.CartItems
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CartViewModel(
+@HiltViewModel
+class CartViewModel @Inject constructor(
     private val repository: CartRepository
 ): ViewModel() {
     val allCartItems = repository.allCartItems
