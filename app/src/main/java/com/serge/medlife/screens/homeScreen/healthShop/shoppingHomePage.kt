@@ -29,7 +29,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.serge.medlife.R
-import com.serge.medlife.screens.class_objects.PharmaImages
+import com.serge.medlife.screens.class_objects.Medicines
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -91,7 +91,7 @@ fun ShoppingHomePage(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                items(PharmaImages.medicineGrid) { item ->
+                items(Medicines.medicineData) { item ->
                     HotSalesGrid(
                         item,
                         navigateToMedDesc,

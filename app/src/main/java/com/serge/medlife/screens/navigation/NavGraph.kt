@@ -19,7 +19,6 @@ import com.serge.medlife.screens.history.HistoryScreen
 import com.serge.medlife.screens.homeScreen.DoctorHomeScreen
 import com.serge.medlife.screens.homeScreen.HomeScreen
 import com.serge.medlife.screens.homeScreen.healthShop.MedicineDescription
-import com.serge.medlife.screens.homeScreen.healthShop.MedicineGrid
 import com.serge.medlife.screens.homeScreen.healthShop.ShoppingHomePage
 import com.serge.medlife.screens.homeScreen.healthShop.cart.Cart
 import com.serge.medlife.screens.homeScreen.healthShop.cart.EmptyCart
@@ -87,7 +86,6 @@ fun NavGraph(
         addFindPharmaScreen(navHostController, this)
         addEmptyCartScreen(navHostController, this)
         addHealthShop(navHostController, this)
-        addMedGrid(navHostController, this)
         addMedDesc(navHostController, this)
         addDocDtls(navHostController, this)
         addAppointmentScreen(navHostController, this)
@@ -413,8 +411,13 @@ fun addCartScreen(navHostController: NavHostController, navGraphBuilder: NavGrap
     ) {
         Cart(
             back = { navHostController.popBackStack() },
-            navigateToFindingPharma = { navHostController.navigate(NavRoute.findingPharma.path)
-        })
+            navigateToFindingPharma = {
+                navHostController.navigate(NavRoute.findingPharma.path)
+            },
+            navigateToHealthShop = {
+                navHostController.navigate(NavRoute.HealthShop.path)
+            }
+        )
     }
 }
 
@@ -423,18 +426,6 @@ fun addHealthShop(navHostController: NavHostController, navGraphBuilder: NavGrap
         route = NavRoute.HealthShop.path
     ) {
         ShoppingHomePage(back = { navHostController.popBackStack() }, navigateToMedDesc = {
-            navHostController.navigate(NavRoute.medDesc.path)
-        }, navigateToCart = {
-            navHostController.navigate(NavRoute.Cart.path)
-        })
-    }
-}
-
-fun addMedGrid(navHostController: NavHostController, navGraphBuilder: NavGraphBuilder) {
-    navGraphBuilder.composable(
-        route = NavRoute.medGrid.path
-    ) {
-        MedicineGrid(back = { navHostController.popBackStack() }, navigateToMedDesc = {
             navHostController.navigate(NavRoute.medDesc.path)
         }, navigateToCart = {
             navHostController.navigate(NavRoute.Cart.path)

@@ -2,12 +2,13 @@ package com.serge.medlife.repository
 
 import com.serge.medlife.roomdb.CartDao
 import com.serge.medlife.roomdb.CartItems
+import kotlinx.coroutines.flow.Flow
 
 class CartRepository(
     private val cartDao: CartDao
 ) {
 
-    val allCartItems: List<CartItems> = cartDao.getAllCartItems()
+    val allCartItems: Flow<List<CartItems>> = cartDao.getAllCartItems()
 
     suspend fun addToCart(cart: CartItems) {
         val existingItem = cartDao.getCartItemById(cart.id)
