@@ -184,11 +184,11 @@ fun ProfileScreen(
                         modifier = Modifier
                             .padding(16.dp)
                     ) {
-                        Image(
-                            painter = profileImage,
-                            contentDescription = null,
+                        Text(
+                            "User Information",
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier
-                                .size(60.dp)
                                 .align(Alignment.CenterHorizontally)
                         )
                         Spacer(Modifier.height(8.dp))

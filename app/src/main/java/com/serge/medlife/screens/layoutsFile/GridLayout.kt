@@ -48,7 +48,7 @@ fun GridViewLayout(
         modifier = Modifier
             .padding(8.dp)
             .size(96.dp),
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest),
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primaryContainer),
         elevation = CardDefaults.elevatedCardElevation(2.dp)
     ) {
         Column(

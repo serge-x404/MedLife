@@ -28,7 +28,7 @@ import com.serge.medlife.R
 fun ConsultDocComposable(navigateToChatDoc: (String) -> Unit ) {
     Card(
         onClick = { navigateToChatDoc("All") },
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer),
         border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outline),
         modifier = Modifier
             .fillMaxWidth()

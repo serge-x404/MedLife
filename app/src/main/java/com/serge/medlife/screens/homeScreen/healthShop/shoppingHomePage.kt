@@ -69,7 +69,7 @@ fun ShoppingHomePage(
             .padding(15.dp)
         )  {
             Text(
-                text = "Hot Sales",
+                text = "Medicines",
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.onBackground
             )
@@ -82,7 +82,7 @@ fun ShoppingHomePage(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(Medicines.medicineData) { item ->
-                    HotSalesGrid(
+                    MedicineGrid(
                         item,
                         navigateToCart
                     )

@@ -28,7 +28,7 @@ import com.serge.medlife.R
 fun PharmacyComposable(navigateToHealthShop: () -> Unit ) {
     Card(
         onClick = { navigateToHealthShop() },
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer),
         border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outline),
         modifier = Modifier
             .fillMaxWidth()

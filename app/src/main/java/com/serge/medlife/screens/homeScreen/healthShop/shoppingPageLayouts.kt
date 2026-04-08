@@ -33,13 +33,13 @@ import com.serge.medlife.viewmodel.CartViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HotSalesGrid(
+fun MedicineGrid(
     cartItems: CartItems,
     navigateToCart: () -> Unit,
     cartViewModel: CartViewModel = hiltViewModel()
 ) {
     Card(
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest),
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primaryContainer),
         border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant),
         elevation = CardDefaults.elevatedCardElevation(2.dp),
     ) {
@@ -85,13 +85,13 @@ fun HotSalesGrid(
                         navigateToCart()
                         cartViewModel.addToCart(cartItems)
                     },
-                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.tertiaryContainer),
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
                 ) {
                     Text(
                         text = "Add",
                         style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
                 }
             }

@@ -29,7 +29,7 @@ import com.serge.medlife.R
 fun NearbyHospitalComposable(navigateToHospital: () -> Unit ) {
     Card(
         onClick = { navigateToHospital() },
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer),
         border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outline),
         modifier = Modifier
             .padding(horizontal = 30.dp),
