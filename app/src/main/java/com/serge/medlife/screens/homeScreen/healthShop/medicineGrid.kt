@@ -25,7 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.serge.medlife.R
-import com.serge.medlife.screens.class_objects.pharmaImages
+import com.serge.medlife.screens.class_objects.PharmaImages
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -79,7 +79,7 @@ fun MedicineGrid(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                items(pharmaImages.medicineGrid) { item ->
+                items(PharmaImages.medicineGrid) { item ->
                     HotSalesGrid(
                         item,
                         navigateToMedDesc,

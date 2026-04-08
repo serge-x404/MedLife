@@ -27,41 +27,30 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.serge.medlife.screens.class_objects.HotSales
 import com.serge.medlife.R
-
-@Composable
-fun ImageGridPharma(item: Int) {
-    Card(
-        colors = CardDefaults.cardColors(Color.White)
-    ) {
-        Image(
-            painter = painterResource(item),
-            contentDescription = null,
-            modifier = Modifier.size(100.dp)
-        )
-    }
-}
+import com.serge.medlife.screens.class_objects.HotSales
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HotSalesGrid(
-    hotSales: HotSales, navigateToMedDesc: () -> Unit, navigateToCart: () -> Unit
+    hotSales: HotSales,
+    navigateToMedDesc: () -> Unit,
+    navigateToCart: () -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState()
     var stateChange by remember { mutableStateOf(false) }
-    var AddSub by remember { mutableStateOf(1) }
+    var addSub by remember { mutableIntStateOf(1) }
     if (stateChange) {
         ModalBottomSheet(
             onDismissRequest = { stateChange = false }, sheetState = sheetState
@@ -81,7 +70,7 @@ fun HotSalesGrid(
                                 enabled = true, onClick = {})
                     )
                     Spacer(Modifier.width(10.dp))
-                    Column() {
+                    Column {
                         Text(
                             text = hotSales.medicineName,
                             style = MaterialTheme.typography.labelMedium,
@@ -122,8 +111,8 @@ fun HotSalesGrid(
                                     .size(36.dp)
                                     .clickable(
                                         enabled = true, onClick = {
-                                            if (AddSub == 1) stateChange = false
-                                            else AddSub--
+                                            if (addSub == 1) stateChange = false
+                                            else addSub--
                                         }),
                             ) {
                                 Text(
@@ -134,7 +123,7 @@ fun HotSalesGrid(
                                 )
                             }
                             Text(
-                                "$AddSub",
+                                "$addSub",
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.onBackground
                             )
@@ -146,7 +135,7 @@ fun HotSalesGrid(
                                     .size(36.dp)
                                     .clickable(
                                         enabled = true, onClick = {
-                                            AddSub++
+                                            addSub++
                                         })
                             ) {
                                 Text(
@@ -178,9 +167,8 @@ fun HotSalesGrid(
         }
     }
     Card(
-        modifier = Modifier.clickable {
-            navigateToMedDesc()
-        },
+        modifier = Modifier
+            .clickable { navigateToMedDesc() },
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest),
         border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant),
         elevation = CardDefaults.elevatedCardElevation(2.dp),
@@ -194,16 +182,21 @@ fun HotSalesGrid(
             Spacer(Modifier.height(8.dp))
             Text(
                 text = hotSales.medicineName,
-                style = MaterialTheme.typography.labelLarge,
+                style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
             Text(
                 text = "Per Strip",
-                style = MaterialTheme.typography.labelSmall,
+                style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
             Spacer(Modifier.height(20.dp))
-            Row {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 Column {
                     Text(
                         text = "Starts from",
@@ -236,7 +229,7 @@ fun HotSalesGrid(
 
 @Composable
 fun CartCard(hotSales: HotSales) {
-    var AddSub by remember { mutableStateOf(1) }
+    var addSub by remember { mutableStateOf(1) }
     var showDialog by remember { mutableStateOf(false) }
 
     Card(
@@ -299,8 +292,8 @@ fun CartCard(hotSales: HotSales) {
                         .size(24.dp)
                         .clickable(
                             enabled = true, onClick = {
-                                AddSub--
-                                if (AddSub == 0) {
+                                addSub--
+                                if (addSub == 0) {
                                     showDialog = true
                                 }
                             }),
@@ -313,7 +306,7 @@ fun CartCard(hotSales: HotSales) {
                     )
                 }
                 Text(
-                    "$AddSub",
+                    "$addSub",
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onBackground
                 )
@@ -325,7 +318,7 @@ fun CartCard(hotSales: HotSales) {
                         .size(24.dp)
                         .clickable(
                             enabled = true, onClick = {
-                                AddSub++
+                                addSub++
                             })
                 ) {
                     Text(

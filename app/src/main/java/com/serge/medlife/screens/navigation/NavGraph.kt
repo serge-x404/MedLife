@@ -20,10 +20,10 @@ import com.serge.medlife.screens.homeScreen.DoctorHomeScreen
 import com.serge.medlife.screens.homeScreen.HomeScreen
 import com.serge.medlife.screens.homeScreen.healthShop.MedicineDescription
 import com.serge.medlife.screens.homeScreen.healthShop.MedicineGrid
+import com.serge.medlife.screens.homeScreen.healthShop.ShoppingHomePage
 import com.serge.medlife.screens.homeScreen.healthShop.cart.Cart
 import com.serge.medlife.screens.homeScreen.healthShop.cart.EmptyCart
 import com.serge.medlife.screens.homeScreen.healthShop.cart.FindingPharmacy
-import com.serge.medlife.screens.homeScreen.healthShop.ShoppingHomePage
 import com.serge.medlife.screens.loginScreen.LoginScreen
 import com.serge.medlife.screens.profile.AccountSettings
 import com.serge.medlife.screens.profile.EmptyNotifications
@@ -422,9 +422,7 @@ fun addHealthShop(navHostController: NavHostController, navGraphBuilder: NavGrap
     navGraphBuilder.composable(
         route = NavRoute.HealthShop.path
     ) {
-        ShoppingHomePage(back = { navHostController.popBackStack() }, navigateToMedGrid = {
-            navHostController.navigate(NavRoute.medGrid.path)
-        }, navigateToMedDesc = {
+        ShoppingHomePage(back = { navHostController.popBackStack() }, navigateToMedDesc = {
             navHostController.navigate(NavRoute.medDesc.path)
         }, navigateToCart = {
             navHostController.navigate(NavRoute.Cart.path)

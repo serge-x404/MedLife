@@ -4,14 +4,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -29,13 +29,12 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.serge.medlife.R
-import com.serge.medlife.screens.class_objects.pharmaImages
+import com.serge.medlife.screens.class_objects.PharmaImages
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShoppingHomePage(
     back: () -> Unit,
-    navigateToMedGrid: () -> Unit,
     navigateToMedDesc: () -> Unit,
     navigateToCart: () -> Unit
 ) {
@@ -75,64 +74,29 @@ fun ShoppingHomePage(
     {innerPadding ->
         Column(modifier = Modifier
             .padding(innerPadding)
+            .padding(15.dp)
             .verticalScroll(rememberScrollState())
         )  {
-            Column(modifier = Modifier.padding(15.dp)) {
-                Row {
-                    Text(
-                        text = "Hot Sales",
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.weight(1f)
+            Text(
+                text = "Hot Sales",
+                style = MaterialTheme.typography.headlineSmall,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+            Spacer(Modifier.height(6.dp))
+            LazyVerticalGrid(
+                GridCells.Fixed(2),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .height(960.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(PharmaImages.medicineGrid) { item ->
+                    HotSalesGrid(
+                        item,
+                        navigateToMedDesc,
+                        navigateToCart
                     )
-                    Text(
-                        text = "See all",
-                        style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.clickable(
-                            enabled = true,
-                            onClick = {
-                                navigateToMedGrid()
-                            }
-                        )
-                    )
-                }
-                Spacer(Modifier.height(6.dp))
-                LazyRow(modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    items(pharmaImages.hotSales) { item ->
-                        HotSalesGrid(
-                            item,
-                            navigateToMedDesc,
-                            navigateToCart
-                        )
-                    }
-                }
-                Spacer(Modifier.height(15.dp))
-                Row {
-                    Text(
-                        text = "Recently Viewed",
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        modifier = Modifier.weight(1f)
-                    )
-                    Text(
-                        text = "See all",
-                        style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                }
-                Spacer(Modifier.height(6.dp))
-                LazyRow(modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    items(pharmaImages.hotSales) { item ->
-                        HotSalesGrid(
-                            item,
-                            navigateToMedDesc,
-                            navigateToCart
-                        )
-                    }
                 }
             }
         }

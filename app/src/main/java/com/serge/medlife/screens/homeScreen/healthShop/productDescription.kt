@@ -20,7 +20,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -39,10 +38,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.serge.medlife.screens.class_objects.Review
-import com.serge.medlife.screens.class_objects.pharmaImages
-import com.serge.medlife.screens.layoutsFile.Reviews
 import com.serge.medlife.R
+import com.serge.medlife.screens.class_objects.Review
 import com.serge.medlife.screens.layoutsFile.Reviews
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,20 +50,19 @@ fun MedicineDescription(
 ) {
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(title = {}, navigationIcon = {
-                IconButton(onClick = back) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onBackground
-                    )
-                }
-            }, actions = {
-                Icon(
-                    imageVector = Icons.Default.Share, contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground
-                )
-            },
+            CenterAlignedTopAppBar(
+                title = {},
+                navigationIcon =
+                    {
+                        IconButton(onClick = back)
+                        {
+                            Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onBackground
+                            )
+                        }
+                    },
                 modifier = Modifier
                     .padding(horizontal = 12.dp)
             )
@@ -323,19 +319,6 @@ fun MedicineDescription(
                         }
                     }
                     Spacer(Modifier.height(15.dp))
-                    Text(text = "Related Products", fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                    Spacer(Modifier.height(5.dp))
-                    LazyRow(modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                        items(pharmaImages.hotSales) { item ->
-                            HotSalesGrid(
-                                item,
-                                {},
-                                navigateToCart
-                            )
-                        }
-                    }
-                    Spacer(Modifier.height(60.dp))
                 }
                 Button(
                     onClick = {
@@ -498,7 +481,7 @@ fun MedicineDescription(
 //        Spacer(Modifier.height(5.dp))
 //        LazyRow(modifier = Modifier.fillMaxWidth(),
 //            horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-//            items(pharmaImages.hotSales) { item ->
+//            items(PharmaImages.hotSales) { item ->
 //                HotSalesGrid(item)
 //            }
 //        }
