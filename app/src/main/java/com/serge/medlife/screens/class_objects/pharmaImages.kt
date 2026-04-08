@@ -1,6 +1,7 @@
 package com.serge.medlife.screens.class_objects
 
 import com.serge.medlife.R
+import kotlin.collections.listOf
 
 
 data class HotSales(

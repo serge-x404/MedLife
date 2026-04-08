@@ -1,8 +1,6 @@
 package com.serge.medlife.screens.homeScreen.healthShop
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,12 +13,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -30,7 +25,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -83,42 +77,6 @@ fun ShoppingHomePage(
             .padding(innerPadding)
             .verticalScroll(rememberScrollState())
         )  {
-            Column(modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
-                .padding(15.dp)) {
-                Row {
-                    Text(
-                        text = "Official Store",
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.weight(1f)
-                    )
-                    Text(
-                        text = "See all",
-                        style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-                Spacer(Modifier.height(8.dp))
-                Text(
-                    text = "Special offers from various renowned brands",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-                Spacer(Modifier.height(10.dp))
-                LazyRow(modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    ) {
-                    items(pharmaImages.PharmaImages) {
-                        item ->
-                        ImageGridPharma(
-                            item
-                        )
-                    }
-                }
-            }
-            Spacer(Modifier.height(6.dp))
             Column(modifier = Modifier.padding(15.dp)) {
                 Row {
                     Text(
@@ -177,27 +135,6 @@ fun ShoppingHomePage(
                     }
                 }
             }
-    }}
-}
-
-object shoppingList {
-    val ShoppingList = listOf(
-        "Medicine & Treatment",
-        "Milk",
-        "Sexual Health"
-    )
-}
-
-@Composable
-fun Chips(item: String) {
-    Card(onClick = {},
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        border = BorderStroke(1.dp, Color(0xFFE3E3E3)),
-        shape = RoundedCornerShape(8.dp)
-    ) {
-        Text(
-            text = item,
-            modifier = Modifier.padding(10.dp)
-        )
+        }
     }
 }
