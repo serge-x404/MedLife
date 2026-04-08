@@ -172,334 +172,333 @@ fun PatientRegister(
     Scaffold(
         contentWindowInsets = WindowInsets(0.dp)
     ) { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding)) {
-            Column(
-                Modifier
-                    .background(MaterialTheme.colorScheme.surface)
-                    .border(2.dp, MaterialTheme.colorScheme.outlineVariant)
-                    .padding(horizontal = 12.dp)
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-            ) {
-                Spacer(Modifier.height(10.dp))
-                Text(
-                    text = "Email",
-                    color = MaterialTheme.colorScheme.onBackground,
-                    style = MaterialTheme.typography.titleLarge
-                )
-                OutlinedTextField(
-                    value = email,
-                    label = {
-                        Text(
-                            "Enter your email",
-                            color = MaterialTheme.colorScheme.onBackground,
-                            style = MaterialTheme.typography.titleSmall
-                        )
-                    },
-                    onValueChange = { email = it },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth(),
-                    keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Next,
-                        keyboardType = KeyboardType.Email
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onNext = {passwordFocus.requestFocus()}
-                    ),
-                    textStyle = MaterialTheme.typography.titleSmall,
-                )
-                Spacer(Modifier.height(5.dp))
-                Text(
-                    text = "Password",
-                    color = MaterialTheme.colorScheme.onBackground,
-                    style = MaterialTheme.typography.titleLarge
-                )
-                OutlinedTextField(
-                    value = password,
-                    label = {
-                        Text(
-                            "Create a password",
-                            color = MaterialTheme.colorScheme.onBackground,
-                            style = MaterialTheme.typography.titleSmall
-                        )
-                    },
-                    onValueChange = { password = it },
-                    singleLine = true,
-                    visualTransformation = if (passwordVisibility) VisualTransformation.None
-                    else PasswordVisualTransformation(),
-                    trailingIcon = {
-                        val icon = if (passwordVisibility) R.drawable.eye_closed
-                        else R.drawable.eye1
-                        IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
-                            Icon(
-                                painter = painterResource(icon),
-                                contentDescription = null,
-                                modifier = Modifier.size(24.dp)
-                            )
-                        }
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Next,
-                        keyboardType = KeyboardType.Password),
-                    keyboardActions = KeyboardActions(
-                        onNext = {confirmPasswordFocus.requestFocus()}
-                    ),
-                    modifier = Modifier.fillMaxWidth()
-                        .focusRequester(passwordFocus),
-                    textStyle = MaterialTheme.typography.titleSmall,
-                )
-                Spacer(Modifier.height(5.dp))
-                Text(
-                    text = "Confirm Password",
-                    color = MaterialTheme.colorScheme.onBackground,
-                    style = MaterialTheme.typography.titleLarge
-                )
-                OutlinedTextField(
-                    value = confirmPassword,
-                    label = {
-                        Text(
-                            "Re-enter your password",
-                            color = MaterialTheme.colorScheme.onBackground,
-                            style = MaterialTheme.typography.titleSmall
-                        )
-                    },
-                    onValueChange = { confirmPassword = it },
-                    singleLine = true,
-                    visualTransformation = if (confirmPasswordVisibility) VisualTransformation.None
-                    else PasswordVisualTransformation(),
-                    trailingIcon = {
-                        val icon = if (confirmPasswordVisibility) R.drawable.eye_closed
-                        else R.drawable.eye1
-                        IconButton(onClick = { confirmPasswordVisibility = !confirmPasswordVisibility }) {
-                            Icon(
-                                painter = painterResource(icon),
-                                contentDescription = null,
-                                modifier = Modifier.size(24.dp)
-                            )
-                        }
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Next,
-                        keyboardType = KeyboardType.Password),
-                    keyboardActions = KeyboardActions(
-                        onNext = {fullNameFocus.requestFocus()}
-                    ),
-                    modifier = Modifier.fillMaxWidth()
-                        .focusRequester(confirmPasswordFocus),
-                    textStyle = MaterialTheme.typography.titleSmall,
-                )
-                Spacer(Modifier.height(5.dp))
-                Text(
-                    text = "Full Name",
-                    color = MaterialTheme.colorScheme.onBackground,
-                    style = MaterialTheme.typography.titleLarge
-                )
-                OutlinedTextField(
-                    value = userName,
-                    label = {
-                        Text(
-                            "Enter your full name",
-                            color = MaterialTheme.colorScheme.onBackground,
-                            style = MaterialTheme.typography.titleSmall
-                        )
-                    },
-                    onValueChange = { userName = it },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
-                        .focusRequester(fullNameFocus),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text
-                    ),
-                    textStyle = MaterialTheme.typography.titleSmall,
-                )
-                Spacer(Modifier.height(5.dp))
-                Text(
-                    text = "Gender",
-                    color = MaterialTheme.colorScheme.onBackground,
-                    style = MaterialTheme.typography.titleLarge
-                )
-                ExposedDropdownMenuBox(
-                    expanded = expandedGender,
-                    onExpandedChange = { expandedGender = !expandedGender }
-                ) {
-                    OutlinedTextField(
-                        value = gender,
-                        placeholder = {
-                            Text(
-                                "Select your gender",
-                                color = MaterialTheme.colorScheme.onBackground,
-                                style = MaterialTheme.typography.titleSmall
-                            )
-                        },
-                        onValueChange = { gender = it },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable,true),
-                        readOnly = true,
-                        textStyle = MaterialTheme.typography.titleSmall,
+        Column(
+            Modifier
+                .background(MaterialTheme.colorScheme.surface)
+                .border(2.dp, MaterialTheme.colorScheme.outlineVariant)
+                .padding(innerPadding)
+                .padding(horizontal = 12.dp)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
+            Spacer(Modifier.height(10.dp))
+            Text(
+                text = "Email",
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.titleLarge
+            )
+            OutlinedTextField(
+                value = email,
+                label = {
+                    Text(
+                        "Enter your email",
+                        color = MaterialTheme.colorScheme.onBackground,
+                        style = MaterialTheme.typography.titleSmall
                     )
-                    ExposedDropdownMenu(
-                        expanded = expandedGender,
-                        onDismissRequest = { expandedGender = !expandedGender },
-                        modifier = Modifier.background(MaterialTheme.colorScheme.background)
-                    ) {
-                        listOf("Male", "Female", "Others").forEach {
-                            DropdownMenuItem(
-                                text = {
-                                    Text(
-                                        it,
-                                        style = MaterialTheme.typography.titleSmall,
-                                        color = MaterialTheme.colorScheme.onBackground
-                                    )
-                                },
-                                onClick = {
-                                    gender = it
-                                    expandedGender = false
-                                }
-                            )
-                        }
+                },
+                onValueChange = { email = it },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next,
+                    keyboardType = KeyboardType.Email
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = {passwordFocus.requestFocus()}
+                ),
+                textStyle = MaterialTheme.typography.titleSmall,
+            )
+            Spacer(Modifier.height(5.dp))
+            Text(
+                text = "Password",
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.titleLarge
+            )
+            OutlinedTextField(
+                value = password,
+                label = {
+                    Text(
+                        "Create a password",
+                        color = MaterialTheme.colorScheme.onBackground,
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                },
+                onValueChange = { password = it },
+                singleLine = true,
+                visualTransformation = if (passwordVisibility) VisualTransformation.None
+                else PasswordVisualTransformation(),
+                trailingIcon = {
+                    val icon = if (passwordVisibility) R.drawable.eye_closed
+                    else R.drawable.eye1
+                    IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
+                        Icon(
+                            painter = painterResource(icon),
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp)
+                        )
                     }
-                }
-                Spacer(Modifier.height(5.dp))
-                Text(
-                    text = "Date of birth",
-                    color = MaterialTheme.colorScheme.onBackground,
-                    style = MaterialTheme.typography.titleLarge
-                )
+                },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next,
+                    keyboardType = KeyboardType.Password),
+                keyboardActions = KeyboardActions(
+                    onNext = {confirmPasswordFocus.requestFocus()}
+                ),
+                modifier = Modifier.fillMaxWidth()
+                    .focusRequester(passwordFocus),
+                textStyle = MaterialTheme.typography.titleSmall,
+            )
+            Spacer(Modifier.height(5.dp))
+            Text(
+                text = "Confirm Password",
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.titleLarge
+            )
+            OutlinedTextField(
+                value = confirmPassword,
+                label = {
+                    Text(
+                        "Re-enter your password",
+                        color = MaterialTheme.colorScheme.onBackground,
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                },
+                onValueChange = { confirmPassword = it },
+                singleLine = true,
+                visualTransformation = if (confirmPasswordVisibility) VisualTransformation.None
+                else PasswordVisualTransformation(),
+                trailingIcon = {
+                    val icon = if (confirmPasswordVisibility) R.drawable.eye_closed
+                    else R.drawable.eye1
+                    IconButton(onClick = { confirmPasswordVisibility = !confirmPasswordVisibility }) {
+                        Icon(
+                            painter = painterResource(icon),
+                            contentDescription = null,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next,
+                    keyboardType = KeyboardType.Password),
+                keyboardActions = KeyboardActions(
+                    onNext = {fullNameFocus.requestFocus()}
+                ),
+                modifier = Modifier.fillMaxWidth()
+                    .focusRequester(confirmPasswordFocus),
+                textStyle = MaterialTheme.typography.titleSmall,
+            )
+            Spacer(Modifier.height(5.dp))
+            Text(
+                text = "Full Name",
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.titleLarge
+            )
+            OutlinedTextField(
+                value = userName,
+                label = {
+                    Text(
+                        "Enter your full name",
+                        color = MaterialTheme.colorScheme.onBackground,
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                },
+                onValueChange = { userName = it },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+                    .focusRequester(fullNameFocus),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text
+                ),
+                textStyle = MaterialTheme.typography.titleSmall,
+            )
+            Spacer(Modifier.height(5.dp))
+            Text(
+                text = "Gender",
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.titleLarge
+            )
+            ExposedDropdownMenuBox(
+                expanded = expandedGender,
+                onExpandedChange = { expandedGender = !expandedGender }
+            ) {
                 OutlinedTextField(
-                    value = selectedDate,
+                    value = gender,
                     placeholder = {
                         Text(
-                            "Enter your date of birth",
+                            "Select your gender",
                             color = MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.titleSmall
                         )
                     },
-                    onValueChange = {},
-                    textStyle = MaterialTheme.typography.titleSmall,
+                    onValueChange = { gender = it },
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable,true),
                     readOnly = true,
-                    interactionSource = interactionSource,
-                    trailingIcon = {
-                        IconButton(onClick = { showDatePicker = !showDatePicker }) {
-                            Icon(
-                                imageVector = Icons.Default.DateRange,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onBackground
+                    textStyle = MaterialTheme.typography.titleSmall,
+                )
+                ExposedDropdownMenu(
+                    expanded = expandedGender,
+                    onDismissRequest = { expandedGender = !expandedGender },
+                    modifier = Modifier.background(MaterialTheme.colorScheme.background)
+                ) {
+                    listOf("Male", "Female", "Others").forEach {
+                        DropdownMenuItem(
+                            text = {
+                                Text(
+                                    it,
+                                    style = MaterialTheme.typography.titleSmall,
+                                    color = MaterialTheme.colorScheme.onBackground
+                                )
+                            },
+                            onClick = {
+                                gender = it
+                                expandedGender = false
+                            }
+                        )
+                    }
+                }
+            }
+            Spacer(Modifier.height(5.dp))
+            Text(
+                text = "Date of birth",
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.titleLarge
+            )
+            OutlinedTextField(
+                value = selectedDate,
+                placeholder = {
+                    Text(
+                        "Enter your date of birth",
+                        color = MaterialTheme.colorScheme.onBackground,
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                },
+                onValueChange = {},
+                textStyle = MaterialTheme.typography.titleSmall,
+                modifier = Modifier
+                    .fillMaxWidth(),
+                readOnly = true,
+                interactionSource = interactionSource,
+                trailingIcon = {
+                    IconButton(onClick = { showDatePicker = !showDatePicker }) {
+                        Icon(
+                            imageVector = Icons.Default.DateRange,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
+                }
+            )
+            Spacer(Modifier.height(5.dp))
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(5.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Checkbox(
+                    checked = checked,
+                    onCheckedChange = { checked = it },
+                    modifier = Modifier.size(18.dp)
+                )
+                Text(
+                    text = "You agree to receive information and notifications sent by MedCare",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onBackground,
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 12.dp, vertical = 20.dp),
+                contentAlignment = Alignment.BottomCenter
+            ) {
+                Column {
+                    Button(
+                        onClick = {
+                            if (email.isBlank() || password.isBlank() || userName.isBlank() || gender.isBlank() || selectedDate.isBlank()) {
+                                errorMessage = "Please fill in all fields"
+                                return@Button
+                            }
+                            if (password.length < 8) {
+                                errorMessage = "Length of password must be at least of 8 characters"
+                                return@Button
+                            }
+                            if (password != confirmPassword) {
+                                errorMessage = "Password and confirm password does not match"
+                                return@Button
+                            }
+                            isLoading = true
+                            auth.createUserWithEmailAndPassword(email, password)
+                                .addOnCompleteListener { task ->
+                                    isLoading = false
+                                    if (task.isSuccessful) {
+                                        val db = FirebaseDatabase.getInstance().reference
+                                        val uid = auth.currentUser!!.uid
+                                        val userMap = mapOf(
+                                            "userName" to userName,
+                                            "email" to email,
+                                            "password" to password,
+                                            "gender" to gender,
+                                            "dateOfBirth" to selectedDate,
+                                            "checkedNotification" to checked
+                                        )
+                                        db.child("users").child(uid).setValue(userMap)
+                                            .addOnSuccessListener {
+                                                navigateToHomeScreen()
+                                                sharedPreferences.edit(commit = true) {
+                                                    putBoolean("isRegistered", true)
+                                                }
+                                            }
+                                            .addOnFailureListener { e ->
+                                                errorMessage = e.message ?: "Failed to save data"
+                                            }
+                                    } else {
+                                        errorMessage = task.exception?.message ?: "Registration failed"
+                                    }
+                                }
+                        },
+                        Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                        border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
+                    ) {
+                        if (isLoading) {
+                            CircularProgressIndicator(
+                                color = MaterialTheme.colorScheme.onPrimary
+                            )
+                        } else {
+                            Text(
+                                text = "Register",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.onTertiary
                             )
                         }
                     }
-                )
-                Spacer(Modifier.height(5.dp))
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(5.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Checkbox(
-                        checked = checked,
-                        onCheckedChange = { checked = it },
-                        modifier = Modifier.size(18.dp)
-                    )
-                    Text(
-                        text = "You agree to receive information and notifications sent by MedCare",
-                        style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.onBackground,
-                    )
-                }
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 12.dp, vertical = 20.dp),
-                    contentAlignment = Alignment.BottomCenter
-                ) {
-                    Column {
-                        Button(
-                            onClick = {
-                                if (email.isBlank() || password.isBlank() || userName.isBlank() || gender.isBlank() || selectedDate.isBlank()) {
-                                    errorMessage = "Please fill in all fields"
-                                    return@Button
-                                }
-                                if (password.length < 8) {
-                                    errorMessage = "Length of password must be at least of 8 characters"
-                                    return@Button
-                                }
-                                if (password != confirmPassword) {
-                                    errorMessage = "Password and confirm password does not match"
-                                    return@Button
-                                }
-                                isLoading = true
-                                auth.createUserWithEmailAndPassword(email, password)
-                                    .addOnCompleteListener { task ->
-                                        isLoading = false
-                                        if (task.isSuccessful) {
-                                            val db = FirebaseDatabase.getInstance().reference
-                                            val uid = auth.currentUser!!.uid
-                                            val userMap = mapOf(
-                                                "userName" to userName,
-                                                "email" to email,
-                                                "password" to password,
-                                                "gender" to gender,
-                                                "dateOfBirth" to selectedDate,
-                                                "checkedNotification" to checked
-                                            )
-                                            db.child("users").child(uid).setValue(userMap)
-                                                .addOnSuccessListener {
-                                                    navigateToHomeScreen()
-                                                    sharedPreferences.edit(commit = true) {
-                                                        putBoolean("isRegistered", true)
-                                                    }
-                                                }
-                                                .addOnFailureListener { e ->
-                                                    errorMessage = e.message ?: "Failed to save data"
-                                                }
-                                        } else {
-                                            errorMessage = task.exception?.message ?: "Registration failed"
-                                        }
-                                    }
-                            },
-                            Modifier.fillMaxWidth(),
-                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                            border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
-                        ) {
-                            if (isLoading) {
-                                CircularProgressIndicator(
-                                    color = MaterialTheme.colorScheme.onPrimary
-                                )
-                            } else {
-                                Text(
-                                    text = "Register",
-                                    style = MaterialTheme.typography.titleMedium,
-                                    color = MaterialTheme.colorScheme.onTertiary
-                                )
-                            }
-                        }
-                        Row(
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                    ) {
+                        Text(
+                            text = "Already have an account?",
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.labelLarge
+                        )
+                        Spacer(Modifier.width(4.dp))
+                        Text(
+                            text = "Login",
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.labelLarge.copy(
+                                fontWeight = FontWeight.SemiBold
+                            ),
+                            color = MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier
-                                .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center,
-                        ) {
-                            Text(
-                                text = "Already have an account?",
-                                textAlign = TextAlign.Center,
-                                color = MaterialTheme.colorScheme.onBackground,
-                                style = MaterialTheme.typography.labelLarge
-                            )
-                            Spacer(Modifier.width(4.dp))
-                            Text(
-                                text = "Click here to login",
-                                textAlign = TextAlign.Center,
-                                style = MaterialTheme.typography.labelLarge.copy(
-                                    fontWeight = FontWeight.SemiBold
-                                ),
-                                color = MaterialTheme.colorScheme.onBackground,
-                                modifier = Modifier
-                                    .clickable(
-                                        enabled = true,
-                                        onClick = navigateToLoginScreen
-                                    )
-                            )
-                        }
+                                .clickable(
+                                    enabled = true,
+                                    onClick = navigateToLoginScreen
+                                )
+                        )
                     }
                 }
             }

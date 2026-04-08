@@ -513,7 +513,7 @@ fun DoctorRegister(
                             )
                             Spacer(Modifier.width(4.dp))
                             Text(
-                                text = "Click here to login",
+                                text = "Login",
                                 textAlign = TextAlign.Center,
                                 style = MaterialTheme.typography.labelLarge.copy(
                                     fontWeight = FontWeight.SemiBold

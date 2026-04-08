@@ -195,7 +195,8 @@ fun HospitalMap(
                 uiSettings = MapUiSettings(
                     compassEnabled = true,
                     myLocationButtonEnabled = false,
-                    mapToolbarEnabled = false
+                    mapToolbarEnabled = false,
+                    zoomControlsEnabled = false
                 )
             ) {
 //            currentLocation?.let {myLocation ->

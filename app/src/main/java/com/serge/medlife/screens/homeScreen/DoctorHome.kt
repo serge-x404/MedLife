@@ -12,7 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PowerSettingsNew
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -169,7 +169,7 @@ fun DoctorHomeScreen(
                             onClick = { showDialog = !showDialog}
                         ) {
                             Icon(
-                                imageVector = Icons.Default.PowerSettingsNew,
+                                imageVector = Icons.AutoMirrored.Filled.Logout,
                                 contentDescription = null
                             )
                         }

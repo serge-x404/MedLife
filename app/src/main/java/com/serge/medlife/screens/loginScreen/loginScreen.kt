@@ -2,10 +2,10 @@ package com.serge.medlife.screens.loginScreen
 
 import android.content.SharedPreferences
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,25 +40,25 @@ fun LoginScreen(
             )
         }
     ) {
-        Box(Modifier.padding(it)
-            .fillMaxSize()) {
-            Column(
-                modifier = Modifier.fillMaxSize()
-                    .background(MaterialTheme.colorScheme.surface)
-            ) {
-                Text(
-                    text = "Login with your credentials",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.padding(horizontal = 12.dp)
-                )
-                LoginLogic(
-                    navigateToHomeScreen,
-                    navigateToRegister,
-                    navigateToDoctorHome,
-                    sharedPreferences
-                )
-            }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+                .navigationBarsPadding()
+                .background(MaterialTheme.colorScheme.surface)
+        ) {
+            Text(
+                text = "Login with your credentials",
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(horizontal = 12.dp)
+            )
+            LoginLogic(
+                navigateToHomeScreen,
+                navigateToRegister,
+                navigateToDoctorHome,
+                sharedPreferences
+            )
         }
     }
 }

@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 fun Walkthrough(onBoardingPage: OnBoardingPage) {
     Column(
         modifier = Modifier
-            .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+            .background(MaterialTheme.colorScheme.surface)
             .fillMaxSize()
     ) {
         val image = painterResource(onBoardingPage.image)

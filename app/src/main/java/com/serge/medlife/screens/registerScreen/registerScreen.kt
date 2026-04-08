@@ -2,10 +2,10 @@ package com.serge.medlife.screens.registerScreen
 
 import android.content.SharedPreferences
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,32 +35,29 @@ fun RegisterScreen(
                     color = MaterialTheme.colorScheme.onSurface
                 )
             },
-            colors = TopAppBarDefaults.topAppBarColors(MaterialTheme.colorScheme.surface)
+            colors = TopAppBarDefaults.topAppBarColors(MaterialTheme.colorScheme.surface),
         ) }
     ) {
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
+                .navigationBarsPadding()
+                .background(MaterialTheme.colorScheme.surface)
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize()
-                    .background(MaterialTheme.colorScheme.surface)
-            ) {
-                Text(
-                    text = "You can connect with all healthcare facilities you've previously visited.",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier
-                        .padding(horizontal = 12.dp)
-                )
-                RegisterLogic(
-                    navigateToLoginScreen,
-                    navigateToHomeScreen,
-                    navigateToConfirmationScreen,
-                    sharedPreferences
-                )
-            }
+            Text(
+                text = "You can connect with all healthcare facilities you've previously visited.",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier
+                    .padding(horizontal = 12.dp)
+            )
+            RegisterLogic(
+                navigateToLoginScreen,
+                navigateToHomeScreen,
+                navigateToConfirmationScreen,
+                sharedPreferences
+            )
         }
     }
 }
