@@ -1,7 +1,7 @@
 package com.serge.medlife.screens.homeScreen.homeComposables
 
 import android.util.Log
-import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -75,18 +74,17 @@ fun CardServicesHomeScreen(
     homeScreenCategories: HomeScreenCategories,
     navigateToCategoryDoc: (String) -> Unit
 ) {
-    val context = LocalContext.current
     Card(
         onClick = {
             Log.d("Category","Clicked: ${homeScreenCategories.categoryTitle}")
-            Toast.makeText(context, homeScreenCategories.categoryTitle, Toast.LENGTH_SHORT).show()
             navigateToCategoryDoc(homeScreenCategories.categoryTitle)
         },
         modifier = Modifier
             .padding(8.dp)
             .size(96.dp),
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primaryContainer),
-        elevation = CardDefaults.elevatedCardElevation(4.dp)
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+        elevation = CardDefaults.elevatedCardElevation(1.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -99,14 +97,14 @@ fun CardServicesHomeScreen(
                 painter = painterResource(homeScreenCategories.categoryIcon),
                 contentDescription = "Image",
                 Modifier.size(36.dp),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
             )
             Spacer(Modifier.height(8.dp))
             Text(
                 text = homeScreenCategories.categoryTitle,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onBackground,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

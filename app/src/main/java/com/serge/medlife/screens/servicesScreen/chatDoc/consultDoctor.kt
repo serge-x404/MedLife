@@ -2,6 +2,7 @@ package com.serge.medlife.screens.servicesScreen.chatDoc
 
 import android.net.Uri
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -123,6 +124,7 @@ fun ConsultDoctorScreen(
                                 navigateToDocDtls(docName, docSpeciality, docGender)
                             },
                             colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerLow),
+                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
                             elevation = CardDefaults.elevatedCardElevation(2.dp)
                         ) {
                             val image = when (it.doctorGender) {

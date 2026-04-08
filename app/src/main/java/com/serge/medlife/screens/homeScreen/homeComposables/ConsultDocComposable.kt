@@ -61,19 +61,19 @@ fun ConsultDocComposable(navigateToChatDoc: (String) -> Unit ) {
                 ) {
                     Text(
                         text = "Consult with a specialist",
-                        color = MaterialTheme.colorScheme.onBackground,
+                        color = MaterialTheme.colorScheme.onTertiaryContainer,
                         style = MaterialTheme.typography.titleMedium
                     )
                     Text(
                         text = "Promote health via chat or call",
-                        color = MaterialTheme.colorScheme.onBackground,
+                        color = MaterialTheme.colorScheme.onTertiaryContainer,
                         style = MaterialTheme.typography.labelSmall
                     )
                 }
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                     contentDescription = "Arrow Forward",
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = MaterialTheme.colorScheme.onTertiaryContainer
                 )
             }
         }

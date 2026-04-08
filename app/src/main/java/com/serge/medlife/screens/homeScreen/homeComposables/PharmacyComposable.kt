@@ -60,19 +60,19 @@ fun PharmacyComposable(navigateToHealthShop: () -> Unit ) {
                 ) {
                     Text(
                         text = "Pharmacy",
-                        color = MaterialTheme.colorScheme.onBackground,
+                        color = MaterialTheme.colorScheme.onTertiaryContainer,
                         style = MaterialTheme.typography.titleMedium
                     )
                     Text(
                         text = "Look for the medicines",
-                        color = MaterialTheme.colorScheme.onBackground,
+                        color = MaterialTheme.colorScheme.onTertiaryContainer,
                         style = MaterialTheme.typography.labelSmall
                     )
                 }
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                     contentDescription = "Arrow Forward",
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = MaterialTheme.colorScheme.onTertiaryContainer
                 )
             }
         }

@@ -1,6 +1,5 @@
 package com.serge.medlife.screens.layoutsFile
 
-import android.widget.Toast
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -42,7 +41,6 @@ fun GridViewLayout(
     val context = LocalContext.current
     Card(
         onClick = {
-            Toast.makeText(context, categories.name, Toast.LENGTH_SHORT).show()
             categories.route?.let { onNavigate(it) }
         },
         modifier = Modifier
@@ -62,14 +60,14 @@ fun GridViewLayout(
                 painter = painterResource(categories.icon),
                 contentDescription = "Image",
                 Modifier.size(36.dp),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
             )
             Spacer(Modifier.height(8.dp))
             Text(
                 text = categories.name,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
     }

@@ -183,7 +183,7 @@ fun DoctorRegister(
                     value = password,
                     label = {
                         Text(
-                            "Re-enter your password",
+                            "Create a password",
                             color = MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.titleSmall
                         )
@@ -225,7 +225,7 @@ fun DoctorRegister(
                     value = confirmPassword,
                     label = {
                         Text(
-                            "Create a password",
+                            "Re-enter your password",
                             color = MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.titleSmall
                         )

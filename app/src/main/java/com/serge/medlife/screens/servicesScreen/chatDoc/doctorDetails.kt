@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
@@ -28,6 +29,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
@@ -51,7 +53,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -106,13 +107,24 @@ fun DoctorDetails(
                         )
                     }
                 },
+                actions = {
+                    IconButton(
+                        onClick = navigateToChat
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.Chat,
+                            contentDescription = null
+                        )
+                    }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(MaterialTheme.colorScheme.surfaceContainerLow),
             )
         }
     ) { innerPadding ->
         Column(modifier = Modifier
             .padding(innerPadding)
-            .verticalScroll(rememberScrollState())) {
+            .verticalScroll(rememberScrollState())
+        ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
@@ -264,68 +276,44 @@ fun DoctorDetails(
                     Spacer(Modifier.height(30.dp))
                 }
             }
-            Spacer(Modifier.height(50.dp))
+            Spacer(Modifier.height(30.dp))
         }
-        Box(modifier = Modifier
+        Box(
+            modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 24.dp),
-            contentAlignment = Alignment.BottomCenter) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(5.dp),
-                modifier = Modifier.padding(horizontal = 16.dp)
+            .padding(horizontal = 12.dp)
+            .navigationBarsPadding(),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            Button(
+                onClick = {
+                    if (selectedHour.isBlank()) {
+                        errorMessage = "Please select a time"
+                        Toast.makeText(context,errorMessage, Toast.LENGTH_SHORT).show()
+                        return@Button
+                    }
+                    if (selectedDate == null) {
+                        errorMessage = "Please select a date"
+                        Toast.makeText(context,errorMessage, Toast.LENGTH_SHORT).show()
+                        return@Button
+                    }
+                    val doctorName = name
+                    val doctorSpecialization = specialization
+                    val doctorGender = gender
+                    val encodeHour = Uri.encode(selectedHour)
+                    val encodeDate = Uri.encode(selectedDate.toString())
+                    Log.i("encodeDate", encodeDate)
+                    navigateToAppointment(doctorName,doctorSpecialization,doctorGender,encodeDate, encodeHour)
+                },
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.tertiaryContainer),
+                border = BorderStroke(2.dp, color = MaterialTheme.colorScheme.outlineVariant)
             ) {
-                Button(
-                    onClick = {
-                        navigateToChat()
-                    },
-                    modifier = Modifier.weight(1f),
-                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.surfaceContainer),
-                    border = BorderStroke(2.dp, color = MaterialTheme.colorScheme.outlineVariant)
-                ) {
-                    Image(
-                        painter = painterResource(R.drawable.chat),
-                        contentDescription = null,
-                        Modifier
-                            .size(28.dp)
-                            .weight(1f),
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant)
-                    )
-                    Text(
-                        text = "Chat",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-                Button(
-                    onClick = {
-                        if (selectedHour.isBlank()) {
-                            errorMessage = "Please select a time"
-                            Toast.makeText(context,errorMessage, Toast.LENGTH_SHORT).show()
-                            return@Button
-                        }
-                        if (selectedDate == null) {
-                            errorMessage = "Please select a date"
-                            Toast.makeText(context,errorMessage, Toast.LENGTH_SHORT).show()
-                            return@Button
-                        }
-                        val doctorName = name
-                        val doctorSpecialization = specialization
-                        val doctorGender = gender
-                        val encodeHour = Uri.encode(selectedHour)
-                        val encodeDate = Uri.encode(selectedDate.toString())
-                        Log.i("encodeDate", encodeDate)
-                        navigateToAppointment(doctorName,doctorSpecialization,doctorGender,encodeDate, encodeHour)
-                    },
-                    modifier = Modifier.weight(2f),
-                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.tertiaryContainer),
-                    border = BorderStroke(2.dp, color = MaterialTheme.colorScheme.outlineVariant)
-                ) {
-                    Text(
-                        text = "Make an Appointment",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onTertiaryContainer
-                    )
-                }
+                Text(
+                    text = "Make an Appointment",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onTertiaryContainer
+                )
             }
         }
     }

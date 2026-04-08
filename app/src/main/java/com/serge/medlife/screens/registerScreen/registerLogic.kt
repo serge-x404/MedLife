@@ -1,7 +1,6 @@
 package com.serge.medlife.screens.registerScreen
 
 import android.content.SharedPreferences
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -45,7 +44,6 @@ fun RegisterLogic(
                             selected = storeIndex == index,
                             onClick = {
                                 storeIndex = index
-                                Toast.makeText(context, tabs.name, Toast.LENGTH_SHORT).show()
                             },
                             text = {
                                 Text(

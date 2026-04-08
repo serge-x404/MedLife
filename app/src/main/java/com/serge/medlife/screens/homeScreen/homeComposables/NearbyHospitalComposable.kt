@@ -60,19 +60,19 @@ fun NearbyHospitalComposable(navigateToHospital: () -> Unit ) {
                 ) {
                     Text(
                         text = "Nearby Hospital",
-                        color = MaterialTheme.colorScheme.onBackground,
+                        color = MaterialTheme.colorScheme.onTertiaryContainer,
                         style = MaterialTheme.typography.titleMedium
                     )
                     Text(
                         text = "Look for hospitals nearby",
-                        color = MaterialTheme.colorScheme.onBackground,
+                        color = MaterialTheme.colorScheme.onTertiaryContainer,
                         style = MaterialTheme.typography.labelSmall
                     )
                 }
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                     contentDescription = "Arrow Forward",
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = MaterialTheme.colorScheme.onTertiaryContainer
                 )
             }
         }

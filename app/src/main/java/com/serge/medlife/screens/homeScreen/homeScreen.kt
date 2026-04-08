@@ -56,13 +56,16 @@ fun HomeScreen(
     navigateToCategoryDoc: (String) -> Unit
 ) {
     val context = LocalContext.current
-    val networkObserver = remember { isInternetAvailable(context) }
 
-    var isConnected by remember { mutableStateOf(networkObserver) }
+    var isConnected by remember { mutableStateOf(isInternetAvailable(context)) }
+
+    LaunchedEffect(Unit) {
+        isConnected = isInternetAvailable(context)
+    }
 
     if (!isConnected) {
         NoInternet(
-            onRetry = { isConnected = networkObserver }
+            onRetry = { isConnected = isInternetAvailable(context) }
         )
     }
     else {
