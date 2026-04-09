@@ -314,8 +314,8 @@ fun HospitalMap(
             )
         )
 
-            .setIncludedPrimaryTypes(listOf("hospital"))
-            .setMaxResultCount(5)
+            .setIncludedPrimaryTypes(listOf("hospital","doctor"))
+            .setMaxResultCount(20)
             .build()
 
         placesClient.searchNearby(request)

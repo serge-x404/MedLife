@@ -47,7 +47,8 @@ fun GridViewLayout(
             .padding(8.dp)
             .size(96.dp),
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer),
-        elevation = CardDefaults.elevatedCardElevation(2.dp)
+        border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant),
+        elevation = CardDefaults.elevatedCardElevation(1.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

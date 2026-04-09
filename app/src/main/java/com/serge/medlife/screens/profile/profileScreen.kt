@@ -58,17 +58,8 @@ import com.serge.medlife.rtdb.RTDB
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    navigateToPresHist: () -> Unit,
-    navigateToHealthHist: () -> Unit,
-    navigateToTransactions: () -> Unit,
-    navigateToAccSettings: () -> Unit,
-    navigateToNotifications: () -> Unit,
-//    navigateToPharmaAdmin: () -> Unit,
-    back: () -> Unit,
     navigateToAuthSplash: () -> Unit,
     sharedPreferences: SharedPreferences
-//    userName: String,
-//    email: String
 ) {
     var showDialog by remember { mutableStateOf(false) }
     var editProfileDialog by remember { mutableStateOf(false) }
@@ -271,18 +262,7 @@ fun ProfileScreen(
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onBackground
                         )
-                    },
-//                    navigationIcon = {
-//                        IconButton(
-//                            onClick = back
-//                        ) {
-//                            Icon(
-//                                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-//                                contentDescription = null,
-//                                tint = MaterialTheme.colorScheme.onBackground
-//                            )
-//                        }
-//                    }
+                    }
                 )
             }
         ) { innerPadding ->
@@ -304,8 +284,8 @@ fun ProfileScreen(
                                 enabled = true,
                                 onClick = { editProfileDialog = !editProfileDialog }
                             ),
-                        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest),
-                        border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
+                        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer),
+                        border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant)
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
@@ -321,20 +301,20 @@ fun ProfileScreen(
                                 Text(
                                     userName,
                                     style = MaterialTheme.typography.titleMedium,
-                                    color = MaterialTheme.colorScheme.onBackground
+                                    color = MaterialTheme.colorScheme.onSurface
                                 )
                                 Row {
                                     Icon(
                                         imageVector = Icons.Default.Email,
                                         contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.onBackground,
+                                        tint = MaterialTheme.colorScheme.onSurface,
                                         modifier = Modifier.size(20.dp)
                                     )
                                     Spacer(Modifier.width(6.dp))
                                     Text(
                                         email,
                                         style = MaterialTheme.typography.labelLarge,
-                                        color = MaterialTheme.colorScheme.onBackground
+                                        color = MaterialTheme.colorScheme.onSurface
                                     )
                                 }
                                 if (expanded) {
@@ -384,7 +364,7 @@ fun ProfileScreen(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
                                 .clickable(
-                                    onClick = { navigateToPresHist() }
+                                    onClick = { }
                                 )
                                 .padding(12.dp)
                                 .fillMaxWidth()
@@ -413,7 +393,7 @@ fun ProfileScreen(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
                                 .clickable(
-                                    onClick = { navigateToHealthHist() }
+                                    onClick = { }
                                 )
                                 .padding(12.dp)
                                 .fillMaxWidth()
@@ -442,7 +422,7 @@ fun ProfileScreen(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
                                 .clickable(
-                                    onClick = { navigateToTransactions() }
+                                    onClick = {  }
                                 )
                                 .padding(12.dp)
                                 .fillMaxWidth()
@@ -482,7 +462,7 @@ fun ProfileScreen(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
                                 .clickable(
-                                    onClick = { navigateToAccSettings() }
+                                    onClick = {  }
                                 )
                                 .padding(12.dp)
                                 .fillMaxWidth()
@@ -504,7 +484,7 @@ fun ProfileScreen(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
                                 .clickable(
-                                    onClick = { navigateToNotifications() }
+                                    onClick = { }
                                 )
                                 .padding(12.dp)
                                 .fillMaxWidth()

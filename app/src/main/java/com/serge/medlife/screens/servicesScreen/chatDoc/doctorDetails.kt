@@ -8,7 +8,6 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -168,113 +167,71 @@ fun DoctorDetails(
                 }
             }
             Spacer(Modifier.height(14.dp))
-            Column {
-                Row(
+            Column(modifier = Modifier.padding(horizontal = 20.dp)) {
+                Text(
+                    text = "Practice Location",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+                Card(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
+                    colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer)
                 ) {
-                    Column(
-                        modifier = Modifier
-                            .background(MaterialTheme.colorScheme.surfaceContainer)
-                            .border(BorderStroke(1.dp, MaterialTheme.colorScheme.onSurfaceVariant))
-                            .padding(8.dp)
-                    ) {
+                    Row(verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(8.dp)) {
                         Text(
-                            text = "Education",
-                            style = MaterialTheme.typography.titleSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Text(
-                            text = "University of Milan",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                    }
-                    Column(
-                        modifier = Modifier
-                            .background(MaterialTheme.colorScheme.surfaceContainer)
-                            .border(BorderStroke(1.dp, MaterialTheme.colorScheme.onSurfaceVariant))
-                            .padding(8.dp)
-                    ) {
-                        Text(
-                            text = "License",
-                            style = MaterialTheme.typography.titleSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Text(
-                            text = "1276126552881",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onSurface
+                            text = "$name's $specialization Clinic",
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            textAlign = TextAlign.Center
                         )
                     }
                 }
-                Spacer(Modifier.height(14.dp))
-                Column(modifier = Modifier.padding(horizontal = 20.dp)) {
-                    Text(
-                        text = "Practice Location",
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer)
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.padding(8.dp)) {
-                            Text(
-                                text = "$name's $specialization Clinic",
-                                style = MaterialTheme.typography.labelLarge,
-                                color = MaterialTheme.colorScheme.onSurface,
-                                textAlign = TextAlign.Center
-                            )
-                        }
+                Spacer(Modifier.height(18.dp))
+                Text(
+                    "Working Hours",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+                Spacer(Modifier.height(10.dp))
+                LazyVerticalGrid(
+                    GridCells.Fixed(3),
+                    modifier = Modifier.height(80.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    itemsIndexed(DocWorkHrs.workingHours) { index, item ->
+                        DoctorWorkingHours(
+                            hours = item,
+                            selected = selectedIndex == index,
+                            onClick = { selectedIndex = index }
+                        )
                     }
-                    Spacer(Modifier.height(18.dp))
-                    Text(
-                        "Working Hours",
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                    Spacer(Modifier.height(10.dp))
-                    LazyVerticalGrid(
-                        GridCells.Fixed(3),
-                        modifier = Modifier.height(80.dp),
-                        verticalArrangement = Arrangement.spacedBy(10.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        itemsIndexed(DocWorkHrs.workingHours) { index, item ->
-                            DoctorWorkingHours(
-                                hours = item,
-                                selected = selectedIndex == index,
-                                onClick = { selectedIndex = index }
-                            )
-                        }
-                    }
-                    Spacer(Modifier.height(10.dp))
-                    Text(
-                        text = "Date",
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                    Spacer(Modifier.height(5.dp))
-                    DateScreen(
-                        selectedDate = selectedDate,
-                        onDateSelected = { selectedDate = it }
-                    )
-                    Spacer(Modifier.height(10.dp))
-                    Text(
-                        text = "Review",
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                    Spacer(Modifier.height(4.dp))
-                    LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        items(Review.reviews) { item ->
-                            Reviews(item)
-                        }
-                    }
-                    Spacer(Modifier.height(30.dp))
                 }
+                Spacer(Modifier.height(10.dp))
+                Text(
+                    text = "Date",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+                Spacer(Modifier.height(5.dp))
+                DateScreen(
+                    selectedDate = selectedDate,
+                    onDateSelected = { selectedDate = it }
+                )
+                Spacer(Modifier.height(10.dp))
+                Text(
+                    text = "Review",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+                Spacer(Modifier.height(4.dp))
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    items(Review.reviews) { item ->
+                        Reviews(item)
+                    }
+                }
+                Spacer(Modifier.height(30.dp))
             }
             Spacer(Modifier.height(30.dp))
         }

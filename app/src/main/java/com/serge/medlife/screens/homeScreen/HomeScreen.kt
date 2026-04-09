@@ -64,13 +64,13 @@ fun HomeScreen(
         HomeCard(
             title = "Pharmacy",
             subtitle = "Look for medicines",
-            image = R.drawable.medicalshop,
+            image = R.drawable.pill,
             onClick = navigateToHealthShop
         ),
         HomeCard(
             title = "Nearby Hospital",
             subtitle = "Find hospitals nearby",
-            image = R.drawable.pharmacy,
+            image = R.drawable.hospital_new,
             onClick = navigateToHospital
         )
     )

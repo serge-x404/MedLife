@@ -30,7 +30,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.serge.medlife.network.NoInternet
 import com.serge.medlife.network.isInternetAvailable
@@ -137,7 +136,7 @@ fun BottomNavigation(navController: NavController) {
                                 navController.navigate(items.path) {
                                     launchSingleTop = true
                                     restoreState = true
-                                    popUpTo(navController.graph.findStartDestination().id) {
+                                    popUpTo(0) {
                                         saveState = true
                                     }
                                 }

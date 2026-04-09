@@ -12,7 +12,7 @@ object ServiceGridData {
         Categories(
             "Article",
             R.drawable.article_new,
-            NavRoute.articleHome.path
+            NavRoute.ArticleHome.path
         ),
         Categories(
             "Consult Doctor",
@@ -22,12 +22,12 @@ object ServiceGridData {
         Categories(
             "Hospitals",
             R.drawable.hospital_new,
-            NavRoute.newHospitalMap.path
+            NavRoute.HospitalMap.path
         ),
         Categories(
             "Medication Reminder",
             R.drawable.pill,
-            NavRoute.savedReminder.path
+            NavRoute.SavedReminder.path
         )
     )
 }

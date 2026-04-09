@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -111,178 +112,133 @@ fun Confirmation(
                 }
             })
         }) { innerPadding ->
-        Column(Modifier.padding(innerPadding)) {
-            Column(Modifier.padding(horizontal = 20.dp)) {
-                Card(
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
-                    modifier = Modifier,
-                    elevation = CardDefaults.elevatedCardElevation(2.dp)
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 20.dp, top = 15.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Image(
-                            painter = painterResource(image),
-                            contentDescription = null,
-                            Modifier
-                                .size(80.dp)
-                                .clip(CircleShape)
-                        )
-                        Column {
-                            Text(
-                                text = "Dr. $doctorName",
-                                style = MaterialTheme.typography.titleLarge
-                            )
-                            Text(
-                                text = doctorSpecialization,
-                                style = MaterialTheme.typography.labelLarge
-                            )
-                        }
-                    }
-                    Spacer(Modifier.height(12.dp))
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 15.dp),
-                        horizontalArrangement = Arrangement.SpaceEvenly
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .background(MaterialTheme.colorScheme.surfaceContainer)
-                                .border(
-                                    BorderStroke(
-                                        1.dp,
-                                        MaterialTheme.colorScheme.outlineVariant
-                                    )
-                                )
-                                .padding(8.dp)
-                        ) {
-                            Text(
-                                text = "Education",
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.onTertiaryContainer
-                            )
-                            Text(
-                                text = "University of Milan",
-                                style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.onTertiaryContainer
-                            )
-                        }
-                        Column(
-                            modifier = Modifier
-                                .background(MaterialTheme.colorScheme.surfaceContainer)
-                                .border(
-                                    BorderStroke(
-                                        1.dp,
-                                        MaterialTheme.colorScheme.outlineVariant
-                                    )
-                                )
-                                .padding(8.dp)
-                        ) {
-                            Text(
-                                text = "License",
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.onTertiaryContainer
-                            )
-                            Text(
-                                text = "1276126552881",
-                                style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.onTertiaryContainer
-                            )
-                        }
-                    }
-                }
-                Spacer(Modifier.height(20.dp))
-                Card(
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
-                    modifier = Modifier.fillMaxWidth(),
-                    elevation = CardDefaults.elevatedCardElevation(2.dp)
-                ) {
-                    Column(modifier = Modifier.padding(15.dp)) {
-                        Text(
-                            text = "Detail Appointment",
-                            style = MaterialTheme.typography.titleLarge,
-                            color = MaterialTheme.colorScheme.secondary
-                        )
-                        Spacer(Modifier.height(10.dp))
-                        HorizontalDivider()
-                        Spacer(Modifier.height(6.dp))
-                        Text(
-                            text = "Date & Time",
-                            style = MaterialTheme.typography.labelLarge,
-                            color = MaterialTheme.colorScheme.secondary
-                        )
-                        Spacer(Modifier.height(2.dp))
-                        Text(
-                            text = "$appointmentDate $appointmentHours",
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                        Spacer(Modifier.height(12.dp))
-                        Text(
-                            text = "Location",
-                            style = MaterialTheme.typography.labelLarge,
-                            color = MaterialTheme.colorScheme.secondary
-                        )
-                        Spacer(Modifier.height(2.dp))
-                        Text(
-                            text = "$doctorName's $doctorSpecialization Clinic",
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                    }
-                }
-                Spacer(Modifier.height(20.dp))
-                Card(
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
-                    border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outlineVariant),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Row(
-                        modifier = Modifier.padding(8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Image(
-                            painter = painterResource(R.drawable.bell),
-                            contentDescription = null,
-                            Modifier.size(20.dp),
-                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.surfaceTint)
-                        )
-                        Spacer(Modifier.width(10.dp))
-                        Text(
-                            text = "Activate notifications",
-                            style = MaterialTheme.typography.labelLarge,
-                            color = MaterialTheme.colorScheme.onSurface,
-                            modifier = Modifier.weight(1f)
-                        )
-                        Switch(
-                            checked = checked,
-                            onCheckedChange = { checked = it },
-                            colors = SwitchDefaults.colors(
-                                checkedTrackColor = MaterialTheme.colorScheme.secondary
-                            )
-                        )
-                    }
-                }
-            }
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .padding(vertical = 16.dp),
-                contentAlignment = Alignment.BottomCenter
+        Column(
+            Modifier
+            .padding(innerPadding)
+            .padding(horizontal = 20.dp)
+        ) {
+            Card(
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+                border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant),
+                modifier = Modifier,
+                elevation = CardDefaults.elevatedCardElevation(2.dp)
             ) {
-                SwipeToConfirmButton(
-                    appointmentData = AppointmentData(
-                        "",
-                        name,
-                        doctorName = doctorName,
-                        appointmentHours,
-                        appointmentDate
-                    ),
-                    navigateToAppointmentSuccess
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(image),
+                        contentDescription = null,
+                        Modifier
+                            .size(80.dp)
+                            .clip(CircleShape)
+                    )
+                    Column {
+                        Text(
+                            text = "Dr. $doctorName",
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Text(
+                            text = doctorSpecialization,
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                }
             }
+            Spacer(Modifier.height(20.dp))
+            Card(
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
+                border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant),
+                modifier = Modifier.fillMaxWidth(),
+                elevation = CardDefaults.elevatedCardElevation(2.dp)
+            ) {
+                Column(modifier = Modifier.padding(15.dp)) {
+                    Text(
+                        text = "Detail Appointment",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                    Spacer(Modifier.height(10.dp))
+                    HorizontalDivider()
+                    Spacer(Modifier.height(6.dp))
+                    Text(
+                        text = "Date & Time",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                    Spacer(Modifier.height(2.dp))
+                    Text(
+                        text = "$appointmentDate $appointmentHours",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Spacer(Modifier.height(12.dp))
+                    Text(
+                        text = "Location",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                    Spacer(Modifier.height(2.dp))
+                    Text(
+                        text = "$doctorName's $doctorSpecialization Clinic",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                }
+            }
+            Spacer(Modifier.height(20.dp))
+            Card(
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
+                border = BorderStroke(width = 0.5.dp, color = MaterialTheme.colorScheme.outlineVariant),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Row(
+                    modifier = Modifier.padding(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.bell),
+                        contentDescription = null,
+                        Modifier.size(20.dp),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
+                    )
+                    Spacer(Modifier.width(10.dp))
+                    Text(
+                        text = "Activate notifications",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Switch(
+                        checked = checked,
+                        onCheckedChange = { checked = it },
+                        colors = SwitchDefaults.colors(
+                            checkedTrackColor = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    )
+                }
+            }
+        }
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(vertical = 16.dp)
+            .navigationBarsPadding(),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            SwipeToConfirmButton(
+                appointmentData = AppointmentData(
+                    "",
+                    name,
+                    doctorName = doctorName,
+                    appointmentHours,
+                    appointmentDate
+                ),
+                navigateToAppointmentSuccess
+            )
         }
     }
 }
