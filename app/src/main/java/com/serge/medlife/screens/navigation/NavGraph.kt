@@ -108,15 +108,11 @@ fun addHomeScreen(
         route = NavRoute.Main.path
     ) {
         HomeScreen(
-            navigateToChatDoc = {category ->
+            navigateToConsultDoc = {category ->
                 navHostController.navigate(NavRoute.ChatDoc.createRoute(category))
             },
-            navigateToProfile = {
-                navHostController.navigate(NavRoute.Profile.path) {
-                    popUpTo(NavRoute.Main.path) {
-                        inclusive = true
-                    }
-                }
+            navigateToChatDoc = {
+                navHostController.navigate(NavRoute.Chat.path)
             },
             navigateToNotifications = {
                 navHostController.navigate(NavRoute.Notifications.path)
@@ -287,7 +283,7 @@ fun addHistoryScreen(navHostController: NavHostController, navGraphBuilder: NavG
         route = NavRoute.History.path
     ) {
         HistoryScreen(
-            navigateToChatDoc = { navHostController.navigate(NavRoute.ChatDoc.path) })
+            navigateToChatDoc = { navHostController.navigate(NavRoute.ChatDoc.createRoute("All")) })
     }
 }
 

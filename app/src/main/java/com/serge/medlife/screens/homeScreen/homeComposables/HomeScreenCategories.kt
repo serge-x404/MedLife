@@ -80,10 +80,9 @@ fun CardServicesHomeScreen(
             navigateToCategoryDoc(homeScreenCategories.categoryTitle)
         },
         modifier = Modifier
-            .padding(8.dp)
-            .size(96.dp),
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primaryContainer),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+            .size(100.dp),
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer),
+        border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant),
         elevation = CardDefaults.elevatedCardElevation(1.dp)
     ) {
         Column(
@@ -96,15 +95,15 @@ fun CardServicesHomeScreen(
             Image(
                 painter = painterResource(homeScreenCategories.categoryIcon),
                 contentDescription = "Image",
-                Modifier.size(36.dp),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
+                Modifier.size(32.dp),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
             )
             Spacer(Modifier.height(8.dp))
             Text(
                 text = homeScreenCategories.categoryTitle,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

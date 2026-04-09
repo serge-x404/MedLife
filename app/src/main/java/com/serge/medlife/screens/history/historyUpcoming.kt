@@ -180,10 +180,13 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
                 Button(
                     {},
                     modifier = Modifier
-                        .align(Alignment.End)
+                        .align(Alignment.End),
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primaryContainer),
+                    border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant)
                 ) {
                     Text(
-                        "Submit"
+                        "Submit",
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
             }
@@ -252,13 +255,13 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
                     },
                     modifier = Modifier
                         .fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.secondaryContainer),
-                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
+                    colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primaryContainer),
+                    border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant)
                 ) {
                     Text(
                         "Reschedule",
                         style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onTertiaryContainer
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
             }
@@ -275,10 +278,7 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
                     .padding(40.dp)
                     .fillMaxWidth()
                     .border(
-                        border = BorderStroke(
-                            width = 2.dp,
-                            MaterialTheme.colorScheme.outlineVariant
-                        ),
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
                         shape = RoundedCornerShape(4.dp)
                     )
                     .padding(horizontal = 12.dp),
@@ -292,7 +292,7 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
                 Switch(
                     checked = notificationToggle,
                     onCheckedChange = { notificationToggle = it },
-                    colors = SwitchDefaults.colors(checkedTrackColor = MaterialTheme.colorScheme.tertiary)
+                    colors = SwitchDefaults.colors(checkedTrackColor = MaterialTheme.colorScheme.onPrimaryContainer)
                 )
             }
         }
@@ -301,9 +301,9 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
         Modifier
             .fillMaxWidth()
             .padding(horizontal = 15.dp, vertical = 10.dp),
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.secondaryContainer),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
-        elevation = CardDefaults.elevatedCardElevation(4.dp)
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer),
+        border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant),
+        elevation = CardDefaults.elevatedCardElevation(2.dp)
     ) {
         Column(
             modifier = Modifier
@@ -321,7 +321,9 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
             }
             Spacer(Modifier.height(10.dp))
             HorizontalDivider(
-                color = MaterialTheme.colorScheme.onSecondaryContainer
+                color = MaterialTheme.colorScheme.onSurface.copy(
+                    alpha = 0.5f
+                )
             )
             Spacer(Modifier.height(30.dp))
             Row(modifier = Modifier
@@ -332,24 +334,24 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
                     Text(
                         text = "Date & Time",
                         style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
                         text = "${formatDate(appointmentData.selectedDate)} ${appointmentData.selectedHour}",
                         style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
                 Column {
                     Text(
                         text = "Location",
                         style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
                         text = "${appointmentData.doctorName}'s clinic",
                         style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
@@ -370,20 +372,20 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
                                 painter = painterResource(R.drawable.bell),
                                 contentDescription = null,
                                 modifier = Modifier.size(18.dp),
-                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSecondaryContainer)
+                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
                             )
                             Spacer(Modifier.width(4.dp))
                             Text(
                                 text = "Notifications:",
                                 style = MaterialTheme.typography.labelLarge,
-                                color = MaterialTheme.colorScheme.onBackground
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                             Spacer(Modifier.width(2.dp))
                             Text(
                                 text = if (notificationToggle)"On" else "Off",
                                 textDecoration = TextDecoration.Underline,
                                 style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.onSecondaryContainer
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
                     }
@@ -391,13 +393,13 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
                         onClick = {
                             showBottomSheet = true
                         },
-                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
-                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primaryContainer),
+                        border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant)
                     ) {
                         Text(
                             text = "Reschedule",
                             style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onPrimary
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     }
                 }
@@ -413,25 +415,25 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
                             onClick = {
                                 addReview = true
                             },
-                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.surfaceContainer),
-                            border = BorderStroke(width = 1.dp, MaterialTheme.colorScheme.outline)
+                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.surfaceContainerLowest),
+                            border = BorderStroke(width = 0.5.dp, MaterialTheme.colorScheme.outlineVariant)
                         ) {
                             Text(
                                 text = "Add Review",
                                 style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.onBackground
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
                     }
                     Button(
                         onClick = navigateToChatDoc,
-                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
-                        border = BorderStroke(width = 1.dp, MaterialTheme.colorScheme.outline)
+                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primaryContainer),
+                        border = BorderStroke(width = 0.5.dp, MaterialTheme.colorScheme.outlineVariant)
                     ) {
                         Text(
                             text = "Next Appointment",
                             style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onPrimary
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     }
                 }

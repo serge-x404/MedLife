@@ -113,7 +113,7 @@ fun ConsultDoctorScreen(
                     modifier = Modifier
                         .padding(start = 8.dp, end = 8.dp)
                         .height((filteredList.size * 102).dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     items(filteredList) {
                         Card(
@@ -123,8 +123,8 @@ fun ConsultDoctorScreen(
                                 val docGender = Uri.encode(it.doctorGender)
                                 navigateToDocDtls(docName, docSpeciality, docGender)
                             },
-                            colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerLow),
-                            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+                            colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerLowest),
+                            border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant),
                             elevation = CardDefaults.elevatedCardElevation(2.dp)
                         ) {
                             val image = when (it.doctorGender) {
@@ -144,26 +144,37 @@ fun ConsultDoctorScreen(
                                         .padding(start = 4.dp, end = 4.dp)
                                 )
                                 Spacer(Modifier.width(6.dp))
-                                Column(modifier = Modifier.weight(.1f)) {
-                                    Text(
-                                        text = it.doctorUserName,
-                                        style = MaterialTheme.typography.titleMedium,
-                                        color = MaterialTheme.colorScheme.onSurface
-                                    )
-                                    Text(
-                                        text = it.doctorSpecialization,
-                                        style = MaterialTheme.typography.labelLarge,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
+                                Column(
+                                    modifier = Modifier
+                                        .padding(vertical = 6.dp)
+                                        .weight(.1f),
+                                    verticalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                    ) {
+                                        Text(
+                                            text = it.doctorUserName,
+                                            style = MaterialTheme.typography.titleMedium,
+                                            color = MaterialTheme.colorScheme.onSurface
+                                        )
+                                        Text(
+                                            text = it.doctorSpecialization,
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                    }
+                                    Spacer(Modifier.height(2.dp))
                                     Text(
                                         text = "Available",
                                         color = MaterialTheme.colorScheme.onTertiaryContainer,
                                         fontWeight = FontWeight.Normal,
                                         textAlign = TextAlign.Center,
                                         modifier = Modifier
-                                            .clip(RoundedCornerShape(12.dp))
+                                            .clip(RoundedCornerShape(6.dp))
                                             .background(MaterialTheme.colorScheme.tertiaryContainer)
-                                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                                            .padding(horizontal = 8.dp, vertical = 2.dp)
                                     )
                                 }
                                 Icon(

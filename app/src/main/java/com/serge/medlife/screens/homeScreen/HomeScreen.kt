@@ -1,6 +1,7 @@
 package com.serge.medlife.screens.homeScreen
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -32,22 +33,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.serge.medlife.R
 import com.serge.medlife.network.NoInternet
 import com.serge.medlife.network.isInternetAvailable
 import com.serge.medlife.rtdb.DoctorDetailsDTO
 import com.serge.medlife.rtdb.RTDB
 import com.serge.medlife.screens.homeScreen.homeComposables.CardServicesHomeScreen
 import com.serge.medlife.screens.homeScreen.homeComposables.CategoriesHomeScreen
-import com.serge.medlife.screens.homeScreen.homeComposables.ConsultDocComposable
 import com.serge.medlife.screens.homeScreen.homeComposables.HeaderBox
-import com.serge.medlife.screens.homeScreen.homeComposables.NearbyHospitalComposable
-import com.serge.medlife.screens.homeScreen.homeComposables.PharmacyComposable
+import com.serge.medlife.screens.homeScreen.homeComposables.HomeCard
+import com.serge.medlife.screens.homeScreen.homeComposables.HomeServiceCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    navigateToChatDoc: (String) -> Unit,
-    navigateToProfile: () -> Unit,
+    navigateToConsultDoc: (String) -> Unit,
+    navigateToChatDoc: () -> Unit,
     navigateToNotifications: () -> Unit,
     navigateToCart: () -> Unit,
     navigateToHealthShop: () -> Unit,
@@ -58,6 +59,21 @@ fun HomeScreen(
     val context = LocalContext.current
 
     var isConnected by remember { mutableStateOf(isInternetAvailable(context)) }
+
+    val homeCards = listOf(
+        HomeCard(
+            title = "Pharmacy",
+            subtitle = "Look for medicines",
+            image = R.drawable.medicalshop,
+            onClick = navigateToHealthShop
+        ),
+        HomeCard(
+            title = "Nearby Hospital",
+            subtitle = "Find hospitals nearby",
+            image = R.drawable.pharmacy,
+            onClick = navigateToHospital
+        )
+    )
 
     LaunchedEffect(Unit) {
         isConnected = isInternetAvailable(context)
@@ -76,6 +92,7 @@ fun HomeScreen(
         var selectedCategory by remember { mutableStateOf("All") }
         var doctorList by remember { mutableStateOf<List<DoctorDetailsDTO>>(emptyList()) }
         var isLoading by remember { mutableStateOf(true) }
+
 
         LaunchedEffect(Unit) {
             rtdb.fetchUserName {
@@ -128,19 +145,22 @@ fun HomeScreen(
                     modifier = Modifier
                         .padding(innerPadding)
                         .padding(bottom = 86.dp)
+                        .background(MaterialTheme.colorScheme.background)
                 ) {
                     Column(
                         modifier = Modifier
                             .verticalScroll(rememberScrollState())
                             .fillMaxSize()
                     ) {
-                        HeaderBox()
+                        HeaderBox(navigateToChatDoc)
                         Spacer(Modifier.height(20.dp))
                         LazyVerticalGrid(
                             columns = GridCells.Fixed(4),
                             modifier = Modifier
                                 .padding(horizontal = 12.dp)
-                                .height(220.dp),
+                                .height(210.dp),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             items(CategoriesHomeScreen.servicesHomeScreen) { item ->
                                 CardServicesHomeScreen(
@@ -151,18 +171,29 @@ fun HomeScreen(
                         }
 
                         Spacer(Modifier.height(30.dp))
-
-                        ConsultDocComposable { navigateToChatDoc("All") }
-
-                        Spacer(Modifier.height(30.dp))
-
-                        PharmacyComposable(navigateToHealthShop)
-
-                        Spacer(Modifier.height(30.dp))
-
-                        NearbyHospitalComposable(navigateToHospital)
-
-                        Spacer(Modifier.height(6.dp))
+                        LazyVerticalGrid(
+                            GridCells.Fixed(2),
+                            verticalArrangement = Arrangement.spacedBy(12.dp),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            modifier = Modifier
+                                .padding(horizontal = 12.dp)
+                                .height(250.dp)
+                        ) {
+                           items(homeCards) {
+                               HomeServiceCard(it)
+                           }
+                        }
+//                        PharmacyComposable(navigateToHealthShop)
+//
+//                        Spacer(Modifier.height(30.dp))
+//
+//                        NearbyHospitalComposable(navigateToHospital)
+//
+//                        Spacer(Modifier.height(30.dp))
+//
+//                        ChatDocComposable { navigateToChatDoc() }
+//
+//                        Spacer(Modifier.height(6.dp))
                     }
                 }
             }

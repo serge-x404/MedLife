@@ -46,7 +46,7 @@ fun GridViewLayout(
         modifier = Modifier
             .padding(8.dp)
             .size(96.dp),
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primaryContainer),
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer),
         elevation = CardDefaults.elevatedCardElevation(2.dp)
     ) {
         Column(
@@ -60,14 +60,14 @@ fun GridViewLayout(
                 painter = painterResource(categories.icon),
                 contentDescription = "Image",
                 Modifier.size(36.dp),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
             )
             Spacer(Modifier.height(8.dp))
             Text(
                 text = categories.name,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }

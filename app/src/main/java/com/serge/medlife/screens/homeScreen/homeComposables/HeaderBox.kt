@@ -2,12 +2,19 @@ package com.serge.medlife.screens.homeScreen.homeComposables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,7 +28,9 @@ import androidx.compose.ui.unit.sp
 import com.serge.medlife.R
 
 @Composable
-fun HeaderBox() {
+fun HeaderBox(
+    navigateToChatDoc: () -> Unit
+) {
     Box(
         modifier = Modifier
             .background(
@@ -32,6 +41,7 @@ fun HeaderBox() {
                 )
             )
             .fillMaxWidth()
+            .clickable{ navigateToChatDoc() }
             .height(150.dp)
     ) {
         Column(
@@ -40,11 +50,32 @@ fun HeaderBox() {
                 .padding(top = 36.dp)
         ) {
             Text(
-                text = "Experience Seamless Healthcare Management with MedLife",
+                text = "Experience Seamless Healthcare Management with MedLife AI",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = Color.White,
             )
+            Spacer(Modifier.height(4.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    "Chat with AI",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.White
+                )
+                Spacer(Modifier.width(2.dp))
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(20.dp),
+                    tint = Color.White
+                )
+            }
         }
         Image(
             painter = painterResource(R.drawable.doctor),
