@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.serge.medlife.R
 import com.serge.medlife.network.NoInternet
 import com.serge.medlife.network.isInternetAvailable
@@ -169,31 +170,29 @@ fun HomeScreen(
                                 )
                             }
                         }
-
                         Spacer(Modifier.height(30.dp))
+                        Text(
+                            "Featured",
+                            style = MaterialTheme.typography.titleLarge.copy(
+                                fontSize = 22.sp
+                            ),
+                            color = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier
+                                .padding(horizontal = 12.dp)
+                        )
+                        Spacer(Modifier.height(2.dp))
                         LazyVerticalGrid(
                             GridCells.Fixed(2),
                             verticalArrangement = Arrangement.spacedBy(12.dp),
                             horizontalArrangement = Arrangement.spacedBy(12.dp),
                             modifier = Modifier
                                 .padding(horizontal = 12.dp)
-                                .height(250.dp)
+                                .height(240.dp)
                         ) {
                            items(homeCards) {
                                HomeServiceCard(it)
                            }
                         }
-//                        PharmacyComposable(navigateToHealthShop)
-//
-//                        Spacer(Modifier.height(30.dp))
-//
-//                        NearbyHospitalComposable(navigateToHospital)
-//
-//                        Spacer(Modifier.height(30.dp))
-//
-//                        ChatDocComposable { navigateToChatDoc() }
-//
-//                        Spacer(Modifier.height(6.dp))
                     }
                 }
             }

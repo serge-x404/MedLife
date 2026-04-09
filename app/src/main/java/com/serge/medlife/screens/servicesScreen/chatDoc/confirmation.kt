@@ -233,7 +233,7 @@ fun Confirmation(
                 appointmentData = AppointmentData(
                     "",
                     name,
-                    doctorName = doctorName,
+                    doctorName,
                     appointmentHours,
                     appointmentDate
                 ),

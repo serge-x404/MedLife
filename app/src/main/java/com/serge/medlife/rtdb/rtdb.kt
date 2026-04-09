@@ -73,11 +73,27 @@ class RTDB {
         return listener
     }
 
+    fun updateStatus(
+        patientUid: String,
+        appointmentKey: String,
+        appointmentStatus: String,
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
+    ) {
+        db.child("appointments").child(patientUid)
+            .child(appointmentKey)
+            .child("appointmentStatus")
+            .setValue(appointmentStatus)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener {e -> onError(e.message ?: "Failed to update status")}
+    }
+
     fun updateAppointment(
         key: String,
         newDate: String,
         newHour: String,
-        onSuccess: () -> Unit
+        onSuccess: () -> Unit,
+        onError: (String) -> Unit
     ) {
         val updates = mapOf(
             "selectedDate" to newDate,
@@ -87,11 +103,10 @@ class RTDB {
         db.child("appointments").child(uid).child(key)
             .updateChildren(updates)
             .addOnSuccessListener { onSuccess() }
-            .addOnFailureListener { e -> error(e) }
+            .addOnFailureListener { e -> onError(e.message ?: "Failed to update") }
     }
 
     fun fetchMedication(onResult: (List<MedicationData>) -> Unit): ValueEventListener {
-        db.child("reminders").child(uid)
             val listener = object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     Log.i("RTDB", "Raw snapshot: ${snapshot.value}")
@@ -114,8 +129,38 @@ class RTDB {
         return listener
     }
 
+    data class AppointmentWithPatient(
+        val appointment: AppointmentData,
+        val patientUid: String
+    )
+
+    fun fetchDoctorAppointments(onResult: (List<AppointmentWithPatient>) -> Unit): ValueEventListener {
+        val listener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val list = mutableListOf<AppointmentWithPatient>()
+                for (userSnapshot in snapshot.children) {
+                    val patientUid = userSnapshot.key ?: ""
+                    for (appointmentSnapshot in userSnapshot.children) {
+                        val appointment = appointmentSnapshot.getValue(AppointmentData::class.java)
+                            ?.copy(key = appointmentSnapshot.key ?: "")
+
+                        if (appointment != null) {
+                            list.add(RTDB.AppointmentWithPatient(appointment, patientUid))
+                        }
+                    }
+                }
+                onResult(list)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("fetchError", error.message)
+            }
+        }
+        db.child("appointments").addValueEventListener(listener)
+        return listener
+    }
+
     fun fetchAppointmentsDoctor(onResult: (List<AppointmentData>) -> Unit): ValueEventListener {
-        db.child("appointments")
         val listener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val list = mutableListOf<AppointmentData>()

@@ -6,11 +6,15 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Warning
@@ -21,6 +25,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -37,12 +42,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
 import com.serge.medlife.rtdb.RTDB
 import com.serge.medlife.screens.history.isUpcoming
-import com.serge.medlife.screens.servicesScreen.chatDoc.AppointmentData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,9 +56,9 @@ fun DoctorHomeScreen(
     sharedPreferences: SharedPreferences
 ) {
     var doctorName by remember { mutableStateOf("") }
-    var scheduledAppointments by remember { mutableStateOf<List<AppointmentData>>(emptyList()) }
+    var scheduledAppointments by remember { mutableStateOf<List<RTDB.AppointmentWithPatient>>(emptyList()) }
     val pendingAppointments = scheduledAppointments.filter {
-        isUpcoming(it.selectedDate) && it.doctorName == doctorName
+        isUpcoming(it.appointment.selectedDate) && it.appointment.doctorName == doctorName
     }
     var isLoading by remember { mutableStateOf(true) }
     var showDialog by remember { mutableStateOf(false) }
@@ -66,7 +71,7 @@ fun DoctorHomeScreen(
     }
 
     DisposableEffect(Unit) {
-        val listener = rtdb.fetchAppointmentsDoctor { appointmentData ->
+        val listener = rtdb.fetchDoctorAppointments { appointmentData ->
             scheduledAppointments = appointmentData
             Log.d("appointmentData",scheduledAppointments.toString())
             isLoading = false
@@ -201,30 +206,102 @@ fun DoctorHomeScreen(
                 else {
                     LazyColumn {
                         items(pendingAppointments) {appointment ->
+                            var status by remember { mutableStateOf(appointment.appointment.appointmentStatus) }
                             Card(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(horizontal = 12.dp, vertical = 6.dp),
-                                elevation = CardDefaults.cardElevation(4.dp)
+                                colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer),
+                                border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant),
+                                elevation = CardDefaults.cardElevation(2.dp)
                             ) {
                                 Column(
                                     modifier = Modifier.padding(16.dp)
                                 ) {
                                     Text(
-                                        "Patient: ${appointment.userName}",
+                                        "Patient: ${appointment.appointment.userName}",
                                         style = MaterialTheme.typography.titleMedium,
                                         color = MaterialTheme.colorScheme.onBackground
                                     )
                                     Text(
-                                        "Date: ${appointment.selectedDate}",
-                                        style = MaterialTheme.typography.labelMedium,
+                                        "Date: ${appointment.appointment.selectedDate}",
+                                        style = MaterialTheme.typography.labelLarge,
                                         color = MaterialTheme.colorScheme.onBackground
                                     )
                                     Text(
-                                        "Date: ${appointment.selectedHour}",
-                                        style = MaterialTheme.typography.labelMedium,
+                                        "Date: ${appointment.appointment.selectedHour}",
+                                        style = MaterialTheme.typography.labelLarge,
                                         color = MaterialTheme.colorScheme.onBackground
                                     )
+                                    Spacer(Modifier.height(8.dp))
+                                    Text(
+                                        text = status,
+                                        color = when (status) {
+                                            "Confirmed" -> MaterialTheme.colorScheme.onPrimaryContainer
+                                            "Rejected" -> MaterialTheme.colorScheme.onErrorContainer
+                                            else -> MaterialTheme.colorScheme.onSurface
+                                        },
+                                        style = MaterialTheme.typography.labelMedium,
+                                        modifier = Modifier
+                                            .clip(RoundedCornerShape(12.dp))
+                                            .background(
+                                                when (status) {
+                                                    "Confirmed" -> MaterialTheme.colorScheme.primaryContainer
+                                                    "Rejected" -> MaterialTheme.colorScheme.errorContainer
+                                                    else -> MaterialTheme.colorScheme.surfaceContainer
+                                                }
+                                            )
+                                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                                    )
+                                    if (status == "Waiting for confirmation") {
+                                        Spacer(Modifier.height(12.dp))
+                                        HorizontalDivider()
+                                        Spacer(Modifier.height(8.dp))
+                                        Row(
+                                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                        ) {
+                                            Button(
+                                                onClick = {
+                                                    rtdb.updateStatus(
+                                                        patientUid = appointment.patientUid,
+                                                        appointmentKey = appointment.appointment.key,
+                                                        appointmentStatus = "Confirmed",
+                                                        onSuccess = { status = "Confirmed"},
+                                                        onError = {Log.e("Status",it)}
+                                                    )
+                                                },
+                                                colors = ButtonDefaults.buttonColors(
+                                                    MaterialTheme.colorScheme.surfaceContainerLowest
+                                                ),
+                                                border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant)
+                                            ) {
+                                                Text(
+                                                    "Confirm",
+                                                    color = MaterialTheme.colorScheme.onSurface
+                                                )
+                                            }
+                                            Button(
+                                                onClick = {
+                                                    rtdb.updateStatus(
+                                                        patientUid = appointment.patientUid,
+                                                        appointmentKey = appointment.appointment.key,
+                                                        appointmentStatus = "Rejected",
+                                                        onSuccess = {status = "Rejected"},
+                                                        onError = {Log.e("Status",it)}
+                                                    )
+                                                },
+                                                colors = ButtonDefaults.buttonColors(
+                                                    MaterialTheme.colorScheme.errorContainer
+                                                ),
+                                                border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant)
+                                            ) {
+                                                Text(
+                                                    "Reject",
+                                                    color = MaterialTheme.colorScheme.onErrorContainer
+                                                )
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }

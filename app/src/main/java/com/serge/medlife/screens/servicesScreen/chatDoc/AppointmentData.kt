@@ -5,5 +5,6 @@ data class AppointmentData(
     val userName: String = "",
     val doctorName: String = "",
     val selectedHour: String = "",
-    val selectedDate: String = ""
+    val selectedDate: String = "",
+    val appointmentStatus: String = "Waiting for confirmation"
 )

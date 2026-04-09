@@ -3,7 +3,7 @@ package com.serge.medlife.screens.history
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -34,10 +33,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -47,12 +43,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import com.serge.medlife.R
 import com.serge.medlife.rtdb.RTDB
 import com.serge.medlife.screens.class_objects.DateScreen
 import com.serge.medlife.screens.class_objects.DocWorkHrs
@@ -113,7 +106,7 @@ fun formatDate(dateString: String): String {
 fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navigateToChatDoc: () -> Unit) {
     var notificationToggle by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
-    var showNotificationState by remember { mutableStateOf(false) }
+    var showStatusState by remember { mutableStateOf(false) }
     var showBottomSheet by remember { mutableStateOf(false) }
     var addReview by remember { mutableStateOf(false) }
     var selectedIndex by remember { mutableStateOf(-1) }
@@ -250,7 +243,8 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
                             key = appointmentData.key,
                             newDate = newDate,
                             newHour = newHour,
-                            onSuccess = {showBottomSheet = false}
+                            onSuccess = {showBottomSheet = false},
+                            onError = {}
                         )
                     },
                     modifier = Modifier
@@ -268,9 +262,9 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
         }
     }
 
-    if (showNotificationState) {
+    if (showStatusState) {
         ModalBottomSheet(
-            onDismissRequest = { showNotificationState = false },
+            onDismissRequest = { showStatusState = false },
             sheetState = sheetState
         ) {
             Row(
@@ -285,14 +279,13 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Activate Notifications",
+                    text = "Status",
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.weight(1f)
                 )
-                Switch(
-                    checked = notificationToggle,
-                    onCheckedChange = { notificationToggle = it },
-                    colors = SwitchDefaults.colors(checkedTrackColor = MaterialTheme.colorScheme.onPrimaryContainer)
+                Text(
+                    appointmentData.appointmentStatus,
+                    style = MaterialTheme.typography.titleSmall
                 )
             }
         }
@@ -357,6 +350,7 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
             }
             Spacer(Modifier.height(30.dp))
             if (isUpcoming) {
+                var status by remember { mutableStateOf(appointmentData.appointmentStatus) }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
@@ -365,29 +359,25 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
                         modifier = Modifier.weight(1f),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        TextButton(onClick = {
-                            showNotificationState = true
-                        }) {
-                            Image(
-                                painter = painterResource(R.drawable.bell),
-                                contentDescription = null,
-                                modifier = Modifier.size(18.dp),
-                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.inverseSurface)
-                            )
-                            Spacer(Modifier.width(4.dp))
-                            Text(
-                                text = "Notifications:",
-                                style = MaterialTheme.typography.labelLarge,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                            Spacer(Modifier.width(2.dp))
-                            Text(
-                                text = if (notificationToggle)"On" else "Off",
-                                textDecoration = TextDecoration.Underline,
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
+                        Text(
+                            text = appointmentData.appointmentStatus,
+                            color = when (status) {
+                                "Confirmed" -> MaterialTheme.colorScheme.onPrimaryContainer
+                                "Rejected" -> MaterialTheme.colorScheme.onErrorContainer
+                                else -> MaterialTheme.colorScheme.onSurface
+                            },
+                            style = MaterialTheme.typography.labelLarge,
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(
+                                    when (status) {
+                                        "Confirmed" -> MaterialTheme.colorScheme.primaryContainer
+                                        "Rejected" -> MaterialTheme.colorScheme.errorContainer
+                                        else -> MaterialTheme.colorScheme.surfaceContainer
+                                    }
+                                )
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                        )
                     }
                     Button(
                         onClick = {
