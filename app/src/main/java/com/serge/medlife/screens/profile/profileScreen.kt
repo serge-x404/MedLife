@@ -18,6 +18,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Person
@@ -30,6 +31,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -45,7 +47,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -63,6 +64,8 @@ fun ProfileScreen(
 ) {
     var showDialog by remember { mutableStateOf(false) }
     var editProfileDialog by remember { mutableStateOf(false) }
+    var aboutApplication by remember { mutableStateOf(false) }
+    var aboutMe by remember { mutableStateOf(false) }
     var isLoading by remember { mutableStateOf(true) }
     val rtdb = RTDB()
     val auth = FirebaseAuth.getInstance()
@@ -253,6 +256,188 @@ fun ProfileScreen(
             }
         }
 
+        if (aboutApplication) {
+            Dialog(
+                onDismissRequest = {aboutApplication = false}
+            ) {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .padding(16.dp)
+                    ) {
+                        Text(
+                            "User Information",
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        TextField(
+                            value = userName,
+                            onValueChange = {},
+                            readOnly = true,
+                            label = {
+                                Text(
+                                    "Username",
+                                    style = MaterialTheme.typography.labelLarge
+                                )
+                            },
+                            textStyle = MaterialTheme.typography.titleMedium,
+                            colors = TextFieldDefaults.colors(
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                focusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                unfocusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer
+                            ),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Spacer(Modifier.height(6.dp))
+                        TextField(
+                            value = gender,
+                            onValueChange = {},
+                            label = {
+                                Text(
+                                    "Gender",
+                                    style = MaterialTheme.typography.labelLarge
+                                )
+                            },
+                            readOnly = true,
+                            textStyle = MaterialTheme.typography.titleMedium,
+                            colors = TextFieldDefaults.colors(
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                focusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                unfocusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer
+                            ),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Spacer(Modifier.height(6.dp))
+                        TextField(
+                            value = dateOfBirth,
+                            onValueChange = {},
+                            label = {
+                                Text(
+                                    "Date of Birth",
+                                    style = MaterialTheme.typography.labelLarge
+                                )
+                            },
+                            readOnly = true,
+                            textStyle = MaterialTheme.typography.titleMedium,
+                            colors = TextFieldDefaults.colors(
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                focusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                unfocusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer
+                            ),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                }
+            }
+        }
+
+        if (aboutMe) {
+            Dialog(
+                onDismissRequest = { aboutMe = false}
+            ) {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .padding(16.dp)
+                    ) {
+                        Text(
+                            "User Information",
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        TextField(
+                            value = userName,
+                            onValueChange = {},
+                            readOnly = true,
+                            label = {
+                                Text(
+                                    "Username",
+                                    style = MaterialTheme.typography.labelLarge
+                                )
+                            },
+                            textStyle = MaterialTheme.typography.titleMedium,
+                            colors = TextFieldDefaults.colors(
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                focusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                unfocusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer
+                            ),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Spacer(Modifier.height(6.dp))
+                        TextField(
+                            value = gender,
+                            onValueChange = {},
+                            label = {
+                                Text(
+                                    "Gender",
+                                    style = MaterialTheme.typography.labelLarge
+                                )
+                            },
+                            readOnly = true,
+                            textStyle = MaterialTheme.typography.titleMedium,
+                            colors = TextFieldDefaults.colors(
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                focusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                unfocusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer
+                            ),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Spacer(Modifier.height(6.dp))
+                        TextField(
+                            value = dateOfBirth,
+                            onValueChange = {},
+                            label = {
+                                Text(
+                                    "Date of Birth",
+                                    style = MaterialTheme.typography.labelLarge
+                                )
+                            },
+                            readOnly = true,
+                            textStyle = MaterialTheme.typography.titleMedium,
+                            colors = TextFieldDefaults.colors(
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                focusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                unfocusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer
+                            ),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                }
+            }
+        }
+
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
@@ -352,7 +537,7 @@ fun ProfileScreen(
                     }
                     Spacer(Modifier.height(20.dp))
                     Text(
-                        "Menu",
+                        "About",
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onBackground
                     )
@@ -364,191 +549,49 @@ fun ProfileScreen(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
                                 .clickable(
-                                    onClick = { }
+                                    onClick = { aboutApplication = !aboutApplication }
                                 )
                                 .padding(12.dp)
                                 .fillMaxWidth()
                         ) {
-                            Image(
-                                painter = painterResource(R.drawable.book),
+                            Icon(
+                                imageVector = Icons.Default.Android,
                                 contentDescription = null,
-                                modifier = Modifier.size(30.dp),
-                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
-                            )
-                            Spacer(Modifier.width(8.dp))
-                            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                                Text(
-                                    "Prescription History",
-                                    style = MaterialTheme.typography.titleMedium,
-                                    color = MaterialTheme.colorScheme.onBackground
-                                )
-                                Text(
-                                    "Check out the full prescription history here",
-                                    style = MaterialTheme.typography.labelLarge,
-                                    color = MaterialTheme.colorScheme.onBackground
-                                )
-                            }
-                        }
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier
-                                .clickable(
-                                    onClick = { }
-                                )
-                                .padding(12.dp)
-                                .fillMaxWidth()
-                        ) {
-                            Image(
-                                painter = painterResource(R.drawable.heart),
-                                contentDescription = null,
-                                modifier = Modifier.size(30.dp),
-                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
-                            )
-                            Spacer(Modifier.width(8.dp))
-                            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                                Text(
-                                    "Health History",
-                                    style = MaterialTheme.typography.titleMedium,
-                                    color = MaterialTheme.colorScheme.onBackground
-                                )
-                                Text(
-                                    "Check details regarding your medical history",
-                                    style = MaterialTheme.typography.labelLarge,
-                                    color = MaterialTheme.colorScheme.onBackground
-                                )
-                            }
-                        }
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier
-                                .clickable(
-                                    onClick = {  }
-                                )
-                                .padding(12.dp)
-                                .fillMaxWidth()
-                        ) {
-                            Image(
-                                painter = painterResource(R.drawable.wallet),
-                                contentDescription = null,
-                                modifier = Modifier.size(30.dp),
-                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
-                            )
-                            Spacer(Modifier.width(8.dp))
-                            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                                Text(
-                                    "Transactions",
-                                    style = MaterialTheme.typography.titleMedium,
-                                    color = MaterialTheme.colorScheme.onBackground
-                                )
-                                Text(
-                                    "Look back at your previous transactions",
-                                    style = MaterialTheme.typography.labelLarge,
-                                    color = MaterialTheme.colorScheme.onBackground
-                                )
-                            }
-                        }
-                    }
-                    Spacer(Modifier.height(20.dp))
-                    Text(
-                        "General Information",
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainerHighest)
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier
-                                .clickable(
-                                    onClick = {  }
-                                )
-                                .padding(12.dp)
-                                .fillMaxWidth()
-                        ) {
-                            Image(
-                                painter = painterResource(R.drawable.gear),
-                                contentDescription = null,
-                                modifier = Modifier.size(30.dp),
-                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+                                modifier = Modifier
+                                    .size(30.dp),
+                                tint = MaterialTheme.colorScheme.onBackground
                             )
                             Spacer(Modifier.width(8.dp))
                             Text(
-                                "Account Settings",
+                                "About Application",
                                 style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.onBackground
                             )
                         }
+                        HorizontalDivider()
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
                                 .clickable(
-                                    onClick = { }
+                                    onClick = {aboutMe = !aboutMe }
                                 )
                                 .padding(12.dp)
                                 .fillMaxWidth()
                         ) {
-                            Image(
-                                painter = painterResource(R.drawable.bell),
+                            Icon(
+                                imageVector = Icons.Default.Person,
                                 contentDescription = null,
-                                modifier = Modifier.size(30.dp),
-                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
+                                modifier = Modifier
+                                    .size(30.dp),
+
                             )
                             Spacer(Modifier.width(8.dp))
                             Text(
-                                "Notifications",
+                                "About Me",
                                 style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.onBackground
                             )
                         }
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier
-                                .padding(12.dp)
-                                .fillMaxWidth()
-                        ) {
-                            Image(
-                                painter = painterResource(R.drawable.docs),
-                                contentDescription = null,
-                                modifier = Modifier.size(30.dp),
-                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
-                            )
-                            Spacer(Modifier.width(8.dp))
-                            Text(
-                                "Reference Settings",
-                                style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.onBackground
-                            )
-                        }
-
-                        // Removed Dark Mode Toggle
-
-
-//                    Row(verticalAlignment = Alignment.CenterVertically,
-//                        modifier = Modifier.padding(12.dp)
-//                            .fillMaxWidth()) {
-//                        Image(
-//                            painter = painterResource(R.drawable.moon),
-//                            contentDescription = null,
-//                            modifier = Modifier.size(30.dp),
-//                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
-//                        )
-//                        Spacer(Modifier.width(8.dp))
-//                        Text(
-//                            "Dark Mode",
-//                            style = MaterialTheme.typography.titleMedium,
-//                            color = MaterialTheme.colorScheme.onBackground,
-//                            modifier = Modifier.weight(1f)
-//                        )
-//                        val context = LocalContext.current
-//                        Switch(checked = checkDarkTheme,
-//                            onCheckedChange = {
-//                                checkDarkTheme = it
-//                                Toast.makeText(context, "Available soon", Toast.LENGTH_SHORT).show()
-//                            }
-//                        )
-//                    }
                     }
                     Spacer(Modifier.height(20.dp))
                     Text(
@@ -569,7 +612,6 @@ fun ProfileScreen(
                             color = MaterialTheme.colorScheme.onErrorContainer
                         )
                     }
-//                Spacer(Modifier.height(100.dp))
                 }
             }
         }

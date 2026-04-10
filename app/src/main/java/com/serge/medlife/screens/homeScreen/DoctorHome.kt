@@ -43,6 +43,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
@@ -237,7 +238,7 @@ fun DoctorHomeScreen(
                                     Text(
                                         text = status,
                                         color = when (status) {
-                                            "Confirmed" -> MaterialTheme.colorScheme.onPrimaryContainer
+                                            "Confirmed" -> MaterialTheme.colorScheme.onBackground
                                             "Rejected" -> MaterialTheme.colorScheme.onErrorContainer
                                             else -> MaterialTheme.colorScheme.onSurface
                                         },
@@ -246,7 +247,9 @@ fun DoctorHomeScreen(
                                             .clip(RoundedCornerShape(12.dp))
                                             .background(
                                                 when (status) {
-                                                    "Confirmed" -> MaterialTheme.colorScheme.primaryContainer
+                                                    "Confirmed" -> Color.Green.copy(
+                                                        alpha = 0.5f
+                                                    )
                                                     "Rejected" -> MaterialTheme.colorScheme.errorContainer
                                                     else -> MaterialTheme.colorScheme.surfaceContainer
                                                 }

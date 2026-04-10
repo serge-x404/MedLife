@@ -362,7 +362,7 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
                         Text(
                             text = appointmentData.appointmentStatus,
                             color = when (status) {
-                                "Confirmed" -> MaterialTheme.colorScheme.onPrimaryContainer
+                                "Confirmed" -> MaterialTheme.colorScheme.onBackground
                                 "Rejected" -> MaterialTheme.colorScheme.onErrorContainer
                                 else -> MaterialTheme.colorScheme.onSurface
                             },
@@ -371,7 +371,9 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
                                 .clip(RoundedCornerShape(12.dp))
                                 .background(
                                     when (status) {
-                                        "Confirmed" -> MaterialTheme.colorScheme.primaryContainer
+                                        "Confirmed" -> Color.Green.copy(
+                                            alpha = 0.5f
+                                        )
                                         "Rejected" -> MaterialTheme.colorScheme.errorContainer
                                         else -> MaterialTheme.colorScheme.surfaceContainer
                                     }

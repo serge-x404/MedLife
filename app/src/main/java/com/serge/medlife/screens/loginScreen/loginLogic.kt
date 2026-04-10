@@ -1,7 +1,6 @@
 package com.serge.medlife.screens.loginScreen
 
 import android.content.SharedPreferences
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -44,7 +43,6 @@ fun LoginLogic(
                             selected = storeLoginIndex == index,
                             onClick = {
                                 storeLoginIndex = index
-                                Toast.makeText(context, tabs.name, Toast.LENGTH_SHORT).show()
                             },
                             text = {
                                 Text(
