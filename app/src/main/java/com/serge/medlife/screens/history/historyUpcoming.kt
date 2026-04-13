@@ -296,7 +296,7 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
             .padding(horizontal = 15.dp, vertical = 10.dp),
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer),
         border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant),
-        elevation = CardDefaults.elevatedCardElevation(2.dp)
+        elevation = CardDefaults.elevatedCardElevation(1.dp)
     ) {
         Column(
             modifier = Modifier
@@ -400,22 +400,20 @@ fun CardLayoutHistory(appointmentData: AppointmentData,isUpcoming: Boolean, navi
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceAround
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Row {
-                        Button(
-                            onClick = {
-                                addReview = true
-                            },
-                            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.surfaceContainerLowest),
-                            border = BorderStroke(width = 0.5.dp, MaterialTheme.colorScheme.outlineVariant)
-                        ) {
-                            Text(
-                                text = "Add Review",
-                                style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
+                    Button(
+                        onClick = {
+                            addReview = true
+                        },
+                        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.surfaceContainerLowest),
+                        border = BorderStroke(width = 0.5.dp, MaterialTheme.colorScheme.outlineVariant)
+                    ) {
+                        Text(
+                            text = "Add Review",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
                     }
                     Button(
                         onClick = navigateToChatDoc,

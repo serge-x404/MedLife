@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 
@@ -49,7 +50,8 @@ fun HomeServiceCard(homeCard: HomeCard) {
         ) {
             Image(
                 painter = painterResource(homeCard.image),
-                contentDescription = null
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
             )
             Spacer(Modifier.height(8.dp))
             Text(

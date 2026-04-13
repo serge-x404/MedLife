@@ -3,7 +3,6 @@ package com.serge.medlife.screens.registerScreen
 import android.content.SharedPreferences
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -185,7 +184,6 @@ fun PatientRegister(
         Column(
             Modifier
                 .background(MaterialTheme.colorScheme.surface)
-                .border(2.dp, MaterialTheme.colorScheme.outlineVariant)
                 .padding(innerPadding)
                 .padding(horizontal = 12.dp)
                 .fillMaxSize()

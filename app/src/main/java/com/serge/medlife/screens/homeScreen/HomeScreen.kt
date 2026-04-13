@@ -69,7 +69,7 @@ fun HomeScreen(
             onClick = navigateToHealthShop
         ),
         HomeCard(
-            title = "Nearby Hospital",
+            title = "Find Hospital",
             subtitle = "Find hospitals nearby",
             image = R.drawable.hospital_new,
             onClick = navigateToHospital

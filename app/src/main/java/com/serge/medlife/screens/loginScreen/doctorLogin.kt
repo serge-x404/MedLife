@@ -3,7 +3,6 @@ package com.serge.medlife.screens.loginScreen
 import android.content.SharedPreferences
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -134,7 +133,6 @@ fun DoctorLogin(
         Column(modifier = Modifier.padding(innerPadding)) {
             Column(modifier = Modifier
                 .background(MaterialTheme.colorScheme.surface)
-                .border(2.dp, MaterialTheme.colorScheme.outlineVariant)
                 .padding(horizontal = 12.dp)
                 .fillMaxSize()
             ) {

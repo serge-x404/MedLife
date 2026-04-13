@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,7 +40,7 @@ fun MedicineGrid(
     cartViewModel: CartViewModel = hiltViewModel()
 ) {
     Card(
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primaryContainer),
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer),
         border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant),
         elevation = CardDefaults.elevatedCardElevation(2.dp),
     ) {
@@ -85,6 +86,7 @@ fun MedicineGrid(
                         navigateToCart()
                         cartViewModel.addToCart(cartItems)
                     },
+                    contentPadding = PaddingValues(),
                     colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
                     border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
                 ) {
