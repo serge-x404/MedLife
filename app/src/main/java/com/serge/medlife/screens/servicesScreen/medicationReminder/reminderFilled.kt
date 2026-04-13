@@ -34,6 +34,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -68,6 +69,10 @@ fun ReminderFilled(
             rtdb.db.child("reminders").child(rtdb.uid)
                 .removeEventListener(listener)
         }
+    }
+
+    LaunchedEffect(Unit) {
+        cleanUpExpiredReminders(rtdb.uid)
     }
 
     val filterMedications = if (selectedDate == null) {
@@ -121,11 +126,18 @@ fun ReminderFilled(
                     Spacer(Modifier.height(20.dp))
 
                     if (selectedDate == null) {
-                        Text(
-                            "No date selected",
-                            style = MaterialTheme.typography.titleSmall,
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                "Select a Date",
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.onBackground,
+                            )
+                        }
                     }
                     else if (filterMedications.isEmpty()) {
                         Text(

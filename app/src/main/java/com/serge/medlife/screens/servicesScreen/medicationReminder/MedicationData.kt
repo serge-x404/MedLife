@@ -1,13 +1,14 @@
 package com.serge.medlife.screens.servicesScreen.medicationReminder
 
 data class MedicationData(
-    val key: String = "",
-    val medName: String = "",
-    val dosage: String = "",
-    val timePeriod: String = "",
-    val timesPerDay: String = "",
-    val medStartDate: String = "",
-    val medDuration: String = "",
-    val medNotes: String = "",
-    val medNotifications: Boolean = false
+    var key: String = "",
+    var medName: String = "",
+    var dosage: String = "",
+    var timePeriod: String = "",
+    var timesPerDay: String = "",
+    var medStartDate: String = "",
+    var medDuration: String = "",
+    var medNotes: String = "",
+    var medNotifications: Boolean = false,
+    var expiryTimestamp: Long = 0L
 )

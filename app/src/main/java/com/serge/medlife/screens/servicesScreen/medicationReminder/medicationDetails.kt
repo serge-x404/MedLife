@@ -1,7 +1,11 @@
 package com.serge.medlife.screens.servicesScreen.medicationReminder
 
+import android.Manifest
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -67,8 +71,11 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.database.FirebaseDatabase
 import com.serge.medlife.R
+import com.serge.medlife.notifications.scheduleNotificationReminder
 import com.serge.medlife.screens.registerScreen.convertMillisToDate
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -131,6 +138,7 @@ fun MedicationReminder(
             }
         }
     )
+    val expiryTime = calculateExpiryTime(selectedDate, consumption)
 
     val interactionSource = remember { MutableInteractionSource() }
     val isClicked by interactionSource.collectIsPressedAsState()
@@ -143,9 +151,24 @@ fun MedicationReminder(
         medStartDate = selectedDate,
         medDuration = consumption,
         medNotes = addNotes,
-        medNotifications = checked
+        medNotifications = checked,
+        expiryTimestamp = expiryTime
     )
     val context = LocalContext.current
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) {granted ->
+        if (granted) {
+            scheduleNotificationReminder(
+                context = context,
+                medName = medName,
+                dosage = selectedDosage,
+                timeInMillis = calculateTimeInMillis(selectedDate, timePerDay),
+                notificationId = medName.hashCode()
+            )
+        }
+    }
 
     if (errorMessage.isNotEmpty()) {
         Text(
@@ -481,35 +504,6 @@ fun MedicationReminder(
                                 }
                             }
                         }
-//                        Spacer(Modifier.height(16.dp))
-//                        Text(
-//                            "Time to take medicine",
-//                            style = MaterialTheme.typography.titleMedium,
-//                            color = MaterialTheme.colorScheme.onTertiaryContainer
-//                        )
-//                        Spacer(Modifier.height(6.dp))
-//                        Row(
-//                            modifier = Modifier
-//                                .border(
-//                                    1.dp,
-//                                    color = MaterialTheme.colorScheme.surfaceTint,
-//                                    shape = RoundedCornerShape(4.dp)
-//                                )
-//                                .padding(10.dp),
-//                            verticalAlignment = Alignment.CenterVertically
-//                        ) {
-//                            Text(
-//                                "Choose",
-//                                style = MaterialTheme.typography.titleSmall,
-//                                color = MaterialTheme.colorScheme.onBackground,
-//                                modifier = Modifier.weight(1f)
-//                            )
-//                            Icon(
-//                                imageVector = Icons.Default.KeyboardArrowDown,
-//                                contentDescription = null,
-//                                tint = MaterialTheme.colorScheme.surfaceTint
-//                            )
-//                        }
                         Spacer(Modifier.height(16.dp))
                         Text(
                             "Drinking Rules",
@@ -704,6 +698,9 @@ fun MedicationReminder(
                     Switch(
                         checked = checked,
                         onCheckedChange = {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                            }
                             checked = it
                         },
                         colors = SwitchDefaults.colors(checkedTrackColor = MaterialTheme.colorScheme.tertiary)
@@ -757,4 +754,60 @@ fun MedicationReminder(
             }
         }
     }
+}
+
+fun calculateTimeInMillis(startDate: String, timesPerDay: String): Long {
+    return try {
+        val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val date = formatter.parse(startDate) ?: return System.currentTimeMillis()
+        val calendar = Calendar.getInstance().apply {
+            time = date
+            set(Calendar.HOUR_OF_DAY,1)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+        }
+        calendar.timeInMillis
+    } catch (e: Exception) {
+        System.currentTimeMillis()
+    }
+}
+
+fun calculateExpiryTime(startDate: String, duration: String): Long {
+    return try {
+        val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val date = formatter.parse(startDate) ?: return System.currentTimeMillis()
+
+        val weeks = duration.split(" ")[0].toInt()
+
+        val calendar = Calendar.getInstance().apply {
+            time = date
+            add(Calendar.DAY_OF_YEAR, weeks * 7)
+            set(Calendar.HOUR_OF_DAY, 23)
+            set(Calendar.MINUTE, 59)
+            set(Calendar.SECOND, 59)
+        }
+
+        calendar.timeInMillis
+    }
+    catch (e: Exception) {
+        System.currentTimeMillis()
+    }
+}
+
+fun cleanUpExpiredReminders(uid: String) {
+    val db = FirebaseDatabase.getInstance().reference
+    val now = System.currentTimeMillis()
+
+    db.child("reminders").child(uid)
+        .get()
+        .addOnSuccessListener {snapshot ->
+            snapshot.children.forEach {reminder ->
+                val expiry = reminder.child("expiryTimestamp")
+                    .getValue(Long::class.java)
+
+                if (expiry != null && expiry < now) {
+                    reminder.ref.removeValue()
+                }
+            }
+        }
 }
