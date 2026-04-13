@@ -113,6 +113,7 @@ fun PatientLogin(
                 message = errorMessage,
                 duration = SnackbarDuration.Short
             )
+            errorMessage = ""
         }
     }
 

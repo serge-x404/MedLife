@@ -128,6 +128,7 @@ fun DoctorRegister(
                 message = errorMessage,
                 duration = SnackbarDuration.Short
             )
+            errorMessage = ""
         }
     }
 

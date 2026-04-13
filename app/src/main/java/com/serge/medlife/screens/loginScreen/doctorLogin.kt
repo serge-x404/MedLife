@@ -114,6 +114,7 @@ fun DoctorLogin(
                 message = errorMessage,
                 duration = SnackbarDuration.Short
             )
+            errorMessage = ""
         }
     }
 

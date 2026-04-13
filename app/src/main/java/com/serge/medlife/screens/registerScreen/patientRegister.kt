@@ -132,6 +132,7 @@ fun PatientRegister(
                 message = errorMessage,
                 duration = SnackbarDuration.Short
             )
+            errorMessage = ""
         }
     }
 
