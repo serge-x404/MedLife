@@ -66,22 +66,6 @@ fun ArticleList(
                     .padding(horizontal = 12.dp)
                     .verticalScroll(rememberScrollState())
             ) {
-                Spacer(Modifier.height(20.dp))
-                Text(
-                    "Hot Article",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-                Spacer(Modifier.height(8.dp))
-                LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    items(Hot.hotArticle) { item ->
-                        ArticleLayout(
-                            item,
-                            navigateToArticle
-                        )
-                    }
-                }
-                Spacer(Modifier.height(16.dp))
                 Text(
                     "Hot Topic",
                     style = MaterialTheme.typography.titleLarge,

@@ -14,13 +14,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,16 +42,16 @@ fun CalendarHeader(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.Center,
         modifier = Modifier.fillMaxWidth()
     ) {
-        IconButton(onClick = onPreviousMonth) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onBackground
-            )
-        }
+//        IconButton(onClick = onPreviousMonth) {
+//            Icon(
+//                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+//                contentDescription = null,
+//                tint = MaterialTheme.colorScheme.onBackground
+//            )
+//        }
         Text(
             text = month.format(
                 DateTimeFormatter.ofPattern("MMMM yyyy")
@@ -64,13 +59,13 @@ fun CalendarHeader(
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onBackground,
         )
-        IconButton(onClick = onNextMonth) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onBackground
-            )
-        }
+//        IconButton(onClick = onNextMonth) {
+//            Icon(
+//                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+//                contentDescription = null,
+//                tint = MaterialTheme.colorScheme.onBackground
+//            )
+//        }
     }
 }
 
@@ -121,8 +116,8 @@ fun DateCard(
         colors = if (selected) CardDefaults.cardColors(MaterialTheme.colorScheme.primary)
             else CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer),
         border = if (selected) BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-        else BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
-        elevation = CardDefaults.elevatedCardElevation(2.dp),
+        else BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant),
+        elevation = CardDefaults.elevatedCardElevation(1.dp),
         modifier = Modifier
             .size(70.dp)
             .clickable(
@@ -216,7 +211,7 @@ fun DateDisplay(selectedDate: LocalDate?) {
     )
 
     Text(
-        text = selectedDate?: "No date selected",
+        text = selectedDate?: "",
         style = MaterialTheme.typography.labelLarge,
         color = MaterialTheme.colorScheme.onBackground,
         textAlign = TextAlign.Center

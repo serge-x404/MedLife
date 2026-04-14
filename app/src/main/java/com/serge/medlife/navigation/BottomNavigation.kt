@@ -1,4 +1,4 @@
-package com.serge.medlife.screens.navigation
+package com.serge.medlife.navigation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

@@ -23,7 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.serge.medlife.R
-import com.serge.medlife.screens.navigation.NavRoute
+import com.serge.medlife.navigation.NavRoute
 
 data class HomeScreenCategories(
     val categoryTitle: String,

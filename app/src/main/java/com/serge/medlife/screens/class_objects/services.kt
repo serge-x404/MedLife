@@ -1,7 +1,7 @@
 package com.serge.medlife.screens.class_objects
 
 import com.serge.medlife.R
-import com.serge.medlife.screens.navigation.NavRoute
+import com.serge.medlife.navigation.NavRoute
 
 data class Categories(
     val name: String, val icon: Int, val route: String? = null
@@ -26,7 +26,7 @@ object ServiceGridData {
         ),
         Categories(
             "Medication Reminder",
-            R.drawable.pill,
+            R.drawable.bell_ringing,
             NavRoute.SavedReminder.path
         )
     )

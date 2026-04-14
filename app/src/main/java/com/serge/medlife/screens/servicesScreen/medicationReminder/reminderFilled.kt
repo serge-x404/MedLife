@@ -133,7 +133,7 @@ fun ReminderFilled(
                             verticalArrangement = Arrangement.Center
                         ) {
                             Text(
-                                "Select a Date",
+                                "No date selected",
                                 style = MaterialTheme.typography.titleSmall,
                                 color = MaterialTheme.colorScheme.onBackground,
                             )

@@ -49,6 +49,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SelectableDates
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -143,6 +147,8 @@ fun MedicationReminder(
     val interactionSource = remember { MutableInteractionSource() }
     val isClicked by interactionSource.collectIsPressedAsState()
 
+    val snackBarHostState = remember { SnackbarHostState() }
+
     val medicationData = MedicationData(
         medName = medName,
         dosage = selectedDosage,
@@ -170,12 +176,14 @@ fun MedicationReminder(
         }
     }
 
-    if (errorMessage.isNotEmpty()) {
-        Text(
-            errorMessage,
-            style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onBackground
-        )
+    LaunchedEffect(errorMessage) {
+        if (errorMessage.isNotEmpty()) {
+            snackBarHostState.showSnackbar(
+                message = errorMessage,
+                duration = SnackbarDuration.Short
+            )
+            errorMessage = ""
+        }
     }
 
 
@@ -230,6 +238,16 @@ fun MedicationReminder(
                     }
                 }
             )
+        },
+        snackbarHost = {
+            SnackbarHost(hostState = snackBarHostState) {data ->
+                Snackbar(
+                    data,
+                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                    contentColor = MaterialTheme.colorScheme.onSurface,
+                    shape = RoundedCornerShape(12.dp)
+                )
+            }
         }
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
@@ -240,8 +258,9 @@ fun MedicationReminder(
                     .verticalScroll(rememberScrollState())
             ) {
                 Card(
+                    modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(MaterialTheme.colorScheme.tertiaryContainer),
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+                    border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant)
                 ) {
                     Column(modifier = Modifier.padding(12.dp)) {
                         Text(
@@ -260,15 +279,15 @@ fun MedicationReminder(
                 Spacer(Modifier.height(20.dp))
                 Card(
                     modifier = Modifier.fillMaxSize(),
-                    colors = CardDefaults.cardColors(MaterialTheme.colorScheme.secondaryContainer),
-                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
-                    elevation = CardDefaults.elevatedCardElevation(4.dp)
+                    colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceContainer),
+                    border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant),
+                    elevation = CardDefaults.elevatedCardElevation(1.dp)
                 ) {
                     Column(modifier = Modifier.padding(10.dp)) {
                         Text(
                             "Medicine Details",
                             style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onTertiaryContainer
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                         Spacer(Modifier.height(8.dp))
                         ExposedDropdownMenuBox(
@@ -331,7 +350,7 @@ fun MedicationReminder(
                         Text(
                             "Dosage",
                             style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onTertiaryContainer
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                         Spacer(Modifier.height(6.dp))
                         ExposedDropdownMenuBox(
@@ -389,7 +408,7 @@ fun MedicationReminder(
                         Text(
                             "Period of taking medicine",
                             style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onTertiaryContainer
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                         Spacer(Modifier.height(6.dp))
                         ExposedDropdownMenuBox(
@@ -452,7 +471,7 @@ fun MedicationReminder(
                         Text(
                             "How many times a day",
                             style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onTertiaryContainer
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                         Spacer(Modifier.height(6.dp))
                         ExposedDropdownMenuBox(
@@ -508,7 +527,7 @@ fun MedicationReminder(
                         Text(
                             "Drinking Rules",
                             style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onTertiaryContainer
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                         Spacer(Modifier.height(6.dp))
                         ExposedDropdownMenuBox(
@@ -565,7 +584,7 @@ fun MedicationReminder(
                         Text(
                             "Drinking Start Date",
                             style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onTertiaryContainer
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                         Spacer(Modifier.height(6.dp))
                         OutlinedTextField(
@@ -649,7 +668,7 @@ fun MedicationReminder(
                         Text(
                             "Notes(Optional)",
                             style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onTertiaryContainer
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                         Spacer(Modifier.height(6.dp))
                         OutlinedTextField(
@@ -676,8 +695,8 @@ fun MedicationReminder(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .border(
-                            1.dp,
-                            color = MaterialTheme.colorScheme.outline,
+                            0.5.dp,
+                            color = MaterialTheme.colorScheme.outlineVariant,
                             shape = RoundedCornerShape(8.dp)
                         )
                         .clickable(onClick = { checked = !checked })
@@ -716,7 +735,7 @@ fun MedicationReminder(
                             selectedDate.isBlank() ||
                             consumption.isBlank()
                             ) {
-                            Toast.makeText(context, "Please fill all fields",Toast.LENGTH_SHORT).show()
+                            errorMessage = "Please fill all fields"
                             return@Button
                         }
                         isLoading = true
@@ -736,7 +755,7 @@ fun MedicationReminder(
 
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
-                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant),
+                    border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     if (isLoading) {

@@ -1,4 +1,4 @@
-package com.serge.medlife.screens.navigation
+package com.serge.medlife.navigation
 
 import android.net.Uri
 

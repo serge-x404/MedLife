@@ -17,9 +17,9 @@ import com.google.android.libraries.places.api.Places
 import com.google.firebase.Firebase
 import com.google.firebase.initialize
 import com.serge.medlife.notifications.NotificationHelper
-import com.serge.medlife.screens.navigation.BottomNavigation
-import com.serge.medlife.screens.navigation.NavGraph
-import com.serge.medlife.screens.navigation.NavRoute
+import com.serge.medlife.navigation.BottomNavigation
+import com.serge.medlife.navigation.NavGraph
+import com.serge.medlife.navigation.NavRoute
 import com.serge.medlife.theme.MedLifeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
