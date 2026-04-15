@@ -28,7 +28,6 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DropdownMenuItem
@@ -37,6 +36,7 @@ import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -164,10 +164,6 @@ fun PatientRegister(
             DatePicker( state = datePickerState, showModeToggle = false )
         }
     }
-
-//    if (isLoading) {
-//        CircularProgressIndicator()
-//    }
 
     Scaffold(
         snackbarHost = {
@@ -472,7 +468,7 @@ fun PatientRegister(
                         border = BorderStroke(2.dp, MaterialTheme.colorScheme.outlineVariant)
                     ) {
                         if (isLoading) {
-                            CircularProgressIndicator(
+                            LoadingIndicator(
                                 color = MaterialTheme.colorScheme.onPrimary
                             )
                         } else {

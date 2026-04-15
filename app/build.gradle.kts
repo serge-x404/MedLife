@@ -102,9 +102,10 @@ dependencies {
     // Google Maps
     implementation(libs.maps.compose)
 
-    // Icons Fix trial
+    // Material3
     implementation(libs.androidx.compose.material.icons.core)
     implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.androidx.compose.material3.adaptive.navigation.suite)
 
     // Chat response Markdown
     implementation(libs.compose.markdown)

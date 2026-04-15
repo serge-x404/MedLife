@@ -2,7 +2,6 @@ package com.serge.medlife.screens.registerScreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -60,18 +59,5 @@ fun DoctorConfirmation(
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onBackground
         )
-        Box(contentAlignment = Alignment.Center) {
-//            CircularProgressIndicator(
-//                progress = { countdown / 5f },
-//                modifier = Modifier.size(80.dp),
-//                strokeWidth = 6.dp,
-//                color = MaterialTheme.colorScheme.secondary
-//            )
-//            Text(
-//                text = "$countdown",
-//                style = MaterialTheme.typography.titleMedium,
-//                color = MaterialTheme.colorScheme.onBackground
-//            )
-        }
     }
 }
