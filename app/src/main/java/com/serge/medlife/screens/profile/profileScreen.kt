@@ -317,7 +317,7 @@ fun ProfileScreen(
                             .padding(16.dp)
                     ) {
                         Text(
-                            "User Information",
+                            "About Me",
                             style = MaterialTheme.typography.titleLarge,
                             color = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier
@@ -325,12 +325,12 @@ fun ProfileScreen(
                         )
                         Spacer(Modifier.height(8.dp))
                         TextField(
-                            value = userName,
+                            value = "Kabir Pancholi",
                             onValueChange = {},
                             readOnly = true,
                             label = {
                                 Text(
-                                    "Username",
+                                    "Name",
                                     style = MaterialTheme.typography.labelLarge
                                 )
                             },
@@ -347,11 +347,11 @@ fun ProfileScreen(
                         )
                         Spacer(Modifier.height(6.dp))
                         TextField(
-                            value = gender,
+                            value = "21, Male",
                             onValueChange = {},
                             label = {
                                 Text(
-                                    "Gender",
+                                    "Age, Gender",
                                     style = MaterialTheme.typography.labelLarge
                                 )
                             },
@@ -369,11 +369,55 @@ fun ProfileScreen(
                         )
                         Spacer(Modifier.height(6.dp))
                         TextField(
-                            value = dateOfBirth,
+                            value = "Android Intern",
                             onValueChange = {},
                             label = {
                                 Text(
-                                    "Date of Birth",
+                                    "Role",
+                                    style = MaterialTheme.typography.labelLarge
+                                )
+                            },
+                            readOnly = true,
+                            textStyle = MaterialTheme.typography.titleMedium,
+                            colors = TextFieldDefaults.colors(
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                focusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                unfocusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer
+                            ),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Spacer(Modifier.height(6.dp))
+                        TextField(
+                            value = "Reading, Basketball, Writing",
+                            onValueChange = {},
+                            label = {
+                                Text(
+                                    "Hobbies",
+                                    style = MaterialTheme.typography.labelLarge
+                                )
+                            },
+                            readOnly = true,
+                            textStyle = MaterialTheme.typography.titleMedium,
+                            colors = TextFieldDefaults.colors(
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                focusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                unfocusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                                unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer
+                            ),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Spacer(Modifier.height(6.dp))
+                        TextField(
+                            value = "I love coffee ☕",
+                            onValueChange = {},
+                            label = {
+                                Text(
+                                    "More about me!",
                                     style = MaterialTheme.typography.labelLarge
                                 )
                             },
