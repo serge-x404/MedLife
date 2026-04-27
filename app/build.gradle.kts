@@ -15,12 +15,12 @@ localProperties.load(rootProject.file("local.properties").inputStream())
 
 android {
     namespace = "com.serge.medlife"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.serge.medlife"
         minSdk = 25
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 1
         versionName = "0.8.0"
 
@@ -120,14 +120,14 @@ dependencies {
     implementation(libs.androidx.room.ktx)
 
     // KSP
-    implementation("com.google.dagger:dagger-compiler:2.51.1")
-    ksp("com.google.dagger:dagger-compiler:2.51.1")
+    implementation(libs.dagger.compiler)
+    ksp(libs.dagger.compiler)
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:2.59.2")
-    ksp("com.google.dagger:hilt-android-compiler:2.59.2")
-    implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     // Notifications
-    implementation("androidx.core:core-ktx:1.13.1")
+    implementation(libs.androidx.core.ktx)
 }

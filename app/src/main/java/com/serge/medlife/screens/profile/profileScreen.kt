@@ -48,6 +48,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -75,6 +76,8 @@ fun ProfileScreen(
     var gender by remember { mutableStateOf("") }
     var dateOfBirth by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val versionName = context.getVersionName()
     LaunchedEffect(Unit) {
         rtdb.fetchUserInfo { uName, eMail, genderUser, dobUser ->
             userName = uName
@@ -267,7 +270,7 @@ fun ProfileScreen(
                             .padding(16.dp)
                     ) {
                         Text(
-                            "User Information",
+                            "App Information",
                             style = MaterialTheme.typography.titleLarge,
                             color = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier
@@ -275,59 +278,15 @@ fun ProfileScreen(
                         )
                         Spacer(Modifier.height(8.dp))
                         TextField(
-                            value = userName,
+                            value = versionName,
                             onValueChange = {},
                             readOnly = true,
                             label = {
                                 Text(
-                                    "Username",
+                                    "Version Name",
                                     style = MaterialTheme.typography.labelLarge
                                 )
                             },
-                            textStyle = MaterialTheme.typography.titleMedium,
-                            colors = TextFieldDefaults.colors(
-                                focusedIndicatorColor = Color.Transparent,
-                                unfocusedIndicatorColor = Color.Transparent,
-                                focusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                                unfocusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                                focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                                unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer
-                            ),
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        Spacer(Modifier.height(6.dp))
-                        TextField(
-                            value = gender,
-                            onValueChange = {},
-                            label = {
-                                Text(
-                                    "Gender",
-                                    style = MaterialTheme.typography.labelLarge
-                                )
-                            },
-                            readOnly = true,
-                            textStyle = MaterialTheme.typography.titleMedium,
-                            colors = TextFieldDefaults.colors(
-                                focusedIndicatorColor = Color.Transparent,
-                                unfocusedIndicatorColor = Color.Transparent,
-                                focusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                                unfocusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                                focusedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                                unfocusedContainerColor = MaterialTheme.colorScheme.primaryContainer
-                            ),
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        Spacer(Modifier.height(6.dp))
-                        TextField(
-                            value = dateOfBirth,
-                            onValueChange = {},
-                            label = {
-                                Text(
-                                    "Date of Birth",
-                                    style = MaterialTheme.typography.labelLarge
-                                )
-                            },
-                            readOnly = true,
                             textStyle = MaterialTheme.typography.titleMedium,
                             colors = TextFieldDefaults.colors(
                                 focusedIndicatorColor = Color.Transparent,
